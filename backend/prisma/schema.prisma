@@ -71,6 +71,42 @@ enum Severity {
   HIGH
 }
 
+enum SrsLevel {
+  NEW
+  LEARNING
+  YOUNG
+  MATURE
+  MASTERED
+}
+
+enum ScenarioCategory {
+  DAILY
+  BUSINESS
+  TRAVEL
+  ACADEMIC
+  TEST_PREP
+}
+
+enum ScenarioDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum ChallengeType {
+  CONVERSATION
+  VOCABULARY
+  PRONUNCIATION
+  STREAK
+  TIME
+}
+
+enum ChallengeStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+}
+
 // ============================================================================
 // USER & AUTH MODELS
 // ============================================================================
@@ -92,9 +128,11 @@ model User {
   updatedAt        DateTime  @updatedAt @map("updated_at")
 
   // Relations
-  personas      Persona[]
-  subscription  Subscription?
-  conversations Conversation[]
+  personas       Persona[]
+  subscription   Subscription?
+  conversations  Conversation[]
+  vocabularies   Vocabulary[]
+  userChallenges UserChallenge[]
   // Note: Other relations (streak, etc.) will be added in subsequent tasks
 
   @@index([email])
@@ -160,8 +198,9 @@ model Conversation {
   endedAt            DateTime?        @map("ended_at")
 
   // Relations
-  user  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  turns ConversationTurn[]
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  turns        ConversationTurn[]
+  vocabularies Vocabulary[]
   // Note: persona and scenario relations will be added when those models are created
 
   @@index([userId, startedAt(sort: Desc)])
@@ -203,6 +242,95 @@ model Correction {
   @@index([turnId])
   @@index([type])
   @@map("corrections")
+}
+
+// ============================================================================
+// LEARNING MODELS
+// ============================================================================
+
+model Vocabulary {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  conversationId  String?  @map("conversation_id")
+  word            String   @db.VarChar(100)
+  meaning         String   @db.VarChar(500)
+  pronunciation   String?  @db.VarChar(200)
+  exampleSentence String?  @map("example_sentence") @db.Text
+  srsLevel        SrsLevel @default(NEW) @map("srs_level")
+  nextReviewDate  DateTime @default(now()) @map("next_review_date") @db.Date
+  reviewCount     Int      @default(0) @map("review_count")
+  correctCount    Int      @default(0) @map("correct_count")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([userId, nextReviewDate])
+  @@index([userId, srsLevel])
+  @@map("vocabularies")
+}
+
+model Scenario {
+  id                       String             @id @default(uuid())
+  title                    String             @db.VarChar(200)
+  titleJa                  String             @map("title_ja") @db.VarChar(200)
+  description              String             @db.Text
+  category                 ScenarioCategory
+  difficulty               ScenarioDifficulty
+  initialContext           Json               @map("initial_context")
+  objectives               Json               @default("[]")
+  keyPhrases               Json               @default("[]") @map("key_phrases")
+  estimatedDurationMinutes Int                @default(10) @map("estimated_duration_minutes")
+  isActive                 Boolean            @default(true) @map("is_active")
+  createdAt                DateTime           @default(now()) @map("created_at")
+  updatedAt                DateTime           @updatedAt @map("updated_at")
+
+  @@index([category])
+  @@index([difficulty])
+  @@index([isActive])
+  @@map("scenarios")
+}
+
+model Challenge {
+  id          String        @id @default(uuid())
+  type        ChallengeType
+  title       String        @db.VarChar(200)
+  titleJa     String        @map("title_ja") @db.VarChar(200)
+  description String        @db.Text
+  condition   Json
+  xpReward    Int           @default(50) @map("xp_reward")
+  isActive    Boolean       @default(true) @map("is_active")
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  // Relations
+  userChallenges UserChallenge[]
+
+  @@index([type])
+  @@index([isActive])
+  @@map("challenges")
+}
+
+model UserChallenge {
+  id              String          @id @default(uuid())
+  userId          String          @map("user_id")
+  challengeId     String          @map("challenge_id")
+  assignedDate    DateTime        @default(now()) @map("assigned_date") @db.Date
+  currentProgress Int             @default(0) @map("current_progress")
+  status          ChallengeStatus @default(ACTIVE)
+  completedAt     DateTime?       @map("completed_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+
+  // Relations
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId, assignedDate])
+  @@index([userId, assignedDate])
+  @@index([status])
+  @@map("user_challenges")
 }
 
 // Models will be added in subsequent tasks
