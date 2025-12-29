@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 20
-- **Progress**: 6.8%
+- **Completed**: 21
+- **Progress**: 7.2%
 
 ---
 
@@ -70,7 +70,7 @@
 - [x] WP-BE-002-T002: Create Conversation Schema
 - [x] WP-BE-002-T003: Create Learning Schema
 - [x] WP-BE-002-T004: Create Gamification Schema
-- [ ] WP-BE-002-T005: Create Social Schema
+- [x] WP-BE-002-T005: Create Social Schema
 - [ ] WP-BE-002-T006: Define Enums
 - [ ] WP-BE-002-T007: Run Initial Migration
 
