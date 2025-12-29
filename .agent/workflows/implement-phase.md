@@ -21,8 +21,14 @@ description: Điều phối và thực thi toàn bộ các task trong một Phas
 | -------------- | ------------------------------------------------------------- | -------- |
 | PHASE_PLAN     | Đường dẫn đến file plan của phase                             | ✅       |
 | CHECKLIST_FILE | Đường dẫn đến file CHECKLIST.md                               | ✅       |
+| EXECUTION_MODE | Chế độ thực thi: `manual` hoặc `auto`                        | ✅       |
 | START_FROM     | Task ID để bắt đầu (nếu muốn tiếp tục từ giữa)                | Optional |
 | SKIP_COMPLETED | Bỏ qua các task đã hoàn thành trong checklist (default: true) | Optional |
+
+**Execution Modes:**
+
+- **`manual`**: Confirm từng task, gọi `/implement-task`, người dùng kiểm soát từng bước
+- **`auto`**: Tự động chạy hết tất cả tasks, không hỏi confirm, chỉ báo cáo kết quả cuối
 
 **Ví dụ:**
 
@@ -30,6 +36,7 @@ description: Điều phối và thực thi toàn bộ các task trong một Phas
 Implement Phase 0 từ:
 - PHASE_PLAN: docs/SpeakPal/implementation-plan/phase-0-infrastructure.md
 - CHECKLIST_FILE: docs/SpeakPal/implementation-plan/CHECKLIST.md
+- EXECUTION_MODE: auto
 ```
 
 ---
@@ -61,6 +68,7 @@ Implement Phase 0 từ:
 ## 📋 Phase Implementation Plan
 
 ### Phase: [Phase Number] - [Phase Name]
+### Execution Mode: [MANUAL / AUTO]
 
 | Thống kê           | Giá trị |
 | ------------------ | ------- |
@@ -87,6 +95,10 @@ Implement Phase 0 từ:
 
 ---
 
+**Execution Mode:**
+- **MANUAL**: Sẽ gọi `/implement-task` cho từng task, cần confirm từng bước
+- **AUTO**: Tự động chạy tất cả tasks, không cần confirm, chỉ báo cáo cuối
+
 **Bạn có muốn bắt đầu implement Phase này không?**
 
 - Nhập `yes` để bắt đầu từ task đầu tiên
@@ -94,20 +106,23 @@ Implement Phase 0 từ:
 - Nhập `no` để hủy
 ```
 
-CHỜ người dùng xác nhận trước khi tiếp tục.
+**CHỈ Ở MANUAL MODE**: CHỜ người dùng xác nhận trước khi tiếp tục.
+**Ở AUTO MODE**: Hiển thị thông tin và tự động bắt đầu sau 2 giây.
 
 ### Bước 4: Thực thi từng Task
 
 Với mỗi task chưa hoàn thành:
 
+#### 4.1. MANUAL MODE (Gọi `/implement-task`)
+
 ```
 ┌─────────────────────────────────────────────────────────┐
-│ 4.1. Hiển thị progress                                  │
+│ 4.1.1. Hiển thị progress                                │
 │     "🔄 Task [X/Y]: [TASK_ID] - [Task Name]"            │
 └────────────────────────┬────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│ 4.2. Gọi /implement-task                                │
+│ 4.1.2. Gọi /implement-task                              │
 │     - TASK_ID: [current task]                           │
 │     - PLAN_FILE: [phase plan file]                      │
 │     → Workflow implement-task sẽ hỏi xác nhận           │
@@ -116,19 +131,48 @@ Với mỗi task chưa hoàn thành:
 └────────────────────────┬────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│ 4.3. Kiểm tra kết quả                                   │
+│ 4.1.3. Kiểm tra kết quả                                 │
 │     → Nếu THÀNH CÔNG:                                   │
 │        - Cập nhật CHECKLIST.md                          │
 │        - Tiếp tục task tiếp theo                        │
 │     → Nếu THẤT BẠI:                                     │
 │        - Hiển thị lỗi                                   │
 │        - Hỏi: Retry / Skip / Abort?                     │
+└─────────────────────────────────────────────────────────┘
+```
+
+#### 4.2. AUTO MODE (Tự động thực thi)
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ 4.2.1. Hiển thị progress                                │
+│     "🔄 [X/Y] [TASK_ID]: [Task Name]"                   │
 └────────────────────────┬────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│ 4.4. Cập nhật CHECKLIST.md                              │
-│     - Đánh dấu [x] task đã hoàn thành                   │
-│     - Cập nhật progress counter                         │
+│ 4.2.2. Đọc task info từ Phase Plan                      │
+│     - Trích xuất: Type, Description, Commands, Files    │
+│     - Đọc DD Reference nếu có                           │
+│     - Hiển thị task summary (ngắn gọn)                  │
+└────────────────────────┬────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│ 4.2.3. Thực thi tự động (KHÔNG confirm)                 │
+│     - Chạy tất cả commands                              │
+│     - Tạo/sửa tất cả files                              │
+│     - Verify acceptance criteria                        │
+└────────────────────────┬────────────────────────────────┘
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│ 4.2.4. Xử lý kết quả                                    │
+│     → Nếu THÀNH CÔNG:                                   │
+│        - ✅ Log success                                 │
+│        - Cập nhật CHECKLIST.md                          │
+│        - Tiếp tục task tiếp theo ngay lập tức           │
+│     → Nếu THẤT BẠI:                                     │
+│        - ❌ Log error details                           │
+│        - KHÔNG dừng, tiếp tục task tiếp theo            │
+│        - Lưu lỗi vào error list                         │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -164,6 +208,8 @@ Sau khi tất cả tasks hoàn thành:
 ```markdown
 ## 🎉 Phase [N] đã hoàn thành!
 
+### Execution Mode: [MANUAL / AUTO]
+
 ### Kết quả:
 
 | Thống kê   | Giá trị   |
@@ -180,6 +226,10 @@ Sau khi tất cả tasks hoàn thành:
 - ✅ WP-INF-001-T002: Create Database
 - ✅ WP-INF-001-T003: Configure Access
 - ...
+
+### Tasks thất bại (nếu có):
+
+- ❌ WP-INF-XXX-TXXX: [Task Name] - [Error message]
 
 ### CHECKLIST.md đã được cập nhật:
 
@@ -309,26 +359,28 @@ Chạy lại workflow với SKIP_COMPLETED=true:
 
 ```
 📋 Phase 0: Infrastructure Setup
+   Execution Mode: AUTO
    5 Work Packages, 17 Tasks
 
-Bắt đầu implement? (yes/no) → yes
+Tự động bắt đầu implement...
 
-🔄 Task [1/17]: WP-INF-001-T001 - Install PostgreSQL
-   → Gọi /implement-task
-   → User confirms "yes"
-   → Chạy: docker pull postgres:15
-   → ✅ Hoàn thành! Cập nhật CHECKLIST.md
+🔄 [1/17] WP-INF-001-T001: Install PostgreSQL
+   Type: setup | Commands: docker pull postgres:15
+   ✅ Executed successfully | Updated CHECKLIST.md
 
-🔄 Task [2/17]: WP-INF-001-T002 - Create Database
-   → Gọi /implement-task
-   → User confirms "yes"
-   → Chạy: CREATE DATABASE speakpal_dev
-   → ✅ Hoàn thành! Cập nhật CHECKLIST.md
+🔄 [2/17] WP-INF-001-T002: Create Database
+   Type: setup | Commands: CREATE DATABASE speakpal_dev
+   ✅ Executed successfully | Updated CHECKLIST.md
 
-... (tiếp tục cho 15 tasks còn lại)
+🔄 [3/17] WP-INF-001-T003: Configure Access
+   Type: setup | Files: config/database.yml
+   ✅ Created files successfully | Updated CHECKLIST.md
+
+... (tiếp tục cho 14 tasks còn lại)
 
 🎉 Phase 0 hoàn thành!
    17/17 tasks ✅
+   0 tasks failed
    Thời gian: ~14.5 hours
 ```
 
@@ -336,22 +388,43 @@ Bắt đầu implement? (yes/no) → yes
 
 ## Best Practices
 
-### 1. Chạy theo thứ tự
+### 1. Chọn Execution Mode phù hợp
+
+**Sử dụng MANUAL mode khi:**
+- Đang thử nghiệm hoặc học cách dùng workflow
+- Cần kiểm tra kỹ từng bước
+- Làm việc với tasks phức tạp, nhạy cảm
+- Muốn control chi tiết từng task
+
+**Sử dụng AUTO mode khi:**
+- Đã review và tin tưởng phase plan
+- Tasks đơn giản, lặp lại (setup, config)
+- Cần deploy nhanh
+- Có thể review code sau khi hoàn thành
+
+### 2. Chạy theo thứ tự
 
 - Luôn hoàn thành Phase trước khi chuyển sang Phase sau
 - Trong Phase, hoàn thành WP theo thứ tự dependency
 
-### 2. Commit thường xuyên
+### 3. Commit thường xuyên
 
 - Sau mỗi WP hoàn thành, commit code
 - Message: `feat(phase-0): complete WP-INF-001 PostgreSQL setup`
 
-### 3. Test sau mỗi WP
+### 4. Test sau mỗi WP
 
 - Verify các components hoạt động đúng
 - Chạy test nếu có
 
-### 4. Document issues
+### 5. Review code sau AUTO mode
+
+- AUTO mode chạy nhanh nhưng cần review sau
+- Kiểm tra error logs để xem tasks nào failed
+- Review code changes trước khi commit final
+- Run tests tổng thể sau khi phase hoàn thành
+
+### 6. Document issues
 
 - Nếu gặp vấn đề, ghi lại trong file notes
 - Sẽ giúp cho các lần sau hoặc người khác
@@ -363,8 +436,6 @@ Bắt đầu implement? (yes/no) → yes
 | Workflow               | Mục đích                                       |
 | ---------------------- | ---------------------------------------------- |
 | `/implement-task`      | Thực thi một task cụ thể                       |
-| `/implement-next-task` | Tìm và thực thi task tiếp theo chưa hoàn thành |
-| `/review-execution`    | Review kết quả thực thi                        |
 
 ---
 

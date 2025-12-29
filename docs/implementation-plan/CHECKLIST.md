@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 29
-- **Progress**: 9.9%
+- **Completed**: 33
+- **Progress**: 11.3%
 
 ---
 
@@ -85,10 +85,10 @@
 
 ### WP-FE-001: Flutter Project Init (5 tasks)
 
-- [ ] WP-FE-001-T001: Create Flutter Project
-- [ ] WP-FE-001-T002: Setup Project Structure
-- [ ] WP-FE-001-T003: Add Dependencies
-- [ ] WP-FE-001-T004: Setup Riverpod
+- [x] WP-FE-001-T001: Create Flutter Project
+- [x] WP-FE-001-T002: Setup Project Structure
+- [x] WP-FE-001-T003: Add Dependencies
+- [x] WP-FE-001-T004: Setup Riverpod
 - [ ] WP-FE-001-T005: Setup Go Router
 
 ### WP-FE-002: Design System & Theme (6 tasks)
