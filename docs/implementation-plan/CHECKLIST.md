@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 10
-- **Progress**: 3.4%
+- **Completed**: 18
+- **Progress**: 6.1%
 
 ---
 
@@ -57,17 +57,17 @@
 
 ### WP-BE-001: Backend Project Init (6 tasks)
 
-- [ ] WP-BE-001-T001: Initialize NestJS Project
-- [ ] WP-BE-001-T002: Configure Project Structure
-- [ ] WP-BE-001-T003: Setup Environment Config
-- [ ] WP-BE-001-T004: Setup Database Connection (Prisma)
-- [ ] WP-BE-001-T005: Setup Redis Connection
-- [ ] WP-BE-001-T006: Setup Docker for Development
+- [x] WP-BE-001-T001: Initialize NestJS Project
+- [x] WP-BE-001-T002: Configure Project Structure
+- [x] WP-BE-001-T003: Setup Environment Config
+- [x] WP-BE-001-T004: Setup Database Connection (Prisma)
+- [x] WP-BE-001-T005: Setup Redis Connection
+- [x] WP-BE-001-T006: Setup Docker for Development
 
 ### WP-BE-002: Database Schema & Migration (7 tasks)
 
-- [ ] WP-BE-002-T001: Create User & Auth Schema
-- [ ] WP-BE-002-T002: Create Conversation Schema
+- [x] WP-BE-002-T001: Create User & Auth Schema
+- [x] WP-BE-002-T002: Create Conversation Schema
 - [ ] WP-BE-002-T003: Create Learning Schema
 - [ ] WP-BE-002-T004: Create Gamification Schema
 - [ ] WP-BE-002-T005: Create Social Schema

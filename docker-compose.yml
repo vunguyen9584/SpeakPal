@@ -58,6 +58,31 @@ services:
       retries: 3
     restart: unless-stopped
 
+  # Backend API (NestJS)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: speakpal-backend
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DATABASE_URL=postgresql://speakpal_app:dev_password@postgres:5432/speakpal_dev
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=dev-secret-key-change-in-production
+      - JWT_EXPIRES_IN=1h
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   redis_data:

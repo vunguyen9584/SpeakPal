@@ -7,7 +7,15 @@
       "Bash(docker run:*)",
       "Bash(docker-compose up:*)",
       "Bash(docker exec:*)",
-      "Bash(docker ps:*)"
+      "Bash(docker ps:*)",
+      "SlashCommand(/implement-task:*)",
+      "Bash(npx @nestjs/cli new:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build)",
+      "Bash(npx prisma init)",
+      "Bash(npx prisma generate)",
+      "Bash(docker-compose config:*)",
+      "Bash(npx prisma format)"
     ]
   }
 }

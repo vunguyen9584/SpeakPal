@@ -1,0 +1,208 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum Level {
+  BEGINNER
+  ELEMENTARY
+  INTERMEDIATE
+  UPPER_INTERMEDIATE
+  ADVANCED
+}
+
+enum League {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  DIAMOND
+}
+
+enum Voice {
+  VOICE_1
+  VOICE_2
+  VOICE_3
+}
+
+enum Personality {
+  CHEERFUL
+  STRICT
+  SARCASTIC
+}
+
+enum SubscriptionPlan {
+  FREE
+  PREMIUM
+  PREMIUM_PLUS
+}
+
+enum ConversationMode {
+  INSTRUCTOR
+  FREETALK
+  ROLEPLAY
+}
+
+enum Speaker {
+  USER
+  AI
+}
+
+enum CorrectionType {
+  GRAMMAR
+  VOCABULARY
+  PRONUNCIATION
+  NATURALNESS
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ============================================================================
+// USER & AUTH MODELS
+// ============================================================================
+
+model User {
+  id               String    @id @default(uuid())
+  email            String    @unique
+  username         String?
+  passwordHash     String?   @map("password_hash")
+  level            Level     @default(BEGINNER)
+  totalXp          Int       @default(0) @map("total_xp")
+  currentLevelXp   Int       @default(0) @map("current_level_xp")
+  league           League    @default(BRONZE)
+  aiSpeed          Float     @default(1.0) @map("ai_speed")
+  confirmationMode Boolean   @default(true) @map("confirmation_mode")
+  isVerified       Boolean   @default(false) @map("is_verified")
+  lastLoginAt      DateTime? @map("last_login_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  personas      Persona[]
+  subscription  Subscription?
+  conversations Conversation[]
+  // Note: Other relations (streak, etc.) will be added in subsequent tasks
+
+  @@index([email])
+  @@index([league])
+  @@index([createdAt(sort: Desc)])
+  @@map("users")
+}
+
+model Persona {
+  id          String      @id @default(uuid())
+  userId      String      @map("user_id")
+  name        String
+  voice       Voice
+  personality Personality
+  targetLevel Level       @map("target_level")
+  isDefault   Boolean     @default(false) @map("is_default")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@index([userId, isDefault])
+  @@map("personas")
+}
+
+model Subscription {
+  id              String           @id @default(uuid())
+  userId          String           @unique @map("user_id")
+  plan            SubscriptionPlan @default(FREE)
+  dailyUsageCount Int              @default(0) @map("daily_usage_count")
+  dailyUsageLimit Int              @default(3) @map("daily_usage_limit")
+  lastResetDate   DateTime         @default(now()) @map("last_reset_date") @db.Date
+  expiresAt       DateTime?        @map("expires_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([plan])
+  @@index([expiresAt])
+  @@map("subscriptions")
+}
+
+// ============================================================================
+// CONVERSATION MODELS
+// ============================================================================
+
+model Conversation {
+  id                 String           @id @default(uuid())
+  userId             String           @map("user_id")
+  personaId          String?          @map("persona_id")
+  scenarioId         String?          @map("scenario_id")
+  mode               ConversationMode
+  topic              String?
+  durationSeconds    Int?             @map("duration_seconds")
+  pronunciationScore Int?             @map("pronunciation_score")
+  xpEarned           Int              @default(0) @map("xp_earned")
+  summary            String?          @db.Text
+  startedAt          DateTime         @default(now()) @map("started_at")
+  endedAt            DateTime?        @map("ended_at")
+
+  // Relations
+  user  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  turns ConversationTurn[]
+  // Note: persona and scenario relations will be added when those models are created
+
+  @@index([userId, startedAt(sort: Desc)])
+  @@index([userId, mode])
+  @@map("conversations")
+}
+
+model ConversationTurn {
+  id             String   @id @default(uuid())
+  conversationId String   @map("conversation_id")
+  speaker        Speaker
+  content        String   @db.Text
+  audioUrl       String?  @map("audio_url") @db.Text
+  sequence       Int
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  // Relations
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  corrections  Correction[]
+
+  @@unique([conversationId, sequence])
+  @@index([conversationId, sequence])
+  @@map("conversation_turns")
+}
+
+model Correction {
+  id            String         @id @default(uuid())
+  turnId        String         @map("turn_id")
+  type          CorrectionType
+  originalText  String         @map("original_text") @db.VarChar(500)
+  correctedText String         @map("corrected_text") @db.VarChar(500)
+  explanation   String?        @db.Text
+  severity      Severity       @default(MEDIUM)
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  // Relations
+  turn ConversationTurn @relation(fields: [turnId], references: [id], onDelete: Cascade)
+
+  @@index([turnId])
+  @@index([type])
+  @@map("corrections")
+}
+
+// Models will be added in subsequent tasks
