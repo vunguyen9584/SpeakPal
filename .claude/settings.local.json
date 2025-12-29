@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(create-dd)",
+      "Bash(wc:*)"
+    ]
+  }
+}
