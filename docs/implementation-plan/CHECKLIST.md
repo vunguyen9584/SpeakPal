@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 23
-- **Progress**: 7.8%
+- **Completed**: 25
+- **Progress**: 8.5%
 
 ---
 
@@ -76,8 +76,8 @@
 
 ### WP-BE-003: Common Module (6 tasks)
 
-- [ ] WP-BE-003-T001: Create Base DTOs
-- [ ] WP-BE-003-T002: Create Custom Exceptions
+- [x] WP-BE-003-T001: Create Base DTOs
+- [x] WP-BE-003-T002: Create Custom Exceptions
 - [ ] WP-BE-003-T003: Create Exception Filters
 - [ ] WP-BE-003-T004: Create Interceptors
 - [ ] WP-BE-003-T005: Create Decorators
