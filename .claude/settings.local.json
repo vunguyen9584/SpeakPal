@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Skill(create-dd)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(docker pull:*)",
+      "Bash(docker run:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker exec:*)",
+      "Bash(docker ps:*)"
     ]
   }
 }
