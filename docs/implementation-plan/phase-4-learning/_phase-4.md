@@ -7,22 +7,25 @@
 | Phase         | 4                                |
 | Description   | Learning & Gamification Features |
 | Work Packages | 6                                |
-| Total Tasks   | 42                               |
-| Est. Days     | 20                               |
+| Total Tasks   | 47                               |
+| Est. Hours    | 101                              |
+| Est. Days     | ~13 days (8h/day)                |
 | Dependencies  | Phase 3 (Conversation)           |
+
+> 📁 **Structure**: Phase 4 có 6 WPs, được tổ chức thành thư mục với file riêng cho mỗi WP.
 
 ---
 
 ## Work Packages
 
-| ID        | Name                      | Tasks | Est. Hours | File                                                     |
-| --------- | ------------------------- | ----- | ---------- | -------------------------------------------------------- |
-| WP-BE-011 | Learning Module (BE)      | 7     | 32         | [wp-be-011-learning.md](./wp-be-011-learning.md)         |
-| WP-BE-012 | Gamification Module (BE)  | 7     | 32         | [wp-be-012-gamification.md](./wp-be-012-gamification.md) |
-| WP-BE-013 | Progress Module (BE)      | 6     | 24         | [wp-be-013-progress.md](./wp-be-013-progress.md)         |
-| WP-FE-010 | Learning Screens (FE)     | 7     | 32         | [wp-fe-010-learning.md](./wp-fe-010-learning.md)         |
-| WP-FE-011 | Gamification Screens (FE) | 6     | 24         | [wp-fe-011-gamification.md](./wp-fe-011-gamification.md) |
-| WP-FE-012 | Progress Screens (FE)     | 5     | 16         | [wp-fe-012-progress.md](./wp-fe-012-progress.md)         |
+| ID        | Name                      | Tasks | Est. Hours | File                             |
+| --------- | ------------------------- | ----- | ---------- | -------------------------------- |
+| WP-BE-011 | Learning Module (BE)      | 10    | 22         | [→](./wp-be-011-learning.md)     |
+| WP-BE-012 | Gamification Module (BE)  | 9     | 21         | [→](./wp-be-012-gamification.md) |
+| WP-BE-013 | Progress Module (BE)      | 7     | 13.5       | [→](./wp-be-013-progress.md)     |
+| WP-FE-010 | Learning Screens (FE)     | 8     | 17.5       | [→](./wp-fe-010-learning.md)     |
+| WP-FE-011 | Gamification Screens (FE) | 7     | 14         | [→](./wp-fe-011-gamification.md) |
+| WP-FE-012 | Progress Screens (FE)     | 6     | 13         | [→](./wp-fe-012-progress.md)     |
 
 ---
 

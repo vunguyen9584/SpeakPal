@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 33
-- **Progress**: 11.3%
+- **Completed**: 34
+- **Progress**: 11.6%
 
 ---
 
@@ -89,7 +89,7 @@
 - [x] WP-FE-001-T002: Setup Project Structure
 - [x] WP-FE-001-T003: Add Dependencies
 - [x] WP-FE-001-T004: Setup Riverpod
-- [ ] WP-FE-001-T005: Setup Go Router
+- [x] WP-FE-001-T005: Setup Go Router
 
 ### WP-FE-002: Design System & Theme (6 tasks)
 

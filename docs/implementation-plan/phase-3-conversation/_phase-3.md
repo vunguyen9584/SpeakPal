@@ -7,9 +7,12 @@
 | Phase         | 3                          |
 | Description   | Core Conversation Features |
 | Work Packages | 7                          |
-| Total Tasks   | 50                         |
-| Est. Days     | 25                         |
+| Total Tasks   | 46                         |
+| Est. Hours    | 105                        |
+| Est. Days     | ~13 days (8h/day)          |
 | Dependencies  | Phase 2 (Auth & User)      |
+
+> 📁 **Structure**: Phase 3 có > 5 WPs nên được tổ chức thành thư mục với file riêng cho mỗi WP.
 
 ---
 
@@ -81,9 +84,21 @@ flowchart TD
 
 | Category  | Work Packages | Tasks  | Est. Hours |
 | --------- | ------------- | ------ | ---------- |
-| Backend   | 4             | 27     | 120        |
-| Frontend  | 3             | 19     | 80         |
-| **Total** | **7**         | **46** | **200**    |
+| Backend   | 4             | 27     | 63.5       |
+| Frontend  | 3             | 19     | 42         |
+| **Total** | **7**         | **46** | **105.5**  |
+
+### Task Distribution by WP
+
+| WP ID     | Name                      | Tasks | Hours | Detail File                         |
+| --------- | ------------------------- | ----- | ----- | ----------------------------------- |
+| WP-BE-007 | Conversation Module (BE)  | 8     | 18    | [→](./wp-be-007-conversation.md)    |
+| WP-BE-008 | AI Orchestrator (BE)      | 7     | 21    | [→](./wp-be-008-ai-orchestrator.md) |
+| WP-BE-009 | WebSocket Gateway (BE)    | 6     | 12.5  | [→](./wp-be-009-websocket.md)       |
+| WP-BE-010 | Feedback Module (BE)      | 6     | 12    | [→](./wp-be-010-feedback.md)        |
+| WP-FE-007 | Home & Dashboard (FE)     | 6     | 10.5  | [→](./wp-fe-007-home.md)            |
+| WP-FE-008 | Conversation Screen (FE)  | 8     | 20.5  | [→](./wp-fe-008-conversation.md)    |
+| WP-FE-009 | Conversation Summary (FE) | 5     | 11    | [→](./wp-fe-009-summary.md)         |
 
 ---
 
