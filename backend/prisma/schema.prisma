@@ -107,6 +107,21 @@ enum ChallengeStatus {
   EXPIRED
 }
 
+enum BadgeCategory {
+  STREAK
+  LEVEL
+  CONVERSATION
+  VOCABULARY
+  PRONUNCIATION
+  SPECIAL
+}
+
+enum RankingChange {
+  PROMOTED
+  DEMOTED
+  SAME
+}
+
 // ============================================================================
 // USER & AUTH MODELS
 // ============================================================================
@@ -133,7 +148,9 @@ model User {
   conversations  Conversation[]
   vocabularies   Vocabulary[]
   userChallenges UserChallenge[]
-  // Note: Other relations (streak, etc.) will be added in subsequent tasks
+  streak         Streak?
+  userBadges     UserBadge[]
+  userRankings   UserRanking[]
 
   @@index([email])
   @@index([league])
@@ -331,6 +348,83 @@ model UserChallenge {
   @@index([userId, assignedDate])
   @@index([status])
   @@map("user_challenges")
+}
+
+// ============================================================================
+// GAMIFICATION MODELS
+// ============================================================================
+
+model Streak {
+  id               String    @id @default(uuid())
+  userId           String    @unique @map("user_id")
+  currentStreak    Int       @default(0) @map("current_streak")
+  longestStreak    Int       @default(0) @map("longest_streak")
+  freezeRemaining  Int       @default(0) @map("freeze_remaining")
+  lastActivityDate DateTime? @map("last_activity_date") @db.Date
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([lastActivityDate])
+  @@map("streaks")
+}
+
+model Badge {
+  id          String        @id @default(uuid())
+  code        String        @unique @db.VarChar(50)
+  name        String        @db.VarChar(100)
+  nameJa      String        @map("name_ja") @db.VarChar(100)
+  description String        @db.Text
+  category    BadgeCategory
+  iconUrl     String        @map("icon_url") @db.VarChar(255)
+  condition   Json
+  xpBonus     Int           @default(0) @map("xp_bonus")
+  isActive    Boolean       @default(true) @map("is_active")
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  // Relations
+  userBadges UserBadge[]
+
+  @@index([category])
+  @@index([isActive])
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  badgeId  String   @map("badge_id")
+  earnedAt DateTime @default(now()) @map("earned_at")
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@index([earnedAt(sort: Desc)])
+  @@map("user_badges")
+}
+
+model UserRanking {
+  id         String        @id @default(uuid())
+  userId     String        @map("user_id")
+  weekNumber Int           @map("week_number")
+  year       Int
+  league     League
+  weeklyXp   Int           @default(0) @map("weekly_xp")
+  rank       Int
+  change     RankingChange @default(SAME)
+  createdAt  DateTime      @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, weekNumber, year])
+  @@index([weekNumber, year, league, weeklyXp(sort: Desc)])
+  @@map("user_rankings")
 }
 
 // Models will be added in subsequent tasks
