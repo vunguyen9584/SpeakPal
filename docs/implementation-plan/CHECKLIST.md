@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 25
-- **Progress**: 8.5%
+- **Completed**: 29
+- **Progress**: 9.9%
 
 ---
 
@@ -78,10 +78,10 @@
 
 - [x] WP-BE-003-T001: Create Base DTOs
 - [x] WP-BE-003-T002: Create Custom Exceptions
-- [ ] WP-BE-003-T003: Create Exception Filters
-- [ ] WP-BE-003-T004: Create Interceptors
-- [ ] WP-BE-003-T005: Create Decorators
-- [ ] WP-BE-003-T006: Create Utility Functions
+- [x] WP-BE-003-T003: Create Exception Filters
+- [x] WP-BE-003-T004: Create Interceptors
+- [x] WP-BE-003-T005: Create Decorators
+- [x] WP-BE-003-T006: Create Utility Functions
 
 ### WP-FE-001: Flutter Project Init (5 tasks)
 
