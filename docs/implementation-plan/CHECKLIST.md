@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 101
-- **Progress**: 34.5%
+- **Completed**: 107
+- **Progress**: 36.5%
 
 ---
 
@@ -211,12 +211,12 @@
 
 ### WP-FE-007: Home & Dashboard (6 tasks)
 
-- [ ] WP-FE-007-T001: Create Home Feature Structure
-- [ ] WP-FE-007-T002: Implement Home Screen Layout
-- [ ] WP-FE-007-T003: Create Quick Action Cards
-- [ ] WP-FE-007-T004: Create Recent Conversations Widget
-- [ ] WP-FE-007-T005: Create Daily Progress Widget
-- [ ] WP-FE-007-T006: Implement Navigation
+- [x] WP-FE-007-T001: Create Home Feature Structure
+- [x] WP-FE-007-T002: Implement Home Screen Layout
+- [x] WP-FE-007-T003: Create Quick Action Cards
+- [x] WP-FE-007-T004: Create Recent Conversations Widget
+- [x] WP-FE-007-T005: Create Daily Progress Widget
+- [x] WP-FE-007-T006: Implement Navigation
 
 ### WP-FE-008: Conversation Screen (8 tasks)
 
