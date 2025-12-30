@@ -21,7 +21,9 @@
       "Bash(npx nest g module:*)",
       "Bash(npx nest g:*)",
       "Skill(implement-task)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat\\(conversation\\): implement conversation module \\(WP-BE-007\\)\n\nImplemented core conversation module with the following features:\n- Module structure with controller, service, gateway\n- Conversation and Turn DTOs with validation\n- Repository pattern for data access \\(Conversation & Turn\\)\n- Session management with Redis caching and JWT tokens\n- Turn handling for user/AI messages with corrections\n- REST API endpoints for conversation CRUD operations\n- XP calculation service with streak multipliers\n- Usage limit enforcement \\(3/day for free users\\)\n\nAPIs implemented:\n- GET /conversations - List user conversations \\(paginated\\)\n- POST /conversations - Create new conversation session\n- GET /conversations/:id - Get conversation details\n- POST /conversations/:id/end - End conversation\n- GET /conversations/:id/turns - Get all conversation turns\n\nTasks completed:\n- WP-BE-007-T001: Module structure\n- WP-BE-007-T002: DTOs\n- WP-BE-007-T003: Repositories\n- WP-BE-007-T004: Session management\n- WP-BE-007-T005: Turn handling\n- WP-BE-007-T006: Controller\n- WP-BE-007-T007: XP calculation\n\nProgress: 28.7% \\(84/293 tasks completed\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

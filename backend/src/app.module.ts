@@ -7,9 +7,10 @@ import { CacheModule } from './cache/cache.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { PersonaModule } from './modules/persona/persona.module';
+import { ConversationModule } from './modules/conversation/conversation.module';
 
 @Module({
-  imports: [ConfigModule, PrismaModule, CacheModule, AuthModule, UserModule, PersonaModule],
+  imports: [ConfigModule, PrismaModule, CacheModule, AuthModule, UserModule, PersonaModule, ConversationModule],
   controllers: [AppController],
   providers: [AppService],
 })
