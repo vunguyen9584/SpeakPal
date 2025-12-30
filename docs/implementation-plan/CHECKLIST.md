@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 45
-- **Progress**: 15.4%
+- **Completed**: 47
+- **Progress**: 16.0%
 
 ---
 
@@ -114,8 +114,8 @@
 
 ### WP-BE-004: Auth Module (8 tasks)
 
-- [ ] WP-BE-004-T001: Create Auth Module Structure
-- [ ] WP-BE-004-T002: Create Auth DTOs
+- [x] WP-BE-004-T001: Create Auth Module Structure
+- [x] WP-BE-004-T002: Create Auth DTOs
 - [ ] WP-BE-004-T003: Implement JWT Strategy
 - [ ] WP-BE-004-T004: Implement Auth Guards
 - [ ] WP-BE-004-T005: Implement Register & Login

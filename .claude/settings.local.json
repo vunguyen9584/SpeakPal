@@ -17,7 +17,9 @@
       "Bash(docker-compose config:*)",
       "Bash(npx prisma format)",
       "Bash(npx prisma migrate dev:*)",
-      "Bash(flutter:*)"
+      "Bash(flutter:*)",
+      "Bash(npx nest g module:*)",
+      "Bash(npx nest g:*)"
     ]
   }
 }
