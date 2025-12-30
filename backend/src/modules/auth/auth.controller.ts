@@ -1,10 +1,11 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { TokenDto } from './dto/token.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { OAuthDto } from './dto/oauth.dto';
 import { Public } from './decorators/public.decorator';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
@@ -26,6 +27,16 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto): Promise<TokenDto> {
     return this.authService.login(loginDto);
+  }
+
+  @Public()
+  @Post('oauth/:provider')
+  @HttpCode(HttpStatus.OK)
+  async oauth(
+    @Param('provider') provider: 'google' | 'apple',
+    @Body('idToken') idToken: string,
+  ): Promise<TokenDto> {
+    return this.authService.oauthLogin({ idToken, provider });
   }
 
   @Public()

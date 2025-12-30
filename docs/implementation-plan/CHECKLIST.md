@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 52
-- **Progress**: 17.7%
+- **Completed**: 54
+- **Progress**: 18.4%
 
 ---
 
@@ -121,11 +121,11 @@
 - [x] WP-BE-004-T005: Implement Register & Login
 - [x] WP-BE-004-T006: Implement Token Refresh
 - [x] WP-BE-004-T007: Implement Password Reset
-- [ ] WP-BE-004-T008: Implement Firebase OAuth
+- [x] WP-BE-004-T008: Implement Firebase OAuth
 
 ### WP-BE-005: User Module (6 tasks)
 
-- [ ] WP-BE-005-T001: Create User Module Structure
+- [x] WP-BE-005-T001: Create User Module Structure
 - [ ] WP-BE-005-T002: Create User DTOs
 - [ ] WP-BE-005-T003: Implement User Repository
 - [ ] WP-BE-005-T004: Implement User Service

@@ -8,11 +8,13 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { CacheModule } from '../../cache/cache.module';
+import { FirebaseModule } from '../../integrations/firebase/firebase.module';
 
 @Module({
   imports: [
     PrismaModule,
     CacheModule,
+    FirebaseModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
