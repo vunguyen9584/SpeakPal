@@ -138,7 +138,7 @@
 - [x] WP-BE-006-T002: Create Persona DTOs
 - [x] WP-BE-006-T003: Implement Persona Service
 - [x] WP-BE-006-T004: Implement Persona Controller
-- [ ] WP-BE-006-T005: Add Unit Tests
+- [x] WP-BE-006-T005: Add Unit Tests
 
 ### WP-FE-004: Auth Screens (7 tasks)
 
