@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 54
-- **Progress**: 18.4%
+- **Completed**: 55
+- **Progress**: 18.8%
 
 ---
 
@@ -126,7 +126,7 @@
 ### WP-BE-005: User Module (6 tasks)
 
 - [x] WP-BE-005-T001: Create User Module Structure
-- [ ] WP-BE-005-T002: Create User DTOs
+- [x] WP-BE-005-T002: Create User DTOs
 - [ ] WP-BE-005-T003: Implement User Repository
 - [ ] WP-BE-005-T004: Implement User Service
 - [ ] WP-BE-005-T005: Implement User Controller
