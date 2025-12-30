@@ -7,11 +7,14 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CacheService } from '../../cache/cache.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { TokenDto } from './dto/token.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { JwtPayload, JwtRefreshPayload } from './interfaces/jwt-payload.interface';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -214,6 +217,103 @@ export class AuthService {
         totalXp: user.totalXp,
       },
     };
+  }
+
+  async forgotPassword(dto: ForgotPasswordDto): Promise<void> {
+    // Find user by email
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    // Always return success to prevent email enumeration
+    if (!user) {
+      // Log for debugging but don't reveal to user
+      console.log(`Password reset requested for non-existent email: ${dto.email}`);
+      return;
+    }
+
+    // Generate secure reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    // Store reset token in Redis with 15 minutes expiry
+    const resetKey = `password-reset:${resetToken}`;
+    await this.cacheService.set(resetKey, user.id, 15 * 60 * 1000); // 15 minutes
+
+    // TODO: Implement email service integration
+    // In production, send email with reset link instead of logging
+    // Example implementation:
+    // const resetLink = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`;
+    // await this.emailService.sendPasswordResetEmail({
+    //   to: user.email,
+    //   subject: 'Password Reset Request',
+    //   resetLink: resetLink,
+    //   expiresIn: '15 minutes',
+    // });
+
+    // TEMPORARY: Log to console (REMOVE IN PRODUCTION)
+    console.log(`Password reset token for ${user.email}: ${resetToken}`);
+    console.log(`Reset link: ${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`);
+  }
+
+  async resetPassword(dto: ResetPasswordDto): Promise<void> {
+    // Verify reset token exists in Redis
+    const resetKey = `password-reset:${dto.token}`;
+    const userId = await this.cacheService.get<string>(resetKey);
+
+    if (!userId) {
+      throw new BadRequestException('Invalid or expired reset token');
+    }
+
+    // Get user
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    // Hash new password
+    const hashedPassword = await this.hashPassword(dto.newPassword);
+
+    // Update user password
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { passwordHash: hashedPassword },
+    });
+
+    // Delete the reset token from Redis
+    await this.cacheService.del(resetKey);
+
+    // Invalidate all existing refresh tokens by adding user to a "force logout" list
+    // Any tokens issued before this timestamp should be invalidated
+    const forceLogoutKey = `force-logout:${userId}`;
+    await this.cacheService.set(
+      forceLogoutKey,
+      Date.now().toString(),
+      30 * 24 * 60 * 60 * 1000, // 30 days
+    );
+
+    // TODO: Implement password change notification email
+    // Send email to notify user that their password was changed
+    // await this.emailService.sendPasswordChangeNotification({
+    //   to: user.email,
+    //   username: user.username || user.email,
+    //   timestamp: new Date(),
+    // });
+
+    // TODO: Implement security event logging
+    // Log password reset event for security audit trail
+    // await this.auditService.logSecurityEvent({
+    //   userId: user.id,
+    //   event: 'PASSWORD_RESET',
+    //   ipAddress: requestIp,
+    //   userAgent: requestUserAgent,
+    //   timestamp: new Date(),
+    // });
+
+    // TEMPORARY: Log to console (REMOVE IN PRODUCTION)
+    console.log(`Password reset successful for user: ${user.email}`);
   }
 
   private async generateTokens(
