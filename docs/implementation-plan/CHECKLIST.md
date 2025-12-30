@@ -179,7 +179,7 @@
 - [x] WP-BE-007-T005: Implement Turn Handling
 - [x] WP-BE-007-T006: Implement Conversation Controller
 - [x] WP-BE-007-T007: Implement XP Calculation
-- [ ] WP-BE-007-T008: Add Unit Tests
+- [x] WP-BE-007-T008: Add Unit Tests
 
 ### WP-BE-008: AI Orchestrator (7 tasks)
 
@@ -202,7 +202,7 @@
 
 ### WP-BE-010: Feedback Module (6 tasks)
 
-- [ ] WP-BE-010-T001: Create Module Structure
+- [x] WP-BE-010-T001: Create Module Structure
 - [ ] WP-BE-010-T002: Implement Error Detection (via GPT)
 - [ ] WP-BE-010-T003: Implement Correction Generation
 - [ ] WP-BE-010-T004: Implement Suggestion Generation
