@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 58
-- **Progress**: 19.8%
+- **Completed**: 59
+- **Progress**: 20.1%
 
 ---
 
@@ -130,7 +130,7 @@
 - [x] WP-BE-005-T003: Implement User Repository
 - [x] WP-BE-005-T004: Implement User Service
 - [x] WP-BE-005-T005: Implement User Controller
-- [ ] WP-BE-005-T006: Add Unit Tests
+- [x] WP-BE-005-T006: Add Unit Tests
 
 ### WP-BE-006: Persona Module (5 tasks)
 

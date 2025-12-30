@@ -20,7 +20,8 @@
       "Bash(flutter:*)",
       "Bash(npx nest g module:*)",
       "Bash(npx nest g:*)",
-      "Skill(implement-task)"
+      "Skill(implement-task)",
+      "Bash(npm test:*)"
     ]
   }
 }
