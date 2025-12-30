@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../../../common/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { StreakResponseDto } from './dto/streak-response.dto';
 
 const STREAK_MILESTONES = [7, 30, 100];

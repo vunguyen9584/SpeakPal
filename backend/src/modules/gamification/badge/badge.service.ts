@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../common/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { BADGE_DEFINITIONS } from './badge.constants';
 import { BadgeDto, UserBadgeDto } from './dto/badge-response.dto';
 

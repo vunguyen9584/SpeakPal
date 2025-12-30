@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../common/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 
 // Level formula: Level N requires N * 200 XP
 // Level 1: 200 XP, Level 5: 1000 XP (cumulative), Level 10: 2000 XP

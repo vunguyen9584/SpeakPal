@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../common/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { RankingResponseDto, RankingEntryDto, League } from './dto/ranking-response.dto';
 
 const LEAGUE_ORDER: League[] = ['bronze', 'silver', 'gold', 'platinum', 'diamond'];
