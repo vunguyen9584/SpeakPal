@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 49
-- **Progress**: 16.7%
+- **Completed**: 50
+- **Progress**: 17.1%
 
 ---
 
@@ -118,7 +118,7 @@
 - [x] WP-BE-004-T002: Create Auth DTOs
 - [x] WP-BE-004-T003: Implement JWT Strategy
 - [x] WP-BE-004-T004: Implement Auth Guards
-- [ ] WP-BE-004-T005: Implement Register & Login
+- [x] WP-BE-004-T005: Implement Register & Login
 - [ ] WP-BE-004-T006: Implement Token Refresh
 - [ ] WP-BE-004-T007: Implement Password Reset
 - [ ] WP-BE-004-T008: Implement Firebase OAuth
