@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
+import '../network/api_client.dart';
 
 /// Provider for SharedPreferences instance
 /// Used for non-sensitive local storage
@@ -44,4 +45,10 @@ final dioProvider = Provider<Dio>((ref) {
   );
 
   return dio;
+});
+
+/// Provider for ApiClient
+/// Used for all API requests with interceptors
+final apiClientProvider = Provider<ApiClient>((ref) {
+  return ApiClient();
 });

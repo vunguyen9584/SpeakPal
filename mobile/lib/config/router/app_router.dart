@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'routes.dart';
+import '../../features/learning/presentation/screens/vocabulary_list_screen.dart';
+import '../../features/learning/presentation/screens/vocabulary_detail_screen.dart';
+import '../../features/learning/presentation/screens/scenario_list_screen.dart';
+import '../../features/learning/presentation/screens/challenge_screen.dart';
+import '../../features/learning/presentation/screens/review_quiz_screen.dart';
+import '../../features/learning/domain/models/vocabulary.dart';
 
 /// App Router configuration using GoRouter
 class AppRouter {
@@ -92,39 +98,42 @@ class AppRouter {
         // Learning routes
         GoRoute(
           path: AppRoutes.vocabulary,
-          builder: (context, state) => const Scaffold(
-            body: Center(child: Text('Vocabulary List Screen')),
-          ),
+          builder: (context, state) => const VocabularyListScreen(),
         ),
         GoRoute(
           path: '/vocabulary/:id',
           builder: (context, state) {
             final id = state.pathParameters['id'] ?? '';
-            return Scaffold(
-              body: Center(child: Text('Vocabulary Detail: $id')),
+            // TODO: Pass actual vocabulary from provider
+            // For now, creating a placeholder vocabulary
+            final vocabulary = Vocabulary(
+              id: id,
+              word: 'Loading...',
+              meaning: 'Loading...',
+              pronunciation: '',
+              srsLevel: 'new',
+              nextReviewDate: DateTime.now(),
+              reviewCount: 0,
+              correctCount: 0,
             );
+            return VocabularyDetailScreen(vocabulary: vocabulary);
           },
         ),
         GoRoute(
           path: AppRoutes.scenarios,
-          builder: (context, state) => const Scaffold(
-            body: Center(child: Text('Scenarios Screen')),
-          ),
+          builder: (context, state) => const ScenarioListScreen(),
         ),
         GoRoute(
           path: '/challenge/:id',
-          builder: (context, state) {
-            final id = state.pathParameters['id'] ?? '';
-            return Scaffold(
-              body: Center(child: Text('Challenge: $id')),
-            );
-          },
+          builder: (context, state) => const ChallengeScreen(),
         ),
         GoRoute(
           path: AppRoutes.review,
-          builder: (context, state) => const Scaffold(
-            body: Center(child: Text('Review Screen')),
-          ),
+          builder: (context, state) {
+            // TODO: Get vocabularies from provider
+            // For now, passing empty list
+            return const ReviewQuizScreen(vocabularies: []);
+          },
         ),
 
         // Gamification routes
