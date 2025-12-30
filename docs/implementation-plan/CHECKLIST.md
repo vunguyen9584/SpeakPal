@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 107
-- **Progress**: 36.5%
+- **Completed**: 120
+- **Progress**: 41.0%
 
 ---
 
@@ -220,22 +220,22 @@
 
 ### WP-FE-008: Conversation Screen (8 tasks)
 
-- [ ] WP-FE-008-T001: Create Conversation Feature Structure
-- [ ] WP-FE-008-T002: Implement Mode/Topic Selection
-- [ ] WP-FE-008-T003: Implement Audio Recording
-- [ ] WP-FE-008-T004: Implement WebSocket Connection
-- [ ] WP-FE-008-T005: Implement Chat UI
-- [ ] WP-FE-008-T006: Implement Audio Playback
-- [ ] WP-FE-008-T007: Implement Real-time Corrections Display
-- [ ] WP-FE-008-T008: Implement Session Controls
+- [x] WP-FE-008-T001: Create Conversation Feature Structure
+- [x] WP-FE-008-T002: Implement Mode/Topic Selection
+- [x] WP-FE-008-T003: Implement Audio Recording
+- [x] WP-FE-008-T004: Implement WebSocket Connection
+- [x] WP-FE-008-T005: Implement Chat UI
+- [x] WP-FE-008-T006: Implement Audio Playback
+- [x] WP-FE-008-T007: Implement Real-time Corrections Display
+- [x] WP-FE-008-T008: Implement Session Controls
 
 ### WP-FE-009: Conversation Summary (5 tasks)
 
-- [ ] WP-FE-009-T001: Create Summary Screen
-- [ ] WP-FE-009-T002: Display Conversation Stats
-- [ ] WP-FE-009-T003: Display Corrections List
-- [ ] WP-FE-009-T004: Display New Vocabulary
-- [ ] WP-FE-009-T005: Implement Share/Save Actions
+- [x] WP-FE-009-T001: Create Summary Screen
+- [x] WP-FE-009-T002: Display Conversation Stats
+- [x] WP-FE-009-T003: Display Corrections List
+- [x] WP-FE-009-T004: Display New Vocabulary
+- [x] WP-FE-009-T005: Implement Share/Save Actions
 
 ---
 
