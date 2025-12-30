@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 294
-- **Completed**: 155
-- **Progress**: 52.7%
+- **Completed**: 157
+- **Progress**: 53.4%
 
 ---
 
@@ -264,14 +264,14 @@
 - [x] WP-BE-012-T006: Implement Badge Service
 - [x] WP-BE-012-T007: Implement Ranking Service
 - [x] WP-BE-012-T008: Implement Controllers
-- [ ] WP-BE-012-T009: Add Unit Tests
+- [x] WP-BE-012-T009: Add Unit Tests
 
 ### WP-BE-013: Progress Module (7 tasks)
 
 - [x] WP-BE-013-T001: Create Module Structure
 - [x] WP-BE-013-T002: Create Progress DTOs
 - [x] WP-BE-013-T003: Implement Daily Stats Aggregation
-- [ ] WP-BE-013-T004: Implement Weekly/Monthly Reports
+- [x] WP-BE-013-T004: Implement Weekly/Monthly Reports
 - [ ] WP-BE-013-T005: Implement History Query
 - [x] WP-BE-013-T006: Implement Controller
 - [ ] WP-BE-013-T007: Add Unit Tests
