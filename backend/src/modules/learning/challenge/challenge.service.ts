@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ChallengeRepository } from './challenge.repository';
 import { ChallengeResponseDto, ChallengeType } from './dto/challenge-response.dto';
-import { PrismaService } from '../../../common/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 
 const CHALLENGE_CONFIG = {
   conversation: { min: 2, max: 5, xp: 50 },

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../common/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { Vocabulary, SRSLevel, Prisma } from '@prisma/client';
 import { VocabularyQueryDto } from './dto/vocabulary-query.dto';
 import { CreateVocabularyDto } from './dto/create-vocabulary.dto';
