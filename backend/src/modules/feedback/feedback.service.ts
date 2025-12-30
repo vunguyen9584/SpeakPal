@@ -29,6 +29,8 @@ export interface SuggestionContext {
 export class FeedbackService {
   private readonly logger = new Logger(FeedbackService.name);
   private apiKey: string;
+  private correctionCache: Map<string, { corrections: Correction[]; timestamp: number }> = new Map();
+  private readonly CACHE_TTL = 1000 * 60 * 60; // 1 hour
 
   constructor(private configService: ConfigService) {
     this.apiKey = this.configService.get<string>('OPENAI_API_KEY') || '';
@@ -45,24 +47,43 @@ export class FeedbackService {
     context: FeedbackContext,
   ): Promise<CorrectionResult> {
     try {
+      // Check cache first
+      const cacheKey = `${text}_${context.userLevel}`;
+      const cached = this.correctionCache.get(cacheKey);
+      if (cached && Date.now() - cached.timestamp < this.CACHE_TTL) {
+        this.logger.log('Using cached corrections');
+        const filteredCorrections = this.filterBySeverity(
+          cached.corrections,
+          context.displayMode || 'summary',
+        );
+        const overallAccuracy = this.calculateAccuracy(text, cached.corrections);
+        return { corrections: filteredCorrections, overallAccuracy };
+      }
+
       // Build prompt
       const prompt = ERROR_ANALYSIS_PROMPT(text, context.userLevel);
 
-      // TODO: Call OpenAI API
-      // const response = await this.callLLM(prompt);
-      // const corrections = this.parseCorrections(response);
+      // Call OpenAI API
+      const response = await this.callLLM(prompt);
+      const corrections = this.parseCorrections(response);
 
-      // Mock implementation
-      const corrections = this.getMockCorrections(text);
+      // Limit to max 3 corrections
+      const limitedCorrections = corrections.slice(0, 3);
+
+      // Cache the result
+      this.correctionCache.set(cacheKey, {
+        corrections: limitedCorrections,
+        timestamp: Date.now(),
+      });
 
       // Filter by severity based on display mode
       const filteredCorrections = this.filterBySeverity(
-        corrections,
+        limitedCorrections,
         context.displayMode || 'summary',
       );
 
       // Calculate overall accuracy
-      const overallAccuracy = this.calculateAccuracy(text, corrections);
+      const overallAccuracy = this.calculateAccuracy(text, limitedCorrections);
 
       return {
         corrections: filteredCorrections,
@@ -70,6 +91,7 @@ export class FeedbackService {
       };
     } catch (error) {
       this.logger.error('Error in analyzeAndCorrect:', error);
+      // Fallback to empty corrections on error
       return {
         corrections: [],
         overallAccuracy: 100,
@@ -92,34 +114,9 @@ export class FeedbackService {
         context.topic,
       );
 
-      // TODO: Call OpenAI API
-      // const response = await this.callLLM(prompt);
-      // return this.parseSuggestion(response);
-
-      // Mock implementation
-      return {
-        template: 'I usually [___] because [___].',
-        vocabulary: [
-          {
-            word: 'usually',
-            pronunciation: '/ˈjuːʒuəli/',
-            meaning: '普段は、たいてい',
-            partOfSpeech: 'adverb',
-            exampleSentence: 'I usually wake up at 7 AM.',
-          },
-          {
-            word: 'because',
-            pronunciation: '/bɪˈkɔːz/',
-            meaning: 'なぜなら',
-            partOfSpeech: 'conjunction',
-            exampleSentence: 'I stayed home because it was raining.',
-          },
-        ],
-        alternativeResponses: [
-          'I usually work from home because it is more flexible.',
-          'I often go to the gym in the evening.',
-        ],
-      };
+      // Call OpenAI API
+      const response = await this.callLLM(prompt);
+      return this.parseSuggestion(response);
     } catch (error) {
       this.logger.error('Error in generateSuggestions:', error);
       return null;
@@ -183,8 +180,46 @@ export class FeedbackService {
    * @private
    */
   private async callLLM(prompt: string): Promise<string> {
-    // TODO: Implement actual OpenAI API call
-    throw new Error('Not implemented');
+    if (!this.apiKey) {
+      this.logger.warn('OpenAI API key not configured, returning empty response');
+      return JSON.stringify({ corrections: [] });
+    }
+
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an expert English language teacher helping students improve their English. Always respond with valid JSON only.',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.3,
+          max_tokens: 1000,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0]?.message?.content || JSON.stringify({ corrections: [] });
+    } catch (error) {
+      this.logger.error('Error calling OpenAI API:', error);
+      throw error;
+    }
   }
 
   /**
@@ -198,6 +233,27 @@ export class FeedbackService {
     } catch (error) {
       this.logger.error('Failed to parse corrections:', error);
       return [];
+    }
+  }
+
+  /**
+   * Parse suggestion from LLM response
+   * @private
+   */
+  private parseSuggestion(response: string): Suggestion | null {
+    try {
+      const parsed = JSON.parse(response);
+      if (!parsed.template || !parsed.vocabulary || !parsed.alternativeResponses) {
+        return null;
+      }
+      return {
+        template: parsed.template,
+        vocabulary: parsed.vocabulary,
+        alternativeResponses: parsed.alternativeResponses,
+      };
+    } catch (error) {
+      this.logger.error('Failed to parse suggestion:', error);
+      return null;
     }
   }
 }
