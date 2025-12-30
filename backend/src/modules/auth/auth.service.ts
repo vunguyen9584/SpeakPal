@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../prisma/prisma.service';
+import { CacheService } from '../../cache/cache.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { TokenDto } from './dto/token.dto';
@@ -20,6 +21,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private cacheService: CacheService,
   ) {}
 
   async register(dto: RegisterDto): Promise<TokenDto> {
@@ -123,12 +125,7 @@ export class AuthService {
   }
 
   async logout(userId: string, refreshToken: string): Promise<void> {
-    // In a production app, we would:
-    // 1. Decode the refresh token to get the tokenId
-    // 2. Add the refresh token to a blacklist in Redis
-    // 3. Set expiry to match the token's expiry time
-
-    // For now, we'll just validate that the user exists
+    // Validate that the user exists
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
@@ -137,8 +134,86 @@ export class AuthService {
       throw new UnauthorizedException('Invalid user');
     }
 
-    // TODO: Implement Redis blacklist in next task (Token Refresh)
-    // await this.redis.set(`blacklist:${tokenId}`, '1', 'EX', expirySeconds);
+    // Decode the refresh token to get the tokenId
+    try {
+      const decoded = this.jwtService.verify<JwtRefreshPayload>(refreshToken, {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      });
+
+      // Add the refresh token to blacklist in Redis
+      // TTL should match the token's remaining lifetime
+      const now = Math.floor(Date.now() / 1000);
+      const expirySeconds = decoded.exp ? decoded.exp - now : 604800; // Default 7 days if no exp
+
+      if (expirySeconds > 0) {
+        await this.cacheService.set(
+          `blacklist:${decoded.tokenId}`,
+          '1',
+          expirySeconds * 1000, // Convert to milliseconds for cache-manager
+        );
+      }
+    } catch (error) {
+      // If token is invalid or expired, no need to blacklist
+      // Just return successfully
+    }
+  }
+
+  async refreshTokens(refreshToken: string): Promise<TokenDto> {
+    // Verify the refresh token
+    let decoded: JwtRefreshPayload;
+    try {
+      decoded = this.jwtService.verify<JwtRefreshPayload>(refreshToken, {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      });
+    } catch (error) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    // Check if token is blacklisted
+    const isBlacklisted = await this.cacheService.get(
+      `blacklist:${decoded.tokenId}`,
+    );
+
+    if (isBlacklisted) {
+      throw new UnauthorizedException('Refresh token has been revoked');
+    }
+
+    // Get user from database
+    const user = await this.prisma.user.findUnique({
+      where: { id: decoded.sub },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    // Blacklist the old refresh token (rotation)
+    const now = Math.floor(Date.now() / 1000);
+    const expirySeconds = decoded.exp ? decoded.exp - now : 604800;
+
+    if (expirySeconds > 0) {
+      await this.cacheService.set(
+        `blacklist:${decoded.tokenId}`,
+        '1',
+        expirySeconds * 1000,
+      );
+    }
+
+    // Generate new tokens
+    const tokens = await this.generateTokens(user.id, user.email);
+
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      expiresIn: tokens.expiresIn,
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username || '',
+        level: user.level,
+        totalXp: user.totalXp,
+      },
+    };
   }
 
   private async generateTokens(
