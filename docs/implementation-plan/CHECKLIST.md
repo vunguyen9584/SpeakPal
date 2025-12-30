@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 59
-- **Progress**: 20.1%
+- **Completed**: 61
+- **Progress**: 20.8%
 
 ---
 
@@ -134,8 +134,8 @@
 
 ### WP-BE-006: Persona Module (5 tasks)
 
-- [ ] WP-BE-006-T001: Create Persona Module Structure
-- [ ] WP-BE-006-T002: Create Persona DTOs
+- [x] WP-BE-006-T001: Create Persona Module Structure
+- [x] WP-BE-006-T002: Create Persona DTOs
 - [ ] WP-BE-006-T003: Implement Persona Service
 - [ ] WP-BE-006-T004: Implement Persona Controller
 - [ ] WP-BE-006-T005: Add Unit Tests
