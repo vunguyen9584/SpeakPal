@@ -19,7 +19,8 @@
       "Bash(npx prisma migrate dev:*)",
       "Bash(flutter:*)",
       "Bash(npx nest g module:*)",
-      "Bash(npx nest g:*)"
+      "Bash(npx nest g:*)",
+      "Skill(implement-task)"
     ]
   }
 }
