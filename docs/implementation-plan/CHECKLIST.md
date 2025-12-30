@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 293
-- **Completed**: 120
-- **Progress**: 41.0%
+- **Completed**: 146
+- **Progress**: 49.8%
 
 ---
 
@@ -241,34 +241,40 @@
 
 ## Phase 4: Learning & Gamification (42 tasks)
 
-### WP-BE-011: Learning Module (7 tasks)
+### WP-BE-011: Learning Module (10 tasks)
 
-- [ ] WP-BE-011-T001: Create Module Structure
-- [ ] WP-BE-011-T002: Create Learning DTOs
-- [ ] WP-BE-011-T003: Implement Vocabulary Service
-- [ ] WP-BE-011-T004: Implement Scenario Service
-- [ ] WP-BE-011-T005: Implement Challenge Service
-- [ ] WP-BE-011-T006: Implement Controller
-- [ ] WP-BE-011-T007: Add Unit Tests
+- [x] WP-BE-011-T001: Create Module Structure
+- [x] WP-BE-011-T002: Create Learning DTOs
+- [x] WP-BE-011-T003: Implement SRS Service
+- [x] WP-BE-011-T004: Implement Vocabulary Repository
+- [x] WP-BE-011-T005: Implement Vocabulary Service
+- [x] WP-BE-011-T006: Implement Scenario Service
+- [x] WP-BE-011-T007: Implement Challenge Service
+- [x] WP-BE-011-T008: Implement Vocabulary Controller
+- [x] WP-BE-011-T009: Implement Scenario/Challenge Controllers
+- [ ] WP-BE-011-T010: Add Unit Tests
 
-### WP-BE-012: Gamification Module (7 tasks)
+### WP-BE-012: Gamification Module (9 tasks)
 
-- [ ] WP-BE-012-T001: Create Module Structure
-- [ ] WP-BE-012-T002: Create Gamification DTOs
-- [ ] WP-BE-012-T003: Implement XP Service
-- [ ] WP-BE-012-T004: Implement Streak Service
-- [ ] WP-BE-012-T005: Implement Badge Service
-- [ ] WP-BE-012-T006: Implement Ranking Service
-- [ ] WP-BE-012-T007: Add Unit Tests
+- [x] WP-BE-012-T001: Create Module Structure
+- [x] WP-BE-012-T002: Create Gamification DTOs
+- [x] WP-BE-012-T003: Implement XP Service
+- [x] WP-BE-012-T004: Implement Streak Service
+- [x] WP-BE-012-T005: Define Badge System
+- [x] WP-BE-012-T006: Implement Badge Service
+- [x] WP-BE-012-T007: Implement Ranking Service
+- [x] WP-BE-012-T008: Implement Controllers
+- [ ] WP-BE-012-T009: Add Unit Tests
 
-### WP-BE-013: Progress Module (6 tasks)
+### WP-BE-013: Progress Module (7 tasks)
 
-- [ ] WP-BE-013-T001: Create Module Structure
-- [ ] WP-BE-013-T002: Implement Daily Stats Aggregation
-- [ ] WP-BE-013-T003: Implement Weekly/Monthly Reports
-- [ ] WP-BE-013-T004: Implement History Query
-- [ ] WP-BE-013-T005: Implement Controller
-- [ ] WP-BE-013-T006: Add Unit Tests
+- [x] WP-BE-013-T001: Create Module Structure
+- [x] WP-BE-013-T002: Create Progress DTOs
+- [x] WP-BE-013-T003: Implement Daily Stats Aggregation
+- [ ] WP-BE-013-T004: Implement Weekly/Monthly Reports
+- [ ] WP-BE-013-T005: Implement History Query
+- [x] WP-BE-013-T006: Implement Controller
+- [ ] WP-BE-013-T007: Add Unit Tests
 
 ### WP-FE-010: Learning Screens (7 tasks)
 
