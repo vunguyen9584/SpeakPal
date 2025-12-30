@@ -6,9 +6,12 @@ import { RankingService } from './ranking/ranking.service';
 import { StreakController } from './streak/streak.controller';
 import { BadgeController } from './badge/badge.controller';
 import { RankingController } from './ranking/ranking.controller';
+import { PrismaModule } from '../../common/prisma/prisma.module';
 
 @Module({
+  imports: [PrismaModule],
   providers: [XpService, StreakService, BadgeService, RankingService],
-  controllers: [StreakController, BadgeController, RankingController]
+  controllers: [StreakController, BadgeController, RankingController],
+  exports: [XpService, StreakService, BadgeService, RankingService],
 })
 export class GamificationModule {}
