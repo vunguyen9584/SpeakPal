@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 294
-- **Completed**: 159
-- **Progress**: 54.1%
+- **Completed**: 162
+- **Progress**: 55.1%
 
 ---
 
@@ -289,9 +289,9 @@
 
 ### WP-FE-011: Gamification Screens (6 tasks)
 
-- [ ] WP-FE-011-T001: Create Gamification Feature Structure
-- [ ] WP-FE-011-T002: Implement Badges Collection Screen
-- [ ] WP-FE-011-T003: Implement Badge Detail Modal
+- [x] WP-FE-011-T001: Create Gamification Feature Structure
+- [x] WP-FE-011-T002: Implement Badges Collection Screen
+- [x] WP-FE-011-T003: Implement Badge Detail Modal
 - [ ] WP-FE-011-T004: Implement Leaderboard Screen
 - [ ] WP-FE-011-T005: Implement Streak Widget
 - [ ] WP-FE-011-T006: Implement Level Up Animation
