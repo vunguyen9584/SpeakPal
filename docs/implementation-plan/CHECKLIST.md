@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 294
-- **Completed**: 163
-- **Progress**: 55.4%
+- **Completed**: 165
+- **Progress**: 56.1%
 
 ---
 
@@ -293,8 +293,8 @@
 - [x] WP-FE-011-T002: Implement Badges Collection Screen
 - [x] WP-FE-011-T003: Implement Badge Detail Modal
 - [x] WP-FE-011-T004: Implement Leaderboard Screen
-- [ ] WP-FE-011-T005: Implement Streak Widget
-- [ ] WP-FE-011-T006: Implement Level Up Animation
+- [x] WP-FE-011-T005: Implement Streak Widget
+- [x] WP-FE-011-T006: Implement Level Up Animation
 
 ### WP-FE-012: Progress Screens (5 tasks)
 
