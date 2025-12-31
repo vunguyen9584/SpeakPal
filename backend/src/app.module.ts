@@ -12,9 +12,10 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
 import { LearningModule } from './modules/learning/learning.module';
 import { GamificationModule } from './modules/gamification/gamification.module';
 import { ProgressModule } from './modules/progress/progress.module';
+import { SocialModule } from './modules/social/social.module';
 
 @Module({
-  imports: [ConfigModule, PrismaModule, CacheModule, AuthModule, UserModule, PersonaModule, ConversationModule, FeedbackModule, LearningModule, GamificationModule, ProgressModule],
+  imports: [ConfigModule, PrismaModule, CacheModule, AuthModule, UserModule, PersonaModule, ConversationModule, FeedbackModule, LearningModule, GamificationModule, ProgressModule, SocialModule],
   controllers: [AppController],
   providers: [AppService],
 })

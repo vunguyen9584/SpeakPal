@@ -4,7 +4,10 @@
       "Skill(implement-task)",
       "Bash(npm test:*)",
       "Bash(find . -type f -name \"*.ts\" -exec grep -l \"common/prisma/prisma.service\" {} ;)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(nest g module:*)",
+      "Bash(nest g controller:*)",
+      "Bash(nest g service:*)"
     ]
   }
 }
