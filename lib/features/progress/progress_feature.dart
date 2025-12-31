@@ -9,5 +9,17 @@ export 'domain/models/history_item.dart';
 // Domain Repositories
 export 'domain/repositories/progress_repository.dart';
 
-// Note: Presentation providers, screens, and widgets will be exported
-// as they are implemented in subsequent tasks
+// Presentation Providers
+export 'presentation/providers/progress_providers.dart';
+
+// Presentation Screens
+export 'presentation/screens/statistics_screen.dart';
+export 'presentation/screens/weekly_report_screen.dart';
+export 'presentation/screens/history_screen.dart';
+
+// Presentation Widgets
+export 'presentation/widgets/stat_card.dart';
+export 'presentation/widgets/conversation_chart.dart';
+export 'presentation/widgets/vocabulary_chart.dart';
+export 'presentation/widgets/xp_chart.dart';
+export 'presentation/widgets/history_list_item.dart';

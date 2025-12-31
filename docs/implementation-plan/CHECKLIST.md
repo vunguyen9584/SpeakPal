@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 294
-- **Completed**: 167
-- **Progress**: 56.8%
+- **Completed**: 172
+- **Progress**: 58.5%
 
 ---
 
@@ -300,10 +300,11 @@
 ### WP-FE-012: Progress Screens (5 tasks)
 
 - [x] WP-FE-012-T001: Create Progress Feature Structure
-- [ ] WP-FE-012-T002: Implement Statistics Dashboard
-- [ ] WP-FE-012-T003: Implement Charts
-- [ ] WP-FE-012-T004: Implement Weekly Report Screen
-- [ ] WP-FE-012-T005: Implement History List Screen
+- [x] WP-FE-012-T002: Implement Statistics Dashboard
+- [x] WP-FE-012-T003: Implement Charts
+- [x] WP-FE-012-T004: Implement Weekly Report Screen
+- [x] WP-FE-012-T005: Implement History List Screen
+- [x] WP-FE-012-T006: Create Progress Providers
 
 ---
 
