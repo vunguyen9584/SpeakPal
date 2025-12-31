@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 294
-- **Completed**: 175
-- **Progress**: 59.5%
+- **Completed**: 176
+- **Progress**: 59.9%
 
 ---
 
@@ -315,7 +315,7 @@
 - [x] WP-BE-014-T001: Create Module Structure
 - [x] WP-BE-014-T002: Create Social DTOs
 - [x] WP-BE-014-T003: Implement Invitation Service
-- [ ] WP-BE-014-T004: Implement Group Service
+- [x] WP-BE-014-T004: Implement Group Service
 - [ ] WP-BE-014-T005: Implement Social Controller
 - [ ] WP-BE-014-T006: Add Unit Tests
 

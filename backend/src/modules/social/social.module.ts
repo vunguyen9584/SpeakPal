@@ -4,12 +4,18 @@ import { GroupController } from './group/group.controller';
 import { InvitationService } from './invitation/invitation.service';
 import { GroupService } from './group/group.service';
 import { InvitationRepository } from './invitation/invitation.repository';
+import { GroupRepository } from './group/group.repository';
 import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],
   controllers: [InvitationController, GroupController],
-  providers: [InvitationService, GroupService, InvitationRepository],
+  providers: [
+    InvitationService,
+    GroupService,
+    InvitationRepository,
+    GroupRepository,
+  ],
   exports: [InvitationService, GroupService],
 })
 export class SocialModule {}
