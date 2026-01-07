@@ -55,6 +55,7 @@
   └────────────────────────────────────────┘
   ```
 - **Implementation Details**:
+
   ```dart
   class ConversationSummaryScreen extends ConsumerWidget {
     final String conversationId;
@@ -86,6 +87,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Display conversation stats (duration, score, XP)
   - [ ] Show level up card nếu level up
@@ -110,6 +112,7 @@
   - `lib/features/conversation/presentation/widgets/animated_counter.dart`
   - `lib/features/conversation/presentation/widgets/score_gauge.dart`
 - **Implementation Details**:
+
   ```dart
   class ConversationStatsCard extends StatelessWidget {
     final ConversationSummary summary;
@@ -148,6 +151,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Celebration icon/animation at top
   - [ ] Duration formatted as mm:ss
@@ -169,6 +173,7 @@
   - `lib/features/conversation/presentation/widgets/corrections_section.dart`
   - `lib/features/conversation/presentation/widgets/correction_list_item.dart`
 - **Implementation Details**:
+
   ```dart
   class CorrectionsSection extends StatelessWidget {
     final List<CorrectionSummary> corrections;
@@ -209,6 +214,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Group corrections by type (grammar, vocabulary, pronunciation)
   - [ ] Each correction shows original → corrected
@@ -376,14 +382,14 @@
 
 ## Task Summary
 
-| Task ID        | Name                         | Type    | Hours  | Status |
-| -------------- | ---------------------------- | ------- | ------ | ------ |
-| WP-FE-009-T001 | Create Summary Screen        | feature | 3      | ⬜     |
-| WP-FE-009-T002 | Display Conversation Stats   | feature | 2      | ⬜     |
-| WP-FE-009-T003 | Display Corrections List     | feature | 2      | ⬜     |
-| WP-FE-009-T004 | Display New Vocabulary       | feature | 2      | ⬜     |
-| WP-FE-009-T005 | Implement Share/Save Actions | feature | 2      | ⬜     |
-| **Total**      |                              |         | **11** |        |
+| Task ID        | Name                         | Type    | Hours  | Status           |
+| -------------- | ---------------------------- | ------- | ------ | ---------------- |
+| WP-FE-009-T001 | Create Summary Screen        | feature | 3      | ✅ (2026-01-07)  |
+| WP-FE-009-T002 | Display Conversation Stats   | feature | 2      | ✅ (2026-01-07)  |
+| WP-FE-009-T003 | Display Corrections List     | feature | 2      | ✅ (2026-01-07)  |
+| WP-FE-009-T004 | Display New Vocabulary       | feature | 2      | ✅ (2026-01-07)  |
+| WP-FE-009-T005 | Implement Share/Save Actions | feature | 2      | ✅ (2026-01-07)  |
+| **Total**      |                              |         | **11** | **✅ COMPLETED** |
 
 ---
 

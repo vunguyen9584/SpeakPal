@@ -138,6 +138,7 @@
     permission_handler: ^11.0.0
   ```
 - **Implementation Details**:
+
   ```dart
   class AudioRecorderService {
     final Record _recorder = Record();
@@ -166,6 +167,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Request microphone permission
   - [ ] Start recording on mic button press
@@ -193,6 +195,7 @@
     socket_io_client: ^2.0.0
   ```
 - **Implementation Details**:
+
   ```dart
   class ConversationSocketService {
     late Socket _socket;
@@ -236,6 +239,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Connect với token từ POST /conversations
   - [ ] Handle all WebSocket events (connected, text*result, ai_response*\*, correction, suggestion, error)
@@ -280,6 +284,7 @@
   └────────────────────────────────────────┘
   ```
 - **Implementation Details**:
+
   ```dart
   class ChatBubble extends StatelessWidget {
     final Turn turn;
@@ -308,6 +313,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] AI messages aligned left với avatar
   - [ ] User messages aligned right
@@ -335,6 +341,7 @@
     just_audio: ^0.9.36
   ```
 - **Implementation Details**:
+
   ```dart
   class AudioPlayerService {
     final AudioPlayer _player = AudioPlayer();
@@ -367,6 +374,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Play streaming audio chunks smoothly
   - [ ] Queue chunks để avoid gaps
@@ -389,6 +397,7 @@
   - `lib/features/conversation/presentation/widgets/suggestion_card.dart`
   - `lib/features/conversation/presentation/widgets/correction_detail_modal.dart`
 - **Implementation Details**:
+
   ```dart
   class CorrectionCard extends StatelessWidget {
     final Correction correction;
@@ -419,6 +428,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Correction cards với original → corrected format
   - [ ] Color coded by severity (high=red, medium=yellow, low=blue)
@@ -486,17 +496,17 @@
 
 ## Task Summary
 
-| Task ID        | Name                           | Type    | Hours    | Status |
-| -------------- | ------------------------------ | ------- | -------- | ------ |
-| WP-FE-008-T001 | Create Feature Structure       | setup   | 1.5      | ⬜     |
-| WP-FE-008-T002 | Implement Mode/Topic Selection | feature | 2.5      | ⬜     |
-| WP-FE-008-T003 | Implement Audio Recording      | feature | 3        | ⬜     |
-| WP-FE-008-T004 | Implement WebSocket Connection | feature | 3        | ⬜     |
-| WP-FE-008-T005 | Implement Chat UI              | feature | 3.5      | ⬜     |
-| WP-FE-008-T006 | Implement Audio Playback       | feature | 2.5      | ⬜     |
-| WP-FE-008-T007 | Implement Corrections Display  | feature | 2.5      | ⬜     |
-| WP-FE-008-T008 | Implement Session Controls     | feature | 2        | ⬜     |
-| **Total**      |                                |         | **20.5** |        |
+| Task ID        | Name                           | Type    | Hours    | Status           |
+| -------------- | ------------------------------ | ------- | -------- | ---------------- |
+| WP-FE-008-T001 | Create Feature Structure       | setup   | 1.5      | ✅ (2026-01-07)  |
+| WP-FE-008-T002 | Implement Mode/Topic Selection | feature | 2.5      | ✅ (2026-01-07)  |
+| WP-FE-008-T003 | Implement Audio Recording      | feature | 3        | ✅ (2026-01-07)  |
+| WP-FE-008-T004 | Implement WebSocket Connection | feature | 3        | ✅ (2026-01-07)  |
+| WP-FE-008-T005 | Implement Chat UI              | feature | 3.5      | ✅ (2026-01-07)  |
+| WP-FE-008-T006 | Implement Audio Playback       | feature | 2.5      | ✅ (2026-01-07)  |
+| WP-FE-008-T007 | Implement Corrections Display  | feature | 2.5      | ✅ (2026-01-07)  |
+| WP-FE-008-T008 | Implement Session Controls     | feature | 2        | ✅ (2026-01-07)  |
+| **Total**      |                                |         | **20.5** | **✅ COMPLETED** |
 
 ---
 

@@ -90,6 +90,7 @@
   └────────────────────────────────────────┘
   ```
 - **Implementation Details**:
+
   ```dart
   class HomeScreen extends ConsumerWidget {
     @override
@@ -116,6 +117,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Greeting với user name và time-based message
   - [ ] Daily progress card với progress bar
@@ -190,6 +192,7 @@
   - `lib/features/home/presentation/widgets/recent_conversations_widget.dart`
   - `lib/features/home/presentation/widgets/conversation_list_item.dart`
 - **Implementation Details**:
+
   ```dart
   class ConversationListItem extends StatelessWidget {
     final RecentConversation conversation;
@@ -206,6 +209,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] List 5 most recent conversations
   - [ ] Each item shows: date, mode, duration, score
@@ -227,6 +231,7 @@
   - `lib/features/home/presentation/widgets/daily_progress_widget.dart`
   - `lib/features/home/presentation/widgets/streak_badge.dart`
 - **Implementation Details**:
+
   ```dart
   class DailyProgressWidget extends ConsumerWidget {
     @override
@@ -258,6 +263,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Progress bar showing today's practice vs goal
   - [ ] Streak badge với fire icon và number
@@ -314,15 +320,15 @@
 
 ## Task Summary
 
-| Task ID        | Name                          | Type    | Hours    | Status |
-| -------------- | ----------------------------- | ------- | -------- | ------ |
-| WP-FE-007-T001 | Create Home Feature Structure | setup   | 1        | ⬜     |
-| WP-FE-007-T002 | Implement Home Screen Layout  | feature | 3        | ⬜     |
-| WP-FE-007-T003 | Create Quick Action Cards     | feature | 1.5      | ⬜     |
-| WP-FE-007-T004 | Create Recent Conversations   | feature | 1.5      | ⬜     |
-| WP-FE-007-T005 | Create Daily Progress Widget  | feature | 2        | ⬜     |
-| WP-FE-007-T006 | Implement Navigation          | feature | 1.5      | ⬜     |
-| **Total**      |                               |         | **10.5** |        |
+| Task ID        | Name                          | Type    | Hours    | Status           |
+| -------------- | ----------------------------- | ------- | -------- | ---------------- |
+| WP-FE-007-T001 | Create Home Feature Structure | setup   | 1        | ✅ (2026-01-07)  |
+| WP-FE-007-T002 | Implement Home Screen Layout  | feature | 3        | ✅ (2026-01-07)  |
+| WP-FE-007-T003 | Create Quick Action Cards     | feature | 1.5      | ✅ (2026-01-07)  |
+| WP-FE-007-T004 | Create Recent Conversations   | feature | 1.5      | ✅ (2026-01-07)  |
+| WP-FE-007-T005 | Create Daily Progress Widget  | feature | 2        | ✅ (2026-01-07)  |
+| WP-FE-007-T006 | Implement Navigation          | feature | 1.5      | ✅ (2026-01-07)  |
+| **Total**      |                               |         | **10.5** | **✅ COMPLETED** |
 
 ---
 
