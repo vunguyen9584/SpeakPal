@@ -1,7 +1,7 @@
 # CONTINUITY LEDGER
 
 - Goal (incl. success criteria): Maintain session continuity across context compaction for the SpeakPal project.
-- Constraints/Assumptions: Follow rules in `AGENTS.md`.
+- Constraints/Assumptions: Follow rules in `.agent\rules\rules.md`.
 - Key decisions: Use `CONTINUITY.md` as the source of truth for session state.
 - State:
   - Done:
@@ -12,5 +12,5 @@
     - Confirm with BMad about the setup.
 - Open questions (UNCONFIRMED if needed): None.
 - Working set (files/ids/commands):
-  - `AGENTS.md`
+  - `.agent\rules\rules.md`
   - `CONTINUITY.md`
