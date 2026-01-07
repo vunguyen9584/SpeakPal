@@ -1,3 +1,4 @@
+import 'dart:convert';
 import '../storage/secure_storage.dart';
 
 /// Token Manager - Handles JWT tokens
