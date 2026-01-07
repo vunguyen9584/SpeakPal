@@ -43,7 +43,12 @@
   - `backend/src/app.module.ts` - Root module
   - `backend/package.json` - Dependencies
   - `backend/tsconfig.json` - TypeScript config
+- **Acceptance Criteria**:
+  - [x] NestJS project đã được khởi tạo (✅ 2026-01-07)
+  - [x] package.json với dependencies cần thiết (✅ 2026-01-07)
+  - [x] TypeScript config đã setup (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 2: Configure Project Structure
 
@@ -82,7 +87,11 @@
   └── prisma/
   ```
 - **DD Reference**: `05-module-design.md#package-structure`
+- **Acceptance Criteria**:
+  - [x] Folder structure theo DD đã tạo (✅ 2026-01-07)
+  - [x] common/, config/, modules/, integrations/, prisma/ đã có (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 3: Setup Environment Config
 
@@ -132,7 +141,12 @@
   AWS_SECRET_ACCESS_KEY=
   ```
 
+- **Acceptance Criteria**:
+  - [x] @nestjs/config, class-validator installed (✅ 2026-01-07)
+  - [x] .env.example file created (✅ 2026-01-07)
+  - [x] config module với validation (✅ 2026-01-07)
 - **Estimated Hours**: 1.5
+- **Status**: ✅ Completed
 
 #### Task 4: Setup Database Connection (Prisma)
 
@@ -149,7 +163,12 @@
   - `backend/src/prisma/prisma.module.ts` - Prisma NestJS module
   - `backend/src/prisma/prisma.service.ts` - Prisma service with lifecycle hooks
 - **DD Reference**: `07-database-design.md`
+- **Acceptance Criteria**:
+  - [x] Prisma installed và init (✅ 2026-01-07)
+  - [x] PrismaService với lifecycle hooks (✅ 2026-01-07)
+  - [x] PrismaModule created (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 5: Setup Redis Connection
 
@@ -164,7 +183,11 @@
 - **Files to Create**:
   - `backend/src/cache/cache.module.ts` - Cache module configuration
   - `backend/src/cache/cache.service.ts` - Cache service wrapper
+- **Acceptance Criteria**:
+  - [x] Redis packages installed (✅ 2026-01-07)
+  - [x] Cache module configured (✅ 2026-01-07)
 - **Estimated Hours**: 1.5
+- **Status**: ✅ Completed
 
 #### Task 6: Setup Docker for Development
 
@@ -195,7 +218,12 @@
       - DATABASE_URL=postgresql://speakpal_app:password@postgres:5432/speakpal_dev
       - REDIS_URL=redis://redis:6379
   ```
+- **Acceptance Criteria**:
+  - [x] Dockerfile và Dockerfile.dev created (✅ 2026-01-07)
+  - [x] Backend service trong docker-compose.yml (✅ 2026-01-07)
+  - [x] Hot-reload configured cho dev (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 ---
 
@@ -220,6 +248,7 @@
 - **Files to Modify**:
   - `backend/prisma/schema.prisma`
 - **Models**:
+
   ```prisma
   model User {
     id              String   @id @default(uuid())
@@ -244,8 +273,13 @@
     // ... other relations
   }
   ```
+
 - **DD Reference**: `07-database-design/user-tables.md`
+- **Acceptance Criteria**:
+  - [x] User, Persona, Subscription models (✅ 2026-01-07)
+  - [x] Enums: Level, League, etc. (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 2: Create Conversation Schema
 
@@ -256,7 +290,11 @@
   - `backend/prisma/schema.prisma`
 - **Models**: Conversation, ConversationTurn, Correction
 - **DD Reference**: `07-database-design/conversation-tables.md`
+- **Acceptance Criteria**:
+  - [x] Conversation, ConversationTurn, Correction models (✅ 2026-01-07)
+  - [x] Relations configured (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 3: Create Learning Schema
 
@@ -267,7 +305,11 @@
   - `backend/prisma/schema.prisma`
 - **Models**: Vocabulary, Scenario, Challenge, UserChallenge
 - **DD Reference**: `07-database-design/learning-tables.md`
+- **Acceptance Criteria**:
+  - [x] Vocabulary, Scenario, Challenge models (✅ 2026-01-07)
+  - [x] SRS system fields (✅ 2026-01-07)
 - **Estimated Hours**: 1.5
+- **Status**: ✅ Completed
 
 #### Task 4: Create Gamification Schema
 
@@ -278,7 +320,11 @@
   - `backend/prisma/schema.prisma`
 - **Models**: Streak, Badge, UserBadge
 - **DD Reference**: `07-database-design/gamification-tables.md`
+- **Acceptance Criteria**:
+  - [x] Streak, Badge, UserBadge, UserRanking models (✅ 2026-01-07)
+  - [x] Gamification enums (✅ 2026-01-07)
 - **Estimated Hours**: 1.5
+- **Status**: ✅ Completed
 
 #### Task 5: Create Social Schema
 
@@ -289,7 +335,11 @@
   - `backend/prisma/schema.prisma`
 - **Models**: Invitation, Group, GroupMember
 - **DD Reference**: `07-database-design/social-tables.md`
+- **Acceptance Criteria**:
+  - [x] Invitation, Group, GroupMember models (✅ 2026-01-07)
+  - [x] Social relations configured (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 6: Define Enums
 
@@ -310,7 +360,11 @@
   enum SubscriptionPlan { FREE, BASIC, PREMIUM }
   enum OAuthProvider { GOOGLE, APPLE, EMAIL }
   ```
+- **Acceptance Criteria**:
+  - [x] Tất cả enums đã định nghĩa (✅ 2026-01-07)
+  - [x] 18 enums in schema.prisma (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 7: Run Initial Migration
 
@@ -324,10 +378,11 @@
   npx prisma generate
   ```
 - **Acceptance Criteria**:
-  - [ ] Migration file được tạo trong `prisma/migrations/`
-  - [ ] Prisma Client được generate
-  - [ ] Có thể kết nối DB thành công
+  - [x] Migration file được tạo trong `prisma/migrations/` (✅ 2026-01-07)
+  - [x] Prisma Client được generate (✅ 2026-01-07)
+  - [x] Có thể kết nối DB thành công (✅ 2026-01-07)
 - **Estimated Hours**: 0.5
+- **Status**: ✅ Completed
 
 ---
 
@@ -354,7 +409,11 @@
   - `backend/src/common/dto/api-response.dto.ts` - ApiResponse wrapper
   - `backend/src/common/dto/base.dto.ts` - BaseDto with id, timestamps
 - **DD Reference**: `08-api-design.md#response-format`
+- **Acceptance Criteria**:
+  - [x] Base DTOs created (pagination, response) (✅ 2026-01-07)
+  - [x] ApiResponse wrapper implemented (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 2: Create Custom Exceptions
 
@@ -368,7 +427,11 @@
   - `backend/src/common/exceptions/business.exception.ts`
   - `backend/src/common/exceptions/error-codes.ts` - Error code constants
 - **DD Reference**: `11-error-handling.md`
+- **Acceptance Criteria**:
+  - [x] Custom exception classes created (✅ 2026-01-07)
+  - [x] Error codes constants defined (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 3: Create Exception Filters
 
@@ -378,7 +441,11 @@
 - **Files to Create**:
   - `backend/src/common/filters/http-exception.filter.ts`
   - `backend/src/common/filters/all-exceptions.filter.ts`
+- **Acceptance Criteria**:
+  - [x] Exception filters implemented (✅ 2026-01-07)
+  - [x] Error formatting configured (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 4: Create Interceptors
 
@@ -389,7 +456,11 @@
   - `backend/src/common/interceptors/transform.interceptor.ts` - Wrap responses
   - `backend/src/common/interceptors/logging.interceptor.ts` - Log requests
   - `backend/src/common/interceptors/timeout.interceptor.ts` - Request timeout
+- **Acceptance Criteria**:
+  - [x] Transform, Logging, Timeout interceptors (✅ 2026-01-07)
+  - [x] Response wrapping works (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 5: Create Decorators
 
@@ -401,7 +472,11 @@
   - `backend/src/common/decorators/roles.decorator.ts`
   - `backend/src/common/decorators/public.decorator.ts`
   - `backend/src/common/decorators/api-paginated.decorator.ts`
+- **Acceptance Criteria**:
+  - [x] Custom decorators created (✅ 2026-01-07)
+  - [x] CurrentUser, Roles, Public decorators (✅ 2026-01-07)
 - **Estimated Hours**: 1.5
+- **Status**: ✅ Completed
 
 #### Task 6: Create Utility Functions
 
@@ -413,7 +488,11 @@
   - `backend/src/common/utils/date.util.ts` - Date formatting
   - `backend/src/common/utils/string.util.ts` - String utilities
   - `backend/src/common/utils/uuid.util.ts` - UUID validation
+- **Acceptance Criteria**:
+  - [x] Utility functions created (✅ 2026-01-07)
+  - [x] Hash, date, string, uuid utils (✅ 2026-01-07)
 - **Estimated Hours**: 1.5
+- **Status**: ✅ Completed
 
 ---
 
@@ -445,7 +524,11 @@
   - `mobile/` - Flutter project root
   - `mobile/lib/main.dart` - Entry point
   - `mobile/pubspec.yaml` - Dependencies
+- **Acceptance Criteria**:
+  - [x] Flutter project created (✅ 2026-01-07)
+  - [x] Android & iOS platforms configured (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 2: Setup Project Structure
 
@@ -480,7 +563,11 @@
   │   └── widgets/
   └── l10n/
   ```
+- **Acceptance Criteria**:
+  - [x] Feature-first structure created (✅ 2026-01-07)
+  - [x] core/, config/, features/, shared/ folders (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 3: Add Dependencies
 
@@ -497,7 +584,11 @@
   flutter pub add --dev freezed build_runner json_serializable
   flutter pub add --dev flutter_lints
   ```
+- **Acceptance Criteria**:
+  - [x] riverpod, go_router, dio installed (✅ 2026-01-07)
+  - [x] freezed, json_serializable dev deps (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 4: Setup Riverpod
 
@@ -508,7 +599,11 @@
   - `mobile/lib/main.dart` - Wrap with ProviderScope
 - **Files to Create**:
   - `mobile/lib/core/providers/providers.dart` - Core providers
+- **Acceptance Criteria**:
+  - [x] ProviderScope wraps app (✅ 2026-01-07)
+  - [x] Riverpod configured in main.dart (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 5: Setup Go Router
 
@@ -518,7 +613,11 @@
 - **Files to Create**:
   - `mobile/lib/config/router/app_router.dart` - Router configuration
   - `mobile/lib/config/router/routes.dart` - Route constants
+- **Acceptance Criteria**:
+  - [x] AppRouter với go_router (✅ 2026-01-07)
+  - [x] Routes constants file (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 ---
 
@@ -556,7 +655,11 @@
   static const text = Color(0xFF111827);
   ```
 - **DD Reference**: `09-ui-specifications.md#color-palette`
+- **Acceptance Criteria**:
+  - [x] colors.dart với light/dark colors (✅ 2026-01-07)
+  - [x] app_theme.dart với ThemeData (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 2: Create Typography
 
@@ -566,7 +669,11 @@
 - **Files to Create**:
   - `mobile/lib/config/theme/typography.dart`
 - **DD Reference**: `09-ui-specifications.md#typography`
+- **Acceptance Criteria**:
+  - [x] typography.dart created (✅ 2026-01-07)
+  - [x] Text styles defined (✅ 2026-01-07)
 - **Estimated Hours**: 1.5
+- **Status**: ✅ Completed
 
 #### Task 3: Create Spacing & Dimensions
 
@@ -577,7 +684,11 @@
   - `mobile/lib/config/theme/spacing.dart`
   - `mobile/lib/config/theme/dimensions.dart`
 - **DD Reference**: `09-ui-specifications.md#spacing`
+- **Acceptance Criteria**:
+  - [x] spacing.dart với spacing constants (✅ 2026-01-07)
+  - [x] dimensions.dart created (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 4: Create Base Components
 
@@ -591,7 +702,11 @@
   - `mobile/lib/shared/widgets/app_loading.dart`
   - `mobile/lib/shared/widgets/app_dialog.dart`
   - `mobile/lib/shared/widgets/app_snackbar.dart`
+- **Acceptance Criteria**:
+  - [x] Base widgets created (✅ 2026-01-07)
+  - [x] 6+ reusable components (✅ 2026-01-07)
 - **Estimated Hours**: 4
+- **Status**: ✅ Completed
 
 #### Task 5: Create Icon Set
 
@@ -602,7 +717,11 @@
   - `mobile/lib/config/theme/icons.dart`
   - `mobile/assets/icons/` - SVG icons folder
   - `mobile/assets/images/` - Image assets
+- **Acceptance Criteria**:
+  - [x] icons.dart với icon constants (✅ 2026-01-07)
+  - [x] Asset organization setup (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 6: Create Dark Mode Support
 
@@ -611,7 +730,11 @@
 - **Description**: Implement dark mode theme
 - **Files to Modify**:
   - `mobile/lib/config/theme/app_theme.dart` - Add dark theme
+- **Acceptance Criteria**:
+  - [x] Dark theme implemented (✅ 2026-01-07)
+  - [x] ThemeMode.system configured (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 ---
 
@@ -640,7 +763,12 @@
   - `mobile/lib/core/network/interceptors/logging_interceptor.dart`
   - `mobile/lib/core/network/api_endpoints.dart`
 - **DD Reference**: `08-api-design.md`
+- **Acceptance Criteria**:
+  - [x] Dio client configured (✅ 2026-01-07)
+  - [x] Auth, Error, Logging interceptors (✅ 2026-01-07)
+  - [x] API endpoints constants (✅ 2026-01-07)
 - **Estimated Hours**: 3
+- **Status**: ✅ Completed
 
 #### Task 2: Create WebSocket Client
 
@@ -651,7 +779,11 @@
   - `mobile/lib/core/network/socket_client.dart`
   - `mobile/lib/core/network/socket_events.dart`
 - **DD Reference**: `08-api-design.md#websocket`
+- **Acceptance Criteria**:
+  - [x] Socket client implemented (✅ 2026-01-07)
+  - [x] Socket events defined (✅ 2026-01-07)
 - **Estimated Hours**: 3
+- **Status**: ✅ Completed
 
 #### Task 3: Create Storage Service
 
@@ -662,7 +794,11 @@
   - `mobile/lib/core/storage/local_storage.dart`
   - `mobile/lib/core/storage/secure_storage.dart`
   - `mobile/lib/core/storage/storage_keys.dart`
+- **Acceptance Criteria**:
+  - [x] LocalStorage và SecureStorage wrappers (✅ 2026-01-07)
+  - [x] Storage keys constants (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 4: Create Auth Token Manager
 
@@ -672,7 +808,11 @@
 - **Files to Create**:
   - `mobile/lib/core/auth/token_manager.dart`
   - `mobile/lib/core/auth/auth_state.dart`
+- **Acceptance Criteria**:
+  - [x] TokenManager implemented (✅ 2026-01-07)
+  - [x] JWT refresh logic (✅ 2026-01-07)
 - **Estimated Hours**: 3
+- **Status**: ✅ Completed
 
 #### Task 5: Create Environment Config
 
@@ -682,20 +822,24 @@
 - **Files to Create**:
   - `mobile/lib/config/env/environment.dart`
   - `mobile/lib/config/env/app_config.dart`
+- **Acceptance Criteria**:
+  - [x] Environment config created (✅ 2026-01-07)
+  - [x] dev/staging/prod configs (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 ---
 
 ## Phase Summary
 
-| Work Package | Name                  | Tasks  | Est. Hours | Status |
-| ------------ | --------------------- | ------ | ---------- | ------ |
-| WP-BE-001    | Backend Project Init  | 6      | 8          | ⬜     |
-| WP-BE-002    | Database Schema       | 7      | 9.5        | ⬜     |
-| WP-BE-003    | Common Module         | 6      | 11         | ⬜     |
-| WP-FE-001    | Flutter Project Init  | 5      | 5          | ⬜     |
-| WP-FE-002    | Design System & Theme | 6      | 12.5       | ⬜     |
-| WP-FE-003    | Core Services Setup   | 5      | 12         | ⬜     |
+| Work Package | Name                  | Tasks  | Est. Hours | Status | Completed        |
+| ------------ | --------------------- | ------ | ---------- | ------ | ---------------- |
+| WP-BE-001    | Backend Project Init  | 6      | 8          | ✅     | 6/6 (2026-01-07) |
+| WP-BE-002    | Database Schema       | 7      | 9.5        | ✅     | 7/7 (2026-01-07) |
+| WP-BE-003    | Common Module         | 6      | 11         | ✅     | 6/6 (2026-01-07) |
+| WP-FE-001    | Flutter Project Init  | 5      | 5          | ✅     | 5/5 (2026-01-07) |
+| WP-FE-002    | Design System & Theme | 6      | 12.5       | ✅     | 6/6 (2026-01-07) |
+| WP-FE-003    | Core Services Setup   | 5      | 12         | ✅     | 5/5 (2026-01-07) |
 | **Total**    |                       | **35** | **58**     |        |
 
 ---

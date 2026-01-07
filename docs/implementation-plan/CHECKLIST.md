@@ -11,212 +11,212 @@
 
 ## Progress
 
-- **Total Tasks**: 293
-- **Completed**: 0
-- **Progress**: 0%
+- **Total Tasks**: 339
+- **Completed**: 119
+- **Progress**: 35.1%
 
 ---
 
 ## Phase 0: Infrastructure Setup (17 tasks)
 
-### WP-INF-001: PostgreSQL Database Setup (4 tasks)
+### WP-INF-001: PostgreSQL Database Setup (4 tasks) - ✅ COMPLETED
 
-- [ ] WP-INF-001-T001: Install PostgreSQL
-- [ ] WP-INF-001-T002: Create Database
-- [ ] WP-INF-001-T003: Configure Access
-- [ ] WP-INF-001-T004: Add to Docker Compose
+- [x] WP-INF-001-T001: Install PostgreSQL (✅ 2026-01-07)
+- [x] WP-INF-001-T002: Create Database (✅ 2026-01-07)
+- [x] WP-INF-001-T003: Configure Access (✅ 2026-01-07)
+- [x] WP-INF-001-T004: Add to Docker Compose (✅ 2026-01-07)
 
-### WP-INF-002: Redis Cache Setup (3 tasks)
+### WP-INF-002: Redis Cache Setup (3 tasks) - ✅ COMPLETED
 
-- [ ] WP-INF-002-T001: Install Redis
-- [ ] WP-INF-002-T002: Configure Redis
-- [ ] WP-INF-002-T003: Add to Docker Compose
+- [x] WP-INF-002-T001: Install Redis (✅ 2026-01-07)
+- [x] WP-INF-002-T002: Configure Redis (✅ 2026-01-07)
+- [x] WP-INF-002-T003: Add to Docker Compose (✅ 2026-01-07)
 
-### WP-INF-003: AWS S3 Storage Setup (3 tasks)
+### WP-INF-003: AWS S3 Storage Setup (3 tasks) - 🟡 PARTIAL (MinIO done)
 
-- [ ] WP-INF-003-T001: Create S3 Bucket
-- [ ] WP-INF-003-T002: Configure CORS & Policies
-- [ ] WP-INF-003-T003: Setup MinIO for Local Dev
+- [ ] WP-INF-003-T001: Create S3 Bucket (⬜ Pending - AWS Console)
+- [ ] WP-INF-003-T002: Configure CORS & Policies (⬜ Pending - AWS Console)
+- [x] WP-INF-003-T003: Setup MinIO for Local Dev (✅ 2026-01-07)
 
-### WP-INF-004: Firebase Project Setup (4 tasks)
+### WP-INF-004: Firebase Project Setup (4 tasks) - ⬜ PENDING
 
-- [ ] WP-INF-004-T001: Create Firebase Project
-- [ ] WP-INF-004-T002: Enable Auth Providers
-- [ ] WP-INF-004-T003: Download Credentials
-- [ ] WP-INF-004-T004: Setup Flutter Firebase
+- [ ] WP-INF-004-T001: Create Firebase Project (⬜ Pending - Firebase Console)
+- [ ] WP-INF-004-T002: Enable Auth Providers (⬜ Pending - Firebase Console)
+- [ ] WP-INF-004-T003: Download Credentials (⬜ Pending - No .env file)
+- [ ] WP-INF-004-T004: Setup Flutter Firebase (⬜ Pending - No config files)
 
-### WP-INF-005: CI/CD Pipeline Setup (3 tasks)
+### WP-INF-005: CI/CD Pipeline Setup (3 tasks) - 🟡 PARTIAL (Workflows done)
 
-- [ ] WP-INF-005-T001: Create Backend CI Workflow
-- [ ] WP-INF-005-T002: Create Flutter CI Workflow
-- [ ] WP-INF-005-T003: Configure Branch Protection
+- [x] WP-INF-005-T001: Create Backend CI Workflow (✅ 2026-01-07)
+- [x] WP-INF-005-T002: Create Flutter CI Workflow (✅ 2026-01-07)
+- [ ] WP-INF-005-T003: Configure Branch Protection (⬜ Pending - GitHub repo settings)
 
 ---
 
 ## Phase 1: Foundation (35 tasks)
 
-### WP-BE-001: Backend Project Init (6 tasks)
+### WP-BE-001: Backend Project Init (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-001-T001: Initialize NestJS Project
-- [ ] WP-BE-001-T002: Configure Project Structure
-- [ ] WP-BE-001-T003: Setup Environment Config
-- [ ] WP-BE-001-T004: Setup Database Connection (Prisma)
-- [ ] WP-BE-001-T005: Setup Redis Connection
-- [ ] WP-BE-001-T006: Setup Docker for Development
+- [x] WP-BE-001-T001: Initialize NestJS Project (✅ 2026-01-07)
+- [x] WP-BE-001-T002: Configure Project Structure (✅ 2026-01-07)
+- [x] WP-BE-001-T003: Setup Environment Config (✅ 2026-01-07)
+- [x] WP-BE-001-T004: Setup Database Connection (Prisma) (✅ 2026-01-07)
+- [x] WP-BE-001-T005: Setup Redis Connection (✅ 2026-01-07)
+- [x] WP-BE-001-T006: Setup Docker for Development (✅ 2026-01-07)
 
-### WP-BE-002: Database Schema & Migration (7 tasks)
+### WP-BE-002: Database Schema & Migration (7 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-002-T001: Create User & Auth Schema
-- [ ] WP-BE-002-T002: Create Conversation Schema
-- [ ] WP-BE-002-T003: Create Learning Schema
-- [ ] WP-BE-002-T004: Create Gamification Schema
-- [ ] WP-BE-002-T005: Create Social Schema
-- [ ] WP-BE-002-T006: Define Enums
-- [ ] WP-BE-002-T007: Run Initial Migration
+- [x] WP-BE-002-T001: Create User & Auth Schema (✅ 2026-01-07)
+- [x] WP-BE-002-T002: Create Conversation Schema (✅ 2026-01-07)
+- [x] WP-BE-002-T003: Create Learning Schema (✅ 2026-01-07)
+- [x] WP-BE-002-T004: Create Gamification Schema (✅ 2026-01-07)
+- [x] WP-BE-002-T005: Create Social Schema (✅ 2026-01-07)
+- [x] WP-BE-002-T006: Define Enums (✅ 2026-01-07)
+- [x] WP-BE-002-T007: Run Initial Migration (✅ 2026-01-07)
 
-### WP-BE-003: Common Module (6 tasks)
+### WP-BE-003: Common Module (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-003-T001: Create Base DTOs
-- [ ] WP-BE-003-T002: Create Custom Exceptions
-- [ ] WP-BE-003-T003: Create Exception Filters
-- [ ] WP-BE-003-T004: Create Interceptors
-- [ ] WP-BE-003-T005: Create Decorators
-- [ ] WP-BE-003-T006: Create Utility Functions
+- [x] WP-BE-003-T001: Create Base DTOs (✅ 2026-01-07)
+- [x] WP-BE-003-T002: Create Custom Exceptions (✅ 2026-01-07)
+- [x] WP-BE-003-T003: Create Exception Filters (✅ 2026-01-07)
+- [x] WP-BE-003-T004: Create Interceptors (✅ 2026-01-07)
+- [x] WP-BE-003-T005: Create Decorators (✅ 2026-01-07)
+- [x] WP-BE-003-T006: Create Utility Functions (✅ 2026-01-07)
 
-### WP-FE-001: Flutter Project Init (5 tasks)
+### WP-FE-001: Flutter Project Init (5 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-001-T001: Create Flutter Project
-- [ ] WP-FE-001-T002: Setup Project Structure
-- [ ] WP-FE-001-T003: Add Dependencies
-- [ ] WP-FE-001-T004: Setup Riverpod
-- [ ] WP-FE-001-T005: Setup Go Router
+- [x] WP-FE-001-T001: Create Flutter Project (✅ 2026-01-07)
+- [x] WP-FE-001-T002: Setup Project Structure (✅ 2026-01-07)
+- [x] WP-FE-001-T003: Add Dependencies (✅ 2026-01-07)
+- [x] WP-FE-001-T004: Setup Riverpod (✅ 2026-01-07)
+- [x] WP-FE-001-T005: Setup Go Router (✅ 2026-01-07)
 
-### WP-FE-002: Design System & Theme (6 tasks)
+### WP-FE-002: Design System & Theme (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-002-T001: Create Color Theme
-- [ ] WP-FE-002-T002: Create Typography
-- [ ] WP-FE-002-T003: Create Spacing & Dimensions
-- [ ] WP-FE-002-T004: Create Base Components
-- [ ] WP-FE-002-T005: Create Icon Set
-- [ ] WP-FE-002-T006: Create Dark Mode Support
+- [x] WP-FE-002-T001: Create Color Theme (✅ 2026-01-07)
+- [x] WP-FE-002-T002: Create Typography (✅ 2026-01-07)
+- [x] WP-FE-002-T003: Create Spacing & Dimensions (✅ 2026-01-07)
+- [x] WP-FE-002-T004: Create Base Components (✅ 2026-01-07)
+- [x] WP-FE-002-T005: Create Icon Set (✅ 2026-01-07)
+- [x] WP-FE-002-T006: Create Dark Mode Support (✅ 2026-01-07)
 
-### WP-FE-003: Core Services Setup (5 tasks)
+### WP-FE-003: Core Services Setup (5 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-003-T001: Create API Client
-- [ ] WP-FE-003-T002: Create WebSocket Client
-- [ ] WP-FE-003-T003: Create Storage Service
-- [ ] WP-FE-003-T004: Create Auth Token Manager
-- [ ] WP-FE-003-T005: Create Environment Config
+- [x] WP-FE-003-T001: Create API Client (✅ 2026-01-07)
+- [x] WP-FE-003-T002: Create WebSocket Client (✅ 2026-01-07)
+- [x] WP-FE-003-T003: Create Storage Service (✅ 2026-01-07)
+- [x] WP-FE-003-T004: Create Auth Token Manager (✅ 2026-01-07)
+- [x] WP-FE-003-T005: Create Environment Config (✅ 2026-01-07)
 
 ---
 
 ## Phase 2: Auth & User (41 tasks)
 
-### WP-BE-004: Auth Module (8 tasks)
+### WP-BE-004: Auth Module (8 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-004-T001: Create Auth Module Structure
-- [ ] WP-BE-004-T002: Create Auth DTOs
-- [ ] WP-BE-004-T003: Implement JWT Strategy
-- [ ] WP-BE-004-T004: Implement Auth Guards
-- [ ] WP-BE-004-T005: Implement Register & Login
-- [ ] WP-BE-004-T006: Implement Token Refresh
-- [ ] WP-BE-004-T007: Implement Password Reset
-- [ ] WP-BE-004-T008: Implement Firebase OAuth
+- [x] WP-BE-004-T001: Create Auth Module Structure (✅ 2026-01-07)
+- [x] WP-BE-004-T002: Create Auth DTOs (✅ 2026-01-07)
+- [x] WP-BE-004-T003: Implement JWT Strategy (✅ 2026-01-07)
+- [x] WP-BE-004-T004: Implement Auth Guards (✅ 2026-01-07)
+- [x] WP-BE-004-T005: Implement Register & Login (✅ 2026-01-07)
+- [x] WP-BE-004-T006: Implement Token Refresh (✅ 2026-01-07)
+- [x] WP-BE-004-T007: Implement Password Reset (✅ 2026-01-07)
+- [x] WP-BE-004-T008: Implement Firebase OAuth (✅ 2026-01-07)
 
-### WP-BE-005: User Module (6 tasks)
+### WP-BE-005: User Module (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-005-T001: Create User Module Structure
-- [ ] WP-BE-005-T002: Create User DTOs
-- [ ] WP-BE-005-T003: Implement User Repository
-- [ ] WP-BE-005-T004: Implement User Service
-- [ ] WP-BE-005-T005: Implement User Controller
-- [ ] WP-BE-005-T006: Add Unit Tests
+- [x] WP-BE-005-T001: Create User Module Structure (✅ 2026-01-07)
+- [x] WP-BE-005-T002: Create User DTOs (✅ 2026-01-07)
+- [x] WP-BE-005-T003: Implement User Repository (✅ 2026-01-07)
+- [x] WP-BE-005-T004: Implement User Service (✅ 2026-01-07)
+- [x] WP-BE-005-T005: Implement User Controller (✅ 2026-01-07)
+- [x] WP-BE-005-T006: Add Unit Tests (✅ 2026-01-07)
 
-### WP-BE-006: Persona Module (5 tasks)
+### WP-BE-006: Persona Module (5 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-006-T001: Create Persona Module Structure
-- [ ] WP-BE-006-T002: Create Persona DTOs
-- [ ] WP-BE-006-T003: Implement Persona Service
-- [ ] WP-BE-006-T004: Implement Persona Controller
-- [ ] WP-BE-006-T005: Add Unit Tests
+- [x] WP-BE-006-T001: Create Persona Module Structure (✅ 2026-01-07)
+- [x] WP-BE-006-T002: Create Persona DTOs (✅ 2026-01-07)
+- [x] WP-BE-006-T003: Implement Persona Service (✅ 2026-01-07)
+- [x] WP-BE-006-T004: Implement Persona Controller (✅ 2026-01-07)
+- [x] WP-BE-006-T005: Add Unit Tests (✅ 2026-01-07)
 
-### WP-FE-004: Auth Screens (7 tasks)
+### WP-FE-004: Auth Screens (7 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-004-T001: Create Auth Feature Structure
-- [ ] WP-FE-004-T002: Create Auth Models
-- [ ] WP-FE-004-T003: Create Auth Repository
-- [ ] WP-FE-004-T004: Create Auth Providers
-- [ ] WP-FE-004-T005: Implement Login Screen
-- [ ] WP-FE-004-T006: Implement Register Screen
-- [ ] WP-FE-004-T007: Implement Forgot Password Screen
+- [x] WP-FE-004-T001: Create Auth Feature Structure (✅ 2026-01-07)
+- [x] WP-FE-004-T002: Create Auth Models (✅ 2026-01-07)
+- [x] WP-FE-004-T003: Create Auth Repository (✅ 2026-01-07)
+- [x] WP-FE-004-T004: Create Auth Providers (✅ 2026-01-07)
+- [x] WP-FE-004-T005: Implement Login Screen (✅ 2026-01-07)
+- [x] WP-FE-004-T006: Implement Register Screen (✅ 2026-01-07)
+- [x] WP-FE-004-T007: Implement Forgot Password Screen (✅ 2026-01-07)
 
-### WP-FE-005: Onboarding Screens (5 tasks)
+### WP-FE-005: Onboarding Screens (5 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-005-T001: Create Onboarding Feature Structure
-- [ ] WP-FE-005-T002: Implement Welcome Screen
-- [ ] WP-FE-005-T003: Implement Level Selection
-- [ ] WP-FE-005-T004: Implement Persona Setup
-- [ ] WP-FE-005-T005: Implement Onboarding Flow
+- [x] WP-FE-005-T001: Create Onboarding Feature Structure (✅ 2026-01-07)
+- [x] WP-FE-005-T002: Implement Welcome Screen (✅ 2026-01-07)
+- [x] WP-FE-005-T003: Implement Level Selection (✅ 2026-01-07)
+- [x] WP-FE-005-T004: Implement Persona Setup (✅ 2026-01-07)
+- [x] WP-FE-005-T005: Implement Onboarding Flow (✅ 2026-01-07)
 
-### WP-FE-006: Profile & Settings (5 tasks)
+### WP-FE-006: Profile & Settings (5 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-006-T001: Create Profile Feature Structure
-- [ ] WP-FE-006-T002: Create Profile Repository
-- [ ] WP-FE-006-T003: Implement Profile Screen
-- [ ] WP-FE-006-T004: Implement Settings Screen
-- [ ] WP-FE-006-T005: Implement Edit Profile Screen
+- [x] WP-FE-006-T001: Create Profile Feature Structure (✅ 2026-01-07)
+- [x] WP-FE-006-T002: Create Profile Repository (✅ 2026-01-07)
+- [x] WP-FE-006-T003: Implement Profile Screen (✅ 2026-01-07)
+- [x] WP-FE-006-T004: Implement Settings Screen (✅ 2026-01-07)
+- [x] WP-FE-006-T005: Implement Edit Profile Screen (✅ 2026-01-07)
 
 ---
 
 ## Phase 3: Conversation (50 tasks)
 
-### WP-BE-007: Conversation Module (8 tasks)
+### WP-BE-007: Conversation Module (8 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-007-T001: Create Module Structure
-- [ ] WP-BE-007-T002: Create Conversation DTOs
-- [ ] WP-BE-007-T003: Implement Conversation Repository
-- [ ] WP-BE-007-T004: Implement Session Management
-- [ ] WP-BE-007-T005: Implement Turn Handling
-- [ ] WP-BE-007-T006: Implement Conversation Controller
-- [ ] WP-BE-007-T007: Implement XP Calculation
-- [ ] WP-BE-007-T008: Add Unit Tests
+- [x] WP-BE-007-T001: Create Module Structure (✅ 2026-01-07)
+- [x] WP-BE-007-T002: Create Conversation DTOs (✅ 2026-01-07)
+- [x] WP-BE-007-T003: Implement Conversation Repository (✅ 2026-01-07)
+- [x] WP-BE-007-T004: Implement Session Management (✅ 2026-01-07)
+- [x] WP-BE-007-T005: Implement Turn Handling (✅ 2026-01-07)
+- [x] WP-BE-007-T006: Implement Conversation Controller (✅ 2026-01-07)
+- [x] WP-BE-007-T007: Implement XP Calculation (✅ 2026-01-07)
+- [x] WP-BE-007-T008: Add Unit Tests (✅ 2026-01-07)
 
-### WP-BE-008: AI Orchestrator (7 tasks)
+### WP-BE-008: AI Orchestrator (7 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-008-T001: Create Orchestrator Module
-- [ ] WP-BE-008-T002: Implement Pipeline Coordinator
-- [ ] WP-BE-008-T003: Integrate STT (Deepgram)
-- [ ] WP-BE-008-T004: Integrate LLM (GPT-4o)
-- [ ] WP-BE-008-T005: Integrate TTS (ElevenLabs)
-- [ ] WP-BE-008-T006: Implement Streaming Handler
-- [ ] WP-BE-008-T007: Add Error Handling & Fallbacks
+- [x] WP-BE-008-T001: Create Orchestrator Module (✅ 2026-01-07)
+- [x] WP-BE-008-T002: Implement Pipeline Coordinator (✅ 2026-01-07)
+- [x] WP-BE-008-T003: Integrate STT (Deepgram) (✅ 2026-01-07)
+- [x] WP-BE-008-T004: Integrate LLM (GPT-4o) (✅ 2026-01-07)
+- [x] WP-BE-008-T005: Integrate TTS (ElevenLabs) (✅ 2026-01-07)
+- [x] WP-BE-008-T006: Implement Streaming Handler (✅ 2026-01-07)
+- [x] WP-BE-008-T007: Add Error Handling & Fallbacks (✅ 2026-01-07)
 
-### WP-BE-009: WebSocket Gateway (6 tasks)
+### WP-BE-009: WebSocket Gateway (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-009-T001: Setup Socket.io Gateway
-- [ ] WP-BE-009-T002: Implement Connection Handler
-- [ ] WP-BE-009-T003: Implement Audio Stream Handler
-- [ ] WP-BE-009-T004: Implement Response Streaming
-- [ ] WP-BE-009-T005: Add Authentication Middleware
-- [ ] WP-BE-009-T006: Add Rate Limiting
+- [x] WP-BE-009-T001: Setup Socket.io Gateway (✅ 2026-01-07)
+- [x] WP-BE-009-T002: Implement Connection Handler (✅ 2026-01-07)
+- [x] WP-BE-009-T003: Implement Audio Stream Handler (✅ 2026-01-07)
+- [x] WP-BE-009-T004: Implement Response Streaming (✅ 2026-01-07)
+- [x] WP-BE-009-T005: Add Authentication Middleware (✅ 2026-01-07)
+- [x] WP-BE-009-T006: Add Rate Limiting (✅ 2026-01-07)
 
-### WP-BE-010: Feedback Module (6 tasks)
+### WP-BE-010: Feedback Module (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-010-T001: Create Module Structure
-- [ ] WP-BE-010-T002: Implement Error Detection (via GPT)
-- [ ] WP-BE-010-T003: Implement Correction Generation
-- [ ] WP-BE-010-T004: Implement Suggestion Generation
-- [ ] WP-BE-010-T005: Implement Vocabulary Extraction
-- [ ] WP-BE-010-T006: Add Unit Tests
+- [x] WP-BE-010-T001: Create Module Structure (✅ 2026-01-07)
+- [x] WP-BE-010-T002: Implement Error Detection (via GPT) (✅ 2026-01-07)
+- [x] WP-BE-010-T003: Implement Correction Generation (✅ 2026-01-07)
+- [x] WP-BE-010-T004: Implement Suggestion Generation (✅ 2026-01-07)
+- [x] WP-BE-010-T005: Implement Vocabulary Extraction (✅ 2026-01-07)
+- [x] WP-BE-010-T006: Add Unit Tests (✅ 2026-01-07)
 
-### WP-FE-007: Home & Dashboard (6 tasks)
+### WP-FE-007: Home & Dashboard (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-007-T001: Create Home Feature Structure
-- [ ] WP-FE-007-T002: Implement Home Screen Layout
-- [ ] WP-FE-007-T003: Create Quick Action Cards
-- [ ] WP-FE-007-T004: Create Recent Conversations Widget
-- [ ] WP-FE-007-T005: Create Daily Progress Widget
-- [ ] WP-FE-007-T006: Implement Navigation
+- [x] WP-FE-007-T001: Create Home Feature Structure (✅ 2026-01-07)
+- [x] WP-FE-007-T002: Implement Home Screen Layout (✅ 2026-01-07)
+- [x] WP-FE-007-T003: Create Quick Action Cards (✅ 2026-01-07)
+- [x] WP-FE-007-T004: Create Recent Conversations Widget (✅ 2026-01-07)
+- [x] WP-FE-007-T005: Create Daily Progress Widget (✅ 2026-01-07)
+- [x] WP-FE-007-T006: Implement Navigation (✅ 2026-01-07)
 
 ### WP-FE-008: Conversation Screen (8 tasks)
 
@@ -299,7 +299,76 @@
 
 ---
 
-## Phase 5: Social & Subscription (32 tasks)
+## Phase 5: Translation Practice (41 tasks) 🆕
+
+### WP-BE-017: Translation Service (BE) (6 tasks)
+
+- [ ] WP-BE-017-T001: Create Translation Module Structure
+- [ ] WP-BE-017-T002: Create Translation DTOs
+- [ ] WP-BE-017-T003: Implement Translation Question Repository
+- [ ] WP-BE-017-T004: Implement Translation Service (Scoring logic)
+- [ ] WP-BE-017-T005: Implement Translation Controller
+- [ ] WP-BE-017-T006: Add Unit Tests
+
+### WP-BE-018: Quick Response Service (BE) (6 tasks)
+
+- [ ] WP-BE-018-T001: Create Quick Response Module Structure
+- [ ] WP-BE-018-T002: Create Quick Response DTOs
+- [ ] WP-BE-018-T003: Implement Quick Response Repository
+- [ ] WP-BE-018-T004: Implement Quick Response Service
+- [ ] WP-BE-018-T005: Implement Quick Response Controller
+- [ ] WP-BE-018-T006: Add Unit Tests
+
+### WP-BE-019: Shadowing Service (BE) (6 tasks)
+
+- [ ] WP-BE-019-T001: Create Shadowing Module Structure
+- [ ] WP-BE-019-T002: Create Shadowing DTOs
+- [ ] WP-BE-019-T003: Implement Shadowing Repository
+- [ ] WP-BE-019-T004: Implement Shadowing Service (Audio Sync Analysis)
+- [ ] WP-BE-019-T005: Implement Shadowing Controller
+- [ ] WP-BE-019-T006: Add Unit Tests
+
+### WP-DB-001: Translation Tables Migration (3 tasks)
+
+- [ ] WP-DB-001-T001: Define Translation Schemas (Prisma)
+- [ ] WP-DB-001-T002: Create Migration Script
+- [ ] WP-DB-001-T003: Run Migration
+
+### WP-FE-015: Direct Translation Screen (FE) (5 tasks)
+
+- [ ] WP-FE-015-T001: Create Direct Translation Feature Structure
+- [ ] WP-FE-015-T002: Implement Topic Selection Screen
+- [ ] WP-FE-015-T003: Implement Voice Input Widget
+- [ ] WP-FE-015-T004: Implement Real-time Scoring Display
+- [ ] WP-FE-015-T005: Integrate Translation API
+
+### WP-FE-016: Intent Translation Screen (FE) (5 tasks)
+
+- [ ] WP-FE-016-T001: Create Intent Translation Feature Structure
+- [ ] WP-FE-016-T002: Implement Situation Display
+- [ ] WP-FE-016-T003: Implement Expression Input
+- [ ] WP-FE-016-T004: Implement Alternative Expressions View
+- [ ] WP-FE-016-T005: Integrate Intent API
+
+### WP-FE-017: Quick Response Screens (FE) (5 tasks)
+
+- [ ] WP-FE-017-T001: Create Quick Response Feature Structure
+- [ ] WP-FE-017-T002: Implement Flashcard/Word Association UI
+- [ ] WP-FE-017-T003: Implement Instant Drill UI
+- [ ] WP-FE-017-T004: Implement Timer & Score Widget
+- [ ] WP-FE-017-T005: Integrate Quick Response API
+
+### WP-FE-018: Shadowing Practice Screen (FE) (5 tasks)
+
+- [ ] WP-FE-018-T001: Create Shadowing Feature Structure
+- [ ] WP-FE-018-T002: Implement Audio Player with Waveform
+- [ ] WP-FE-018-T003: Implement Recording Interface
+- [ ] WP-FE-018-T004: Implement Comparison/Analysis View
+- [ ] WP-FE-018-T005: Integrate Shadowing API
+
+---
+
+## Phase 6: Social & Subscription (32 tasks)
 
 ### WP-BE-014: Social Module (6 tasks)
 
@@ -347,7 +416,7 @@
 
 ---
 
-## Phase 6: External Integration (30 tasks)
+## Phase 7: External Integration (30 tasks)
 
 ### WP-INT-001: Deepgram STT Integration (6 tasks)
 
@@ -396,7 +465,7 @@
 
 ---
 
-## Phase 7: Quality Assurance (30 tasks)
+## Phase 8: Quality Assurance (35 tasks)
 
 ### WP-QA-001: Backend Unit Tests (5 tasks)
 
@@ -446,9 +515,17 @@
 - [ ] WP-QA-006-T004: Data Security Review
 - [ ] WP-QA-006-T005: Dependency Vulnerability Scan
 
+### WP-QA-007: Translation Feature Tests (5 tasks)
+
+- [ ] WP-QA-007-T001: Translation Service Unit Tests
+- [ ] WP-QA-007-T002: Quick Response Service Unit Tests
+- [ ] WP-QA-007-T003: Shadowing Service Unit Tests
+- [ ] WP-QA-007-T004: Translation Flow Integration Tests
+- [ ] WP-QA-007-T005: Shadowing Audio Sync Tests
+
 ---
 
-## Phase 8: Deployment & Launch (18 tasks)
+## Phase 9: Deployment & Launch (18 tasks)
 
 ### WP-DEP-001: Kubernetes Setup (4 tasks)
 
@@ -490,20 +567,21 @@
 
 ## Summary
 
-| Phase     | Description             | WPs    | Tasks   | Status |
-| --------- | ----------------------- | ------ | ------- | ------ |
-| Phase 0   | Infrastructure Setup    | 5      | 17      | ⬜     |
-| Phase 1   | Foundation              | 6      | 35      | ⬜     |
-| Phase 2   | Auth & User             | 6      | 41      | ⬜     |
-| Phase 3   | Conversation            | 7      | 50      | ⬜     |
-| Phase 4   | Learning & Gamification | 6      | 42      | ⬜     |
-| Phase 5   | Social & Subscription   | 5      | 32      | ⬜     |
-| Phase 6   | External Integration    | 5      | 30      | ⬜     |
-| Phase 7   | Quality Assurance       | 6      | 30      | ⬜     |
-| Phase 8   | Deployment & Launch     | 6      | 18      | ⬜     |
-| **Total** |                         | **52** | **293** |        |
+| Phase     | Description             | WPs    | Tasks   | Completed   | Status |
+| --------- | ----------------------- | ------ | ------- | ----------- | ------ |
+| Phase 0   | Infrastructure Setup    | 5      | 17      | 10/17       | 🟡     |
+| Phase 1   | Foundation              | 6      | 35      | 35/35       | ✅     |
+| Phase 2   | Auth & User             | 6      | 41      | 41/41       | ✅     |
+| Phase 3   | Conversation            | 7      | 50      | 33/50       | 🟡     |
+| Phase 4   | Learning & Gamification | 6      | 42      | 0/42        | ⬜     |
+| Phase 5   | Translation Practice    | 8      | 41      | 0/41        | ⬜     |
+| Phase 6   | Social & Subscription   | 5      | 32      | 0/32        | ⬜     |
+| Phase 7   | External Integration    | 5      | 30      | 0/30        | ⬜     |
+| Phase 8   | Quality Assurance       | 7      | 35      | 0/35        | ⬜     |
+| Phase 9   | Deployment & Launch     | 6      | 18      | 0/18        | ⬜     |
+| **Total** |                         | **61** | **339** | **119/339** |        |
 
 ---
 
-_Last updated: 2025-12-29_
+_Last updated: 2026-01-07_
 _Generated from: MASTER-PLAN.md_

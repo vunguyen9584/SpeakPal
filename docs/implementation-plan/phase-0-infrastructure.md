@@ -36,9 +36,10 @@
   docker pull postgres:15
   ```
 - **Acceptance Criteria**:
-  - [ ] PostgreSQL 15.x image đã được pull
-  - [ ] Có thể chạy container test thành công
+  - [x] PostgreSQL 15.x image đã được pull (✅ 2026-01-07)
+  - [x] Có thể chạy container test thành công (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 #### Task 2: Create Database
 
@@ -51,9 +52,10 @@
   CREATE DATABASE speakpal_test;
   ```
 - **Acceptance Criteria**:
-  - [ ] Database `speakpal_dev` đã được tạo
-  - [ ] Database `speakpal_test` đã được tạo
+  - [x] Database `speakpal_dev` đã được tạo (✅ 2026-01-07)
+  - [x] Database `speakpal_test` đã được tạo (✅ 2026-01-07)
 - **Estimated Hours**: 0.5
+- **Status**: ✅ Completed
 
 #### Task 3: Configure Access
 
@@ -66,7 +68,11 @@
   GRANT ALL PRIVILEGES ON DATABASE speakpal_dev TO speakpal_app;
   GRANT ALL PRIVILEGES ON DATABASE speakpal_test TO speakpal_app;
   ```
+- **Acceptance Criteria**:
+  - [x] User speakpal_app đã được tạo (✅ 2026-01-07)
+  - [x] Quyền truy cập đã được cấu hình (✅ 2026-01-07)
 - **Estimated Hours**: 0.5
+- **Status**: ✅ Completed
 
 #### Task 4: Add to Docker Compose
 
@@ -89,7 +95,11 @@
       volumes:
         - postgres_data:/var/lib/postgresql/data
   ```
+- **Acceptance Criteria**:
+  - [x] PostgreSQL service đã thêm vào docker-compose.yml (✅ 2026-01-07)
+  - [x] Health check đã được cấu hình (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 ---
 
@@ -115,7 +125,10 @@
   ```bash
   docker pull redis:7-alpine
   ```
+- **Acceptance Criteria**:
+  - [x] Redis 7-alpine image đã được pull (✅ 2026-01-07)
 - **Estimated Hours**: 0.5
+- **Status**: ✅ Completed
 
 #### Task 2: Configure Redis
 
@@ -130,7 +143,11 @@
   maxmemory-policy allkeys-lru
   appendonly yes
   ```
+- **Acceptance Criteria**:
+  - [x] redis.conf đã được tạo (✅ 2026-01-07)
+  - [x] Memory và persistence đã được cấu hình (✅ 2026-01-07)
 - **Estimated Hours**: 0.5
+- **Status**: ✅ Completed
 
 #### Task 3: Add to Docker Compose
 
@@ -150,7 +167,11 @@
       - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
       - redis_data:/data
   ```
+- **Acceptance Criteria**:
+  - [x] Redis service đã thêm vào docker-compose.yml (✅ 2026-01-07)
+  - [x] Health check đã được cấu hình (✅ 2026-01-07)
 - **Estimated Hours**: 0.5
+- **Status**: ✅ Completed
 
 ---
 
@@ -180,7 +201,11 @@
   ├── tts-cache/
   └── user-uploads/
   ```
+- **Acceptance Criteria**:
+  - [ ] S3 bucket đã được tạo trên AWS
+  - [ ] Bucket structure đã được setup
 - **Estimated Hours**: 0.5
+- **Status**: ⬜ Pending (Manual AWS setup required)
 
 #### Task 2: Configure CORS & Policies
 
@@ -200,7 +225,11 @@
     ]
   }
   ```
+- **Acceptance Criteria**:
+  - [ ] CORS policy đã được cấu hình
+  - [ ] Bucket policy đã được setup
 - **Estimated Hours**: 1
+- **Status**: ⬜ Pending (Manual AWS setup required)
 
 #### Task 3: Setup MinIO for Local Dev
 
@@ -223,7 +252,11 @@
     volumes:
       - minio_data:/data
   ```
+- **Acceptance Criteria**:
+  - [x] MinIO service đã thêm vào docker-compose.yml (✅ 2026-01-07)
+  - [x] Console port (9001) đã được expose (✅ 2026-01-07)
 - **Estimated Hours**: 1
+- **Status**: ✅ Completed
 
 ---
 
@@ -249,7 +282,10 @@
   1. Go to https://console.firebase.google.com
   2. Create new project "SpeakPal AI"
   3. Enable Google Analytics (optional)
+- **Acceptance Criteria**:
+  - [ ] Firebase project đã được tạo
 - **Estimated Hours**: 0.5
+- **Status**: ⬜ Pending (Manual Firebase Console setup)
 
 #### Task 2: Enable Auth Providers
 
@@ -260,7 +296,10 @@
   - Email/Password
   - Google Sign-in
   - Apple Sign-in
+- **Acceptance Criteria**:
+  - [ ] Auth providers đã được enable
 - **Estimated Hours**: 0.5
+- **Status**: ⬜ Pending (Manual Firebase Console setup)
 
 #### Task 3: Download Credentials
 
@@ -275,7 +314,11 @@
   FIREBASE_PRIVATE_KEY="..."
   FIREBASE_CLIENT_EMAIL=...
   ```
+- **Acceptance Criteria**:
+  - [ ] Service account key đã tải về
+  - [ ] Environment variables đã setup
 - **Estimated Hours**: 0.5
+- **Status**: ⬜ Pending (Credentials not found)
 
 #### Task 4: Setup Flutter Firebase
 
@@ -290,7 +333,11 @@
   - `lib/firebase_options.dart`
   - `android/app/google-services.json`
   - `ios/Runner/GoogleService-Info.plist`
+- **Acceptance Criteria**:
+  - [ ] flutterfire configure đã chạy
+  - [ ] Firebase config files đã được tạo
 - **Estimated Hours**: 1
+- **Status**: ⬜ Pending (Config files not found)
 
 ---
 
@@ -337,7 +384,11 @@
         - run: cd backend && npm run test
         - run: cd backend && npm run build
   ```
+- **Acceptance Criteria**:
+  - [x] Backend CI workflow file đã tạo (✅ 2026-01-07)
+  - [x] Lint, test, build steps đã config (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 2: Create Flutter CI Workflow
 
@@ -368,7 +419,11 @@
         - run: cd mobile && flutter analyze
         - run: cd mobile && flutter test
   ```
+- **Acceptance Criteria**:
+  - [x] Flutter CI workflow file đã tạo (✅ 2026-01-07)
+  - [x] Analyze và test steps đã config (✅ 2026-01-07)
 - **Estimated Hours**: 2
+- **Status**: ✅ Completed
 
 #### Task 3: Configure Branch Protection
 
@@ -379,19 +434,23 @@
   - Require PR reviews before merging
   - Require status checks to pass
   - Add secrets for deployment
+- **Acceptance Criteria**:
+  - [ ] Branch protection rules đã cấu hình
+  - [ ] Required checks đã setup
 - **Estimated Hours**: 1
+- **Status**: ⬜ Pending (Manual GitHub repo settings)
 
 ---
 
 ## Phase Summary
 
-| Work Package | Name                   | Tasks  | Est. Hours | Status |
-| ------------ | ---------------------- | ------ | ---------- | ------ |
-| WP-INF-001   | PostgreSQL Setup       | 4      | 3          | ⬜     |
-| WP-INF-002   | Redis Cache Setup      | 3      | 1.5        | ⬜     |
-| WP-INF-003   | AWS S3 Storage Setup   | 3      | 2.5        | ⬜     |
-| WP-INF-004   | Firebase Project Setup | 4      | 2.5        | ⬜     |
-| WP-INF-005   | CI/CD Pipeline Setup   | 3      | 5          | ⬜     |
+| Work Package | Name                   | Tasks  | Est. Hours | Status | Completed            |
+| ------------ | ---------------------- | ------ | ---------- | ------ | -------------------- |
+| WP-INF-001   | PostgreSQL Setup       | 4      | 3          | ✅     | 4/4 (2026-01-07)     |
+| WP-INF-002   | Redis Cache Setup      | 3      | 1.5        | ✅     | 3/3 (2026-01-07)     |
+| WP-INF-003   | AWS S3 Storage Setup   | 3      | 2.5        | 🟡     | 1/3 (MinIO only)     |
+| WP-INF-004   | Firebase Project Setup | 4      | 2.5        | ⬜     | 0/4 (Pending)        |
+| WP-INF-005   | CI/CD Pipeline Setup   | 3      | 5          | 🟡     | 2/3 (Workflows done) |
 | **Total**    |                        | **17** | **14.5**   |        |
 
 ---
