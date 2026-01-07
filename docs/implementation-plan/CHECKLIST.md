@@ -11,9 +11,9 @@
 
 ## Progress
 
-- **Total Tasks**: 294
-- **Completed**: 178
-- **Progress**: 60.5%
+- **Total Tasks**: 293
+- **Completed**: 0
+- **Progress**: 0%
 
 ---
 
@@ -21,22 +21,22 @@
 
 ### WP-INF-001: PostgreSQL Database Setup (4 tasks)
 
-- [x] WP-INF-001-T001: Install PostgreSQL
-- [x] WP-INF-001-T002: Create Database
-- [x] WP-INF-001-T003: Configure Access
-- [x] WP-INF-001-T004: Add to Docker Compose
+- [ ] WP-INF-001-T001: Install PostgreSQL
+- [ ] WP-INF-001-T002: Create Database
+- [ ] WP-INF-001-T003: Configure Access
+- [ ] WP-INF-001-T004: Add to Docker Compose
 
 ### WP-INF-002: Redis Cache Setup (3 tasks)
 
-- [x] WP-INF-002-T001: Install Redis
-- [x] WP-INF-002-T002: Configure Redis
-- [x] WP-INF-002-T003: Add to Docker Compose
+- [ ] WP-INF-002-T001: Install Redis
+- [ ] WP-INF-002-T002: Configure Redis
+- [ ] WP-INF-002-T003: Add to Docker Compose
 
 ### WP-INF-003: AWS S3 Storage Setup (3 tasks)
 
 - [ ] WP-INF-003-T001: Create S3 Bucket
 - [ ] WP-INF-003-T002: Configure CORS & Policies
-- [x] WP-INF-003-T003: Setup MinIO for Local Dev
+- [ ] WP-INF-003-T003: Setup MinIO for Local Dev
 
 ### WP-INF-004: Firebase Project Setup (4 tasks)
 
@@ -47,8 +47,8 @@
 
 ### WP-INF-005: CI/CD Pipeline Setup (3 tasks)
 
-- [x] WP-INF-005-T001: Create Backend CI Workflow
-- [x] WP-INF-005-T002: Create Flutter CI Workflow
+- [ ] WP-INF-005-T001: Create Backend CI Workflow
+- [ ] WP-INF-005-T002: Create Flutter CI Workflow
 - [ ] WP-INF-005-T003: Configure Branch Protection
 
 ---
@@ -57,56 +57,56 @@
 
 ### WP-BE-001: Backend Project Init (6 tasks)
 
-- [x] WP-BE-001-T001: Initialize NestJS Project
-- [x] WP-BE-001-T002: Configure Project Structure
-- [x] WP-BE-001-T003: Setup Environment Config
-- [x] WP-BE-001-T004: Setup Database Connection (Prisma)
-- [x] WP-BE-001-T005: Setup Redis Connection
-- [x] WP-BE-001-T006: Setup Docker for Development
+- [ ] WP-BE-001-T001: Initialize NestJS Project
+- [ ] WP-BE-001-T002: Configure Project Structure
+- [ ] WP-BE-001-T003: Setup Environment Config
+- [ ] WP-BE-001-T004: Setup Database Connection (Prisma)
+- [ ] WP-BE-001-T005: Setup Redis Connection
+- [ ] WP-BE-001-T006: Setup Docker for Development
 
 ### WP-BE-002: Database Schema & Migration (7 tasks)
 
-- [x] WP-BE-002-T001: Create User & Auth Schema
-- [x] WP-BE-002-T002: Create Conversation Schema
-- [x] WP-BE-002-T003: Create Learning Schema
-- [x] WP-BE-002-T004: Create Gamification Schema
-- [x] WP-BE-002-T005: Create Social Schema
-- [x] WP-BE-002-T006: Define Enums
-- [x] WP-BE-002-T007: Run Initial Migration
+- [ ] WP-BE-002-T001: Create User & Auth Schema
+- [ ] WP-BE-002-T002: Create Conversation Schema
+- [ ] WP-BE-002-T003: Create Learning Schema
+- [ ] WP-BE-002-T004: Create Gamification Schema
+- [ ] WP-BE-002-T005: Create Social Schema
+- [ ] WP-BE-002-T006: Define Enums
+- [ ] WP-BE-002-T007: Run Initial Migration
 
 ### WP-BE-003: Common Module (6 tasks)
 
-- [x] WP-BE-003-T001: Create Base DTOs
-- [x] WP-BE-003-T002: Create Custom Exceptions
-- [x] WP-BE-003-T003: Create Exception Filters
-- [x] WP-BE-003-T004: Create Interceptors
-- [x] WP-BE-003-T005: Create Decorators
-- [x] WP-BE-003-T006: Create Utility Functions
+- [ ] WP-BE-003-T001: Create Base DTOs
+- [ ] WP-BE-003-T002: Create Custom Exceptions
+- [ ] WP-BE-003-T003: Create Exception Filters
+- [ ] WP-BE-003-T004: Create Interceptors
+- [ ] WP-BE-003-T005: Create Decorators
+- [ ] WP-BE-003-T006: Create Utility Functions
 
 ### WP-FE-001: Flutter Project Init (5 tasks)
 
-- [x] WP-FE-001-T001: Create Flutter Project
-- [x] WP-FE-001-T002: Setup Project Structure
-- [x] WP-FE-001-T003: Add Dependencies
-- [x] WP-FE-001-T004: Setup Riverpod
-- [x] WP-FE-001-T005: Setup Go Router
+- [ ] WP-FE-001-T001: Create Flutter Project
+- [ ] WP-FE-001-T002: Setup Project Structure
+- [ ] WP-FE-001-T003: Add Dependencies
+- [ ] WP-FE-001-T004: Setup Riverpod
+- [ ] WP-FE-001-T005: Setup Go Router
 
 ### WP-FE-002: Design System & Theme (6 tasks)
 
-- [x] WP-FE-002-T001: Create Color Theme
-- [x] WP-FE-002-T002: Create Typography
-- [x] WP-FE-002-T003: Create Spacing & Dimensions
-- [x] WP-FE-002-T004: Create Base Components
-- [x] WP-FE-002-T005: Create Icon Set
-- [x] WP-FE-002-T006: Create Dark Mode Support
+- [ ] WP-FE-002-T001: Create Color Theme
+- [ ] WP-FE-002-T002: Create Typography
+- [ ] WP-FE-002-T003: Create Spacing & Dimensions
+- [ ] WP-FE-002-T004: Create Base Components
+- [ ] WP-FE-002-T005: Create Icon Set
+- [ ] WP-FE-002-T006: Create Dark Mode Support
 
 ### WP-FE-003: Core Services Setup (5 tasks)
 
-- [x] WP-FE-003-T001: Create API Client
-- [x] WP-FE-003-T002: Create WebSocket Client
-- [x] WP-FE-003-T003: Create Storage Service
-- [x] WP-FE-003-T004: Create Auth Token Manager
-- [x] WP-FE-003-T005: Create Environment Config
+- [ ] WP-FE-003-T001: Create API Client
+- [ ] WP-FE-003-T002: Create WebSocket Client
+- [ ] WP-FE-003-T003: Create Storage Service
+- [ ] WP-FE-003-T004: Create Auth Token Manager
+- [ ] WP-FE-003-T005: Create Environment Config
 
 ---
 
@@ -114,57 +114,57 @@
 
 ### WP-BE-004: Auth Module (8 tasks)
 
-- [x] WP-BE-004-T001: Create Auth Module Structure
-- [x] WP-BE-004-T002: Create Auth DTOs
-- [x] WP-BE-004-T003: Implement JWT Strategy
-- [x] WP-BE-004-T004: Implement Auth Guards
-- [x] WP-BE-004-T005: Implement Register & Login
-- [x] WP-BE-004-T006: Implement Token Refresh
-- [x] WP-BE-004-T007: Implement Password Reset
-- [x] WP-BE-004-T008: Implement Firebase OAuth
+- [ ] WP-BE-004-T001: Create Auth Module Structure
+- [ ] WP-BE-004-T002: Create Auth DTOs
+- [ ] WP-BE-004-T003: Implement JWT Strategy
+- [ ] WP-BE-004-T004: Implement Auth Guards
+- [ ] WP-BE-004-T005: Implement Register & Login
+- [ ] WP-BE-004-T006: Implement Token Refresh
+- [ ] WP-BE-004-T007: Implement Password Reset
+- [ ] WP-BE-004-T008: Implement Firebase OAuth
 
 ### WP-BE-005: User Module (6 tasks)
 
-- [x] WP-BE-005-T001: Create User Module Structure
-- [x] WP-BE-005-T002: Create User DTOs
-- [x] WP-BE-005-T003: Implement User Repository
-- [x] WP-BE-005-T004: Implement User Service
-- [x] WP-BE-005-T005: Implement User Controller
-- [x] WP-BE-005-T006: Add Unit Tests
+- [ ] WP-BE-005-T001: Create User Module Structure
+- [ ] WP-BE-005-T002: Create User DTOs
+- [ ] WP-BE-005-T003: Implement User Repository
+- [ ] WP-BE-005-T004: Implement User Service
+- [ ] WP-BE-005-T005: Implement User Controller
+- [ ] WP-BE-005-T006: Add Unit Tests
 
 ### WP-BE-006: Persona Module (5 tasks)
 
-- [x] WP-BE-006-T001: Create Persona Module Structure
-- [x] WP-BE-006-T002: Create Persona DTOs
-- [x] WP-BE-006-T003: Implement Persona Service
-- [x] WP-BE-006-T004: Implement Persona Controller
-- [x] WP-BE-006-T005: Add Unit Tests
+- [ ] WP-BE-006-T001: Create Persona Module Structure
+- [ ] WP-BE-006-T002: Create Persona DTOs
+- [ ] WP-BE-006-T003: Implement Persona Service
+- [ ] WP-BE-006-T004: Implement Persona Controller
+- [ ] WP-BE-006-T005: Add Unit Tests
 
 ### WP-FE-004: Auth Screens (7 tasks)
 
-- [x] WP-FE-004-T001: Create Auth Feature Structure
-- [x] WP-FE-004-T002: Create Auth Models
-- [x] WP-FE-004-T003: Create Auth Repository
-- [x] WP-FE-004-T004: Create Auth Providers
-- [x] WP-FE-004-T005: Implement Login Screen
-- [x] WP-FE-004-T006: Implement Register Screen
-- [x] WP-FE-004-T007: Implement Forgot Password Screen
+- [ ] WP-FE-004-T001: Create Auth Feature Structure
+- [ ] WP-FE-004-T002: Create Auth Models
+- [ ] WP-FE-004-T003: Create Auth Repository
+- [ ] WP-FE-004-T004: Create Auth Providers
+- [ ] WP-FE-004-T005: Implement Login Screen
+- [ ] WP-FE-004-T006: Implement Register Screen
+- [ ] WP-FE-004-T007: Implement Forgot Password Screen
 
 ### WP-FE-005: Onboarding Screens (5 tasks)
 
-- [x] WP-FE-005-T001: Create Onboarding Feature Structure
-- [x] WP-FE-005-T002: Implement Welcome Screen
-- [x] WP-FE-005-T003: Implement Level Selection
-- [x] WP-FE-005-T004: Implement Persona Setup
-- [x] WP-FE-005-T005: Implement Onboarding Flow
+- [ ] WP-FE-005-T001: Create Onboarding Feature Structure
+- [ ] WP-FE-005-T002: Implement Welcome Screen
+- [ ] WP-FE-005-T003: Implement Level Selection
+- [ ] WP-FE-005-T004: Implement Persona Setup
+- [ ] WP-FE-005-T005: Implement Onboarding Flow
 
 ### WP-FE-006: Profile & Settings (5 tasks)
 
-- [x] WP-FE-006-T001: Create Profile Feature Structure
-- [x] WP-FE-006-T002: Create Profile Repository
-- [x] WP-FE-006-T003: Implement Profile Screen
-- [x] WP-FE-006-T004: Implement Settings Screen
-- [x] WP-FE-006-T005: Implement Edit Profile Screen
+- [ ] WP-FE-006-T001: Create Profile Feature Structure
+- [ ] WP-FE-006-T002: Create Profile Repository
+- [ ] WP-FE-006-T003: Implement Profile Screen
+- [ ] WP-FE-006-T004: Implement Settings Screen
+- [ ] WP-FE-006-T005: Implement Edit Profile Screen
 
 ---
 
@@ -172,139 +172,130 @@
 
 ### WP-BE-007: Conversation Module (8 tasks)
 
-- [x] WP-BE-007-T001: Create Module Structure
-- [x] WP-BE-007-T002: Create Conversation DTOs
-- [x] WP-BE-007-T003: Implement Conversation Repository
-- [x] WP-BE-007-T004: Implement Session Management
-- [x] WP-BE-007-T005: Implement Turn Handling
-- [x] WP-BE-007-T006: Implement Conversation Controller
-- [x] WP-BE-007-T007: Implement XP Calculation
-- [x] WP-BE-007-T008: Add Unit Tests
+- [ ] WP-BE-007-T001: Create Module Structure
+- [ ] WP-BE-007-T002: Create Conversation DTOs
+- [ ] WP-BE-007-T003: Implement Conversation Repository
+- [ ] WP-BE-007-T004: Implement Session Management
+- [ ] WP-BE-007-T005: Implement Turn Handling
+- [ ] WP-BE-007-T006: Implement Conversation Controller
+- [ ] WP-BE-007-T007: Implement XP Calculation
+- [ ] WP-BE-007-T008: Add Unit Tests
 
 ### WP-BE-008: AI Orchestrator (7 tasks)
 
-- [x] WP-BE-008-T001: Create Orchestrator Module
-- [x] WP-BE-008-T002: Implement Pipeline Coordinator
-- [x] WP-BE-008-T003: Integrate STT (Deepgram)
-- [x] WP-BE-008-T004: Integrate LLM (GPT-4o)
-- [x] WP-BE-008-T005: Integrate TTS (ElevenLabs)
-- [x] WP-BE-008-T006: Implement Streaming Handler
-- [x] WP-BE-008-T007: Add Error Handling & Fallbacks
+- [ ] WP-BE-008-T001: Create Orchestrator Module
+- [ ] WP-BE-008-T002: Implement Pipeline Coordinator
+- [ ] WP-BE-008-T003: Integrate STT (Deepgram)
+- [ ] WP-BE-008-T004: Integrate LLM (GPT-4o)
+- [ ] WP-BE-008-T005: Integrate TTS (ElevenLabs)
+- [ ] WP-BE-008-T006: Implement Streaming Handler
+- [ ] WP-BE-008-T007: Add Error Handling & Fallbacks
 
 ### WP-BE-009: WebSocket Gateway (6 tasks)
 
-- [x] WP-BE-009-T001: Setup Socket.io Gateway
-- [x] WP-BE-009-T002: Implement Connection Handler
-- [x] WP-BE-009-T003: Implement Audio Stream Handler
-- [x] WP-BE-009-T004: Implement Response Streaming
-- [x] WP-BE-009-T005: Add Authentication Middleware
-- [x] WP-BE-009-T006: Add Rate Limiting
+- [ ] WP-BE-009-T001: Setup Socket.io Gateway
+- [ ] WP-BE-009-T002: Implement Connection Handler
+- [ ] WP-BE-009-T003: Implement Audio Stream Handler
+- [ ] WP-BE-009-T004: Implement Response Streaming
+- [ ] WP-BE-009-T005: Add Authentication Middleware
+- [ ] WP-BE-009-T006: Add Rate Limiting
 
 ### WP-BE-010: Feedback Module (6 tasks)
 
-- [x] WP-BE-010-T001: Create Module Structure
-- [x] WP-BE-010-T002: Implement Error Detection (via GPT)
-- [x] WP-BE-010-T003: Implement Correction Generation
-- [x] WP-BE-010-T004: Implement Suggestion Generation
-- [x] WP-BE-010-T005: Implement Vocabulary Extraction
+- [ ] WP-BE-010-T001: Create Module Structure
+- [ ] WP-BE-010-T002: Implement Error Detection (via GPT)
+- [ ] WP-BE-010-T003: Implement Correction Generation
+- [ ] WP-BE-010-T004: Implement Suggestion Generation
+- [ ] WP-BE-010-T005: Implement Vocabulary Extraction
 - [ ] WP-BE-010-T006: Add Unit Tests
 
 ### WP-FE-007: Home & Dashboard (6 tasks)
 
-- [x] WP-FE-007-T001: Create Home Feature Structure
-- [x] WP-FE-007-T002: Implement Home Screen Layout
-- [x] WP-FE-007-T003: Create Quick Action Cards
-- [x] WP-FE-007-T004: Create Recent Conversations Widget
-- [x] WP-FE-007-T005: Create Daily Progress Widget
-- [x] WP-FE-007-T006: Implement Navigation
+- [ ] WP-FE-007-T001: Create Home Feature Structure
+- [ ] WP-FE-007-T002: Implement Home Screen Layout
+- [ ] WP-FE-007-T003: Create Quick Action Cards
+- [ ] WP-FE-007-T004: Create Recent Conversations Widget
+- [ ] WP-FE-007-T005: Create Daily Progress Widget
+- [ ] WP-FE-007-T006: Implement Navigation
 
 ### WP-FE-008: Conversation Screen (8 tasks)
 
-- [x] WP-FE-008-T001: Create Conversation Feature Structure
-- [x] WP-FE-008-T002: Implement Mode/Topic Selection
-- [x] WP-FE-008-T003: Implement Audio Recording
-- [x] WP-FE-008-T004: Implement WebSocket Connection
-- [x] WP-FE-008-T005: Implement Chat UI
-- [x] WP-FE-008-T006: Implement Audio Playback
-- [x] WP-FE-008-T007: Implement Real-time Corrections Display
-- [x] WP-FE-008-T008: Implement Session Controls
+- [ ] WP-FE-008-T001: Create Conversation Feature Structure
+- [ ] WP-FE-008-T002: Implement Mode/Topic Selection
+- [ ] WP-FE-008-T003: Implement Audio Recording
+- [ ] WP-FE-008-T004: Implement WebSocket Connection
+- [ ] WP-FE-008-T005: Implement Chat UI
+- [ ] WP-FE-008-T006: Implement Audio Playback
+- [ ] WP-FE-008-T007: Implement Real-time Corrections Display
+- [ ] WP-FE-008-T008: Implement Session Controls
 
 ### WP-FE-009: Conversation Summary (5 tasks)
 
-- [x] WP-FE-009-T001: Create Summary Screen
-- [x] WP-FE-009-T002: Display Conversation Stats
-- [x] WP-FE-009-T003: Display Corrections List
-- [x] WP-FE-009-T004: Display New Vocabulary
-- [x] WP-FE-009-T005: Implement Share/Save Actions
+- [ ] WP-FE-009-T001: Create Summary Screen
+- [ ] WP-FE-009-T002: Display Conversation Stats
+- [ ] WP-FE-009-T003: Display Corrections List
+- [ ] WP-FE-009-T004: Display New Vocabulary
+- [ ] WP-FE-009-T005: Implement Share/Save Actions
 
 ---
 
 ## Phase 4: Learning & Gamification (42 tasks)
 
-### WP-BE-011: Learning Module (10 tasks)
+### WP-BE-011: Learning Module (7 tasks)
 
-- [x] WP-BE-011-T001: Create Module Structure
-- [x] WP-BE-011-T002: Create Learning DTOs
-- [x] WP-BE-011-T003: Implement SRS Service
-- [x] WP-BE-011-T004: Implement Vocabulary Repository
-- [x] WP-BE-011-T005: Implement Vocabulary Service
-- [x] WP-BE-011-T006: Implement Scenario Service
-- [x] WP-BE-011-T007: Implement Challenge Service
-- [x] WP-BE-011-T008: Implement Vocabulary Controller
-- [x] WP-BE-011-T009: Implement Scenario/Challenge Controllers
-- [x] WP-BE-011-T010: Add Unit Tests
+- [ ] WP-BE-011-T001: Create Module Structure
+- [ ] WP-BE-011-T002: Create Learning DTOs
+- [ ] WP-BE-011-T003: Implement Vocabulary Service
+- [ ] WP-BE-011-T004: Implement Scenario Service
+- [ ] WP-BE-011-T005: Implement Challenge Service
+- [ ] WP-BE-011-T006: Implement Controller
+- [ ] WP-BE-011-T007: Add Unit Tests
 
-### WP-BE-012: Gamification Module (9 tasks)
+### WP-BE-012: Gamification Module (7 tasks)
 
-- [x] WP-BE-012-T001: Create Module Structure
-- [x] WP-BE-012-T002: Create Gamification DTOs
-- [x] WP-BE-012-T003: Implement XP Service
-- [x] WP-BE-012-T004: Implement Streak Service
-- [x] WP-BE-012-T005: Define Badge System
-- [x] WP-BE-012-T006: Implement Badge Service
-- [x] WP-BE-012-T007: Implement Ranking Service
-- [x] WP-BE-012-T008: Implement Controllers
-- [x] WP-BE-012-T009: Add Unit Tests
+- [ ] WP-BE-012-T001: Create Module Structure
+- [ ] WP-BE-012-T002: Create Gamification DTOs
+- [ ] WP-BE-012-T003: Implement XP Service
+- [ ] WP-BE-012-T004: Implement Streak Service
+- [ ] WP-BE-012-T005: Implement Badge Service
+- [ ] WP-BE-012-T006: Implement Ranking Service
+- [ ] WP-BE-012-T007: Add Unit Tests
 
-### WP-BE-013: Progress Module (7 tasks)
+### WP-BE-013: Progress Module (6 tasks)
 
-- [x] WP-BE-013-T001: Create Module Structure
-- [x] WP-BE-013-T002: Create Progress DTOs
-- [x] WP-BE-013-T003: Implement Daily Stats Aggregation
-- [x] WP-BE-013-T004: Implement Weekly/Monthly Reports
-- [x] WP-BE-013-T005: Implement History Query
-- [x] WP-BE-013-T006: Implement Controller
-- [x] WP-BE-013-T007: Add Unit Tests
+- [ ] WP-BE-013-T001: Create Module Structure
+- [ ] WP-BE-013-T002: Implement Daily Stats Aggregation
+- [ ] WP-BE-013-T003: Implement Weekly/Monthly Reports
+- [ ] WP-BE-013-T004: Implement History Query
+- [ ] WP-BE-013-T005: Implement Controller
+- [ ] WP-BE-013-T006: Add Unit Tests
 
-### WP-FE-010: Learning Screens (8 tasks)
+### WP-FE-010: Learning Screens (7 tasks)
 
-- [x] WP-FE-010-T001: Create Learning Feature Structure
-- [x] WP-FE-010-T002: Implement Vocabulary List Screen
-- [x] WP-FE-010-T003: Implement Vocabulary Detail Screen
-- [x] WP-FE-010-T004: Implement Review Quiz Screen
-- [x] WP-FE-010-T005: Implement Scenario List Screen
-- [x] WP-FE-010-T006: Implement Challenge Screen
-- [x] WP-FE-010-T007: Create Learning Providers
-- [x] WP-FE-010-T008: Implement Navigation
+- [ ] WP-FE-010-T001: Create Learning Feature Structure
+- [ ] WP-FE-010-T002: Implement Vocabulary List Screen
+- [ ] WP-FE-010-T003: Implement Vocabulary Detail Screen
+- [ ] WP-FE-010-T004: Implement Review Quiz Screen
+- [ ] WP-FE-010-T005: Implement Scenario List Screen
+- [ ] WP-FE-010-T006: Implement Challenge Screen
+- [ ] WP-FE-010-T007: Create Learning Providers
 
 ### WP-FE-011: Gamification Screens (6 tasks)
 
-- [x] WP-FE-011-T001: Create Gamification Feature Structure
-- [x] WP-FE-011-T002: Implement Badges Collection Screen
-- [x] WP-FE-011-T003: Implement Badge Detail Modal
-- [x] WP-FE-011-T004: Implement Leaderboard Screen
-- [x] WP-FE-011-T005: Implement Streak Widget
-- [x] WP-FE-011-T006: Implement Level Up Animation
-- [x] WP-FE-011-T007: Create Gamification Providers
+- [ ] WP-FE-011-T001: Create Gamification Feature Structure
+- [ ] WP-FE-011-T002: Implement Badges Collection Screen
+- [ ] WP-FE-011-T003: Implement Badge Detail Modal
+- [ ] WP-FE-011-T004: Implement Leaderboard Screen
+- [ ] WP-FE-011-T005: Implement Streak Widget
+- [ ] WP-FE-011-T006: Implement Level Up Animation
 
 ### WP-FE-012: Progress Screens (5 tasks)
 
-- [x] WP-FE-012-T001: Create Progress Feature Structure
-- [x] WP-FE-012-T002: Implement Statistics Dashboard
-- [x] WP-FE-012-T003: Implement Charts
-- [x] WP-FE-012-T004: Implement Weekly Report Screen
-- [x] WP-FE-012-T005: Implement History List Screen
-- [x] WP-FE-012-T006: Create Progress Providers
+- [ ] WP-FE-012-T001: Create Progress Feature Structure
+- [ ] WP-FE-012-T002: Implement Statistics Dashboard
+- [ ] WP-FE-012-T003: Implement Charts
+- [ ] WP-FE-012-T004: Implement Weekly Report Screen
+- [ ] WP-FE-012-T005: Implement History List Screen
 
 ---
 
@@ -312,12 +303,12 @@
 
 ### WP-BE-014: Social Module (6 tasks)
 
-- [x] WP-BE-014-T001: Create Module Structure
-- [x] WP-BE-014-T002: Create Social DTOs
-- [x] WP-BE-014-T003: Implement Invitation Service
-- [x] WP-BE-014-T004: Implement Group Service
-- [x] WP-BE-014-T005: Implement Social Controller
-- [x] WP-BE-014-T006: Add Unit Tests
+- [ ] WP-BE-014-T001: Create Module Structure
+- [ ] WP-BE-014-T002: Create Social DTOs
+- [ ] WP-BE-014-T003: Implement Invitation Service
+- [ ] WP-BE-014-T004: Implement Group Service
+- [ ] WP-BE-014-T005: Implement Social Controller
+- [ ] WP-BE-014-T006: Add Unit Tests
 
 ### WP-BE-015: Subscription Module (7 tasks)
 

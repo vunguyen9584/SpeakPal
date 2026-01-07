@@ -6,10 +6,10 @@
 
 ### 統計情報
 
-| 項目         | 内容                                                                 |
-| ------------ | -------------------------------------------------------------------- |
-| モジュール数 | 6 (User, Conversation, Learning, Gamification, Social, Subscription) |
-| 総テーブル数 | 18                                                                   |
+| 項目         | 内容                                                                              |
+| ------------ | --------------------------------------------------------------------------------- |
+| モジュール数 | 7 (User, Conversation, Learning, Gamification, Social, Subscription, Translation) |
+| 総テーブル数 | 23                                                                                |
 
 ---
 
@@ -23,6 +23,7 @@
 | [learning-01.md](./05-data-design/learning-01.md)         | 学習関連             | 4          |
 | [gamification-01.md](./05-data-design/gamification-01.md) | ゲーミフィケーション | 4          |
 | [social-01.md](./05-data-design/social-01.md)             | ソーシャル           | 3          |
+| [translation-01.md](./05-data-design/translation-01.md)   | 翻訳練習             | 5          |
 
 ---
 
@@ -39,6 +40,8 @@ erDiagram
     User ||--|| Subscription : "has"
     User ||--o{ Invitation : "sends"
     User ||--o{ GroupMember : "joins"
+    User ||--o{ TranslationResult : "practices"
+    User ||--o{ QuickResponseResult : "challenges"
 
     Conversation ||--|{ ConversationTurn : "contains"
     ConversationTurn ||--o{ Correction : "has"
@@ -50,32 +53,41 @@ erDiagram
     User ||--o{ UserChallenge : "completes"
 
     Group ||--|{ GroupMember : "has"
+
+    TranslationQuestion ||--o{ TranslationResult : "answered_in"
+    IntentQuestion ||--o{ TranslationResult : "answered_in"
+    ShadowingContent ||--o{ QuickResponseResult : "practiced_in"
 ```
 
 ---
 
 ## 5.4. テーブル一覧
 
-| No  | テーブル名         | 論理名             | モジュール   | 関連 FR          |
-| --- | ------------------ | ------------------ | ------------ | ---------------- |
-| 1   | users              | ユーザー           | User         | FR-011, 012, 013 |
-| 2   | user_levels        | ユーザーレベル履歴 | User         | FR-020           |
-| 3   | personas           | ペルソナ           | User         | FR-008           |
-| 4   | conversations      | 会話セッション     | Conversation | FR-001〜003      |
-| 5   | conversation_turns | 会話ターン         | Conversation | FR-002, 003      |
-| 6   | corrections        | 訂正履歴           | Conversation | FR-006           |
-| 7   | suggestions        | 提案履歴           | Conversation | FR-004           |
-| 8   | vocabularies       | 語彙/単語帳        | Learning     | FR-017, 026      |
-| 9   | scenarios          | シナリオ           | Learning     | FR-024, 031      |
-| 10  | challenges         | チャレンジ定義     | Learning     | FR-025           |
-| 11  | user_challenges    | ユーザーチャレンジ | Learning     | FR-025           |
-| 12  | streaks            | ストリーク         | Gamification | FR-018           |
-| 13  | badges             | バッジ定義         | Gamification | FR-019           |
-| 14  | user_badges        | ユーザーバッジ     | Gamification | FR-019           |
-| 15  | subscriptions      | サブスクリプション | Subscription | FR-014〜016      |
-| 16  | invitations        | 招待               | Social       | FR-027           |
-| 17  | groups             | グループ           | Social       | FR-029           |
-| 18  | group_members      | グループメンバー   | Social       | FR-029           |
+| No  | テーブル名             | 論理名                   | モジュール   | 関連 FR          |
+| --- | ---------------------- | ------------------------ | ------------ | ---------------- |
+| 1   | users                  | ユーザー                 | User         | FR-011, 012, 013 |
+| 2   | user_levels            | ユーザーレベル履歴       | User         | FR-020           |
+| 3   | personas               | ペルソナ                 | User         | FR-008           |
+| 4   | conversations          | 会話セッション           | Conversation | FR-001〜003      |
+| 5   | conversation_turns     | 会話ターン               | Conversation | FR-002, 003      |
+| 6   | corrections            | 訂正履歴                 | Conversation | FR-006           |
+| 7   | suggestions            | 提案履歴                 | Conversation | FR-004           |
+| 8   | vocabularies           | 語彙/単語帳              | Learning     | FR-017, 026      |
+| 9   | scenarios              | シナリオ                 | Learning     | FR-024, 031      |
+| 10  | challenges             | チャレンジ定義           | Learning     | FR-025           |
+| 11  | user_challenges        | ユーザーチャレンジ       | Learning     | FR-025           |
+| 12  | streaks                | ストリーク               | Gamification | FR-018           |
+| 13  | badges                 | バッジ定義               | Gamification | FR-019           |
+| 14  | user_badges            | ユーザーバッジ           | Gamification | FR-019           |
+| 15  | subscriptions          | サブスクリプション       | Subscription | FR-014〜016      |
+| 16  | invitations            | 招待                     | Social       | FR-027           |
+| 17  | groups                 | グループ                 | Social       | FR-029           |
+| 18  | group_members          | グループメンバー         | Social       | FR-029           |
+| 19  | translation_questions  | 翻訳問題                 | Translation  | FR-034           |
+| 20  | translation_results    | 翻訳練習結果             | Translation  | FR-034, FR-035   |
+| 21  | intent_questions       | 意図問題                 | Translation  | FR-035           |
+| 22  | shadowing_contents     | シャドーイングコンテンツ | Translation  | FR-038           |
+| 23  | quick_response_results | クイック応答結果         | Translation  | FR-036〜038      |
 
 ---
 
@@ -88,7 +100,8 @@ erDiagram
 | Learning     | 4            | 4        | 100%     |
 | Gamification | 4            | 4        | 100%     |
 | Social       | 3            | 3        | 100%     |
-| **Total**    | **18**       | **18**   | **100%** |
+| Translation  | 5            | 5        | 100%     |
+| **Total**    | **23**       | **23**   | **100%** |
 
 ---
 

@@ -11,13 +11,13 @@
 
 | 項目          | 数量 | カバレッジ |
 | ------------- | ---- | ---------- |
-| ユースケース  | 33   | 100%       |
-| 画面          | 20   | 100%       |
-| テーブル      | 18   | 100%       |
-| REST API      | 42   | 100%       |
+| ユースケース  | 38   | 100%       |
+| 画面          | 24   | 100%       |
+| テーブル      | 23   | 100%       |
+| REST API      | 57   | 100%       |
 | WebSocket API | 10   | 100%       |
 | バッチ        | 8    | 100%       |
-| **合計**      | 131  | **100%**   |
+| **合計**      | 160  | **100%**   |
 
 ---
 
@@ -76,7 +76,17 @@
 | UC-032 | TOEIC/IELTS 対策   | 06-component-design | advanced-01.md     |
 | UC-033 | 会話サマリー       | 06-component-design | conversation-01.md |
 
-### 0.2.5. UC カバレッジサマリー
+### 0.2.5. 翻訳練習モジュール (UC-034 ～ UC-038)
+
+| UC ID  | UC 名                | DD セクション               | ファイル          |
+| ------ | -------------------- | --------------------------- | ----------------- |
+| UC-034 | ダイレクト翻訳練習   | 06-component-design, 08-api | translation-01.md |
+| UC-035 | 高度意図翻訳練習     | 06-component-design, 08-api | translation-01.md |
+| UC-036 | ワード連想チャレンジ | 06-component-design, 08-api | translation-02.md |
+| UC-037 | 瞬間応答ドリル       | 06-component-design, 08-api | translation-02.md |
+| UC-038 | シャドーイング練習   | 06-component-design, 08-api | translation-02.md |
+
+### 0.2.6. UC カバレッジサマリー
 
 | カテゴリ   | UC 数  | カバー済み | カバレッジ |
 | ---------- | ------ | ---------- | ---------- |
@@ -84,34 +94,39 @@
 | ユーザー   | 6      | 6          | 100%       |
 | 学習       | 10     | 10         | 100%       |
 | ソーシャル | 7      | 7          | 100%       |
-| **合計**   | **33** | **33**     | **100%**   |
+| 翻訳練習   | 5      | 5          | 100%       |
+| **合計**   | **38** | **38**     | **100%**   |
 
 ---
 
 ## 0.3. 画面 → DD マッピング
 
-| SCR ID  | 画面名             | DD セクション        | ファイル           |
-| ------- | ------------------ | -------------------- | ------------------ |
-| SCR-001 | スプラッシュ       | 09-ui-specifications | auth-01.md         |
-| SCR-002 | オンボーディング   | 09-ui-specifications | auth-01.md         |
-| SCR-003 | ログイン           | 09-ui-specifications | auth-01.md         |
-| SCR-004 | 新規登録           | 09-ui-specifications | auth-01.md         |
-| SCR-005 | ホーム             | 09-ui-specifications | home-01.md         |
-| SCR-006 | 会話選択           | 09-ui-specifications | conversation-01.md |
-| SCR-007 | 会話画面           | 09-ui-specifications | conversation-01.md |
-| SCR-008 | 会話結果           | 09-ui-specifications | conversation-01.md |
-| SCR-009 | プロフィール       | 09-ui-specifications | settings-01.md     |
-| SCR-010 | 設定               | 09-ui-specifications | settings-01.md     |
-| SCR-011 | サブスクリプション | 09-ui-specifications | settings-01.md     |
-| SCR-012 | 通知設定           | 09-ui-specifications | settings-01.md     |
-| SCR-013 | 統計ダッシュボード | 09-ui-specifications | progress-01.md     |
-| SCR-014 | バッジコレクション | 09-ui-specifications | progress-01.md     |
-| SCR-015 | 週間/月間レポート  | 09-ui-specifications | progress-01.md     |
-| SCR-016 | 単語帳             | 09-ui-specifications | learning-01.md     |
-| SCR-017 | 復習クイズ         | 09-ui-specifications | learning-01.md     |
-| SCR-018 | デイリーチャレンジ | 09-ui-specifications | learning-01.md     |
-| SCR-019 | 友達招待           | 09-ui-specifications | social-01.md       |
-| SCR-020 | ランキング         | 09-ui-specifications | social-01.md       |
+| SCR ID  | 画面名             | DD セクション        | ファイル                |
+| ------- | ------------------ | -------------------- | ----------------------- |
+| SCR-001 | スプラッシュ       | 09-ui-specifications | auth-screens.md         |
+| SCR-002 | オンボーディング   | 09-ui-specifications | auth-screens.md         |
+| SCR-003 | ログイン           | 09-ui-specifications | auth-screens.md         |
+| SCR-004 | 新規登録           | 09-ui-specifications | auth-screens.md         |
+| SCR-005 | ホーム             | 09-ui-specifications | home-01.md              |
+| SCR-006 | 会話選択           | 09-ui-specifications | conversation-screens.md |
+| SCR-007 | 会話画面           | 09-ui-specifications | conversation-screens.md |
+| SCR-008 | 会話結果           | 09-ui-specifications | conversation-screens.md |
+| SCR-009 | プロフィール       | 09-ui-specifications | settings-01.md          |
+| SCR-010 | 設定               | 09-ui-specifications | settings-01.md          |
+| SCR-011 | サブスクリプション | 09-ui-specifications | settings-01.md          |
+| SCR-012 | 通知設定           | 09-ui-specifications | settings-01.md          |
+| SCR-013 | 統計ダッシュボード | 09-ui-specifications | progress-screens.md     |
+| SCR-014 | バッジコレクション | 09-ui-specifications | progress-screens.md     |
+| SCR-015 | 週間/月間レポート  | 09-ui-specifications | progress-screens.md     |
+| SCR-016 | 単語帳             | 09-ui-specifications | learning-01.md          |
+| SCR-017 | 復習クイズ         | 09-ui-specifications | learning-01.md          |
+| SCR-018 | デイリーチャレンジ | 09-ui-specifications | learning-01.md          |
+| SCR-019 | 友達招待           | 09-ui-specifications | social-01.md            |
+| SCR-020 | ランキング         | 09-ui-specifications | social-01.md            |
+| SCR-021 | ダイレクト翻訳     | 09-ui-specifications | translation-screens.md  |
+| SCR-022 | 高度意図翻訳       | 09-ui-specifications | translation-screens.md  |
+| SCR-023 | クイックレスポンス | 09-ui-specifications | translation-screens.md  |
+| SCR-024 | シャドーイング     | 09-ui-specifications | translation-screens.md  |
 
 ### 画面カバレッジサマリー
 
@@ -124,32 +139,38 @@
 | 進捗       | 3      | 3          | 100%       |
 | 学習       | 3      | 3          | 100%       |
 | ソーシャル | 2      | 2          | 100%       |
-| **合計**   | **20** | **20**     | **100%**   |
+| 翻訳練習   | 4      | 4          | 100%       |
+| **合計**   | **24** | **24**     | **100%**   |
 
 ---
 
 ## 0.4. テーブル → DD マッピング
 
-| テーブル名            | DD セクション      | ファイル               |
-| --------------------- | ------------------ | ---------------------- |
-| users                 | 07-database-design | user-tables.md         |
-| user_levels           | 07-database-design | user-tables.md         |
-| personas              | 07-database-design | user-tables.md         |
-| subscriptions         | 07-database-design | user-tables.md         |
-| conversations         | 07-database-design | conversation-tables.md |
-| conversation_turns    | 07-database-design | conversation-tables.md |
-| corrections           | 07-database-design | conversation-tables.md |
-| vocabularies          | 07-database-design | learning-tables.md     |
-| scenarios             | 07-database-design | learning-tables.md     |
-| user_challenges       | 07-database-design | learning-tables.md     |
-| streaks               | 07-database-design | gamification-tables.md |
-| badges                | 07-database-design | gamification-tables.md |
-| user_badges           | 07-database-design | gamification-tables.md |
-| user_rankings         | 07-database-design | gamification-tables.md |
-| invitations           | 07-database-design | social-tables.md       |
-| groups                | 07-database-design | social-tables.md       |
-| group_members         | 07-database-design | social-tables.md       |
-| notification_settings | 07-database-design | user-tables.md         |
+| テーブル名             | DD セクション      | ファイル               |
+| ---------------------- | ------------------ | ---------------------- |
+| users                  | 07-database-design | user-tables.md         |
+| user_levels            | 07-database-design | user-tables.md         |
+| personas               | 07-database-design | user-tables.md         |
+| subscriptions          | 07-database-design | user-tables.md         |
+| conversations          | 07-database-design | conversation-tables.md |
+| conversation_turns     | 07-database-design | conversation-tables.md |
+| corrections            | 07-database-design | conversation-tables.md |
+| vocabularies           | 07-database-design | learning-tables.md     |
+| scenarios              | 07-database-design | learning-tables.md     |
+| user_challenges        | 07-database-design | learning-tables.md     |
+| streaks                | 07-database-design | gamification-tables.md |
+| badges                 | 07-database-design | gamification-tables.md |
+| user_badges            | 07-database-design | gamification-tables.md |
+| user_rankings          | 07-database-design | gamification-tables.md |
+| invitations            | 07-database-design | social-tables.md       |
+| groups                 | 07-database-design | social-tables.md       |
+| group_members          | 07-database-design | social-tables.md       |
+| notification_settings  | 07-database-design | user-tables.md         |
+| translation_questions  | 07-database-design | translation-tables.md  |
+| translation_results    | 07-database-design | translation-tables.md  |
+| intent_questions       | 07-database-design | translation-tables.md  |
+| shadowing_contents     | 07-database-design | translation-tables.md  |
+| quick_response_results | 07-database-design | translation-tables.md  |
 
 ### テーブルカバレッジサマリー
 
@@ -160,13 +181,14 @@
 | 学習系               | 3          | 3          | 100%       |
 | ゲーミフィケーション | 4          | 4          | 100%       |
 | ソーシャル系         | 3          | 3          | 100%       |
-| **合計**             | **18**     | **18**     | **100%**   |
+| 翻訳練習系           | 5          | 5          | 100%       |
+| **合計**             | **23**     | **23**     | **100%**   |
 
 ---
 
 ## 0.5. API → DD マッピング
 
-### 0.5.1. REST API (42 APIs)
+### 0.5.1. REST API (57 APIs)
 
 | カテゴリ             | API 数 | DD セクション | ファイル             |
 | -------------------- | ------ | ------------- | -------------------- |
@@ -177,7 +199,8 @@
 | 学習 API             | 7      | 08-api-design | learning-apis.md     |
 | ゲーミフィケーション | 5      | 08-api-design | gamification-apis.md |
 | サブスクリプション   | 3      | 08-api-design | subscription-apis.md |
-| ソーシャル API       | 9      | 08-api-design | social-apis.md       |
+| ソーシャル API       | 4      | 08-api-design | social-apis.md       |
+| 翻訳練習 API         | 15     | 08-api-design | translation-apis.md  |
 
 ### 0.5.2. WebSocket API (10 Events)
 
@@ -198,9 +221,9 @@
 
 | タイプ        | API 数 | カバー済み | カバレッジ |
 | ------------- | ------ | ---------- | ---------- |
-| REST API      | 42     | 42         | 100%       |
+| REST API      | 57     | 57         | 100%       |
 | WebSocket API | 10     | 10         | 100%       |
-| **合計**      | **52** | **52**     | **100%**   |
+| **合計**      | **67** | **67**     | **100%**   |
 
 ---
 
@@ -232,13 +255,13 @@
 
 | 要素タイプ    | BD 総数 | DD カバー | カバレッジ | ステータス |
 | ------------- | ------- | --------- | ---------- | ---------- |
-| ユースケース  | 33      | 33        | 100%       | ✅ PASS    |
-| 画面          | 20      | 20        | 100%       | ✅ PASS    |
-| テーブル      | 18      | 18        | 100%       | ✅ PASS    |
-| REST API      | 42      | 42        | 100%       | ✅ PASS    |
+| ユースケース  | 38      | 38        | 100%       | ✅ PASS    |
+| 画面          | 24      | 24        | 100%       | ✅ PASS    |
+| テーブル      | 23      | 23        | 100%       | ✅ PASS    |
+| REST API      | 57      | 57        | 100%       | ✅ PASS    |
 | WebSocket API | 10      | 10        | 100%       | ✅ PASS    |
 | バッチ        | 8       | 8         | 100%       | ✅ PASS    |
-| **合計**      | **131** | **131**   | **100%**   | ✅ PASS    |
+| **合計**      | **160** | **160**   | **100%**   | ✅ PASS    |
 
 ---
 

@@ -40,16 +40,21 @@
 |     | ├─ [Learning Module](./05-module-design/learning-module.md)         | 学習管理               |
 |     | └─ [Gamification Module](./05-module-design/gamification-module.md) | ゲーミフィケーション   |
 | 06  | [コンポーネント設計](./06-component-design.md)                      | UC ごとの実装設計      |
+|     | ├─ [Translation UCs 1](./06-component-design/translation-01.md)     | 翻訳練習 UC-034~035    |
+|     | └─ [Translation UCs 2](./06-component-design/translation-02.md)     | 翻訳練習 UC-036~038    |
 
 ### データ・インターフェースセクション
 
-| No  | ファイル                                                              | 内容                       |
-| --- | --------------------------------------------------------------------- | -------------------------- |
-| 07  | [データベース設計](./07-database-design.md)                           | ER 図、DDL                 |
-|     | ├─ [User Tables](./07-database-design/user-tables.md)                 | ユーザー系テーブル         |
-|     | └─ [Conversation Tables](./07-database-design/conversation-tables.md) | 会話系テーブル             |
-| 08  | [API 設計](./08-api-design.md)                                        | REST API, WebSocket        |
-| 09  | [UI 仕様](./09-ui-specifications.md)                                  | 画面仕様、デザインシステム |
+| No  | ファイル                                                                | 内容                       |
+| --- | ----------------------------------------------------------------------- | -------------------------- |
+| 07  | [データベース設計](./07-database-design.md)                             | ER 図、DDL                 |
+|     | ├─ [User Tables](./07-database-design/user-tables.md)                   | ユーザー系テーブル         |
+|     | ├─ [Conversation Tables](./07-database-design/conversation-tables.md)   | 会話系テーブル             |
+|     | └─ [Translation Tables](./07-database-design/translation-tables.md)     | 翻訳練習テーブル           |
+| 08  | [API 設計](./08-api-design.md)                                          | REST API, WebSocket        |
+|     | └─ [Translation APIs](./08-api-design/translation-apis.md)              | 翻訳練習 API               |
+| 09  | [UI 仕様](./09-ui-specifications.md)                                    | 画面仕様、デザインシステム |
+|     | └─ [Translation Screens](./09-ui-specifications/translation-screens.md) | 翻訳練習画面               |
 
 ### 品質・運用セクション
 
@@ -75,13 +80,13 @@
 
 | 項目            | BD 総数 | DD カバー | カバレッジ |
 | --------------- | ------- | --------- | ---------- |
-| ユースケース    | 33      | 33        | 100%       |
-| 画面            | 20      | 20        | 100%       |
-| テーブル        | 18      | 18        | 100%       |
-| REST API        | 42      | 42        | 100%       |
+| ユースケース    | 38      | 38        | 100%       |
+| 画面            | 24      | 24        | 100%       |
+| テーブル        | 23      | 23        | 100%       |
+| REST API        | 57      | 57        | 100%       |
 | WebSocket Event | 10      | 10        | 100%       |
 | バッチ          | 8       | 8         | 100%       |
-| **合計**        | **131** | **131**   | **100%**   |
+| **合計**        | **160** | **160**   | **100%**   |
 
 ### 技術スタック
 
@@ -96,6 +101,18 @@
 | AI (LLM)  | GPT-4o              |
 | AI (TTS)  | ElevenLabs          |
 | Container | Docker / Kubernetes |
+
+### 設計パターン
+
+| パターン              | 用途                   | 適用箇所                   |
+| --------------------- | ---------------------- | -------------------------- |
+| Repository Pattern    | データアクセス抽象化   | 全サービス                 |
+| Service Layer Pattern | ビジネスロジック集約   | 全モジュール               |
+| Gateway Pattern       | API エントリーポイント | WebSocket Gateway          |
+| Observer Pattern      | イベント駆動           | Notification, Gamification |
+| Strategy Pattern      | AI サービス切替        | STT, TTS, LLM              |
+| State Machine Pattern | ライフサイクル管理     | Conversation, Subscription |
+| Saga Pattern          | 分散トランザクション   | 課金、XP 付与              |
 
 ---
 

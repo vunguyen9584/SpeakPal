@@ -6,18 +6,19 @@
 
 ### カテゴリ一覧
 
-| No. | カテゴリ                 | ファイル                                                 | 機能 ID                    |
-| --- | ------------------------ | -------------------------------------------------------- | -------------------------- |
-| 1   | 会話機能                 | [01-conversation.md](./01-conversation.md)               | FR-001〜003, 009, 010, 033 |
-| 2   | フィードバック           | [02-feedback.md](./02-feedback.md)                       | FR-004〜006, 017           |
-| 3   | カスタマイズ             | [03-customization.md](./03-customization.md)             | FR-007〜008                |
-| 4   | ユーザー管理             | [04-user-management.md](./04-user-management.md)         | FR-011〜013                |
-| 5   | サブスクリプション       | [05-subscription.md](./05-subscription.md)               | FR-014〜016                |
-| 6   | ゲーミフィケーション     | [06-gamification.md](./06-gamification.md)               | FR-018〜020                |
-| 7   | 学習進捗トラッキング     | [07-progress-tracking.md](./07-progress-tracking.md)     | FR-021〜023                |
-| 8   | 構造化学習               | [08-structured-learning.md](./08-structured-learning.md) | FR-024〜026                |
-| 9   | ソーシャル＆コミュニティ | [09-social.md](./09-social.md)                           | FR-027〜029                |
-| 10  | 高度な学習機能           | [10-advanced-learning.md](./10-advanced-learning.md)     | FR-030〜032                |
+| No. | カテゴリ                 | ファイル                                                   | 機能 ID                    |
+| --- | ------------------------ | ---------------------------------------------------------- | -------------------------- |
+| 1   | 会話機能                 | [01-conversation.md](./01-conversation.md)                 | FR-001〜003, 009, 010, 033 |
+| 2   | フィードバック           | [02-feedback.md](./02-feedback.md)                         | FR-004〜006, 017           |
+| 3   | カスタマイズ             | [03-customization.md](./03-customization.md)               | FR-007〜008                |
+| 4   | ユーザー管理             | [04-user-management.md](./04-user-management.md)           | FR-011〜013                |
+| 5   | サブスクリプション       | [05-subscription.md](./05-subscription.md)                 | FR-014〜016                |
+| 6   | ゲーミフィケーション     | [06-gamification.md](./06-gamification.md)                 | FR-018〜020                |
+| 7   | 学習進捗トラッキング     | [07-progress-tracking.md](./07-progress-tracking.md)       | FR-021〜023                |
+| 8   | 構造化学習               | [08-structured-learning.md](./08-structured-learning.md)   | FR-024〜026                |
+| 9   | ソーシャル＆コミュニティ | [09-social.md](./09-social.md)                             | FR-027〜029                |
+| 10  | 高度な学習機能           | [10-advanced-learning.md](./10-advanced-learning.md)       | FR-030〜032                |
+| 11  | 翻訳練習機能             | [11-translation-practice.md](./11-translation-practice.md) | FR-034〜038                |
 
 ---
 
@@ -58,16 +59,21 @@
 | FR-031 | ロールプレイモード     | 実践的な役割演技シナリオ          | Must   | 高度な学習     |
 | FR-032 | TOEIC/IELTS 対策       | 試験スピーキング練習モード        | Could  | 高度な学習     |
 | FR-033 | 発話確認モード         | 音声認識結果の確認＆修正機能      | Should | 会話           |
+| FR-034 | ダイレクト翻訳練習     | 母国語 → 英語の口頭翻訳練習       | Must   | 翻訳練習       |
+| FR-035 | 高度意図翻訳練習       | 意図説明 → 英語表現の自由発話練習 | Must   | 翻訳練習       |
+| FR-036 | ワード連想チャレンジ   | キーワードから関連語句を瞬時発話  | Should | 翻訳練習       |
+| FR-037 | 瞬間応答ドリル         | 質問に即座に英語で応答            | Must   | 翻訳練習       |
+| FR-038 | シャドーイング練習     | AI 音声と同時発話する練習         | Should | 翻訳練習       |
 
 ---
 
 ## 3.3. 優先度サマリー
 
-| 優先度 | 件数 | 機能 ID                                                       |
-| ------ | ---- | ------------------------------------------------------------- |
-| Must   | 17   | FR-001〜006, 009, 011〜016, 018, 021, 024〜026, 031           |
-| Should | 14   | FR-007〜008, 010, 017, 019〜020, 022〜023, 027〜028, 030, 033 |
-| Could  | 2    | FR-029, 032                                                   |
+| 優先度 | 件数 | 機能 ID                                                                 |
+| ------ | ---- | ----------------------------------------------------------------------- |
+| Must   | 20   | FR-001〜006, 009, 011〜016, 018, 021, 024〜026, 031, 034〜035, 037      |
+| Should | 16   | FR-007〜008, 010, 017, 019〜020, 022〜023, 027〜028, 030, 033, 036, 038 |
+| Could  | 2    | FR-029, 032                                                             |
 
 ---
 
@@ -108,6 +114,11 @@
 | ロールプレイ       | BR-084〜085 | 評価基準                       |
 | 試験対策           | BR-086〜088 | 利用制限                       |
 | 発話確認           | BR-089〜094 | 確認モード設定、タイムアウト   |
+| ダイレクト翻訳     | BR-095〜100 | 重複回避、速度スコア、XP 付与  |
+| 高度意図翻訳       | BR-101〜106 | レベル制限、評価柔軟性         |
+| ワード連想         | BR-107〜112 | 制限時間、チェーンボーナス     |
+| 瞬間応答           | BR-113〜118 | 応答時間制限、弱点分析         |
+| シャドーイング     | BR-119〜124 | 速度調整、評価基準             |
 
 ---
 
@@ -188,6 +199,14 @@ flowchart TB
         UC32[UC-032: 試験対策]
     end
 
+    subgraph TranslationPractice["翻訳練習"]
+        UC34[UC-034: ダイレクト翻訳]
+        UC35[UC-035: 意図翻訳]
+        UC36[UC-036: ワード連想]
+        UC37[UC-037: 瞬間応答]
+        UC38[UC-038: シャドーイング]
+    end
+
     Guest --> UC11
     Guest --> UC12
     User --> UserManagement
@@ -199,6 +218,7 @@ flowchart TB
     User --> Progress
     User --> StructuredLearning
     User --> Social
+    User --> TranslationPractice
     User --> AdvancedLearning
 
     AI --> UC2

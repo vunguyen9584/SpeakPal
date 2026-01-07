@@ -2,17 +2,17 @@
 
 ## 3.1. 概要
 
-本章では、SpeakPal AI の機能設計を定義します。SRS で定義された 33 機能要件を 33 ユースケースにマッピングし、詳細な設計を提供します。
+本章では、SpeakPal AI の機能設計を定義します。SRS で定義された 38 機能要件を 38 ユースケースにマッピングし、詳細な設計を提供します。
 
 ### 統計情報
 
-| 項目             | 内容                                                                                                          |
-| ---------------- | ------------------------------------------------------------------------------------------------------------- |
-| モジュール数     | 10 (会話、フィードバック、カスタマイズ、ユーザー管理、サブスク、ゲーミフィ、進捗、学習、ソーシャル、高度学習) |
-| 総ユースケース数 | 33                                                                                                            |
-| Must UC 数       | 17                                                                                                            |
-| Should UC 数     | 14                                                                                                            |
-| Could UC 数      | 2                                                                                                             |
+| 項目             | 内容                                                                                                                    |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| モジュール数     | 11 (会話、フィードバック、カスタマイズ、ユーザー管理、サブスク、ゲーミフィ、進捗、学習、ソーシャル、高度学習、翻訳練習) |
+| 総ユースケース数 | 38                                                                                                                      |
+| Must UC 数       | 20                                                                                                                      |
+| Should UC 数     | 16                                                                                                                      |
+| Could UC 数      | 2                                                                                                                       |
 
 ---
 
@@ -31,6 +31,7 @@
 | [learning-01.md](./03-functional-design/learning-01.md)           | 構造化学習 UC           | 3     |
 | [social-01.md](./03-functional-design/social-01.md)               | ソーシャル UC           | 3     |
 | [advanced-01.md](./03-functional-design/advanced-01.md)           | 高度な学習 UC           | 3     |
+| [translation-01.md](./03-functional-design/translation-01.md)     | 翻訳練習 UC             | 5     |
 
 ---
 
@@ -42,8 +43,8 @@
 
 | メトリック               | 値       |
 | ------------------------ | -------- |
-| SRS 内 FR 総数           | 33       |
-| UC でカバーされた FR 数  | 33       |
+| SRS 内 FR 総数           | 38       |
+| UC でカバーされた FR 数  | 38       |
 | カバーされていない FR 数 | 0        |
 | **カバレッジ率**         | **100%** |
 
@@ -51,8 +52,8 @@
 
 | 優先度 | 総数 | カバー済み | 未カバー | カバレッジ率 | ステータス |
 | ------ | ---- | ---------- | -------- | ------------ | ---------- |
-| Must   | 17   | 17         | 0        | 100%         | ✅ PASS    |
-| Should | 14   | 14         | 0        | 100%         | ✅ PASS    |
+| Must   | 20   | 20         | 0        | 100%         | ✅ PASS    |
+| Should | 16   | 16         | 0        | 100%         | ✅ PASS    |
 | Could  | 2    | 2          | 0        | 100%         | ✅ PASS    |
 
 ### 3.3.3. FR→UC マッピングテーブル
@@ -92,6 +93,11 @@
 | FR-031 | ロールプレイモード     | 高度な学習     | Must   | UC-031        | ✅ カバー済 |
 | FR-032 | TOEIC/IELTS 対策       | 高度な学習     | Could  | UC-032        | ✅ カバー済 |
 | FR-033 | 発話確認モード         | 会話           | Should | UC-033        | ✅ カバー済 |
+| FR-034 | ダイレクト翻訳練習     | 翻訳練習       | Must   | UC-034        | ✅ カバー済 |
+| FR-035 | 高度意図翻訳練習       | 翻訳練習       | Must   | UC-035        | ✅ カバー済 |
+| FR-036 | ワード連想チャレンジ   | 翻訳練習       | Should | UC-036        | ✅ カバー済 |
+| FR-037 | 瞬間応答ドリル         | 翻訳練習       | Must   | UC-037        | ✅ カバー済 |
+| FR-038 | シャドーイング練習     | 翻訳練習       | Should | UC-038        | ✅ カバー済 |
 
 ---
 
@@ -132,6 +138,11 @@
 | UC-031 | ロールプレイ           | 学習者     | FR-031        | Must   | [advanced-01.md](./03-functional-design/advanced-01.md)           |
 | UC-032 | 試験対策               | 学習者     | FR-032        | Could  | [advanced-01.md](./03-functional-design/advanced-01.md)           |
 | UC-033 | 発話確認               | 学習者     | FR-033        | Should | [conversation-01.md](./03-functional-design/conversation-01.md)   |
+| UC-034 | ダイレクト翻訳         | 学習者, AI | FR-034        | Must   | [translation-01.md](./03-functional-design/translation-01.md)     |
+| UC-035 | 高度意図翻訳           | 学習者, AI | FR-035        | Must   | [translation-01.md](./03-functional-design/translation-01.md)     |
+| UC-036 | ワード連想             | 学習者, AI | FR-036        | Should | [translation-01.md](./03-functional-design/translation-01.md)     |
+| UC-037 | 瞬間応答               | 学習者, AI | FR-037        | Must   | [translation-01.md](./03-functional-design/translation-01.md)     |
+| UC-038 | シャドーイング         | 学習者, AI | FR-038        | Should | [translation-01.md](./03-functional-design/translation-01.md)     |
 
 ---
 
@@ -209,6 +220,14 @@ flowchart TB
         UC32[UC-032: 試験対策]
     end
 
+    subgraph TranslationPractice["翻訳練習"]
+        UC34[UC-034: ダイレクト翻訳]
+        UC35[UC-035: 高度意図翻訳]
+        UC36[UC-036: ワード連想]
+        UC37[UC-037: 瞬間応答]
+        UC38[UC-038: シャドーイング]
+    end
+
     Guest --> UC11
     Guest --> UC12
     User --> UserManagement
@@ -219,6 +238,7 @@ flowchart TB
     User --> StructuredLearning
     User --> Social
     User --> AdvancedLearning
+    User --> TranslationPractice
 
     AI --> UC2
     AI --> UC3
@@ -226,6 +246,11 @@ flowchart TB
     AI --> UC6
     AI --> UC9
     AI --> UC10
+    AI --> UC34
+    AI --> UC35
+    AI --> UC36
+    AI --> UC37
+    AI --> UC38
 
     System --> FeedbackSystem
     System --> Gamification
@@ -249,7 +274,8 @@ flowchart TB
 | 構造化学習           | 3         | 3        | 100%     |
 | ソーシャル           | 3         | 3        | 100%     |
 | 高度な学習           | 3         | 3        | 100%     |
-| **Total**            | **33**    | **33**   | **100%** |
+| 翻訳練習             | 5         | 5        | 100%     |
+| **Total**            | **38**    | **38**   | **100%** |
 
 ---
 

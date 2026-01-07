@@ -437,7 +437,7 @@
 - **Description**: Khởi tạo Flutter project
 - **Commands**:
   ```bash
-  flutter create --org com.vunguyenvietnhat.speakpal --platforms=android,ios speakpal_app
+  flutter create --org com.speakpal --platforms=android,ios speakpal_app
   cd speakpal_app
   flutter pub get
   ```

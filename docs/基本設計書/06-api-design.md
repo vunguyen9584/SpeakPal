@@ -8,8 +8,8 @@
 
 | 項目          | 内容 |
 | ------------- | ---- |
-| API 総数      | 52   |
-| REST API      | 42   |
+| API 総数      | 61   |
+| REST API      | 51   |
 | WebSocket API | 10   |
 
 ---
@@ -102,6 +102,20 @@
 | POST   | /api/v1/groups/{id}/join     | グループ参加     | ✓    |
 | DELETE | /api/v1/groups/{id}/leave    | グループ退出     | ✓    |
 | GET    | /api/v1/groups/{id}/members  | メンバー一覧取得 | ✓    |
+
+### 6.2.9. 翻訳練習 API
+
+| HTTP | パス                                   | 説明                     | 認証 |
+| ---- | -------------------------------------- | ------------------------ | ---- |
+| GET  | /api/v1/translation/questions          | 翻訳問題取得             | ✓    |
+| POST | /api/v1/translation/direct/evaluate    | ダイレクト翻訳採点       | ✓    |
+| POST | /api/v1/translation/direct/result      | ダイレクト翻訳結果保存   | ✓    |
+| GET  | /api/v1/translation/intent/questions   | 意図問題取得             | ✓    |
+| POST | /api/v1/translation/intent/evaluate    | 意図翻訳評価             | ✓    |
+| GET  | /api/v1/practice/shadowing/contents    | シャドーイングコンテンツ | ✓    |
+| POST | /api/v1/practice/shadowing/analyze     | シャドーイング分析       | ✓    |
+| POST | /api/v1/practice/quick-response/start  | クイックレスポンス開始   | ✓    |
+| POST | /api/v1/practice/quick-response/result | クイックレスポンス結果   | ✓    |
 
 ---
 
@@ -653,15 +667,20 @@ Authorization: Bearer <access_token>
 | UC-031 | ロールプレイモード     | GET /scenarios, POST /conversations   | ✅     |
 | UC-032 | TOEIC/IELTS 対策       | GET /scenarios, POST /conversations   | ✅     |
 | UC-033 | 会話サマリー           | PUT /conversations/{id}/end           | ✅     |
+| UC-034 | ダイレクト翻訳         | GET/POST /translation/direct/\*       | ✅     |
+| UC-035 | 高度意図翻訳           | GET/POST /translation/intent/\*       | ✅     |
+| UC-036 | ワード連想             | POST /practice/quick-response/\*      | ✅     |
+| UC-037 | 瞬間応答               | POST /practice/quick-response/\*      | ✅     |
+| UC-038 | シャドーイング         | GET/POST /practice/shadowing/\*       | ✅     |
 
 ### Coverage Summary
 
 | Category    | Total UCs | Covered | Background | Coverage |
 | ----------- | --------- | ------- | ---------- | -------- |
-| Must (17)   | 17        | 17      | 0          | 100%     |
-| Should (14) | 14        | 13      | 1          | 100%     |
+| Must (20)   | 20        | 20      | 0          | 100%     |
+| Should (16) | 16        | 15      | 1          | 100%     |
 | Could (2)   | 2         | 2       | 0          | 100%     |
-| **Total**   | **33**    | **32**  | **1**      | **100%** |
+| **Total**   | **38**    | **37**  | **1**      | **100%** |
 
 ---
 

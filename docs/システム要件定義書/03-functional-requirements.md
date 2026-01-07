@@ -10,35 +10,37 @@
 
 ```
 03-functional-requirements/
-├── _index.md               # 概要・全機能一覧・ユースケース図
-├── 01-conversation.md      # FR-001〜003, 009, 010, 033（会話機能）
-├── 02-feedback.md          # FR-004〜006, 017（フィードバック）
-├── 03-customization.md     # FR-007〜008（カスタマイズ）
-├── 04-user-management.md   # FR-011〜013（ユーザー管理）
-├── 05-subscription.md      # FR-014〜016（サブスクリプション）
-├── 06-gamification.md      # FR-018〜020（ゲーミフィケーション）
-├── 07-progress-tracking.md # FR-021〜023（学習進捗）
+├── _index.md                 # 概要・全機能一覧・ユースケース図
+├── 01-conversation.md        # FR-001〜003, 009, 010, 033（会話機能）
+├── 02-feedback.md            # FR-004〜006, 017（フィードバック）
+├── 03-customization.md       # FR-007〜008（カスタマイズ）
+├── 04-user-management.md     # FR-011〜013（ユーザー管理）
+├── 05-subscription.md        # FR-014〜016（サブスクリプション）
+├── 06-gamification.md        # FR-018〜020（ゲーミフィケーション）
+├── 07-progress-tracking.md   # FR-021〜023（学習進捗）
 ├── 08-structured-learning.md # FR-024〜026（構造化学習）
-├── 09-social.md            # FR-027〜029（ソーシャル）
-└── 10-advanced-learning.md # FR-030〜032（高度な学習）
+├── 09-social.md              # FR-027〜029（ソーシャル）
+├── 10-advanced-learning.md   # FR-030〜032（高度な学習）
+└── 11-translation-practice.md # FR-034〜038（翻訳練習）
 ```
 
 ---
 
 ## クイックリンク
 
-| カテゴリ             | 機能 ID                    | リンク                                                                              |
-| -------------------- | -------------------------- | ----------------------------------------------------------------------------------- |
-| 会話機能             | FR-001〜003, 009, 010, 033 | [01-conversation.md](./03-functional-requirements/01-conversation.md)               |
-| フィードバック       | FR-004〜006, 017           | [02-feedback.md](./03-functional-requirements/02-feedback.md)                       |
-| カスタマイズ         | FR-007〜008                | [03-customization.md](./03-functional-requirements/03-customization.md)             |
-| ユーザー管理         | FR-011〜013                | [04-user-management.md](./03-functional-requirements/04-user-management.md)         |
-| サブスクリプション   | FR-014〜016                | [05-subscription.md](./03-functional-requirements/05-subscription.md)               |
-| ゲーミフィケーション | FR-018〜020                | [06-gamification.md](./03-functional-requirements/06-gamification.md)               |
-| 学習進捗             | FR-021〜023                | [07-progress-tracking.md](./03-functional-requirements/07-progress-tracking.md)     |
-| 構造化学習           | FR-024〜026                | [08-structured-learning.md](./03-functional-requirements/08-structured-learning.md) |
-| ソーシャル           | FR-027〜029                | [09-social.md](./03-functional-requirements/09-social.md)                           |
-| 高度な学習           | FR-030〜032                | [10-advanced-learning.md](./03-functional-requirements/10-advanced-learning.md)     |
+| カテゴリ             | 機能 ID                    | リンク                                                                                |
+| -------------------- | -------------------------- | ------------------------------------------------------------------------------------- |
+| 会話機能             | FR-001〜003, 009, 010, 033 | [01-conversation.md](./03-functional-requirements/01-conversation.md)                 |
+| フィードバック       | FR-004〜006, 017           | [02-feedback.md](./03-functional-requirements/02-feedback.md)                         |
+| カスタマイズ         | FR-007〜008                | [03-customization.md](./03-functional-requirements/03-customization.md)               |
+| ユーザー管理         | FR-011〜013                | [04-user-management.md](./03-functional-requirements/04-user-management.md)           |
+| サブスクリプション   | FR-014〜016                | [05-subscription.md](./03-functional-requirements/05-subscription.md)                 |
+| ゲーミフィケーション | FR-018〜020                | [06-gamification.md](./03-functional-requirements/06-gamification.md)                 |
+| 学習進捗             | FR-021〜023                | [07-progress-tracking.md](./03-functional-requirements/07-progress-tracking.md)       |
+| 構造化学習           | FR-024〜026                | [08-structured-learning.md](./03-functional-requirements/08-structured-learning.md)   |
+| ソーシャル           | FR-027〜029                | [09-social.md](./03-functional-requirements/09-social.md)                             |
+| 高度な学習           | FR-030〜032                | [10-advanced-learning.md](./03-functional-requirements/10-advanced-learning.md)       |
+| 翻訳練習             | FR-034〜038                | [11-translation-practice.md](./03-functional-requirements/11-translation-practice.md) |
 
 ---
 
@@ -81,5 +83,10 @@
 | FR-031 | ロールプレイモード     | Must   |
 | FR-032 | TOEIC/IELTS 対策       | Could  |
 | FR-033 | 発話確認モード         | Should |
+| FR-034 | ダイレクト翻訳練習     | Must   |
+| FR-035 | 高度意図翻訳練習       | Must   |
+| FR-036 | ワード連想チャレンジ   | Should |
+| FR-037 | 瞬間応答ドリル         | Must   |
+| FR-038 | シャドーイング練習     | Should |
 
-**合計: 33 機能要件 (Must: 17, Should: 14, Could: 2)**
+**合計: 38 機能要件 (Must: 20, Should: 16, Could: 2)**

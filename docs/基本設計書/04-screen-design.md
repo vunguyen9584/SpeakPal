@@ -8,9 +8,9 @@
 
 | 項目        | 内容 |
 | ----------- | ---- |
-| 総画面数    | 20   |
-| Must 画面   | 12   |
-| Should 画面 | 6    |
+| 総画面数    | 24   |
+| Must 画面   | 14   |
+| Should 画面 | 8    |
 | Could 画面  | 2    |
 
 ---
@@ -27,6 +27,7 @@
 | [progress-01.md](./04-screen-design/progress-01.md)         | 進捗関連画面       | 4      |
 | [learning-01.md](./04-screen-design/learning-01.md)         | 学習関連画面       | 3      |
 | [social-01.md](./04-screen-design/social-01.md)             | ソーシャル関連画面 | 3      |
+| [translation-01.md](./04-screen-design/translation-01.md)   | 翻訳練習関連画面   | 4      |
 
 ---
 
@@ -89,6 +90,10 @@ stateDiagram-v2
 | SCR-018 | ランキング画面         | UC-028                | Should | [social-01.md](./04-screen-design/social-01.md)             |
 | SCR-019 | グループ画面           | UC-029                | Could  | [social-01.md](./04-screen-design/social-01.md)             |
 | SCR-020 | 試験対策画面           | UC-032                | Could  | [learning-01.md](./04-screen-design/learning-01.md)         |
+| SCR-021 | ダイレクト翻訳練習画面 | UC-034                | Must   | [translation-01.md](./04-screen-design/translation-01.md)   |
+| SCR-022 | 高度意図翻訳練習画面   | UC-035                | Must   | [translation-01.md](./04-screen-design/translation-01.md)   |
+| SCR-023 | クイックレスポンス画面 | UC-036, UC-037        | Should | [translation-01.md](./04-screen-design/translation-01.md)   |
+| SCR-024 | シャドーイング練習画面 | UC-038                | Should | [translation-01.md](./04-screen-design/translation-01.md)   |
 
 ---
 
@@ -138,7 +143,8 @@ stateDiagram-v2
 | 進捗       | 4             | 4        | 100%     |
 | 学習       | 3             | 3        | 100%     |
 | ソーシャル | 3             | 3        | 100%     |
-| **Total**  | **20**        | **20**   | **100%** |
+| 翻訳練習   | 4             | 4        | 100%     |
+| **Total**  | **24**        | **24**   | **100%** |
 
 ---
 

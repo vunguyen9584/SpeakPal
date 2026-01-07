@@ -14,14 +14,47 @@
 | 6. Other Requirements          | 05-data-design, 07-batch-design | ✅ 100%    |
 | 7. Appendix                    | 10-appendix                     | ✅ 100%    |
 
-### 10.1.2. FR → UC マッピング確認
+### 10.1.2. FR → UC → Screen → API → Table 完全トレーサビリティ
 
-| 優先度   | 総数   | カバー済み | 未カバー | カバレッジ率 | ステータス |
-| -------- | ------ | ---------- | -------- | ------------ | ---------- |
-| Must     | 17     | 17         | 0        | 100%         | ✅ PASS    |
-| Should   | 14     | 14         | 0        | 100%         | ✅ PASS    |
-| Could    | 2      | 2          | 0        | 100%         | ✅ PASS    |
-| **合計** | **33** | **33**     | **0**    | **100%**     | ✅ PASS    |
+> 📌 **ENHANCED**: 完全なトレーサビリティマトリクス (FR → UC → Screen → API → Table)
+
+| FR ID  | FR 名                  | UC ID  | 画面 ID                        | API                                 | テーブル                     |
+| ------ | ---------------------- | ------ | ------------------------------ | ----------------------------------- | ---------------------------- |
+| FR-001 | 会話モード切替         | UC-001 | SCR-CONV-001                   | POST /conversations                 | conversations                |
+| FR-002 | インストラクター会話   | UC-002 | SCR-CONV-002                   | WebSocket /ws/{id}                  | conversations, turns         |
+| FR-003 | フリートーク会話       | UC-003 | SCR-CONV-002                   | WebSocket /ws/{id}                  | conversations, turns         |
+| FR-004 | スマート提案表示       | UC-004 | SCR-CONV-002                   | WebSocket (suggestion)              | turns                        |
+| FR-005 | ストリーミング字幕     | UC-005 | SCR-CONV-002                   | WebSocket (text_result)             | turns                        |
+| FR-006 | 即時訂正表示           | UC-006 | SCR-CONV-002                   | WebSocket (correction)              | corrections                  |
+| FR-007 | AI 速度調整            | UC-007 | SCR-SETTINGS-002               | PUT /users/me                       | users                        |
+| FR-008 | カスタムペルソナ作成   | UC-008 | SCR-SETTINGS-003               | POST /personas                      | personas                     |
+| FR-009 | 割り込み対応           | UC-009 | SCR-CONV-002                   | WebSocket (interrupt)               | -                            |
+| FR-010 | フィラーワード         | UC-010 | SCR-CONV-002                   | -                                   | -                            |
+| FR-011 | ユーザー登録           | UC-011 | SCR-AUTH-001                   | POST /auth/register                 | users                        |
+| FR-012 | ログイン/認証          | UC-012 | SCR-AUTH-002                   | POST /auth/login                    | users, sessions              |
+| FR-013 | パスワード変更         | UC-013 | SCR-SETTINGS-004               | PUT /users/me/password              | users                        |
+| FR-014 | サブスクリプション管理 | UC-014 | SCR-SETTINGS-005               | GET /subscriptions                  | subscriptions                |
+| FR-015 | 利用量制限             | UC-015 | SCR-HOME-001, SCR-SETTINGS-005 | GET /subscriptions                  | subscriptions                |
+| FR-016 | プラン変更             | UC-016 | SCR-SETTINGS-005               | POST /subscriptions/verify          | subscriptions                |
+| FR-017 | 語彙解説               | UC-017 | SCR-CONV-002                   | POST /vocabularies                  | vocabularies                 |
+| FR-018 | 学習ストリーク         | UC-018 | SCR-HOME-001                   | GET /streaks                        | streaks                      |
+| FR-019 | 実績バッジ             | UC-019 | SCR-PROGRESS-003               | GET /badges/user                    | badges, user_badges          |
+| FR-020 | 経験値＆レベル         | UC-020 | SCR-HOME-001, SCR-PROGRESS-001 | GET /users/me/stats                 | users                        |
+| FR-021 | 学習統計ダッシュボード | UC-021 | SCR-PROGRESS-001               | GET /users/me/stats                 | user_statistics              |
+| FR-022 | 発音スコア履歴         | UC-022 | SCR-PROGRESS-002               | GET /conversations                  | conversations                |
+| FR-023 | 週間/月間レポート      | UC-023 | SCR-PROGRESS-001               | -                                   | user_reports (Batch)         |
+| FR-024 | シナリオライブラリ     | UC-024 | SCR-LEARNING-001               | GET /scenarios                      | scenarios                    |
+| FR-025 | デイリーチャレンジ     | UC-025 | SCR-HOME-001, SCR-LEARNING-002 | GET /challenges/today               | challenges, user_challenges  |
+| FR-026 | 単語帳＆復習           | UC-026 | SCR-LEARNING-003               | GET /vocabularies                   | vocabularies                 |
+| FR-027 | 友達招待               | UC-027 | SCR-SOCIAL-001                 | POST /invitations/generate          | invitations                  |
+| FR-028 | 週間ランキング         | UC-028 | SCR-SOCIAL-002                 | GET /rankings/weekly                | user_rankings                |
+| FR-029 | グループ学習           | UC-029 | SCR-SOCIAL-003                 | GET /groups, POST /groups           | groups, group_members        |
+| FR-030 | 発音詳細分析           | UC-030 | SCR-CONV-002, SCR-PROGRESS-002 | WebSocket + GET /conversations      | turns, pronunciation_details |
+| FR-031 | ロールプレイモード     | UC-031 | SCR-LEARNING-001, SCR-CONV-002 | GET /scenarios, POST /conversations | scenarios, conversations     |
+| FR-032 | TOEIC/IELTS 対策       | UC-032 | SCR-LEARNING-001               | GET /scenarios                      | scenarios                    |
+| FR-033 | 発話確認モード         | UC-033 | SCR-SETTINGS-002               | PUT /users/me                       | users                        |
+
+### 10.1.3. カバレッジサマリー
 
 ---
 

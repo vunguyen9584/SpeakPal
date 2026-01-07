@@ -87,4 +87,190 @@
 
 ---
 
+## 6. State Diagrams (Lifecycle Entities)
+
+> 📌 **ENHANCED**: State diagrams cho các entity có lifecycle phức tạp
+
+### 6.1. Conversation Session State
+
+```mermaid
+stateDiagram-v2
+    [*] --> Initializing: start_conversation()
+    Initializing --> Ready: ai_initialized
+    Initializing --> Error: initialization_failed
+
+    Ready --> Active: user_speaks
+    Active --> Processing: audio_received
+    Processing --> AIResponding: stt_complete
+    AIResponding --> Active: ai_response_complete
+
+    Active --> Paused: user_silence(20s)
+    Paused --> Active: user_speaks
+    Paused --> Ending: timeout(5min)
+
+    Active --> Interrupted: user_interrupt
+    Interrupted --> Active: interrupt_handled
+
+    Active --> Ending: user_end_session
+    AIResponding --> Ending: user_end_session
+
+    Ending --> Summarizing: generate_summary
+    Summarizing --> Completed: summary_saved
+
+    Error --> [*]: cleanup
+    Completed --> [*]: session_closed
+```
+
+#### 状態定義
+
+| 状態         | 説明                   | 入力遷移              | 出力遷移                   |
+| ------------ | ---------------------- | --------------------- | -------------------------- |
+| Initializing | AI・WebSocket 初期化中 | start_conversation    | Ready, Error               |
+| Ready        | 会話開始待ち           | ai_initialized        | Active                     |
+| Active       | 会話進行中             | user_speaks           | Processing, Paused, Ending |
+| Processing   | 音声処理中             | audio_received        | AIResponding               |
+| AIResponding | AI 応答生成中          | stt_complete          | Active, Ending             |
+| Paused       | 一時停止               | user_silence          | Active, Ending             |
+| Interrupted  | 割り込み処理中         | user_interrupt        | Active                     |
+| Ending       | 会話終了処理           | user_end_session      | Summarizing                |
+| Summarizing  | サマリー生成中         | generate_summary      | Completed                  |
+| Completed    | 会話完了               | summary_saved         | [終了]                     |
+| Error        | エラー状態             | initialization_failed | [終了]                     |
+
+---
+
+### 6.2. Subscription State
+
+```mermaid
+stateDiagram-v2
+    [*] --> Free: user_registered
+
+    Free --> PendingPayment: select_paid_plan
+    PendingPayment --> Plus: payment_success(Plus)
+    PendingPayment --> Pro: payment_success(Pro)
+    PendingPayment --> Free: payment_failed
+    PendingPayment --> Free: payment_cancelled
+
+    Plus --> Pro: upgrade()
+    Plus --> PendingCancellation: cancel()
+    Plus --> Plus: auto_renew()
+    Plus --> Expired: renewal_failed
+
+    Pro --> PendingCancellation: cancel()
+    Pro --> Pro: auto_renew()
+    Pro --> Expired: renewal_failed
+
+    PendingCancellation --> Free: grace_period_end
+
+    Expired --> Free: grace_period_end
+    Expired --> Plus: resubscribe()
+    Expired --> Pro: resubscribe()
+
+    Free --> [*]: account_deleted
+    Plus --> [*]: account_deleted
+    Pro --> [*]: account_deleted
+```
+
+#### 状態定義
+
+| 状態                | 説明                         | プラン   | 制限         |
+| ------------------- | ---------------------------- | -------- | ------------ |
+| Free                | 無料プラン                   | Free     | 3 回/日      |
+| Plus                | Plus プラン有効              | Plus     | 20 回/日     |
+| Pro                 | Pro プラン有効               | Pro      | 無制限       |
+| PendingPayment      | 決済待ち                     | -        | 現プラン維持 |
+| PendingCancellation | 解約待ち（次回更新まで有効） | 現プラン | 現プラン維持 |
+| Expired             | 期限切れ（7 日間猶予期間）   | Free     | 3 回/日      |
+
+---
+
+### 6.3. User Account State
+
+```mermaid
+stateDiagram-v2
+    [*] --> Registered: register()
+
+    Registered --> PendingVerification: email_sent
+    PendingVerification --> Active: email_verified
+    PendingVerification --> Registered: verification_expired(48h)
+
+    Active --> Suspended: admin_suspend
+    Active --> Locked: failed_login(5x)
+    Active --> Active: profile_update
+    Active --> PendingDeletion: request_deletion
+
+    Locked --> Active: password_reset
+    Locked --> Active: admin_unlock
+    Locked --> Locked: auto_unlock(30min)
+
+    Suspended --> Active: admin_unsuspend
+    Suspended --> Deleted: admin_delete
+
+    PendingDeletion --> Deleted: deletion_period_end(30d)
+    PendingDeletion --> Active: cancel_deletion
+
+    Deleted --> [*]
+```
+
+#### 状態定義
+
+| 状態                | 説明                | 許可操作               |
+| ------------------- | ------------------- | ---------------------- |
+| Registered          | 登録済み（未確認）  | メール確認、再送信     |
+| PendingVerification | メール確認待ち      | 確認リンククリック     |
+| Active              | アクティブ          | 全機能利用可能         |
+| Locked              | ロック中            | パスワードリセットのみ |
+| Suspended           | 管理者により停止    | 問い合わせのみ         |
+| PendingDeletion     | 削除待ち（30 日間） | 削除キャンセル可能     |
+| Deleted             | 削除済み            | なし                   |
+
+---
+
+### 6.4. Streak State
+
+```mermaid
+stateDiagram-v2
+    [*] --> NoStreak: user_registered
+
+    NoStreak --> Day1: first_lesson
+    Day1 --> Active: next_day_lesson
+
+    Active --> Active: daily_lesson
+    Active --> AtRisk: no_lesson_today
+
+    AtRisk --> Active: lesson_completed
+    AtRisk --> FreezeUsed: use_freeze
+    AtRisk --> Broken: day_end_no_activity
+
+    FreezeUsed --> Active: next_day_lesson
+    FreezeUsed --> Broken: no_lesson_after_freeze
+
+    Broken --> Day1: new_lesson
+
+    note right of Active
+        current_streak++
+        longest_streak = max(current, longest)
+    end note
+
+    note right of Broken
+        current_streak = 0
+        freeze_used = false
+    end note
+```
+
+#### 状態遷移ルール
+
+| 現在状態 | トリガー                 | 次状態     | アクション         |
+| -------- | ------------------------ | ---------- | ------------------ |
+| NoStreak | 初学習完了               | Day1       | streak=1           |
+| Day1     | 翌日学習                 | Active     | streak=2           |
+| Active   | 当日学習                 | Active     | streak++           |
+| Active   | 当日未学習（23:59 まで） | AtRisk     | -                  |
+| AtRisk   | 学習完了                 | Active     | streak++           |
+| AtRisk   | フリーズ使用             | FreezeUsed | freeze--           |
+| AtRisk   | 日付変更                 | Broken     | streak=0, 通知送信 |
+| Broken   | 学習完了                 | Day1       | streak=1           |
+
+---
+
 _メインファイル: [../03-functional-design.md](../03-functional-design.md)_

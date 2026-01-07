@@ -7,10 +7,10 @@
 | Project Name          | SpeakPal AI - AI 英会話練習アプリ |
 | Technology Stack      | Flutter + NestJS + PostgreSQL     |
 | Total Modules         | 13                                |
-| Total Use Cases       | 33                                |
-| Total APIs            | 52 (42 REST + 10 WebSocket)       |
-| Total Screens         | 20                                |
-| Total Database Tables | 18                                |
+| Total Use Cases       | 38                                |
+| Total APIs            | 67 (57 REST + 10 WebSocket)       |
+| Total Screens         | 24                                |
+| Total Database Tables | 23                                |
 | Total Batches         | 8                                 |
 
 ---
@@ -145,7 +145,45 @@
 
 ---
 
-### 3.6. Phase 5: Social & Subscription
+### 3.6. Phase 5: Translation Practice (NEW)
+
+> 🆕 **新機能**: 翻訳練習モジュール - FR-034〜FR-038 に対応
+
+| ID        | Work Package                   | Description                                         | Est. Days | Dependencies          | DD References                                                                          |
+| --------- | ------------------------------ | --------------------------------------------------- | --------- | --------------------- | -------------------------------------------------------------------------------------- |
+| WP-BE-017 | Translation Service (BE)       | TranslationService, question management, scoring    | 4         | WP-BE-005, WP-INT-001 | `06-component-design/translation-01.md`, `08-api-design/translation-apis.md`           |
+| WP-BE-018 | Quick Response Service (BE)    | Word association, instant drill, session management | 3         | WP-BE-017             | `06-component-design/translation-02.md#uc036-037`, `08-api-design/translation-apis.md` |
+| WP-BE-019 | Shadowing Service (BE)         | Audio sync analysis, pronunciation scoring          | 3         | WP-BE-017, WP-INT-003 | `06-component-design/translation-02.md#uc038`, `08-api-design/translation-apis.md`     |
+| WP-DB-001 | Translation Tables Migration   | translation_questions, translation_results, etc.    | 1         | WP-BE-002             | `07-database-design/translation-tables.md`                                             |
+| WP-FE-015 | Direct Translation Screen (FE) | Topic selection, voice input, scoring display       | 3         | WP-FE-008             | `09-ui-specifications/translation-screens.md`, `06-component-design/translation-01.md` |
+| WP-FE-016 | Intent Translation Screen (FE) | Situation display, expression input, alternatives   | 2         | WP-FE-015             | `09-ui-specifications/translation-screens.md`, `06-component-design/translation-01.md` |
+| WP-FE-017 | Quick Response Screens (FE)    | Word association challenge, instant drill UI        | 3         | WP-FE-015             | `09-ui-specifications/translation-screens.md`, `06-component-design/translation-02.md` |
+| WP-FE-018 | Shadowing Practice Screen (FE) | Audio playback sync, recording, analysis display    | 3         | WP-FE-015             | `09-ui-specifications/translation-screens.md`, `06-component-design/translation-02.md` |
+
+**Phase 5 Subtotal: ~22 days**
+
+#### Translation Practice - Use Case Coverage
+
+| UC ID  | UC Name              | WP Reference         | Status |
+| ------ | -------------------- | -------------------- | ------ |
+| UC-034 | ダイレクト翻訳練習   | WP-BE-017, WP-FE-015 | ⬜     |
+| UC-035 | 高度意図翻訳練習     | WP-BE-017, WP-FE-016 | ⬜     |
+| UC-036 | ワード連想チャレンジ | WP-BE-018, WP-FE-017 | ⬜     |
+| UC-037 | 瞬間応答ドリル       | WP-BE-018, WP-FE-017 | ⬜     |
+| UC-038 | シャドーイング練習   | WP-BE-019, WP-FE-018 | ⬜     |
+
+#### Translation Practice - API Coverage
+
+| API Category     | API Count | WP Reference |
+| ---------------- | --------- | ------------ |
+| Translation APIs | 4         | WP-BE-017    |
+| Quick Response   | 7         | WP-BE-018    |
+| Shadowing APIs   | 4         | WP-BE-019    |
+| **Total**        | **15**    | -            |
+
+---
+
+### 3.7. Phase 6: Social & Subscription
 
 | ID        | Work Package              | Description                          | Est. Days | Dependencies | DD References                                                                 |
 | --------- | ------------------------- | ------------------------------------ | --------- | ------------ | ----------------------------------------------------------------------------- |
@@ -155,11 +193,11 @@
 | WP-FE-013 | Social Screens (FE)       | Invite friends, groups, leaderboard  | 3         | WP-FE-011    | `09-ui-specifications.md#social`, `06-component-design.md#social`             |
 | WP-FE-014 | Subscription Screens (FE) | Plans, upgrade, manage subscription  | 2         | WP-FE-006    | `09-ui-specifications.md#subscription`, `06-component-design.md#subscription` |
 
-**Phase 5 Subtotal: ~14 days**
+**Phase 6 Subtotal: ~14 days**
 
 ---
 
-### 3.7. Phase 6: External Service Integration
+### 3.8. Phase 7: External Service Integration
 
 | ID         | Work Package               | Description                     | Est. Days | Dependencies | DD References                                                                            |
 | ---------- | -------------------------- | ------------------------------- | --------- | ------------ | ---------------------------------------------------------------------------------------- |
@@ -169,26 +207,27 @@
 | WP-INT-004 | App Store IAP Integration  | iOS In-App Purchase             | 2         | WP-BE-015    | `03-system-overview.md#external-services`, `05-module-design.md#subscription`            |
 | WP-INT-005 | Play Store IAP Integration | Android In-App Purchase         | 2         | WP-BE-015    | `03-system-overview.md#external-services`, `05-module-design.md#subscription`            |
 
-**Phase 6 Subtotal: ~13 days**
+**Phase 7 Subtotal: ~13 days**
 
 ---
 
-### 3.8. Phase 7: Quality Assurance
+### 3.9. Phase 8: Quality Assurance
 
-| ID        | Work Package              | Description                       | Est. Days | Dependencies         | DD References                                                         |
-| --------- | ------------------------- | --------------------------------- | --------- | -------------------- | --------------------------------------------------------------------- |
-| WP-QA-001 | Backend Unit Tests        | Jest tests for all services       | 5         | WP-BE-016            | `05-module-design.md`, `08-api-design.md`                             |
-| WP-QA-002 | Backend Integration Tests | API & WebSocket integration tests | 3         | WP-QA-001            | `08-api-design.md`, `11-error-handling.md`                            |
-| WP-QA-003 | Flutter Widget Tests      | Widget & unit tests               | 4         | WP-FE-014            | `09-ui-specifications.md`, `06-component-design.md`                   |
-| WP-QA-004 | E2E Testing               | End-to-end user flow tests        | 4         | WP-QA-002, WP-QA-003 | `06-component-design.md`, `14-appendices.md#test-cases`               |
-| WP-QA-005 | Performance Testing       | Load testing, optimization        | 3         | WP-QA-004            | `04-design-considerations.md#performance`, `12-logging-monitoring.md` |
-| WP-QA-006 | Security Audit            | OWASP checks, penetration testing | 2         | WP-QA-004            | `10-security-design.md`                                               |
+| ID        | Work Package              | Description                              | Est. Days | Dependencies         | DD References                                                         |
+| --------- | ------------------------- | ---------------------------------------- | --------- | -------------------- | --------------------------------------------------------------------- |
+| WP-QA-001 | Backend Unit Tests        | Jest tests for all services              | 6         | WP-BE-016, WP-BE-019 | `05-module-design.md`, `08-api-design.md`                             |
+| WP-QA-002 | Backend Integration Tests | API & WebSocket integration tests        | 4         | WP-QA-001            | `08-api-design.md`, `11-error-handling.md`                            |
+| WP-QA-003 | Flutter Widget Tests      | Widget & unit tests                      | 5         | WP-FE-014, WP-FE-018 | `09-ui-specifications.md`, `06-component-design.md`                   |
+| WP-QA-004 | E2E Testing               | End-to-end user flow tests               | 5         | WP-QA-002, WP-QA-003 | `06-component-design.md`, `14-appendices.md#test-cases`               |
+| WP-QA-005 | Performance Testing       | Load testing, optimization               | 3         | WP-QA-004            | `04-design-considerations.md#performance`, `12-logging-monitoring.md` |
+| WP-QA-006 | Security Audit            | OWASP checks, penetration testing        | 2         | WP-QA-004            | `10-security-design.md`                                               |
+| WP-QA-007 | Translation Feature Tests | Translation, shadowing integration tests | 3         | WP-BE-019, WP-FE-018 | `06-component-design/translation-*.md`                                |
 
-**Phase 7 Subtotal: ~21 days**
+**Phase 8 Subtotal: ~28 days**
 
 ---
 
-### 3.9. Phase 8: Deployment & Launch
+### 3.10. Phase 9: Deployment & Launch
 
 | ID         | Work Package          | Description                         | Est. Days | Dependencies           | DD References                                         |
 | ---------- | --------------------- | ----------------------------------- | --------- | ---------------------- | ----------------------------------------------------- |
@@ -199,7 +238,7 @@
 | WP-DEP-005 | Play Store Submission | Android app submission & review     | 2         | WP-DEP-003             | `13-deployment-design.md#play-store`                  |
 | WP-DEP-006 | Production Deployment | Deploy to production                | 1         | WP-DEP-004, WP-DEP-005 | `13-deployment-design.md#production`                  |
 
-**Phase 8 Subtotal: ~12 days**
+**Phase 9 Subtotal: ~12 days**
 
 ---
 
@@ -242,7 +281,17 @@ flowchart TD
         FE008[WP-FE-008<br>Conversation UI]
     end
 
-    subgraph Phase6[Phase 6: Integration]
+    subgraph Phase5[Phase 5: Translation 🆕]
+        BE017[WP-BE-017<br>Translation Service]
+        BE018[WP-BE-018<br>Quick Response]
+        BE019[WP-BE-019<br>Shadowing]
+        FE015[WP-FE-015<br>Direct Translation]
+        FE016[WP-FE-016<br>Intent Translation]
+        FE017[WP-FE-017<br>Quick Response UI]
+        FE018[WP-FE-018<br>Shadowing UI]
+    end
+
+    subgraph Phase7[Phase 7: Integration]
         INT001[WP-INT-001<br>Deepgram]
         INT002[WP-INT-002<br>OpenAI]
         INT003[WP-INT-003<br>ElevenLabs]
@@ -282,6 +331,17 @@ flowchart TD
     BE001 --> INT001
     BE001 --> INT002
     BE001 --> INT003
+
+    %% Phase 3 → Phase 5 Translation (NEW)
+    BE005 --> BE017
+    INT001 --> BE017
+    BE017 --> BE018
+    BE017 --> BE019
+    INT003 --> BE019
+    FE008 --> FE015
+    FE015 --> FE016
+    FE015 --> FE017
+    FE015 --> FE018
 ```
 
 ---
@@ -295,44 +355,71 @@ flowchart TD
 | Phase 2   | Auth & User             | 6             | 16              |
 | Phase 3   | Conversation (Core)     | 7             | 25              |
 | Phase 4   | Learning & Gamification | 6             | 20              |
-| Phase 5   | Social & Subscription   | 5             | 14              |
-| Phase 6   | External Integration    | 5             | 13              |
-| Phase 7   | Quality Assurance       | 6             | 21              |
-| Phase 8   | Deployment & Launch     | 6             | 12              |
-| **Total** |                         | **52**        | **~135.5 days** |
+| Phase 5   | Translation Practice 🆕 | 8             | 22              |
+| Phase 6   | Social & Subscription   | 5             | 14              |
+| Phase 7   | External Integration    | 5             | 13              |
+| Phase 8   | Quality Assurance       | 7             | 28              |
+| Phase 9   | Deployment & Launch     | 6             | 12              |
+| **Total** |                         | **61**        | **~164.5 days** |
 
 ---
 
 ## 6. Critical Path
 
 ```
-INF-001 → BE-001 → BE-002 → BE-003 → BE-004 → BE-005 → BE-007 → BE-008 → BE-009 → FE-008 → QA-004 → DEP-006
+INF-001 → BE-001 → BE-002 → BE-003 → BE-004 → BE-005 → BE-007 → BE-008 → BE-009 → FE-008 → FE-015 → BE-019 → QA-007 → DEP-006
 ```
 
-Estimated Critical Path Duration: **~95 days** (with parallelization of FE/BE work)
+Estimated Critical Path Duration: **~110 days** (with parallelization of FE/BE work)
 
 ---
 
 ## 7. Risk Considerations
 
-| Risk                           | Impact | Mitigation                             |
-| ------------------------------ | ------ | -------------------------------------- |
-| AI API latency issues          | High   | Implement streaming, timeout handling  |
-| App Store review delays        | Medium | Submit early, follow guidelines        |
-| Audio processing complexity    | High   | Use proven libraries, thorough testing |
-| Cross-platform inconsistencies | Medium | Extensive device testing               |
+| Risk                           | Impact | Mitigation                                        |
+| ------------------------------ | ------ | ------------------------------------------------- |
+| AI API latency issues          | High   | Implement streaming, timeout handling             |
+| App Store review delays        | Medium | Submit early, follow guidelines                   |
+| Audio processing complexity    | High   | Use proven libraries, thorough testing            |
+| Cross-platform inconsistencies | Medium | Extensive device testing                          |
+| Shadowing audio sync accuracy  | High   | Extensive testing with various speech speeds      |
+| Translation scoring fairness   | Medium | Multiple model answers, user feedback integration |
 
 ---
 
-## 8. Next Steps
+## 8. DD Coverage Verification
+
+| Element     | DD Count | WPs Mapped | Gap | Status |
+| ----------- | -------- | ---------- | --- | ------ |
+| Modules     | 13       | 13         | 0   | ✅     |
+| Use Cases   | 38       | 38         | 0   | ✅     |
+| Tables      | 23       | 23         | 0   | ✅     |
+| APIs (REST) | 57       | 57         | 0   | ✅     |
+| WebSocket   | 10       | 10         | 0   | ✅     |
+| Screens     | 24       | 24         | 0   | ✅     |
+| Batches     | 8        | 8          | 0   | ✅     |
+| **TOTAL**   | **173**  | **173**    | 0   | ✅     |
+
+---
+
+## 9. Next Steps
 
 1. **Create Detailed Plan** - Use `/create-detailed-plan` workflow to break down each Work Package into specific tasks
-2. **Prioritize** - Identify MVP-critical Work Packages
+2. **Prioritize** - Identify MVP-critical Work Packages (Phase 5 Translation is HIGH priority)
 3. **Resource Allocation** - Assign team members to Work Packages
 4. **Start Implementation** - Begin with Phase 0 & Phase 1
 
 ---
 
+## 10. Change History
+
+| Date       | Version | Description                                                   |
+| ---------- | ------- | ------------------------------------------------------------- |
+| 2025-12-29 | 1.0     | Initial Master Plan creation                                  |
+| 2026-01-07 | 1.1     | Added Phase 5: Translation Practice (UC-034~038, 15 new APIs) |
+
+---
+
 _Generated from: docs/SpeakPal/詳細設計書_
-_Created: 2025-12-29_
+_Last Updated: 2026-01-07_
 _Workflow: /create-master-plan_
