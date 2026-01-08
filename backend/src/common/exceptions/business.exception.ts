@@ -16,7 +16,7 @@ export abstract class BusinessException extends AppException {
     message: string,
     code: string,
     statusCode: HttpStatus = HttpStatus.BAD_REQUEST,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ) {
     super(message, code, statusCode, details);
   }
@@ -32,7 +32,7 @@ export abstract class BusinessException extends AppException {
 export class EmailAlreadyExistsException extends BusinessException {
   readonly code = BUSINESS_ERROR_CODES.EMAIL_ALREADY_EXISTS;
 
-  constructor(email: string, details?: Record<string, any>) {
+  constructor(email: string, details?: Record<string, unknown>) {
     super(
       'Email already exists',
       BUSINESS_ERROR_CODES.EMAIL_ALREADY_EXISTS,
@@ -48,7 +48,7 @@ export class EmailAlreadyExistsException extends BusinessException {
 export class UsageLimitReachedException extends BusinessException {
   readonly code = BUSINESS_ERROR_CODES.USAGE_LIMIT_REACHED;
 
-  constructor(limit: number, details?: Record<string, any>) {
+  constructor(limit: number, details?: Record<string, unknown>) {
     super(
       `Daily usage limit of ${limit} reached`,
       BUSINESS_ERROR_CODES.USAGE_LIMIT_REACHED,
@@ -64,7 +64,7 @@ export class UsageLimitReachedException extends BusinessException {
 export class PremiumRequiredException extends BusinessException {
   readonly code = BUSINESS_ERROR_CODES.PREMIUM_REQUIRED;
 
-  constructor(feature: string, details?: Record<string, any>) {
+  constructor(feature: string, details?: Record<string, unknown>) {
     super(
       `Premium subscription required for feature: ${feature}`,
       BUSINESS_ERROR_CODES.PREMIUM_REQUIRED,
@@ -80,7 +80,7 @@ export class PremiumRequiredException extends BusinessException {
 export class MaxPersonasReachedException extends BusinessException {
   readonly code = BUSINESS_ERROR_CODES.MAX_PERSONAS_REACHED;
 
-  constructor(maxPersonas: number, details?: Record<string, any>) {
+  constructor(maxPersonas: number, details?: Record<string, unknown>) {
     super(
       `Maximum number of personas (${maxPersonas}) reached`,
       BUSINESS_ERROR_CODES.MAX_PERSONAS_REACHED,
@@ -96,7 +96,7 @@ export class MaxPersonasReachedException extends BusinessException {
 export class StreakFreezeUnavailableException extends BusinessException {
   readonly code = BUSINESS_ERROR_CODES.STREAK_FREEZE_UNAVAILABLE;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'No streak freeze available',
       BUSINESS_ERROR_CODES.STREAK_FREEZE_UNAVAILABLE,
@@ -112,7 +112,7 @@ export class StreakFreezeUnavailableException extends BusinessException {
 export class InvitationAlreadyUsedException extends BusinessException {
   readonly code = BUSINESS_ERROR_CODES.INVITATION_ALREADY_USED;
 
-  constructor(invitationCode: string, details?: Record<string, any>) {
+  constructor(invitationCode: string, details?: Record<string, unknown>) {
     super(
       `Invitation code ${invitationCode} has already been used`,
       BUSINESS_ERROR_CODES.INVITATION_ALREADY_USED,
@@ -131,7 +131,7 @@ export class GroupFullException extends BusinessException {
   constructor(
     groupId: string,
     maxMembers: number,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ) {
     super(
       `Group is full (${maxMembers} members)`,
@@ -155,7 +155,7 @@ export class ResourceNotFoundException extends BusinessException {
   constructor(
     resourceType: string,
     resourceId: string,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ) {
     super(
       `${resourceType} not found: ${resourceId}`,
@@ -172,7 +172,7 @@ export class ResourceNotFoundException extends BusinessException {
 export class UserNotFoundException extends BusinessException {
   readonly code = RESOURCE_ERROR_CODES.USER_NOT_FOUND;
 
-  constructor(userId: string, details?: Record<string, any>) {
+  constructor(userId: string, details?: Record<string, unknown>) {
     super(
       `User not found: ${userId}`,
       RESOURCE_ERROR_CODES.USER_NOT_FOUND,
@@ -188,7 +188,7 @@ export class UserNotFoundException extends BusinessException {
 export class ConversationNotFoundException extends BusinessException {
   readonly code = RESOURCE_ERROR_CODES.CONVERSATION_NOT_FOUND;
 
-  constructor(conversationId: string, details?: Record<string, any>) {
+  constructor(conversationId: string, details?: Record<string, unknown>) {
     super(
       `Conversation not found: ${conversationId}`,
       RESOURCE_ERROR_CODES.CONVERSATION_NOT_FOUND,
@@ -204,7 +204,7 @@ export class ConversationNotFoundException extends BusinessException {
 export class PersonaNotFoundException extends BusinessException {
   readonly code = RESOURCE_ERROR_CODES.PERSONA_NOT_FOUND;
 
-  constructor(personaId: string, details?: Record<string, any>) {
+  constructor(personaId: string, details?: Record<string, unknown>) {
     super(
       `Persona not found: ${personaId}`,
       RESOURCE_ERROR_CODES.PERSONA_NOT_FOUND,
@@ -220,7 +220,7 @@ export class PersonaNotFoundException extends BusinessException {
 export class ScenarioNotFoundException extends BusinessException {
   readonly code = RESOURCE_ERROR_CODES.SCENARIO_NOT_FOUND;
 
-  constructor(scenarioId: string, details?: Record<string, any>) {
+  constructor(scenarioId: string, details?: Record<string, unknown>) {
     super(
       `Scenario not found: ${scenarioId}`,
       RESOURCE_ERROR_CODES.SCENARIO_NOT_FOUND,
@@ -240,7 +240,7 @@ export class ScenarioNotFoundException extends BusinessException {
 export class TooManyRequestsException extends BusinessException {
   readonly code = RATE_LIMIT_ERROR_CODES.TOO_MANY_REQUESTS;
 
-  constructor(retryAfter?: number, details?: Record<string, any>) {
+  constructor(retryAfter?: number, details?: Record<string, unknown>) {
     super(
       'Too many requests',
       RATE_LIMIT_ERROR_CODES.TOO_MANY_REQUESTS,
@@ -260,7 +260,7 @@ export class TooManyRequestsException extends BusinessException {
 export class SttServiceUnavailableException extends BusinessException {
   readonly code = EXTERNAL_ERROR_CODES.STT_SERVICE_UNAVAILABLE;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'Speech-to-text service unavailable',
       EXTERNAL_ERROR_CODES.STT_SERVICE_UNAVAILABLE,
@@ -276,7 +276,7 @@ export class SttServiceUnavailableException extends BusinessException {
 export class LlmServiceUnavailableException extends BusinessException {
   readonly code = EXTERNAL_ERROR_CODES.LLM_SERVICE_UNAVAILABLE;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'LLM service unavailable',
       EXTERNAL_ERROR_CODES.LLM_SERVICE_UNAVAILABLE,
@@ -292,7 +292,7 @@ export class LlmServiceUnavailableException extends BusinessException {
 export class TtsServiceUnavailableException extends BusinessException {
   readonly code = EXTERNAL_ERROR_CODES.TTS_SERVICE_UNAVAILABLE;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'Text-to-speech service unavailable',
       EXTERNAL_ERROR_CODES.TTS_SERVICE_UNAVAILABLE,
@@ -308,7 +308,7 @@ export class TtsServiceUnavailableException extends BusinessException {
 export class PaymentServiceErrorException extends BusinessException {
   readonly code = EXTERNAL_ERROR_CODES.PAYMENT_SERVICE_ERROR;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'Payment service error',
       EXTERNAL_ERROR_CODES.PAYMENT_SERVICE_ERROR,
@@ -328,7 +328,7 @@ export class PaymentServiceErrorException extends BusinessException {
 export class UnexpectedErrorException extends BusinessException {
   readonly code = INTERNAL_ERROR_CODES.UNEXPECTED_ERROR;
 
-  constructor(originalError?: Error, details?: Record<string, any>) {
+  constructor(originalError?: Error, details?: Record<string, unknown>) {
     super(
       'An unexpected error occurred',
       INTERNAL_ERROR_CODES.UNEXPECTED_ERROR,
@@ -344,7 +344,7 @@ export class UnexpectedErrorException extends BusinessException {
 export class DatabaseErrorException extends BusinessException {
   readonly code = INTERNAL_ERROR_CODES.DATABASE_ERROR;
 
-  constructor(operation: string, details?: Record<string, any>) {
+  constructor(operation: string, details?: Record<string, unknown>) {
     super(
       `Database error during ${operation}`,
       INTERNAL_ERROR_CODES.DATABASE_ERROR,

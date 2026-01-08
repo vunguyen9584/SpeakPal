@@ -28,7 +28,7 @@ export class ShadowingService {
     contentType: ContentType,
     level?: Level,
     userPlan: string = 'FREE',
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, unknown>> {
     // 1. Check daily limit
     const dailyCount = await this.resultRepo.getDailyCount(
       userId,
@@ -86,8 +86,8 @@ export class ShadowingService {
     pronunciationScore: number,
     rhythmScore: number,
     durationSec: number,
-    details?: Record<string, any>,
-  ): Promise<Record<string, any>> {
+    details?: Record<string, unknown>,
+  ): Promise<Record<string, unknown>> {
     // 1. Verify content exists
     const content = await this.contentRepo.findById(contentId);
     if (!content) {
@@ -153,7 +153,7 @@ export class ShadowingService {
     level?: Level,
     isPremium?: boolean,
     limit: number = 20,
-  ): Promise<Record<string, any>[]> {
+  ): Promise<Record<string, unknown>[]> {
     const contents = await this.contentRepo.findAll({
       contentType,
       level,
@@ -179,7 +179,7 @@ export class ShadowingService {
   async getHistory(
     userId: string,
     limit: number = 20,
-  ): Promise<Record<string, any>[]> {
+  ): Promise<Record<string, unknown>[]> {
     const results = await this.resultRepo.getUserHistory(
       userId,
       PracticeType.SHADOWING,

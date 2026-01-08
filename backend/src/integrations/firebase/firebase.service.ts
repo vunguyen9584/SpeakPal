@@ -2,15 +2,17 @@ import {
   Injectable,
   UnauthorizedException,
   OnModuleInit,
+  Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as admin from 'firebase-admin';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
+  private readonly logger = new Logger(FirebaseService.name);
   private app: admin.app.App;
 
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) { }
 
   onModuleInit() {
     // Initialize Firebase Admin SDK
@@ -29,9 +31,9 @@ export class FirebaseService implements OnModuleInit {
           clientEmail,
         }),
       });
-      console.log('Firebase Admin SDK initialized successfully');
+      this.logger.log('Firebase Admin SDK initialized successfully');
     } else {
-      console.warn(
+      this.logger.warn(
         'Firebase credentials not configured. OAuth login will not work.',
       );
     }

@@ -9,8 +9,6 @@ describe('Social Module (E2E)', () => {
   let prisma: PrismaService;
   let authToken1: string;
   let authToken2: string;
-  let _userId1: string;
-  let _userId2: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -45,7 +43,6 @@ describe('Social Module (E2E)', () => {
       });
 
     authToken1 = user1Response.body.accessToken;
-    _userId1 = user1Response.body.user.id;
 
     const user2Response = await request(app.getHttpServer())
       .post('/auth/register')
@@ -56,7 +53,6 @@ describe('Social Module (E2E)', () => {
       });
 
     authToken2 = user2Response.body.accessToken;
-    _userId2 = user2Response.body.user.id;
   });
 
   afterAll(async () => {

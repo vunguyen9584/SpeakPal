@@ -30,7 +30,7 @@ export class ShadowingController {
   async getContent(
     @Query() query: GetShadowingContentQueryDto,
     @Request() req: RequestWithUser,
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, unknown>> {
     const userId = req.user.userId || req.user.id || 'demo-user';
     const userPlan = req.user.subscription?.plan || 'FREE';
 
@@ -51,7 +51,7 @@ export class ShadowingController {
   async submitResult(
     @Body() dto: SubmitShadowingResultDto,
     @Request() req: RequestWithUser,
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, unknown>> {
     const userId = req.user.userId || req.user.id || 'demo-user';
 
     return this.service.submitResult(
@@ -61,7 +61,7 @@ export class ShadowingController {
       dto.pronunciationScore,
       dto.rhythmScore,
       dto.durationSec,
-      dto.details as Record<string, any>,
+      dto.details,
     );
   }
 
@@ -78,7 +78,7 @@ export class ShadowingController {
     @Query('level') level: Level,
     @Query('isPremium') isPremium: boolean,
     @Query('limit') limit: number = 20,
-  ): Promise<Record<string, any>[]> {
+  ): Promise<Record<string, unknown>[]> {
     return this.service.getContentList(contentType, level, isPremium, limit);
   }
 
@@ -91,7 +91,7 @@ export class ShadowingController {
   async getHistory(
     @Query('limit') limit: number = 20,
     @Request() req: RequestWithUser,
-  ): Promise<Record<string, any>[]> {
+  ): Promise<Record<string, unknown>[]> {
     const userId = req.user.userId || req.user.id || 'demo-user';
 
     return this.service.getHistory(userId, limit);

@@ -10,7 +10,7 @@ export abstract class AuthException extends AppException {
     message: string,
     code: string,
     statusCode: HttpStatus = HttpStatus.UNAUTHORIZED,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ) {
     super(message, code, statusCode, details);
   }
@@ -22,7 +22,7 @@ export abstract class AuthException extends AppException {
 export class InvalidCredentialsException extends AuthException {
   readonly code = AUTH_ERROR_CODES.INVALID_CREDENTIALS;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'Invalid credentials',
       AUTH_ERROR_CODES.INVALID_CREDENTIALS,
@@ -38,7 +38,7 @@ export class InvalidCredentialsException extends AuthException {
 export class TokenExpiredException extends AuthException {
   readonly code = AUTH_ERROR_CODES.TOKEN_EXPIRED;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'Token expired',
       AUTH_ERROR_CODES.TOKEN_EXPIRED,
@@ -54,7 +54,7 @@ export class TokenExpiredException extends AuthException {
 export class TokenInvalidException extends AuthException {
   readonly code = AUTH_ERROR_CODES.TOKEN_INVALID;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'Token invalid',
       AUTH_ERROR_CODES.TOKEN_INVALID,
@@ -70,7 +70,7 @@ export class TokenInvalidException extends AuthException {
 export class AccountLockedException extends AuthException {
   readonly code = AUTH_ERROR_CODES.ACCOUNT_LOCKED;
 
-  constructor(details?: Record<string, any>) {
+  constructor(details?: Record<string, unknown>) {
     super(
       'Account locked',
       AUTH_ERROR_CODES.ACCOUNT_LOCKED,
@@ -86,7 +86,7 @@ export class AccountLockedException extends AuthException {
 export class EmailNotVerifiedException extends AuthException {
   readonly code = AUTH_ERROR_CODES.EMAIL_NOT_VERIFIED;
 
-  constructor(email: string, details?: Record<string, any>) {
+  constructor(email: string, details?: Record<string, unknown>) {
     super(
       'Email not verified',
       AUTH_ERROR_CODES.EMAIL_NOT_VERIFIED,
@@ -102,7 +102,7 @@ export class EmailNotVerifiedException extends AuthException {
 export class InsufficientPermissionsException extends AuthException {
   readonly code = AUTH_ERROR_CODES.INSUFFICIENT_PERMISSIONS;
 
-  constructor(requiredPermission?: string, details?: Record<string, any>) {
+  constructor(requiredPermission?: string, details?: Record<string, unknown>) {
     super(
       'Insufficient permissions',
       AUTH_ERROR_CODES.INSUFFICIENT_PERMISSIONS,
@@ -118,7 +118,11 @@ export class InsufficientPermissionsException extends AuthException {
 export class OAuthProviderException extends AuthException {
   readonly code = AUTH_ERROR_CODES.OAUTH_PROVIDER_ERROR;
 
-  constructor(provider: string, error?: string, details?: Record<string, any>) {
+  constructor(
+    provider: string,
+    error?: string,
+    details?: Record<string, unknown>,
+  ) {
     super(
       `OAuth provider error: ${provider}`,
       AUTH_ERROR_CODES.OAUTH_PROVIDER_ERROR,

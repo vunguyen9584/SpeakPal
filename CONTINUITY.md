@@ -1,25 +1,32 @@
-- Goal: Finalize Backend Stability and Type Safety ✅
-- Constraints: All met ✅
-- Key decisions: Use `unknown` with explicit casting for library boundary safety (Prisma JSON)
+- Goal: Implement Phase 5 Translation Practice - Frontend Tasks
+- Constraints:
+  - Backend APIs already implemented and tested ✅
+  - Follow existing Flutter patterns from Phase 2-4
+  - Reuse components where possible (VoiceRecorder, ScoreDisplay)
+- Key decisions:
+  - Use Riverpod for state management (consistent with existing FE)
+  - Reuse audio recording components from Conversation feature
+  - Implement game-like animations for Quick Response
 - State:
   - Done:
-    - **LINT ERRORS: 100% FIXED** 🎉
-      - 0 errors remaining across the entire backend.
-      - Fixed unsafe member access, unsafe call, unsafe argument/assignment.
-      - Removed legacy `any` types in Core and Peripheral modules.
-    - **BUILD: SUCCESS** ✅
-      - `npm run build` completed without errors.
-    - **TESTS: PASSED** ✅
-      - All backend tests (unit & E2E) passing.
-    - **REFACTORING: COMPLETE** ✅
-      - All modules (Social, Translation, Learning) aligned with Prisma schema.
+    - **Phase 5 Backend: 100% COMPLETE** ✅
+      - WP-DB-001: Translation Tables Migration (3/3 tasks)
+      - WP-BE-017: Translation Service (8/8 tasks)
+      - WP-BE-018: Quick Response Service (6/6 tasks)
+      - WP-BE-019: Shadowing Service (6/6 tasks)
   - Now:
-    - **Stability**: Backend is in a clean, buildable, and testable state.
+    - **Phase 5 Frontend: 0% COMPLETE** (23 tasks pending)
+      - WP-FE-015: Direct Translation Screen (0/5 tasks)
+      - WP-FE-016: Intent Translation Screen (0/5 tasks)
+      - WP-FE-017: Quick Response Screens (0/6 tasks)
+      - WP-FE-018: Shadowing Practice Screen (0/7 tasks)
   - Next:
-    - Verify runtime functionality (start app)
-    - Final review of API endpoints
+    - Start with WP-FE-015 (Direct Translation) - foundation for others
+    - Then WP-FE-016, WP-FE-017, WP-FE-018 in sequence
+- Open questions:
+  - Use existing audio packages or new ones for shadowing?
+  - Implement widget tests inline or at end?
 - Working set:
-  - `backend/src/common/filters/` (Exceptions handling)
-  - `backend/src/quick-response/` (Type safety)
-  - `backend/src/translation/` (Type safety)
-  - `backend/test/social/` (Fixed E2E tests)
+  - `docs/implementation-plan/phase-5-translation/`
+  - `docs/implementation-plan/CHECKLIST.md`
+  - `mobile/lib/features/translation/` (to be created)

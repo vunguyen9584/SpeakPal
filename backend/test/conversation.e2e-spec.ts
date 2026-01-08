@@ -96,9 +96,11 @@ describe('ConversationModule (e2e)', () => {
         .expect(200)
         .expect((res) => {
           expect(Array.isArray(res.body.data)).toBe(true);
-          expect(res.body.data.some((c: any) => c.id === conversationId)).toBe(
-            true,
-          );
+          expect(
+            res.body.data.some(
+              (c: Record<string, unknown>) => c.id === conversationId,
+            ),
+          ).toBe(true);
         });
     });
   });
@@ -109,7 +111,7 @@ describe('ConversationModule (e2e)', () => {
         .post(`/conversations/${conversationId}/end`)
         .set('Authorization', `Bearer ${authToken}`)
         .expect(200) // Or 201 depending on implementation
-        .expect((res) => {
+        .expect(() => {
           // Expect summary or status update
           // If it returns conversation, status should be ENDED or COMPLETED
           // But mostly we check success code

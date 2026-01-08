@@ -6,7 +6,11 @@ import { VALIDATION_ERROR_CODES } from './error-codes';
  * Base validation exception
  */
 export abstract class ValidationException extends AppException {
-  constructor(message: string, code: string, details?: Record<string, any>) {
+  constructor(
+    message: string,
+    code: string,
+    details?: Record<string, unknown>,
+  ) {
     super(message, code, HttpStatus.BAD_REQUEST, details);
   }
 }
@@ -17,7 +21,7 @@ export abstract class ValidationException extends AppException {
 export class RequiredFieldMissingException extends ValidationException {
   readonly code = VALIDATION_ERROR_CODES.REQUIRED_FIELD_MISSING;
 
-  constructor(field: string, details?: Record<string, any>) {
+  constructor(field: string, details?: Record<string, unknown>) {
     super(
       `Required field missing: ${field}`,
       VALIDATION_ERROR_CODES.REQUIRED_FIELD_MISSING,
@@ -35,7 +39,7 @@ export class InvalidFormatException extends ValidationException {
   constructor(
     field: string,
     expectedFormat?: string,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ) {
     super(
       `Invalid format for field: ${field}`,
@@ -51,7 +55,11 @@ export class InvalidFormatException extends ValidationException {
 export class ValueTooShortException extends ValidationException {
   readonly code = VALIDATION_ERROR_CODES.VALUE_TOO_SHORT;
 
-  constructor(field: string, minLength: number, details?: Record<string, any>) {
+  constructor(
+    field: string,
+    minLength: number,
+    details?: Record<string, unknown>,
+  ) {
     super(
       `Value too short for field: ${field}`,
       VALIDATION_ERROR_CODES.VALUE_TOO_SHORT,
@@ -66,7 +74,11 @@ export class ValueTooShortException extends ValidationException {
 export class ValueTooLongException extends ValidationException {
   readonly code = VALIDATION_ERROR_CODES.VALUE_TOO_LONG;
 
-  constructor(field: string, maxLength: number, details?: Record<string, any>) {
+  constructor(
+    field: string,
+    maxLength: number,
+    details?: Record<string, unknown>,
+  ) {
     super(
       `Value too long for field: ${field}`,
       VALIDATION_ERROR_CODES.VALUE_TOO_LONG,
@@ -85,7 +97,7 @@ export class InvalidEnumValueException extends ValidationException {
     field: string,
     value: string,
     allowedValues: string[],
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ) {
     super(
       `Invalid enum value for field: ${field}`,
@@ -101,7 +113,7 @@ export class InvalidEnumValueException extends ValidationException {
 export class InvalidUuidFormatException extends ValidationException {
   readonly code = VALIDATION_ERROR_CODES.INVALID_UUID_FORMAT;
 
-  constructor(field: string, value: string, details?: Record<string, any>) {
+  constructor(field: string, value: string, details?: Record<string, unknown>) {
     super(
       `Invalid UUID format for field: ${field}`,
       VALIDATION_ERROR_CODES.INVALID_UUID_FORMAT,

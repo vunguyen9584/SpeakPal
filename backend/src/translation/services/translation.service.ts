@@ -171,7 +171,7 @@ export class TranslationService {
     category: string,
     level?: Level,
     userPlan: string = 'FREE',
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, unknown>> {
     // 1. Check level restriction (BR-101)
     const userLevel = level || Level.BEGINNER;
     if (userLevel === Level.BEGINNER || userLevel === Level.ELEMENTARY) {
@@ -223,7 +223,7 @@ export class TranslationService {
     userId: string,
     questionId: string,
     userExpression: string,
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, unknown>> {
     // 1. Get question
     const question = await this.intentRepo.findById(questionId);
     if (!question) {
