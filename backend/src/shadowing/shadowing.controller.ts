@@ -7,6 +7,7 @@ import {
   Request,
   Param,
 } from '@nestjs/common';
+import type { RequestWithUser } from '../common/interfaces/request.interface';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ShadowingService } from './services/shadowing.service';
 import { GetShadowingContentQueryDto, SubmitShadowingResultDto } from './dto';
@@ -28,10 +29,10 @@ export class ShadowingController {
   })
   async getContent(
     @Query() query: GetShadowingContentQueryDto,
-    @Request() req: Record<string, any>,
+    @Request() req: RequestWithUser,
   ): Promise<Record<string, any>> {
-    const userId = (req.user?.id as string) || 'demo-user';
-    const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
+    const userId = req.user.userId || req.user.id || 'demo-user';
+    const userPlan = req.user.subscription?.plan || 'FREE';
 
     return this.service.getShadowingContent(
       userId,
@@ -49,9 +50,9 @@ export class ShadowingController {
   @ApiOperation({ summary: 'シャドーイング結果送信 (Submit Shadowing Result)' })
   async submitResult(
     @Body() dto: SubmitShadowingResultDto,
-    @Request() req: Record<string, any>,
+    @Request() req: RequestWithUser,
   ): Promise<Record<string, any>> {
-    const userId = (req.user?.id as string) || 'demo-user';
+    const userId = req.user.userId || req.user.id || 'demo-user';
 
     return this.service.submitResult(
       userId,
@@ -60,7 +61,7 @@ export class ShadowingController {
       dto.pronunciationScore,
       dto.rhythmScore,
       dto.durationSec,
-      dto.details,
+      dto.details as Record<string, any>,
     );
   }
 
@@ -89,9 +90,9 @@ export class ShadowingController {
   @ApiOperation({ summary: 'シャドーイング履歴取得 (Get Shadowing History)' })
   async getHistory(
     @Query('limit') limit: number = 20,
-    @Request() req: Record<string, any>,
+    @Request() req: RequestWithUser,
   ): Promise<Record<string, any>[]> {
-    const userId = (req.user?.id as string) || 'demo-user';
+    const userId = req.user.userId || req.user.id || 'demo-user';
 
     return this.service.getHistory(userId, limit);
   }

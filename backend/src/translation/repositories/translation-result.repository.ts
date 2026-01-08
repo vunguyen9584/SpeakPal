@@ -22,11 +22,16 @@ export class TranslationResultRepository {
     speedScore?: number;
     intentScore?: number;
     responseTimeSec?: number;
-    feedback?: any;
+    feedback?: unknown;
     xpEarned: number;
   }): Promise<TranslationResult> {
+    const { feedback, ...rest } = data;
     return this.prisma.translationResult.create({
-      data,
+      data: {
+        ...rest,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        feedback: feedback as any,
+      },
     });
   }
 

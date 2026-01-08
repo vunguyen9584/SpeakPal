@@ -74,7 +74,7 @@ export class SubmitShadowingResultDto {
     description: 'Detailed analysis data',
   })
   @IsOptional()
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export class ShadowingContentResponseDto {
@@ -100,7 +100,7 @@ export class ShadowingContentResponseDto {
   audioUrl: string;
 
   @ApiProperty()
-  timestamps: any[];
+  timestamps: unknown[];
 
   @ApiProperty()
   durationSec: number;
@@ -135,5 +135,5 @@ export class ShadowingResultResponseDto {
   streakBonus: boolean;
 
   @ApiProperty()
-  feedback: any;
+  feedback: unknown;
 }

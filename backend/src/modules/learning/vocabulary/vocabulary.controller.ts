@@ -26,7 +26,7 @@ export class VocabularyController {
   @Get()
   @ApiOperation({ summary: 'List user vocabulary' })
   async list(
-    @CurrentUser('id') userId: string,
+    @CurrentUser('userId') userId: string,
     @Query() query: VocabularyQueryDto,
   ) {
     return this.vocabularyService.listByUser(userId, query);
@@ -35,7 +35,7 @@ export class VocabularyController {
   @Post()
   @ApiOperation({ summary: 'Add new vocabulary' })
   async create(
-    @CurrentUser('id') userId: string,
+    @CurrentUser('userId') userId: string,
     @Body() dto: CreateVocabularyDto,
   ) {
     return this.vocabularyService.addWord(userId, dto);
@@ -43,20 +43,23 @@ export class VocabularyController {
 
   @Get('due')
   @ApiOperation({ summary: 'Get vocabulary due for review' })
-  async getDue(@CurrentUser('id') userId: string) {
+  async getDue(@CurrentUser('userId') userId: string) {
     return this.vocabularyService.getDueForReview(userId);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get vocabulary by ID' })
-  async getById(@CurrentUser('id') userId: string, @Param('id') id: string) {
+  async getById(
+    @CurrentUser('userId') userId: string,
+    @Param('id') id: string,
+  ) {
     return this.vocabularyService.getById(userId, id);
   }
 
   @Post(':id/review')
   @ApiOperation({ summary: 'Record review result' })
   async recordReview(
-    @CurrentUser('id') userId: string,
+    @CurrentUser('userId') userId: string,
     @Param('id') id: string,
     @Body() dto: ReviewRequestDto,
   ) {
@@ -65,7 +68,7 @@ export class VocabularyController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete vocabulary' })
-  async delete(@CurrentUser('id') userId: string, @Param('id') id: string) {
+  async delete(@CurrentUser('userId') userId: string, @Param('id') id: string) {
     await this.vocabularyService.deleteWord(userId, id);
     return { message: 'Vocabulary deleted successfully' };
   }

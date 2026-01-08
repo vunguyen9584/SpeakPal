@@ -23,11 +23,16 @@ export class QuickResponseRepository {
     pronunciationScore?: number;
     rhythmScore?: number;
     durationSec?: number;
-    details?: any;
+    details?: unknown;
     xpEarned: number;
   }): Promise<QuickResponseResult> {
+    const { details, ...rest } = data;
     return this.prisma.quickResponseResult.create({
-      data,
+      data: {
+        ...rest,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        details: details as any,
+      },
     });
   }
 

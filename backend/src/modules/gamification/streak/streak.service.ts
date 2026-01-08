@@ -82,7 +82,7 @@ export class StreakService {
     });
 
     // Check for streak badges
-    await this.checkStreakBadges(userId, newStreak);
+    this.checkStreakBadges(userId, newStreak);
 
     return this.getStreakStatus(userId);
   }

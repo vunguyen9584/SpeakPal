@@ -66,7 +66,7 @@ export class SubmitQuickResponseDto {
     description: 'Detailed session data',
   })
   @IsOptional()
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export class QuickResponseResultDto {

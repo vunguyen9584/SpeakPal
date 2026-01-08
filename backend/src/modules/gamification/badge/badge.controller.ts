@@ -19,7 +19,7 @@ export class BadgeController {
 
   @Get('mine')
   @ApiOperation({ summary: 'Get user earned badges' })
-  async getMine(@CurrentUser('id') userId: string) {
+  async getMine(@CurrentUser('userId') userId: string) {
     return this.badgeService.listUserBadges(userId);
   }
 }

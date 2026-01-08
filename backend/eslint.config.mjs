@@ -26,20 +26,18 @@ export default tseslint.config(
   },
   {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      // Temporarily disable strict type safety rules for legacy code
-      '@typescript-eslint/no-unsafe-argument': 'off',
-
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-
-      // Temporarily disable code quality warnings for legacy code
-      '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-unsafe-argument': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/unbound-method': 'error',
       '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/require-await': 'warn',
-      '@typescript-eslint/await-thenable': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+      '@typescript-eslint/require-await': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
   {
@@ -50,6 +48,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/unbound-method': 'off',
     },
   },
 );

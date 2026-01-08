@@ -22,6 +22,7 @@ import { ConversationResponseDto } from './dto/conversation-response.dto';
 import { ConversationSummaryDto } from './dto/conversation-summary.dto';
 import { TurnDto } from './dto/turn.dto';
 import { ListConversationsQueryDto } from './dto/list-conversations-query.dto';
+import type { RequestWithUser } from '../../common/interfaces/request.interface';
 
 @ApiTags('conversations')
 @Controller('conversations')
@@ -39,8 +40,11 @@ export class ConversationController {
     status: 200,
     description: 'Returns paginated conversation list',
   })
-  async list(@Req() req, @Query() query: ListConversationsQueryDto) {
-    const userId = (req.user as { id: string }).id;
+  async list(
+    @Req() req: RequestWithUser,
+    @Query() query: ListConversationsQueryDto,
+  ) {
+    const userId = req.user.userId;
 
     return this.conversationService.listConversations(userId, query);
   }
@@ -57,12 +61,11 @@ export class ConversationController {
     description: 'Daily limit reached for free users',
   })
   async create(
-    @Req() req,
+    @Req() req: RequestWithUser,
     @Body() dto: CreateConversationDto,
   ): Promise<ConversationResponseDto> {
-    const userId = (req.user as { id: string }).id;
-    const userPlan =
-      (req.user as { subscriptionPlan?: string }).subscriptionPlan || 'free';
+    const userId = req.user.userId;
+    const userPlan = req.user.subscriptionPlan || 'free';
     return this.conversationService.createSession(userId, dto, userPlan);
   }
 
@@ -71,8 +74,8 @@ export class ConversationController {
   @ApiResponse({ status: 200, description: 'Returns conversation details' })
   @ApiResponse({ status: 404, description: 'Conversation not found' })
   @ApiResponse({ status: 403, description: 'Not authorized' })
-  async get(@Req() req, @Param('id') id: string) {
-    const userId = (req.user as { id: string }).id;
+  async get(@Req() req: RequestWithUser, @Param('id') id: string) {
+    const userId = req.user.userId;
     return this.conversationService.getConversation(userId, id);
   }
 
@@ -85,8 +88,8 @@ export class ConversationController {
   })
   @ApiResponse({ status: 404, description: 'Conversation not found' })
   @ApiResponse({ status: 403, description: 'Not authorized' })
-  async end(@Req() req, @Param('id') id: string) {
-    const userId = (req.user as { id: string }).id;
+  async end(@Req() req: RequestWithUser, @Param('id') id: string) {
+    const userId = req.user.userId;
     // TODO: Calculate summary and score from conversation data
     const summary = 'Conversation summary will be generated here';
     const score = 0;
@@ -112,8 +115,11 @@ export class ConversationController {
   })
   @ApiResponse({ status: 404, description: 'Conversation not found' })
   @ApiResponse({ status: 403, description: 'Not authorized' })
-  async getTurns(@Req() req, @Param('id') id: string): Promise<TurnDto[]> {
-    const userId = (req.user as { id: string }).id;
+  async getTurns(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string,
+  ): Promise<TurnDto[]> {
+    const userId = req.user.userId;
     // Verify ownership first
     await this.conversationService.getConversation(userId, id);
 

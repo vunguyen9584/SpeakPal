@@ -13,13 +13,13 @@ export class StreakController {
 
   @Get()
   @ApiOperation({ summary: 'Get current streak status' })
-  async getStreak(@CurrentUser('id') userId: string) {
+  async getStreak(@CurrentUser('userId') userId: string) {
     return this.streakService.getStreakStatus(userId);
   }
 
   @Post('freeze')
   @ApiOperation({ summary: 'Use streak freeze' })
-  async useFreeze(@CurrentUser('id') userId: string) {
+  async useFreeze(@CurrentUser('userId') userId: string) {
     return this.streakService.useFreeze(userId);
   }
 }

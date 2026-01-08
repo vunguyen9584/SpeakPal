@@ -27,7 +27,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     // Generate request ID (fallback if not set by middleware)
     const requestId =
-      ((request as any).id as string) || this.generateRequestId();
+      (request as unknown as { id?: string }).id || this.generateRequestId();
 
     // Build error response
     const errorResponse = this.buildErrorResponse(
@@ -71,14 +71,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     // If response is an object (e.g., validation errors from class-validator)
-    const responseObj = exceptionResponse as Record<string, any>;
+    const responseObj = exceptionResponse as Record<string, unknown>;
     return {
       success: false,
       error: {
         code: this.getErrorCodeFromStatus(status),
         message: (responseObj.message as string) || exception.message,
         details: responseObj.error
-          ? { fields: this.extractValidationErrors(responseObj) as unknown }
+          ? { fields: this.extractValidationErrors(responseObj) }
           : undefined,
         timestamp: new Date().toISOString(),
         requestId,
@@ -86,17 +86,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
     };
   }
 
-  private extractValidationErrors(responseObj: any): any[] {
+  private extractValidationErrors(
+    responseObj: Record<string, unknown>,
+  ): unknown[] {
     // Handle class-validator errors
-    if (Array.isArray(responseObj.message)) {
-      return responseObj.message.map((msg: string) => {
+    const messages = responseObj.message;
+    if (Array.isArray(messages)) {
+      return messages.map((msg: unknown) => {
+        const messageStr = typeof msg === 'string' ? msg : JSON.stringify(msg);
         // Try to parse field name from message
-        const match = msg.match(/^(\w+)\s/);
+        const match = messageStr.match(/^(\w+)\s/);
         return {
           field: match ? match[1] : 'unknown',
-          message: msg,
+          message: messageStr,
         };
-      }) as any[];
+      });
     }
     return [];
   }

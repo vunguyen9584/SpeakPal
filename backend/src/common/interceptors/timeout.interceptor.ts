@@ -20,7 +20,7 @@ export class TimeoutInterceptor implements NestInterceptor {
 
   constructor(private readonly timeoutMs?: number) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const timeoutValue = this.timeoutMs || this.defaultTimeout;
 
     return next.handle().pipe(

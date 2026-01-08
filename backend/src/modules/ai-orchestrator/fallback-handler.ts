@@ -61,7 +61,7 @@ export class FallbackHandler {
    * @param context Context for fallback response
    * @returns Fallback strategy with possible fallback response
    */
-  handleLLMError(error: Error, context?: any): FallbackStrategy {
+  handleLLMError(error: Error, context?: unknown): FallbackStrategy {
     this.logger.error(`LLM Error: ${error.message}`, error.stack);
 
     const breaker = this.circuitBreakers.get(ServiceType.LLM);

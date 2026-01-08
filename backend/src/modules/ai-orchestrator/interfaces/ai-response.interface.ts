@@ -8,7 +8,7 @@ export type AIResponseType =
 
 export interface AIResponse {
   type: AIResponseType;
-  data: any;
+  data: unknown;
 }
 
 export interface TextResult {

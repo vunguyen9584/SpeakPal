@@ -18,7 +18,7 @@ import { Request, Response } from 'express';
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger(LoggingInterceptor.name);
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const request = context.switchToHttp().getRequest<Request>();
     const response = context.switchToHttp().getResponse<Response>();
     const { method, url, ip } = request;
@@ -26,7 +26,8 @@ export class LoggingInterceptor implements NestInterceptor {
 
     // Generate or get request ID
     const requestId =
-      ((request as any).id as string) || this.generateAndSetRequestId(request);
+      (request as unknown as { id?: string }).id ||
+      this.generateAndSetRequestId(request);
 
     const startTime = Date.now();
 
@@ -58,9 +59,10 @@ export class LoggingInterceptor implements NestInterceptor {
             timestamp: new Date().toISOString(),
           });
         },
-        error: (error: Record<string, any>) => {
+        error: (error: unknown) => {
+          const err = error as Record<string, unknown>;
           const duration = Date.now() - startTime;
-          const statusCode = (error.status as number) || 500;
+          const statusCode = (err.status as number) || 500;
 
           // Log error response
           this.logger.error({
@@ -70,7 +72,7 @@ export class LoggingInterceptor implements NestInterceptor {
             url,
             statusCode,
             duration: `${duration}ms`,
-            error: (error.message as string) || 'Unknown error',
+            error: (err.message as string) || 'Unknown error',
             timestamp: new Date().toISOString(),
           });
         },

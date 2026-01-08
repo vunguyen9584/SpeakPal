@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Query, Request } from '@nestjs/common';
+import type { RequestWithUser } from '../common/interfaces/request.interface';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { QuickResponseService } from './services/quick-response.service';
 import { StartQuickResponseSessionDto, SubmitQuickResponseDto } from './dto';
@@ -20,10 +21,10 @@ export class QuickResponseController {
   })
   async startSession(
     @Body() dto: StartQuickResponseSessionDto,
-    @Request() req: any,
-  ): Promise<any> {
-    const userId = (req.user?.id as string) || 'demo-user';
-    const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
+    @Request() req: RequestWithUser,
+  ): Promise<unknown> {
+    const userId = req.user.userId || req.user.id || 'demo-user';
+    const userPlan = req.user.subscription?.plan || 'FREE';
 
     return this.service.startSession(
       userId,
@@ -43,9 +44,9 @@ export class QuickResponseController {
   })
   async submitResult(
     @Body() dto: SubmitQuickResponseDto,
-    @Request() req: any,
-  ): Promise<any> {
-    const userId = (req.user?.id as string) || 'demo-user';
+    @Request() req: RequestWithUser,
+  ): Promise<unknown> {
+    const userId = req.user.userId || req.user.id || 'demo-user';
 
     // Determine practice type from session (would normally fetch from session store)
     const practiceType = PracticeType.WORD_ASSOCIATION;
@@ -73,9 +74,9 @@ export class QuickResponseController {
   async getHistory(
     @Query('practiceType') practiceType: PracticeType,
     @Query('limit') limit: number = 20,
-    @Request() req: any,
-  ): Promise<any[]> {
-    const userId = (req.user?.id as string) || 'demo-user';
+    @Request() req: RequestWithUser,
+  ): Promise<unknown[]> {
+    const userId = req.user.userId || req.user.id || 'demo-user';
 
     return this.service.getHistory(userId, practiceType, limit);
   }

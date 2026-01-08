@@ -15,7 +15,7 @@ export class RankingController {
   @Get('weekly')
   @ApiOperation({ summary: 'Get weekly leaderboard' })
   async getWeeklyRanking(
-    @CurrentUser('id') userId: string,
+    @CurrentUser('userId') userId: string,
     @Query('league') league?: League,
   ) {
     return this.rankingService.getWeeklyRanking(userId, league);

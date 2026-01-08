@@ -30,7 +30,7 @@ export class IntentQuestionRepository {
       return questions[0] || null;
     } catch (error) {
       this.logger.error(
-        `Error finding random intent question: ${error.message}`,
+        `Error finding random intent question: ${(error as Error).message}`,
       );
       throw error;
     }

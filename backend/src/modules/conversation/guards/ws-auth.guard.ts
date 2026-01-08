@@ -12,20 +12,25 @@ export class WsAuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const client = context.switchToWs().getClient<Socket>();
-    const { token } = client.handshake.auth;
+    const auth = client.handshake.auth as Record<string, unknown>;
+    const token = auth.token as string | undefined;
 
     if (!token) {
       return false;
     }
 
     try {
-      const payload = this.jwtService.verify(token, {
-        secret: this.configService.get('WS_JWT_SECRET'),
+      const payload = this.jwtService.verify<{
+        userId: string;
+        conversationId: string;
+      }>(token, {
+        secret: this.configService.get<string>('WS_JWT_SECRET'),
         maxAge: '1h', // Short-lived token
-      }) as unknown as { userId: string; conversationId: string };
+      });
 
-      client.data.userId = payload.userId;
-      client.data.conversationId = payload.conversationId;
+      const clientData = client.data as Record<string, unknown>;
+      clientData.userId = payload.userId;
+      clientData.conversationId = payload.conversationId;
 
       return true;
     } catch (error) {

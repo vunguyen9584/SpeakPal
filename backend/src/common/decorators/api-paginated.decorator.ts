@@ -25,7 +25,7 @@ import { PaginatedResponseDto } from '../dto/pagination.dto';
  * }
  * ```
  */
-export const ApiPaginatedResponse = <TModel extends Type<any>>(
+export const ApiPaginatedResponse = <TModel extends Type<unknown>>(
   dataDto: TModel,
 ) => {
   return applyDecorators(

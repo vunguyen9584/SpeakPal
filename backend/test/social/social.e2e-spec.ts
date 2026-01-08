@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from '../../../src/app.module';
-import { PrismaService } from '../../../src/prisma/prisma.service';
+import request from 'supertest';
+import { AppModule } from '../../src/app.module';
+import { PrismaService } from '../../src/prisma/prisma.service';
 
 describe('Social Module (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let authToken1: string;
   let authToken2: string;
-  let userId1: string;
-  let userId2: string;
+  let _userId1: string;
+  let _userId2: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -45,7 +45,7 @@ describe('Social Module (E2E)', () => {
       });
 
     authToken1 = user1Response.body.accessToken;
-    userId1 = user1Response.body.user.id;
+    _userId1 = user1Response.body.user.id;
 
     const user2Response = await request(app.getHttpServer())
       .post('/auth/register')
@@ -56,7 +56,7 @@ describe('Social Module (E2E)', () => {
       });
 
     authToken2 = user2Response.body.accessToken;
-    userId2 = user2Response.body.user.id;
+    _userId2 = user2Response.body.user.id;
   });
 
   afterAll(async () => {

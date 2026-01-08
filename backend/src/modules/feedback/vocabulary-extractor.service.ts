@@ -113,8 +113,15 @@ export class VocabularyExtractorService {
         );
       }
 
-      const data = (await response.json()) as Record<string, any>;
-      const content = data.choices?.[0]?.message?.content as string | undefined;
+      interface OpenAIResponse {
+        choices: Array<{
+          message: {
+            content: string;
+          };
+        }>;
+      }
+      const data = (await response.json()) as OpenAIResponse;
+      const content = data.choices?.[0]?.message?.content;
       return content || JSON.stringify({ vocabulary: [] });
     } catch (error) {
       this.logger.error('Error calling OpenAI API:', error);

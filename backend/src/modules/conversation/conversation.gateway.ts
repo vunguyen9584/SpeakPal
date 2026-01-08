@@ -255,7 +255,7 @@ export class ConversationGateway
    */
   private async streamResponse(
     client: Socket,
-    responseGenerator: AsyncGenerator<any>,
+    responseGenerator: AsyncGenerator<unknown>,
   ) {
     let sequence = 0;
     const responseId = this.generateResponseId();

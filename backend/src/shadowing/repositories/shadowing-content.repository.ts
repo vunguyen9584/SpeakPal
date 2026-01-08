@@ -29,7 +29,9 @@ export class ShadowingContentRepository {
 
       return contents[0] || null;
     } catch (error) {
-      this.logger.error(`Error finding random content: ${error.message}`);
+      this.logger.error(
+        `Error finding random content: ${(error as Error).message}`,
+      );
       throw error;
     }
   }

@@ -14,7 +14,7 @@ export abstract class AppException extends HttpException {
   /**
    * Additional error details
    */
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 
   /**
    * Timestamp when the error occurred
@@ -25,7 +25,7 @@ export abstract class AppException extends HttpException {
     message: string,
     code: string,
     statusCode: HttpStatus,
-    details?: Record<string, any>,
+    details?: Record<string, unknown>,
   ) {
     super(message, statusCode);
     this.code = code;

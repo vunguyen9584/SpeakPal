@@ -49,7 +49,7 @@ export class HistoryItemDto {
   xpEarned: number;
 
   @ApiProperty()
-  details: any;
+  details: Record<string, unknown>;
 }
 
 export class HistoryResponseDto {

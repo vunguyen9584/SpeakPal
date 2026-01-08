@@ -19,21 +19,21 @@ import { PaginatedResponseDto } from '../dto/pagination.dto';
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<
   T,
-  ApiResponse<T> | PaginatedResponseDto<any>
+  ApiResponse<T> | PaginatedResponseDto<unknown>
 > {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<ApiResponse<T> | PaginatedResponseDto<any>> {
+  ): Observable<ApiResponse<T> | PaginatedResponseDto<unknown>> {
     const request = context.switchToHttp().getRequest<Request>();
     const requestId =
-      ((request as any).id as string) || this.generateRequestId();
+      (request as unknown as { id?: string }).id || this.generateRequestId();
 
     return next.handle().pipe(
       map((data: unknown) => {
         // If response is already wrapped (e.g., PaginatedResponseDto), return as-is
         if (this.isWrappedResponse(data)) {
-          return data as PaginatedResponseDto<any>;
+          return data as PaginatedResponseDto<unknown>;
         }
 
         // If response is null or undefined (e.g., 204 No Content), return as-is

@@ -13,7 +13,7 @@ export class ChallengeController {
 
   @Get('today')
   @ApiOperation({ summary: "Get today's challenges" })
-  async getToday(@CurrentUser('id') userId: string) {
+  async getToday(@CurrentUser('userId') userId: string) {
     return this.challengeService.getTodayChallenge(userId);
   }
 }

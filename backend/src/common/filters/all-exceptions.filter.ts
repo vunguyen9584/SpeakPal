@@ -30,7 +30,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     // Generate request ID (fallback if not set by middleware)
     const requestId =
-      ((request as any).id as string) || this.generateRequestId();
+      (request as unknown as { id?: string }).id || this.generateRequestId();
 
     // Determine status code and build error response
     const { status, errorResponse } = this.buildErrorResponse(
@@ -68,8 +68,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
             message:
               typeof exceptionResponse === 'string'
                 ? exceptionResponse
-                : ((exceptionResponse as Record<string, any>)
-                    .message as string) || exception.message,
+                : ((exceptionResponse as Record<string, unknown>)
+                    .message as string) ||
+                  (exception instanceof Error
+                    ? exception.message
+                    : 'Unknown error'),
             timestamp: new Date().toISOString(),
             requestId,
           },

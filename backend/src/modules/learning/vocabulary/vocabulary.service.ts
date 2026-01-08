@@ -51,7 +51,7 @@ export class VocabularyService {
   }> {
     const { data, total } = await this.repository.findByUser(userId, query);
     return {
-      data: data.map(VocabularyResponseDto.fromEntity),
+      data: data.map((v) => VocabularyResponseDto.fromEntity(v)),
       total,
       page: query.page || 1,
       limit: query.limit || 20,
@@ -60,7 +60,7 @@ export class VocabularyService {
 
   async getDueForReview(userId: string): Promise<VocabularyResponseDto[]> {
     const dueItems = await this.repository.findDueForReview(userId);
-    return dueItems.map(VocabularyResponseDto.fromEntity);
+    return dueItems.map((v) => VocabularyResponseDto.fromEntity(v));
   }
 
   async recordReview(

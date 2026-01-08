@@ -61,13 +61,13 @@ export class ErrorDetails {
   /**
    * Additional error details (validation errors, etc.)
    */
-  details?: any;
+  details?: unknown;
 
-  constructor(code: string, message: string, details?: any) {
+  constructor(code: string, message: string, details?: unknown) {
     this.code = code;
     this.message = message;
     if (details) {
-      this.details = details as unknown;
+      this.details = details;
     }
   }
 }
@@ -86,7 +86,7 @@ export class ApiErrorResponse {
    */
   error: ErrorDetails;
 
-  constructor(code: string, message: string, details?: any) {
+  constructor(code: string, message: string, details?: unknown) {
     this.success = false;
     this.error = new ErrorDetails(code, message, details);
   }

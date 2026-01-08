@@ -14,6 +14,7 @@ import { UsageService } from './usage.service';
 import { PurchaseService } from './purchase.service';
 import { PurchaseRequestDto } from './dto/purchase-request.dto';
 import { SubscriptionResponseDto } from './dto/subscription-response.dto';
+import type { RequestWithUser } from '../../common/interfaces/request.interface';
 
 @Controller('subscriptions')
 @UseGuards(JwtAuthGuard)
@@ -30,9 +31,9 @@ export class SubscriptionController {
    */
   @Get('me')
   async getCurrentSubscription(
-    @Request() req,
+    @Request() req: RequestWithUser,
   ): Promise<SubscriptionResponseDto> {
-    return this.planService.getSubscription(req.user.userId);
+    return this.planService.getSubscription(req.user.userId || '');
   }
 
   /**
@@ -40,8 +41,8 @@ export class SubscriptionController {
    * Get current usage status
    */
   @Get('usage')
-  async getUsageStatus(@Request() req) {
-    return this.usageService.getUsageStatus(req.user.userId);
+  async getUsageStatus(@Request() req: RequestWithUser) {
+    return this.usageService.getUsageStatus(req.user.userId || '');
   }
 
   /**
@@ -50,11 +51,17 @@ export class SubscriptionController {
    */
   @Post('purchase')
   @HttpCode(HttpStatus.OK)
-  async verifyPurchase(@Request() req, @Body() dto: PurchaseRequestDto) {
+  async verifyPurchase(
+    @Request() req: RequestWithUser,
+    @Body() dto: PurchaseRequestDto,
+  ) {
     const result = await this.purchaseService.verifyPurchase(dto);
 
     if (result.success) {
-      await this.purchaseService.activateSubscription(req.user.userId, result);
+      await this.purchaseService.activateSubscription(
+        req.user.userId || '',
+        result,
+      );
     }
 
     return {
@@ -63,7 +70,7 @@ export class SubscriptionController {
         ? 'Subscription activated successfully'
         : result.error,
       subscription: result.success
-        ? await this.planService.getSubscription(req.user.userId)
+        ? await this.planService.getSubscription(req.user.userId || '')
         : null,
     };
   }
@@ -75,11 +82,11 @@ export class SubscriptionController {
   @Post('restore')
   @HttpCode(HttpStatus.OK)
   async restorePurchases(
-    @Request() req,
+    @Request() req: RequestWithUser,
     @Body() body: { platform: 'ios' | 'android' },
   ) {
     const restored = await this.purchaseService.restorePurchases(
-      req.user.userId,
+      req.user.userId || '',
       body.platform,
     );
 
@@ -89,7 +96,7 @@ export class SubscriptionController {
         ? 'Subscription restored successfully'
         : 'No active subscription found',
       subscription: restored
-        ? await this.planService.getSubscription(req.user.userId)
+        ? await this.planService.getSubscription(req.user.userId || '')
         : null,
     };
   }
@@ -100,14 +107,16 @@ export class SubscriptionController {
    */
   @Post('cancel')
   @HttpCode(HttpStatus.OK)
-  async cancelSubscription(@Request() req) {
-    await this.purchaseService.cancelSubscription(req.user.userId);
+  async cancelSubscription(@Request() req: RequestWithUser) {
+    await this.purchaseService.cancelSubscription(req.user.userId || '');
 
     return {
       success: true,
       message:
         'Auto-renewal cancelled. Subscription will expire at the end of the current period.',
-      subscription: await this.planService.getSubscription(req.user.userId),
+      subscription: await this.planService.getSubscription(
+        req.user.userId || '',
+      ),
     };
   }
 }

@@ -13,7 +13,7 @@ export class ProgressController {
 
   @Get('stats')
   @ApiOperation({ summary: 'Get user statistics' })
-  async getStats(@CurrentUser('id') userId: string) {
+  async getStats(@CurrentUser('userId') userId: string) {
     return this.statsService.getUserStats(userId);
   }
 }

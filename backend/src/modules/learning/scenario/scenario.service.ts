@@ -12,7 +12,7 @@ export class ScenarioService {
       query.category,
       query.difficulty,
     );
-    return scenarios.map(ScenarioResponseDto.fromEntity);
+    return scenarios.map((s) => ScenarioResponseDto.fromEntity(s));
   }
 
   async getById(id: string): Promise<ScenarioResponseDto> {
@@ -25,13 +25,13 @@ export class ScenarioService {
 
   async getByCategory(category: string): Promise<ScenarioResponseDto[]> {
     const scenarios = await this.repository.findByCategory(category);
-    return scenarios.map(ScenarioResponseDto.fromEntity);
+    return scenarios.map((s) => ScenarioResponseDto.fromEntity(s));
   }
 
   async startScenario(
     userId: string,
     scenarioId: string,
-  ): Promise<{ conversationContext: any }> {
+  ): Promise<{ conversationContext: Record<string, unknown> }> {
     const scenario = await this.repository.findById(scenarioId);
     if (!scenario) {
       throw new NotFoundException('Scenario not found');
@@ -43,7 +43,7 @@ export class ScenarioService {
       conversationContext: {
         scenarioId: scenario.id,
         prompt:
-          ((scenario.initialContext as Record<string, any>)
+          ((scenario.initialContext as Record<string, unknown>)
             ?.prompt as string) || scenario.description,
         suggestedTopics: scenario.keyPhrases as unknown as string[],
         estimatedMinutes: scenario.estimatedDurationMinutes,

@@ -11,6 +11,7 @@ import {
 import { InvitationService } from './invitation.service';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import type { RequestWithUser } from '../../../common/interfaces/request.interface';
 
 @Controller('invitations')
 @UseGuards(JwtAuthGuard)
@@ -22,7 +23,10 @@ export class InvitationController {
    * Generate a new invite code
    */
   @Post()
-  async generateInviteCode(@Request() req, @Body() dto: CreateInvitationDto) {
+  async generateInviteCode(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateInvitationDto,
+  ) {
     return this.invitationService.generateInviteCode(req.user.userId, dto);
   }
 
@@ -31,7 +35,7 @@ export class InvitationController {
    * Get all my invitations
    */
   @Get('mine')
-  async getMyInvitations(@Request() req) {
+  async getMyInvitations(@Request() req: RequestWithUser) {
     return this.invitationService.getUserInvitations(req.user.userId);
   }
 
@@ -41,7 +45,10 @@ export class InvitationController {
    */
   @Post('accept')
   @HttpCode(HttpStatus.OK)
-  async acceptInvitation(@Request() req, @Body() body: { code: string }) {
+  async acceptInvitation(
+    @Request() req: RequestWithUser,
+    @Body() body: { code: string },
+  ) {
     await this.invitationService.acceptInvitation(body.code, req.user.userId);
     return { message: 'Invitation accepted successfully' };
   }
@@ -51,7 +58,7 @@ export class InvitationController {
    * Get referral statistics
    */
   @Get('stats')
-  async getReferralStats(@Request() req) {
+  async getReferralStats(@Request() req: RequestWithUser) {
     return this.invitationService.getReferralStats(req.user.userId);
   }
 }
