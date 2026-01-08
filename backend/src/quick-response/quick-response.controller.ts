@@ -8,7 +8,7 @@ import { PracticeType } from '@prisma/client';
 @ApiTags('Quick Response Practice')
 @ApiBearerAuth()
 export class QuickResponseController {
-  constructor(private readonly service: QuickResponseService) { }
+  constructor(private readonly service: QuickResponseService) {}
 
   /**
    * POST /api/v1/quick-response/start

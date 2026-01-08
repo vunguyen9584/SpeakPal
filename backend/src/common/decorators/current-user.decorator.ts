@@ -30,7 +30,6 @@ export const CurrentUser = createParamDecorator(
 
     // If no specific property requested, return entire user object
     if (!data) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return user;
     }
 

@@ -16,7 +16,7 @@ import { ContentType, Level } from '@prisma/client';
 @ApiTags('Shadowing Practice')
 @ApiBearerAuth()
 export class ShadowingController {
-  constructor(private readonly service: ShadowingService) { }
+  constructor(private readonly service: ShadowingService) {}
 
   /**
    * GET /api/v1/shadowing/content
