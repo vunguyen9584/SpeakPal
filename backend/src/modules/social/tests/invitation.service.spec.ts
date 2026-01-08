@@ -153,7 +153,7 @@ describe('InvitationService', () => {
     });
 
     // Skipped as maxUsage is not currently supported in schema
-    it.skip('should throw BadRequestException if max usage reached', async () => {
+    it('should throw BadRequestException if max usage reached', async () => {
       const code = 'ABC12345';
       const newUserId = 'user-456';
       const mockInvitation = {

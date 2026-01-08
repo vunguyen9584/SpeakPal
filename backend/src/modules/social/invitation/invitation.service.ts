@@ -60,6 +60,10 @@ export class InvitationService {
       throw new BadRequestException('You cannot accept your own invitation');
     }
 
+    if (invitation.maxUsage && invitation.usageCount >= invitation.maxUsage) {
+      throw new BadRequestException('Invitation limit has been reached');
+    }
+
     // Accept invitation
     await this.invitationRepo.acceptInvitation(invitation.id, newUserId);
 

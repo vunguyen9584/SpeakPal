@@ -17,7 +17,7 @@ export class InvitationRepository {
         senderId: data.userId,
         code: data.code,
         expiresAt: data.expiresAt,
-        // maxUsage: data.maxUsage, // Not supported in current schema
+        maxUsage: data.maxUsage,
         status: InvitationStatus.PENDING,
       },
     });
@@ -52,6 +52,9 @@ export class InvitationRepository {
         status: InvitationStatus.ACCEPTED,
         receiverId,
         usedAt: new Date(),
+        usageCount: {
+          increment: 1,
+        },
       },
     });
   }

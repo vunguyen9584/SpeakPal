@@ -479,6 +479,8 @@ model Invitation {
   code       String           @unique @db.VarChar(8)
   status     InvitationStatus @default(PENDING)
   bonusXp    Int              @default(50) @map("bonus_xp")
+  maxUsage   Int?             @map("max_usage") @default(1)
+  usageCount Int              @default(0) @map("usage_count")
   createdAt  DateTime         @default(now()) @map("created_at")
   expiresAt  DateTime         @map("expires_at")
   usedAt     DateTime?        @map("used_at")

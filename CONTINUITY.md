@@ -26,6 +26,7 @@
     - **Build: SUCCESS** 🎉 (0 errors)
       - Fixed ALL 89 errors ✅
       - Resolved major schema mismatches in Invitation, Group, Challenge, XP/Stats modules
+      - **Schema Update**: Added `maxUsage` and `usageCount` to `Invitation` model for reuse logic
       - Aligned Code with Phase 5 Database Schema
   - Next:
     - Verify runtime functionality (start app)
