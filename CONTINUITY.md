@@ -1,42 +1,30 @@
-- Goal: Code Quality - URL Refactoring COMPLETED ✅
+- Goal: Fix Lint Errors in backend/test - COMPLETED ✅
 - Constraints:
-  - Must not break existing functionality
-  - Must pass all lint and build checks
-  - Must maintain backward compatibility with environment variables
+  - Must fix all ESLint errors in test directory
+  - Must maintain test functionality
+  - Prefer `unknown` over `any` for type safety
 - Key decisions:
-  - Created centralized config for all external service URLs (backend)
-  - Created ApiConfig provider for mobile app
-  - Removed all hardcoded URLs from production code
-  - Maintained environment-based configuration support
+  - Replaced all explicit `any` types with `unknown` and proper type assertions
+  - Removed unused variables
+  - Fixed floating promise by adding .catch() handler
+  - Used prettier to auto-format all test files
 - State:
   - Done:
-    - **URL Refactoring (13 files changed)** ✅
-      - Backend: 8 files refactored
-        - Created `external-services.config.ts`
-        - Updated 6 service files
-        - Registered config in ConfigModule
-      - Mobile: 5 files refactored
-        - Created `api_config.dart`
-        - Updated providers, repositories, endpoints
-        - Fixed mock data URLs
-    - **Verification** ✅
-      - Backend: Lint passed (0 errors), Build successful
-      - Mobile: Analyze passed (0 issues in refactored files)
-    - **Documentation** ✅
-      - Created `docs/refactoring/URL_REFACTORING.md`
+    - **Lint Error Fixes** ✅
+      - Fixed `cross-api.e2e-spec.ts`: removed unused `userId`, replaced 13 `any` types
+      - Fixed `websocket.e2e-spec.ts`: replaced 5 `any` types, fixed floating promise
+      - Fixed `translation.e2e-spec.ts`: replaced 2 `any` types
+      - Fixed `integration.e2e-spec.ts`: replaced 6 `any` types
+      - Ran prettier on all test files for consistent formatting
+      - All ESLint errors resolved (0 errors, 5 acceptable warnings for test helpers)
   - Now:
-    - All hardcoded URLs eliminated from production code
-    - Centralized configuration in place
-    - Ready for environment-specific deployments
+    - Task complete
   - Next:
-    - Continue with other code quality improvements
-    - Consider adding URL validation
-    - Implement health checks for external services
+    - N/A
 - Open questions:
   - None
 - Working set:
-  - Backend: `src/config/external-services.config.ts` (new)
-  - Backend: `src/integrations/`, `src/modules/` (6 files updated)
-  - Mobile: `lib/core/config/api_config.dart` (new)
-  - Mobile: `lib/core/providers/`, `lib/features/translation/` (4 files updated)
-  - Documentation: `docs/refactoring/URL_REFACTORING.md` (new)
+  - `backend/test/cross-api.e2e-spec.ts`
+  - `backend/test/websocket.e2e-spec.ts`
+  - `backend/test/translation.e2e-spec.ts`
+  - `backend/test/integration.e2e-spec.ts`

@@ -8,6 +8,6 @@ import { PrismaModule } from '../prisma/prisma.module';
   imports: [PrismaModule],
   controllers: [QuickResponseController],
   providers: [QuickResponseService, QuickResponseRepository],
-  exports: [QuickResponseService],
+  exports: [QuickResponseService, QuickResponseRepository],
 })
 export class QuickResponseModule {}
