@@ -184,10 +184,7 @@ export class StreakService {
   /**
    * Check and award streak badges
    */
-  private async checkStreakBadges(
-    userId: string,
-    streak: number,
-  ): Promise<void> {
+  private checkStreakBadges(userId: string, streak: number): void {
     // Check for milestone badges (7, 30, 100 days)
     const badgeCodes = [];
     if (streak >= 7) badgeCodes.push('STREAK_7');

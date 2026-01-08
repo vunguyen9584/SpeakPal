@@ -26,7 +26,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     // Generate or get request ID
     const requestId =
-      (request as any).id || this.generateAndSetRequestId(request);
+      ((request as any).id as string) || this.generateAndSetRequestId(request);
 
     const startTime = Date.now();
 
@@ -58,9 +58,9 @@ export class LoggingInterceptor implements NestInterceptor {
             timestamp: new Date().toISOString(),
           });
         },
-        error: (error) => {
+        error: (error: Record<string, any>) => {
           const duration = Date.now() - startTime;
-          const statusCode = error.status || 500;
+          const statusCode = (error.status as number) || 500;
 
           // Log error response
           this.logger.error({
@@ -70,7 +70,7 @@ export class LoggingInterceptor implements NestInterceptor {
             url,
             statusCode,
             duration: `${duration}ms`,
-            error: error.message,
+            error: (error.message as string) || 'Unknown error',
             timestamp: new Date().toISOString(),
           });
         },
@@ -80,7 +80,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
   private generateAndSetRequestId(request: Request): string {
     const requestId = `req-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    (request as any).id = requestId;
+    (request as unknown as Record<string, unknown>).id = requestId;
     return requestId;
   }
 }

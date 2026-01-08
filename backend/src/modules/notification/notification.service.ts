@@ -89,28 +89,28 @@ export class NotificationService {
    * Get user's FCM token
    * TODO: Implement actual token storage
    */
-  private async getUserFCMToken(userId: string): Promise<string | null> {
+  private getUserFCMToken(_userId: string): Promise<string | null> {
     // Mock implementation
     // In production, this would fetch from user preferences or device table
-    return `mock_fcm_token_${userId}`;
+    return Promise.resolve(`mock_fcm_token_${_userId}`);
   }
 
   /**
    * Get user's notification preferences
    * TODO: Implement actual preferences storage
    */
-  private async getUserPreferences(
-    userId: string,
+  private getUserPreferences(
+    _userId: string,
   ): Promise<NotificationPreferences> {
     // Mock implementation
     // In production, this would fetch from user preferences table
-    return {
+    return Promise.resolve({
       dailyReminder: true,
       streakReminder: true,
       badgeNotifications: true,
       groupNotifications: true,
       weeklyReport: true,
-    };
+    });
   }
 
   /**
@@ -141,10 +141,10 @@ export class NotificationService {
    * Store notification in history
    * TODO: Implement actual notification history storage
    */
-  private async storeNotification(
+  private storeNotification(
     userId: string,
     type: NotificationType,
-    notification: any,
+    notification: { title: string; body: string },
   ): Promise<void> {
     // Mock implementation
     // In production, this would store in notification_history table
@@ -153,23 +153,25 @@ export class NotificationService {
       title: notification.title,
       body: notification.body,
     });
+    return Promise.resolve();
   }
 
   /**
    * Mark notification as read
    * TODO: Implement when notification history is added
    */
-  async markAsRead(notificationId: string): Promise<void> {
+  markAsRead(notificationId: string): Promise<void> {
     // Mock implementation
     console.log(`Marked notification ${notificationId} as read`);
+    return Promise.resolve();
   }
 
   /**
    * Get user's notification history
    * TODO: Implement when notification history is added
    */
-  async getHistory(userId: string, limit = 20): Promise<any[]> {
+  getHistory(_userId: string, _limit = 20): Promise<any[]> {
     // Mock implementation
-    return [];
+    return Promise.resolve([]);
   }
 }

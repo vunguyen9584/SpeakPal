@@ -15,7 +15,7 @@ const DAILY_LIMITS: Record<
 
 @Injectable()
 export class QuickResponseService {
-  private readonly logger = new Logger(QuickResponseService.name);
+  private readonly _logger = new Logger(QuickResponseService.name);
 
   constructor(private readonly repository: QuickResponseRepository) {}
 
@@ -28,7 +28,7 @@ export class QuickResponseService {
     practiceType: PracticeType,
     difficulty: number = 3,
     userPlan: string = 'FREE',
-  ): Promise<any> {
+  ): Promise<Record<string, any>> {
     // 1. Check daily limit
     const dailyCount = await this.repository.getDailyCount(
       userId,
@@ -74,8 +74,8 @@ export class QuickResponseService {
     correctCount: number,
     maxChain: number,
     durationSec: number,
-    details?: any,
-  ): Promise<any> {
+    details?: Record<string, any>,
+  ): Promise<Record<string, any>> {
     // 1. Calculate XP based on performance
     let xpEarned = 15; // Base XP
 
@@ -125,7 +125,7 @@ export class QuickResponseService {
     userId: string,
     practiceType?: PracticeType,
     limit: number = 20,
-  ): Promise<any[]> {
+  ): Promise<Record<string, any>[]> {
     const results = await this.repository.getUserHistory(
       userId,
       practiceType,
@@ -149,10 +149,10 @@ export class QuickResponseService {
   private generateWordList(
     practiceType: PracticeType,
     difficulty: number,
-  ): any[] {
+  ): Record<string, any>[] {
     // Mock word list generation
     // In production, this would fetch from database based on difficulty
-    const wordLists = {
+    const wordLists: Partial<Record<PracticeType, Record<string, any>[]>> = {
       [PracticeType.WORD_ASSOCIATION]: [
         { word: 'happy', category: 'emotion', difficulty: 1 },
         { word: 'computer', category: 'technology', difficulty: 2 },
@@ -192,9 +192,7 @@ export class QuickResponseService {
     };
 
     const list = wordLists[practiceType] || [];
-    return list
-      .filter((item) => item.difficulty <= difficulty)
-      .slice(0, 10) as unknown[];
+    return list.filter((item) => item.difficulty <= difficulty).slice(0, 10);
   }
 
   /**
@@ -229,8 +227,8 @@ export class QuickResponseService {
     totalScore: number,
     maxChain: number,
     correctCount: number,
-  ): any {
-    const feedback: any = {
+  ): { goodPoints: string[]; improvements: string[] } {
+    const feedback: { goodPoints: string[]; improvements: string[] } = {
       goodPoints: [],
       improvements: [],
     };

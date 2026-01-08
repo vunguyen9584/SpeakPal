@@ -25,12 +25,12 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
  */
 export const CurrentUser = createParamDecorator(
   (data: string | undefined, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
-    const user = request.user as Record<string, any>;
+    const request = ctx.switchToHttp().getRequest<Record<string, any>>();
+    const user = request.user as Record<string, any> | undefined;
 
     // If no specific property requested, return entire user object
     if (!data) {
-      return user;
+      return user as unknown;
     }
 
     // Return specific property of user object

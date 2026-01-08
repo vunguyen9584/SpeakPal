@@ -28,8 +28,8 @@ export class ShadowingController {
   })
   async getContent(
     @Query() query: GetShadowingContentQueryDto,
-    @Request() req: any,
-  ): Promise<any> {
+    @Request() req: Record<string, any>,
+  ): Promise<Record<string, any>> {
     const userId = (req.user?.id as string) || 'demo-user';
     const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
 
@@ -49,8 +49,8 @@ export class ShadowingController {
   @ApiOperation({ summary: 'シャドーイング結果送信 (Submit Shadowing Result)' })
   async submitResult(
     @Body() dto: SubmitShadowingResultDto,
-    @Request() req: any,
-  ): Promise<any> {
+    @Request() req: Record<string, any>,
+  ): Promise<Record<string, any>> {
     const userId = (req.user?.id as string) || 'demo-user';
 
     return this.service.submitResult(
@@ -77,7 +77,7 @@ export class ShadowingController {
     @Query('level') level: Level,
     @Query('isPremium') isPremium: boolean,
     @Query('limit') limit: number = 20,
-  ): Promise<any[]> {
+  ): Promise<Record<string, any>[]> {
     return this.service.getContentList(contentType, level, isPremium, limit);
   }
 
@@ -89,9 +89,9 @@ export class ShadowingController {
   @ApiOperation({ summary: 'シャドーイング履歴取得 (Get Shadowing History)' })
   async getHistory(
     @Query('limit') limit: number = 20,
-    @Request() req: any,
-  ): Promise<any[]> {
-    const userId = req.user?.id || 'demo-user';
+    @Request() req: Record<string, any>,
+  ): Promise<Record<string, any>[]> {
+    const userId = (req.user?.id as string) || 'demo-user';
 
     return this.service.getHistory(userId, limit);
   }

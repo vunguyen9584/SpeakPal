@@ -92,42 +92,40 @@ export class PurchaseService {
    * Verify iOS App Store receipt
    * TODO: Implement actual App Store verification
    */
-  private async verifyAppStorePurchase(
-    receipt: string,
-  ): Promise<VerificationResult> {
+  private verifyAppStorePurchase(receipt: string): Promise<VerificationResult> {
     // Mock implementation for development
     // In production, use Apple's verifyReceipt API
     // https://developer.apple.com/documentation/appstorereceipts/verifyreceipt
 
     if (!receipt) {
-      return {
+      return Promise.resolve({
         success: false,
         error: 'Receipt is required for iOS purchases',
         expiryTime: null,
         autoRenewing: false,
         orderId: '',
         platform: 'ios',
-      };
+      });
     }
 
     // Mock successful verification
     const expiryTime = new Date();
     expiryTime.setMonth(expiryTime.getMonth() + 1); // 1 month subscription
 
-    return {
+    return Promise.resolve({
       success: true,
       expiryTime,
       autoRenewing: true,
       orderId: `ios_${Date.now()}`,
       platform: 'ios',
-    };
+    });
   }
 
   /**
    * Verify Android Play Store purchase
    * TODO: Implement actual Play Store verification
    */
-  private async verifyPlayStorePurchase(
+  private verifyPlayStorePurchase(
     productId: string,
     purchaseToken: string,
   ): Promise<VerificationResult> {
@@ -136,7 +134,7 @@ export class PurchaseService {
     // https://developers.google.com/android-publisher/api-ref/rest/v3/purchases.subscriptions/get
 
     if (!productId || !purchaseToken) {
-      return {
+      return Promise.resolve({
         success: false,
         error:
           'Product ID and purchase token are required for Android purchases',
@@ -144,20 +142,20 @@ export class PurchaseService {
         autoRenewing: false,
         orderId: '',
         platform: 'android',
-      };
+      });
     }
 
     // Mock successful verification
     const expiryTime = new Date();
     expiryTime.setMonth(expiryTime.getMonth() + 1); // 1 month subscription
 
-    return {
+    return Promise.resolve({
       success: true,
       expiryTime,
       autoRenewing: true,
       orderId: `android_${Date.now()}`,
       platform: 'android',
-    };
+    });
   }
 
   /**

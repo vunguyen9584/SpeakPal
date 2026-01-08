@@ -21,7 +21,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
     });
   }
 
-  async validate(req: Request, payload: JwtRefreshPayload) {
+  validate(req: Request, payload: JwtRefreshPayload) {
     if (!payload.sub || !payload.tokenId) {
       throw new UnauthorizedException('Invalid refresh token payload');
     }

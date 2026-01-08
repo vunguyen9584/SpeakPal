@@ -11,7 +11,7 @@ import { SUBSCRIPTION_REQUIRED_KEY } from '../decorators/subscription.decorator'
 export class SubscriptionGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext): boolean {
     const subscriptionRequired = this.reflector.getAllAndOverride<boolean>(
       SUBSCRIPTION_REQUIRED_KEY,
       [context.getHandler(), context.getClass()],
@@ -21,7 +21,8 @@ export class SubscriptionGuard implements CanActivate {
       return true;
     }
 
-    const { user } = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<Record<string, any>>();
+    const user = request.user as Record<string, any> | undefined;
 
     if (!user) {
       return false;

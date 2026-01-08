@@ -113,11 +113,9 @@ export class VocabularyExtractorService {
         );
       }
 
-      const data = await response.json();
-      return (
-        (data.choices[0]?.message?.content as string) ||
-        JSON.stringify({ vocabulary: [] })
-      );
+      const data = (await response.json()) as Record<string, any>;
+      const content = data.choices?.[0]?.message?.content as string | undefined;
+      return content || JSON.stringify({ vocabulary: [] });
     } catch (error) {
       this.logger.error('Error calling OpenAI API:', error);
       throw error;
@@ -130,8 +128,8 @@ export class VocabularyExtractorService {
    */
   private parseVocabulary(response: string): VocabularyItem[] {
     try {
-      const parsed = JSON.parse(response);
-      return (parsed.vocabulary || []) as VocabularyItem[];
+      const parsed = JSON.parse(response) as { vocabulary?: VocabularyItem[] };
+      return parsed.vocabulary || [];
     } catch (error) {
       this.logger.error('Failed to parse vocabulary:', error);
       return [];

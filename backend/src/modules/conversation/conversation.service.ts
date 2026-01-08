@@ -10,7 +10,8 @@ import type { Cache } from 'cache-manager';
 import { ConversationRepository } from './conversation.repository';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { ConversationResponseDto } from './dto/conversation-response.dto';
-import { Conversation } from '@prisma/client';
+import { Conversation, ConversationMode } from '@prisma/client';
+import { ListQuery, PaginatedResult } from './conversation.repository';
 import { ConfigService } from '@nestjs/config';
 
 const USAGE_LIMIT_FREE = 3; // 3 conversations per day for free users
@@ -81,12 +82,12 @@ export class ConversationService {
     });
   }
 
-  async getActiveSession(conversationId: string): Promise<any> {
+  async getActiveSession(conversationId: string): Promise<Record<string, any>> {
     const session = await this.cacheManager.get(`session:${conversationId}`);
     if (!session) {
       throw new NotFoundException('Session not found or expired');
     }
-    return session;
+    return session as Record<string, any>;
   }
 
   async endSession(
@@ -119,7 +120,12 @@ export class ConversationService {
 
   private async cacheSession(
     conversationId: string,
-    sessionData: any,
+    sessionData: {
+      userId: string;
+      conversationId: string;
+      startedAt: Date;
+      mode: ConversationMode;
+    },
   ): Promise<void> {
     await this.cacheManager.set(
       `session:${conversationId}`,
@@ -132,10 +138,13 @@ export class ConversationService {
     await this.cacheManager.del(`session:${conversationId}`);
   }
 
-  async listConversations(userId: string, query: any): Promise<any> {
+  async listConversations(
+    userId: string,
+    query: { page?: number; limit?: number; mode?: ConversationMode },
+  ): Promise<PaginatedResult<Conversation>> {
     return this.conversationRepo.findByUser(userId, {
-      page: query.page || 1,
-      limit: query.limit || 10,
+      page: Number(query.page) || 1,
+      limit: Number(query.limit) || 10,
       mode: query.mode,
     });
   }

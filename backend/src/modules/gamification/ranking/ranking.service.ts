@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import {
   RankingResponseDto,
   RankingEntryDto,
-  League,
+  League as DtoLeague,
 } from './dto/ranking-response.dto';
+import { League as PrismaLeague, Prisma } from '@prisma/client';
 
-const LEAGUE_ORDER: League[] = [
-  League.BRONZE,
-  League.SILVER,
-  League.GOLD,
-  League.PLATINUM,
-  League.DIAMOND,
+const LEAGUE_ORDER: DtoLeague[] = [
+  DtoLeague.BRONZE,
+  DtoLeague.SILVER,
+  DtoLeague.GOLD,
+  DtoLeague.PLATINUM,
+  DtoLeague.DIAMOND,
 ];
 
 @Injectable()
@@ -21,10 +21,11 @@ export class RankingService {
 
   async getWeeklyRanking(
     userId: string,
-    league?: League,
+    league?: DtoLeague,
   ): Promise<RankingResponseDto> {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
-    const currentLeague = league || (user?.league as League) || League.BRONZE;
+    const currentLeague =
+      league || (user?.league as unknown as DtoLeague) || DtoLeague.BRONZE;
     const weekNumber = this.getCurrentWeekNumber();
     const year = new Date().getFullYear();
 
@@ -32,7 +33,7 @@ export class RankingService {
       where: {
         weekNumber,
         year,
-        league: currentLeague as any, // Type compatibility issue with Prisma generated types
+        league: currentLeague as unknown as PrismaLeague,
       },
       include: { user: true },
       orderBy: { weeklyXp: 'desc' },
@@ -67,7 +68,7 @@ export class RankingService {
 
   async getUserRank(
     userId: string,
-  ): Promise<{ rank: number; league: League; weeklyXp: number }> {
+  ): Promise<{ rank: number; league: PrismaLeague; weeklyXp: number }> {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     const weekNumber = this.getCurrentWeekNumber();
     const year = new Date().getFullYear();
@@ -87,7 +88,7 @@ export class RankingService {
 
     return {
       rank: rank + 1,
-      league: (user?.league as League) || League.BRONZE,
+      league: user?.league || PrismaLeague.BRONZE,
       weeklyXp: userRanking?.weeklyXp || 0,
     };
   }
@@ -101,7 +102,7 @@ export class RankingService {
         where: {
           weekNumber,
           year,
-          league: league as any,
+          league: league as unknown as Prisma.EnumLeagueFilter,
         },
         include: { user: true },
         orderBy: { weeklyXp: 'desc' },
@@ -113,7 +114,9 @@ export class RankingService {
         if (nextLeagueIndex < LEAGUE_ORDER.length) {
           await this.prisma.user.update({
             where: { id: rankings[i].userId },
-            data: { league: LEAGUE_ORDER[nextLeagueIndex] as any },
+            data: {
+              league: LEAGUE_ORDER[nextLeagueIndex] as unknown as PrismaLeague,
+            },
           });
         }
       }
@@ -129,7 +132,11 @@ export class RankingService {
           if (prevLeagueIndex >= 0) {
             await this.prisma.user.update({
               where: { id: rankings[i].userId },
-              data: { league: LEAGUE_ORDER[prevLeagueIndex] as any },
+              data: {
+                league: LEAGUE_ORDER[
+                  prevLeagueIndex
+                ] as unknown as PrismaLeague,
+              },
             });
           }
         }

@@ -4,6 +4,8 @@ export enum GroupRole {
   MEMBER = 'MEMBER',
 }
 
+import { GroupMember, User } from '@prisma/client';
+
 export class GroupMemberDto {
   userId: string;
   userName: string;
@@ -15,13 +17,15 @@ export class GroupMemberDto {
     Object.assign(this, partial);
   }
 
-  static fromEntity(entity: any): GroupMemberDto {
+  static fromEntity(
+    entity: GroupMember & { user?: Partial<User> },
+  ): GroupMemberDto {
     return new GroupMemberDto({
       userId: entity.userId || entity.user?.id,
       userName: entity.user?.username || entity.user?.email || 'Unknown User',
-      userAvatar: null,
-      role: entity.role as GroupRole,
-      joinedAt: entity.joinedAt || entity.createdAt,
+      userAvatar: undefined,
+      role: entity.role as unknown as GroupRole,
+      joinedAt: entity.joinedAt,
     });
   }
 }

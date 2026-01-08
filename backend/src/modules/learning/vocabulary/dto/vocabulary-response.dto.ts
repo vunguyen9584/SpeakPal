@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { SrsLevel } from '@prisma/client';
 
+import { Vocabulary } from '@prisma/client';
+
 export class VocabularyResponseDto {
   @ApiProperty()
   id: string;
@@ -35,12 +37,12 @@ export class VocabularyResponseDto {
   @ApiProperty({ nullable: true })
   conversationId: string | null;
 
-  static fromEntity(vocab: any): VocabularyResponseDto {
+  static fromEntity(vocab: Vocabulary): VocabularyResponseDto {
     const dto = new VocabularyResponseDto();
     dto.id = vocab.id;
     dto.word = vocab.word;
     dto.meaning = vocab.meaning;
-    dto.pronunciation = vocab.pronunciation;
+    dto.pronunciation = vocab.pronunciation || '';
     dto.exampleSentence = vocab.exampleSentence;
     dto.srsLevel = vocab.srsLevel;
     dto.nextReviewDate = vocab.nextReviewDate;

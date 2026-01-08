@@ -43,8 +43,9 @@ export class ScenarioService {
       conversationContext: {
         scenarioId: scenario.id,
         prompt:
-          (scenario.initialContext as any)?.prompt || scenario.description,
-        suggestedTopics: scenario.keyPhrases,
+          ((scenario.initialContext as Record<string, any>)
+            ?.prompt as string) || scenario.description,
+        suggestedTopics: scenario.keyPhrases as unknown as string[],
         estimatedMinutes: scenario.estimatedDurationMinutes,
       },
     };

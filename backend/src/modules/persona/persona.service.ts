@@ -9,7 +9,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
 import { PersonaDto } from './dto/persona-response.dto';
-import { SubscriptionPlan } from '@prisma/client';
+import { SubscriptionPlan, Persona } from '@prisma/client';
 
 @Injectable()
 export class PersonaService {
@@ -128,7 +128,7 @@ export class PersonaService {
   /**
    * Helper method to map Persona entity to PersonaDto
    */
-  private mapToDto(persona: any): PersonaDto {
+  private mapToDto(persona: Persona): PersonaDto {
     return {
       id: persona.id,
       userId: persona.userId,

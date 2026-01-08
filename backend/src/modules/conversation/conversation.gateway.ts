@@ -49,7 +49,10 @@ export class ConversationGateway
       this.logger.log(`Client attempting connection: ${client.id}`);
 
       // Extract auth data from handshake
-      const { token, conversationId } = client.handshake.auth;
+      const { token, conversationId } = client.handshake.auth as {
+        token: string;
+        conversationId: string;
+      };
 
       if (!token || !conversationId) {
         this.emitError(client, 'WS_ERR_001', 'Missing authentication data');
@@ -166,8 +169,8 @@ export class ConversationGateway
    */
   @SubscribeMessage('message')
   handleMessage(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() payload: any,
+    @ConnectedSocket() _client: Socket,
+    @MessageBody() _payload: unknown,
   ): string {
     return 'Hello world!';
   }
@@ -176,9 +179,9 @@ export class ConversationGateway
    * Handle incoming audio stream
    */
   @SubscribeMessage('audio_stream')
-  async handleAudioStream(
+  handleAudioStream(
     @ConnectedSocket() client: Socket,
-    @MessageBody() data: any,
+    @MessageBody() data: { chunk: string; sequence: number; isFinal?: boolean },
   ) {
     try {
       const clientData = client.data as ClientData;
@@ -223,9 +226,9 @@ export class ConversationGateway
    * Handle interrupt signal (user starts speaking during AI response)
    */
   @SubscribeMessage('interrupt')
-  async handleInterrupt(
+  handleInterrupt(
     @ConnectedSocket() client: Socket,
-    @MessageBody() data: any,
+    @MessageBody() data: { reason: string },
   ) {
     try {
       const clientData = client.data as ClientData;
@@ -261,7 +264,7 @@ export class ConversationGateway
       for await (const rawResponse of responseGenerator) {
         const response = rawResponse as {
           type: string;
-          data: any;
+          data: Record<string, any>;
         };
         switch (response.type) {
           case 'ai_response_start':
@@ -278,7 +281,7 @@ export class ConversationGateway
           case 'ai_response_end':
             client.emit('ai_response_end', {
               responseId,
-              text: response.data.text,
+              text: (response.data.text as string) || '',
             });
             break;
 

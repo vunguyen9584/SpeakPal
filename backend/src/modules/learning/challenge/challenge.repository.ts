@@ -1,12 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { UserChallenge, ChallengeType, ChallengeStatus } from '@prisma/client';
+import {
+  UserChallenge,
+  Challenge,
+  ChallengeType,
+  ChallengeStatus,
+} from '@prisma/client';
+
+export type UserChallengeWithChallenge = UserChallenge & {
+  challenge: Challenge;
+};
 
 @Injectable()
 export class ChallengeRepository {
   constructor(private prisma: PrismaService) {}
 
-  async findTodayChallenges(userId: string): Promise<any[]> {
+  async findTodayChallenges(
+    userId: string,
+  ): Promise<UserChallengeWithChallenge[]> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -34,7 +45,7 @@ export class ChallengeRepository {
     type: ChallengeType,
     targetProgress: number,
     xpReward: number,
-  ): Promise<any> {
+  ): Promise<UserChallengeWithChallenge> {
     // Create a new Challenge definition (or could reuse if we implemented caching/lookup)
     // For now, creating a new one to support the dynamic nature of the code
     const challenge = await this.prisma.challenge.create({
@@ -66,7 +77,10 @@ export class ChallengeRepository {
     return userChallenge;
   }
 
-  async updateProgress(id: string, newProgress: number): Promise<any> {
+  async updateProgress(
+    id: string,
+    newProgress: number,
+  ): Promise<UserChallengeWithChallenge | null> {
     const uc = await this.prisma.userChallenge.findUnique({
       where: { id },
       include: { challenge: true },
@@ -74,7 +88,8 @@ export class ChallengeRepository {
 
     if (!uc) return null;
 
-    const targetProxy = (uc.challenge.condition as any)?.target || 1;
+    const targetProxy =
+      ((uc.challenge.condition as Record<string, any>)?.target as number) || 1;
     const isCompleted = newProgress >= targetProxy;
 
     return this.prisma.userChallenge.update({
@@ -92,7 +107,7 @@ export class ChallengeRepository {
     });
   }
 
-  async markCompleted(id: string): Promise<any> {
+  async markCompleted(id: string): Promise<UserChallengeWithChallenge> {
     return this.prisma.userChallenge.update({
       where: { id },
       data: {

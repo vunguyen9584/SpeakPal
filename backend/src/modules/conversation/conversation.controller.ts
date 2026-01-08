@@ -41,7 +41,7 @@ export class ConversationController {
   })
   async list(@Req() req, @Query() query: ListConversationsQueryDto) {
     const userId = (req.user as { id: string }).id;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
     return this.conversationService.listConversations(userId, query);
   }
 

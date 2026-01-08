@@ -1,7 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { BADGE_DEFINITIONS } from './badge.constants';
-import { BadgeDto, UserBadgeDto } from './dto/badge-response.dto';
+import {
+  BadgeDto,
+  UserBadgeDto,
+  BadgeCategory,
+} from './dto/badge-response.dto';
+
+interface UserStats {
+  currentStreak: number;
+  level: number;
+  conversationCount: number;
+  vocabularyCount: number;
+}
 
 @Injectable()
 export class BadgeService {
@@ -21,7 +32,7 @@ export class BadgeService {
       name: badge.name,
       nameJa: badge.nameJa,
       description: badge.description,
-      category: badge.category as any,
+      category: badge.category.toLowerCase() as BadgeCategory,
       xpBonus: badge.xpBonus,
       iconUrl: badge.iconUrl,
       condition: badge.condition as string,
@@ -46,7 +57,7 @@ export class BadgeService {
         name: ub.badge.name,
         nameJa: ub.badge.nameJa,
         description: ub.badge.description,
-        category: ub.badge.category as any,
+        category: ub.badge.category.toLowerCase() as BadgeCategory,
         xpBonus: ub.badge.xpBonus,
         iconUrl: ub.badge.iconUrl,
         condition: ub.badge.condition as string,
@@ -185,7 +196,7 @@ export class BadgeService {
   /**
    * Check if a condition is met
    */
-  private checkCondition(condition: string, stats: any): boolean {
+  private checkCondition(condition: string, stats: UserStats): boolean {
     try {
       // Simple condition parser
       if (condition.includes('currentStreak >=')) {
@@ -214,7 +225,7 @@ export class BadgeService {
   /**
    * Get user stats for badge checking
    */
-  private async getUserStats(userId: string): Promise<any> {
+  private async getUserStats(userId: string): Promise<UserStats> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: { streak: true },
@@ -239,7 +250,7 @@ export class BadgeService {
 
     return {
       currentStreak: user.streak?.currentStreak || 0,
-      level: user.level,
+      level: (user.level as unknown as number) || 1,
       conversationCount,
       vocabularyCount,
     };

@@ -9,7 +9,7 @@ import { CacheService } from './cache.service';
     NestCacheModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         store: redisStore,
         url: configService.get<string>('redis.url'),
         ttl: 60 * 60, // 1 hour default TTL

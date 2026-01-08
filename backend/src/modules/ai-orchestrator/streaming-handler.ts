@@ -20,7 +20,7 @@ export class StreamingHandler {
    * @param sessionId Session ID
    * @param conversationId Conversation ID
    */
-  async startStream(sessionId: string, conversationId: string): Promise<void> {
+  startStream(sessionId: string, conversationId: string): Promise<void> {
     // Check if stream already exists
     if (this.activeStreams.has(sessionId)) {
       throw new Error(`Stream already active for session: ${sessionId}`);
@@ -38,13 +38,15 @@ export class StreamingHandler {
       startedAt: new Date(),
       bytesProcessed: 0,
     });
+
+    return Promise.resolve();
   }
 
   /**
    * Stop streaming for a session
    * @param sessionId Session ID
    */
-  async stopStream(sessionId: string): Promise<void> {
+  stopStream(sessionId: string): Promise<void> {
     // Abort the stream if it exists
     const abortController = this.abortControllers.get(sessionId);
     if (abortController) {
@@ -54,6 +56,7 @@ export class StreamingHandler {
 
     // Remove stream state
     this.activeStreams.delete(sessionId);
+    return Promise.resolve();
   }
 
   /**
@@ -107,7 +110,7 @@ export class StreamingHandler {
    * @param sessionId Session ID
    * @param mark High water mark in bytes
    */
-  setHighWaterMark(sessionId: string, mark: number): void {
+  setHighWaterMark(_sessionId: string, _mark: number): void {
     // This could be stored per-session if needed
     // For now, using a global HIGH_WATER_MARK
   }

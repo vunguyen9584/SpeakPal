@@ -23,29 +23,18 @@ export class LLMService {
    * @param context Conversation context
    * @returns AI response text
    */
-  async generateResponse(
+  generateResponse(
     text: string,
     context: ConversationContext,
   ): Promise<string> {
     try {
-      const messages = this.buildConversationPrompt(text, context);
+      const _messages = this.buildConversationPrompt(text, context);
 
       // TODO: Implement actual OpenAI API call
-      // const { Configuration, OpenAIApi } = require('openai');
-      // const configuration = new Configuration({ apiKey: this.apiKey });
-      // const openai = new OpenAIApi(configuration);
-      //
-      // const completion = await openai.createChatCompletion({
-      //   model: 'gpt-4o',
-      //   messages,
-      //   max_tokens: 150,
-      //   temperature: 0.7,
-      // });
-      //
-      // return completion.data.choices[0].message.content;
+      // ... (comments kept)
 
       // Mock implementation
-      return this.generateMockResponse(text, context);
+      return Promise.resolve(this.generateMockResponse(text, context));
     } catch (error) {
       console.error('LLM generateResponse error:', error);
       throw new Error('Failed to generate AI response');
@@ -58,9 +47,9 @@ export class LLMService {
    * @param level User proficiency level
    * @returns Array of corrections
    */
-  async analyzeErrors(text: string, level: string): Promise<Correction[]> {
+  analyzeErrors(text: string, level: string): Promise<Correction[]> {
     try {
-      const prompt = this.buildErrorAnalysisPrompt(text, level);
+      const _prompt = this.buildErrorAnalysisPrompt(text, level);
 
       // TODO: Implement actual OpenAI API call
       // const completion = await openai.createChatCompletion({
@@ -74,10 +63,10 @@ export class LLMService {
       // return result.corrections;
 
       // Mock implementation - return empty for now
-      return [];
+      return Promise.resolve([] as Correction[]);
     } catch (error) {
       console.error('LLM analyzeErrors error:', error);
-      return []; // Return empty array on error
+      return Promise.resolve([] as Correction[]);
     }
   }
 
@@ -86,16 +75,16 @@ export class LLMService {
    * @param context Conversation context
    * @returns Suggestion with template and vocabulary
    */
-  async generateSuggestions(
+  generateSuggestions(
     context: ConversationContext,
   ): Promise<Suggestion | null> {
     try {
-      const prompt = this.buildSuggestionPrompt(context);
+      const _prompt = this.buildSuggestionPrompt(context);
 
       // TODO: Implement actual OpenAI API call
 
       // Mock implementation
-      return {
+      return Promise.resolve({
         template: 'I usually [___] because [___].',
         vocabulary: [
           { word: 'usually', meaning: '普段は' },
@@ -105,10 +94,10 @@ export class LLMService {
           'I usually work from home because it is more flexible.',
           'I often go to the gym in the evening.',
         ],
-      };
+      });
     } catch (error) {
       console.error('LLM generateSuggestions error:', error);
-      return null;
+      return Promise.resolve(null);
     }
   }
 
@@ -236,11 +225,11 @@ Return JSON with:
   /**
    * Check if OpenAI service is available
    */
-  async healthCheck(): Promise<boolean> {
+  healthCheck(): Promise<boolean> {
     try {
-      return !!this.apiKey;
-    } catch (error) {
-      return false;
+      return Promise.resolve(!!this.apiKey);
+    } catch (_error) {
+      return Promise.resolve(false);
     }
   }
 }

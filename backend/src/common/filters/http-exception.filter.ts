@@ -26,7 +26,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     // Generate request ID (fallback if not set by middleware)
-    const requestId = (request as any).id || this.generateRequestId();
+    const requestId =
+      ((request as any).id as string) || this.generateRequestId();
 
     // Build error response
     const errorResponse = this.buildErrorResponse(
@@ -70,14 +71,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     // If response is an object (e.g., validation errors from class-validator)
-    const responseObj = exceptionResponse as any;
+    const responseObj = exceptionResponse as Record<string, any>;
     return {
       success: false,
       error: {
         code: this.getErrorCodeFromStatus(status),
-        message: responseObj.message || exception.message,
+        message: (responseObj.message as string) || exception.message,
         details: responseObj.error
-          ? { fields: this.extractValidationErrors(responseObj) }
+          ? { fields: this.extractValidationErrors(responseObj) as unknown }
           : undefined,
         timestamp: new Date().toISOString(),
         requestId,

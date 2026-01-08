@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { League } from '@prisma/client';
 
 // Level formula: Level N requires N * 200 XP
 // Level 1: 200 XP, Level 5: 1000 XP (cumulative), Level 10: 2000 XP
@@ -39,7 +38,7 @@ export class XpService {
   async addXP(
     userId: string,
     amount: number,
-    source: string,
+    _source: string,
   ): Promise<{ leveledUp: boolean; newLevel: number; totalXp: number }> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },

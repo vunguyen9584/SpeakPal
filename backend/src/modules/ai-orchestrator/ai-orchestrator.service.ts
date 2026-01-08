@@ -72,16 +72,13 @@ export class AIOrchestrator {
   ): AsyncGenerator<AIResponse> {
     try {
       // Step 2: Parallel LLM calls for response, errors, and suggestions
-      const [responsePromise, errorsPromise, suggestionsPromise] =
-        await Promise.all([
-          this.generateResponse(text, context),
-          this.analyzeErrors(text, context),
-          this.generateSuggestions(text, context),
-        ]);
+      const [responseText, errors, suggestions] = await Promise.all([
+        this.generateResponse(text, context),
+        this.analyzeErrors(text, context),
+        this.generateSuggestions(text, context),
+      ]);
 
       // Step 3: TTS - Text → Audio (streaming)
-      const responseText = await responsePromise;
-
       // Signal AI response start
       yield {
         type: 'ai_response_start',
@@ -111,7 +108,6 @@ export class AIOrchestrator {
       };
 
       // Step 4: Return corrections and suggestions
-      const errors = await errorsPromise;
       if (errors && errors.length > 0) {
         yield {
           type: 'correction',
@@ -119,7 +115,6 @@ export class AIOrchestrator {
         };
       }
 
-      const suggestions = await suggestionsPromise;
       if (suggestions) {
         yield {
           type: 'suggestion',
@@ -136,36 +131,36 @@ export class AIOrchestrator {
    * Generate AI response using LLM
    * @private
    */
-  private async generateResponse(
-    text: string,
-    context: ConversationContext,
+  private generateResponse(
+    _text: string,
+    _context: ConversationContext,
   ): Promise<string> {
     // TODO: Implement with LLM service
-    return `That's interesting! Tell me more about that.`;
+    return Promise.resolve(`That's interesting! Tell me more about that.`);
   }
 
   /**
    * Analyze user text for errors
    * @private
    */
-  private async analyzeErrors(
-    text: string,
-    context: ConversationContext,
+  private analyzeErrors(
+    _text: string,
+    _context: ConversationContext,
   ): Promise<Correction[]> {
     // TODO: Implement with LLM service
-    return [];
+    return Promise.resolve([] as Correction[]);
   }
 
   /**
    * Generate speaking suggestions
    * @private
    */
-  private async generateSuggestions(
-    text: string,
-    context: ConversationContext,
+  private generateSuggestions(
+    _text: string,
+    _context: ConversationContext,
   ): Promise<Suggestion | null> {
     // TODO: Implement with LLM service
-    return null;
+    return Promise.resolve(null);
   }
 
   /**
@@ -179,8 +174,9 @@ export class AIOrchestrator {
   /**
    * Stop processing for a conversation
    */
-  async stopProcessing(conversationId: string): Promise<void> {
+  stopProcessing(conversationId: string): Promise<void> {
     // TODO: Implement cleanup and abort logic
     console.log(`Stopping processing for conversation: ${conversationId}`);
+    return Promise.resolve();
   }
 }

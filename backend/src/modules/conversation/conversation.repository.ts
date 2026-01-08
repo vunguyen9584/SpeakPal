@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Conversation, ConversationMode } from '@prisma/client';
+import { Conversation, ConversationMode, Prisma } from '@prisma/client';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 
 export interface ListQuery {
@@ -51,7 +51,7 @@ export class ConversationRepository {
     userId: string,
     query: ListQuery,
   ): Promise<PaginatedResult<Conversation>> {
-    const where: any = { userId };
+    const where: Prisma.ConversationWhereInput = { userId };
     if (query.mode) {
       where.mode = query.mode;
     }

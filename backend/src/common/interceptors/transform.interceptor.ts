@@ -26,7 +26,8 @@ export class TransformInterceptor<T> implements NestInterceptor<
     next: CallHandler,
   ): Observable<ApiResponse<T> | PaginatedResponseDto<any>> {
     const request = context.switchToHttp().getRequest<Request>();
-    const requestId = (request as any).id || this.generateRequestId();
+    const requestId =
+      ((request as any).id as string) || this.generateRequestId();
 
     return next.handle().pipe(
       map((data: unknown) => {

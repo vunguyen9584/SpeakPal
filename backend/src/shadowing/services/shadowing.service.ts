@@ -12,7 +12,7 @@ const DAILY_LIMITS: Record<string, { shadowing: number }> = {
 
 @Injectable()
 export class ShadowingService {
-  private readonly logger = new Logger(ShadowingService.name);
+  private readonly _logger = new Logger(ShadowingService.name);
 
   constructor(
     private readonly contentRepo: ShadowingContentRepository,
@@ -28,7 +28,7 @@ export class ShadowingService {
     contentType: ContentType,
     level?: Level,
     userPlan: string = 'FREE',
-  ): Promise<any> {
+  ): Promise<Record<string, any>> {
     // 1. Check daily limit
     const dailyCount = await this.resultRepo.getDailyCount(
       userId,
@@ -86,8 +86,8 @@ export class ShadowingService {
     pronunciationScore: number,
     rhythmScore: number,
     durationSec: number,
-    details?: any,
-  ): Promise<any> {
+    details?: Record<string, any>,
+  ): Promise<Record<string, any>> {
     // 1. Verify content exists
     const content = await this.contentRepo.findById(contentId);
     if (!content) {
@@ -153,7 +153,7 @@ export class ShadowingService {
     level?: Level,
     isPremium?: boolean,
     limit: number = 20,
-  ): Promise<any[]> {
+  ): Promise<Record<string, any>[]> {
     const contents = await this.contentRepo.findAll({
       contentType,
       level,
@@ -176,7 +176,10 @@ export class ShadowingService {
   /**
    * Get user's shadowing history
    */
-  async getHistory(userId: string, limit: number = 20): Promise<any[]> {
+  async getHistory(
+    userId: string,
+    limit: number = 20,
+  ): Promise<Record<string, any>[]> {
     const results = await this.resultRepo.getUserHistory(
       userId,
       PracticeType.SHADOWING,
@@ -224,8 +227,8 @@ export class ShadowingService {
     followingScore: number,
     pronunciationScore: number,
     rhythmScore: number,
-  ): any {
-    const feedback: any = {
+  ): { goodPoints: string[]; improvements: string[] } {
+    const feedback: { goodPoints: string[]; improvements: string[] } = {
       goodPoints: [],
       improvements: [],
     };

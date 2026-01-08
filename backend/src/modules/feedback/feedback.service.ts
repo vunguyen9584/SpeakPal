@@ -225,11 +225,9 @@ export class FeedbackService {
         );
       }
 
-      const data = await response.json();
-      return (
-        (data.choices[0]?.message?.content as string) ||
-        JSON.stringify({ corrections: [] })
-      );
+      const data = (await response.json()) as Record<string, any>;
+      const content = data.choices?.[0]?.message?.content as string | undefined;
+      return content || JSON.stringify({ corrections: [] });
     } catch (error) {
       this.logger.error('Error calling OpenAI API:', error);
       throw error;
@@ -242,8 +240,8 @@ export class FeedbackService {
    */
   private parseCorrections(response: string): Correction[] {
     try {
-      const parsed = JSON.parse(response);
-      return (parsed.corrections || []) as Correction[];
+      const parsed = JSON.parse(response) as { corrections?: Correction[] };
+      return parsed.corrections || [];
     } catch (error) {
       this.logger.error('Failed to parse corrections:', error);
       return [];
@@ -256,7 +254,7 @@ export class FeedbackService {
    */
   private parseSuggestion(response: string): Suggestion | null {
     try {
-      const parsed = JSON.parse(response);
+      const parsed = JSON.parse(response) as Record<string, any>;
       if (
         !parsed.template ||
         !parsed.vocabulary ||
@@ -265,9 +263,9 @@ export class FeedbackService {
         return null;
       }
       return {
-        template: parsed.template,
-        vocabulary: parsed.vocabulary,
-        alternativeResponses: parsed.alternativeResponses,
+        template: parsed.template as string,
+        vocabulary: parsed.vocabulary as VocabularyItem[],
+        alternativeResponses: parsed.alternativeResponses as string[],
       };
     } catch (error) {
       this.logger.error('Failed to parse suggestion:', error);

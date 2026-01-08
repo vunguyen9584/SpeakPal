@@ -52,13 +52,11 @@ describe('GroupService', () => {
       const dto = {
         name: 'Test Group',
         description: 'Test Description',
-        isPublic: true,
       };
       const mockGroup = {
         id: 'group-123',
         name: dto.name,
         description: dto.description,
-        isPublic: dto.isPublic,
         ownerId: userId,
         inviteCode: 'ABC123',
         createdAt: new Date(),
@@ -108,7 +106,6 @@ describe('GroupService', () => {
       const mockGroup = {
         id: 'group-123',
         name: dto.name,
-        isPublic: true,
         ownerId: userId,
         inviteCode: 'ABC123',
         createdAt: new Date(),
@@ -126,7 +123,7 @@ describe('GroupService', () => {
 
       expect(mockGroupRepository.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          isPublic: true,
+          name: dto.name,
         }),
       );
     });
@@ -256,7 +253,6 @@ describe('GroupService', () => {
       const mockGroup = {
         id: groupId,
         name: 'Test Group',
-        isPublic: false,
         ownerId: 'user-123',
         members: [],
       };
@@ -275,7 +271,6 @@ describe('GroupService', () => {
       const mockGroup = {
         id: groupId,
         name: 'Public Group',
-        isPublic: true,
         ownerId: 'user-123',
         members: [],
       };
@@ -294,7 +289,6 @@ describe('GroupService', () => {
       const mockGroup = {
         id: groupId,
         name: 'Private Group',
-        isPublic: false,
         ownerId: 'user-123',
       };
 
@@ -313,7 +307,6 @@ describe('GroupService', () => {
       const userId = 'user-456';
       const mockGroup = {
         id: groupId,
-        isPublic: true,
       };
       const mockRankings = [
         {

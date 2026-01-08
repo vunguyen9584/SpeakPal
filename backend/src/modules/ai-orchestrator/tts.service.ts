@@ -28,7 +28,7 @@ export class TTSService {
     voice: VoiceType = 'female',
   ): AsyncGenerator<Buffer> {
     try {
-      const voiceId = this.getVoiceId(voice);
+      const _voiceId = this.getVoiceId(voice);
 
       // TODO: Implement actual ElevenLabs streaming
       // const ElevenLabs = require('elevenlabs-node');
@@ -64,21 +64,21 @@ export class TTSService {
    * Get available voices
    * @returns List of available voices
    */
-  async getVoices(): Promise<Voice[]> {
+  getVoices(): Promise<Voice[]> {
     try {
       // TODO: Implement actual API call
       // const elevenlabs = new ElevenLabs({ apiKey: this.apiKey });
       // return await elevenlabs.voices.getAll();
 
       // Mock voices
-      return [
+      return Promise.resolve([
         { voice_id: 'voice_1', name: 'Sarah', category: 'female' },
         { voice_id: 'voice_2', name: 'Michael', category: 'male' },
         { voice_id: 'voice_3', name: 'Alex', category: 'neutral' },
-      ];
+      ]);
     } catch (error) {
       console.error('Failed to fetch voices:', error);
-      return [];
+      return Promise.resolve([] as Voice[]);
     }
   }
 
@@ -102,7 +102,7 @@ export class TTSService {
    * @param personaId Persona ID from database
    * @returns Voice type
    */
-  getVoiceForPersona(personaId: string): VoiceType {
+  getVoiceForPersona(_personaId: string): VoiceType {
     // TODO: Implement persona to voice mapping from database
     // For now, return default
     return 'female';
@@ -111,11 +111,11 @@ export class TTSService {
   /**
    * Check if ElevenLabs service is available
    */
-  async healthCheck(): Promise<boolean> {
+  healthCheck(): Promise<boolean> {
     try {
-      return !!this.apiKey;
-    } catch (error) {
-      return false;
+      return Promise.resolve(!!this.apiKey);
+    } catch (_error) {
+      return Promise.resolve(false);
     }
   }
 

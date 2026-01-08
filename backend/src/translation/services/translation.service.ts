@@ -22,7 +22,7 @@ const DAILY_LIMITS: Record<
 
 @Injectable()
 export class TranslationService {
-  private readonly logger = new Logger(TranslationService.name);
+  private readonly _logger = new Logger(TranslationService.name);
 
   constructor(
     private readonly questionRepo: TranslationQuestionRepository,
@@ -171,7 +171,7 @@ export class TranslationService {
     category: string,
     level?: Level,
     userPlan: string = 'FREE',
-  ): Promise<any> {
+  ): Promise<Record<string, any>> {
     // 1. Check level restriction (BR-101)
     const userLevel = level || Level.BEGINNER;
     if (userLevel === Level.BEGINNER || userLevel === Level.ELEMENTARY) {
@@ -223,7 +223,7 @@ export class TranslationService {
     userId: string,
     questionId: string,
     userExpression: string,
-  ): Promise<any> {
+  ): Promise<Record<string, any>> {
     // 1. Get question
     const question = await this.intentRepo.findById(questionId);
     if (!question) {
@@ -322,7 +322,11 @@ export class TranslationService {
   ): {
     grammarScore: number;
     vocabScore: number;
-    feedback: any;
+    feedback: {
+      goodPoints: string[];
+      improvements: string[];
+      grammarNotes: string;
+    };
   } {
     // Simple similarity check for demo
     const similarity = this.calculateSimilarity(
@@ -354,7 +358,7 @@ export class TranslationService {
     intentScore: number;
     naturalnessScore: number;
     vocabScore: number;
-    feedback: any;
+    feedback: { goodPoints: string[]; improvements: string[] };
   } {
     // Check if user expression matches any expected expression
     const maxSimilarity = Math.max(

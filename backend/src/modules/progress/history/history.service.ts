@@ -73,7 +73,7 @@ export class HistoryService {
    */
   private async getConversationHistory(
     userId: string,
-    dateRange: any,
+    dateRange: { gte?: Date; lte?: Date } | undefined,
   ): Promise<HistoryItemDto[]> {
     const conversations = await this.prisma.conversation.findMany({
       where: {
@@ -116,7 +116,7 @@ export class HistoryService {
    */
   private async getVocabularyHistory(
     userId: string,
-    dateRange: any,
+    dateRange: { gte?: Date; lte?: Date } | undefined,
   ): Promise<HistoryItemDto[]> {
     // Map date filter from createdAt to updatedAt
     const vocabularies = await this.prisma.vocabulary.findMany({
@@ -158,7 +158,7 @@ export class HistoryService {
    */
   private async getChallengeHistory(
     userId: string,
-    dateRange: any,
+    dateRange: { gte?: Date; lte?: Date } | undefined,
   ): Promise<HistoryItemDto[]> {
     const filter = dateRange
       ? {
@@ -207,7 +207,9 @@ export class HistoryService {
           title: ch.challenge.title,
           description: ch.challenge.description,
           progress: ch.currentProgress,
-          targetCount: (ch.challenge.condition as any)?.target || 0,
+          targetCount:
+            ((ch.challenge.condition as Record<string, any>)
+              ?.target as number) || 0,
         },
       }));
   }

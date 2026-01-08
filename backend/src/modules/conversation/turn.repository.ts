@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { ConversationTurn, Speaker } from '@prisma/client';
+import {
+  ConversationTurn,
+  Speaker,
+  CorrectionType,
+  Severity,
+} from '@prisma/client';
 
 export interface Correction {
-  type: string;
+  type: CorrectionType;
   original: string;
   corrected: string;
   explanation: string;
-  severity: string;
+  severity: Severity;
 }
 
 @Injectable()
@@ -51,7 +56,16 @@ export class TurnRepository {
     await this.prisma.conversationTurn.update({
       where: { id: turnId },
       data: {
-        corrections: corrections as any, // JSONB field
+        corrections: {
+          deleteMany: {},
+          create: corrections.map((c) => ({
+            type: c.type,
+            originalText: c.original,
+            correctedText: c.corrected,
+            explanation: c.explanation,
+            severity: c.severity,
+          })),
+        },
       },
     });
   }

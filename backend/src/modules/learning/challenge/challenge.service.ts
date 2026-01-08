@@ -13,6 +13,14 @@ const CHALLENGE_CONFIG = {
   [ChallengeType.TIME]: { min: 10, max: 30, xp: 60 },
 };
 
+interface AnalysisPattern {
+  userLevel: string;
+  conversationCount: number;
+  vocabularyCount: number;
+  avgPronunciation: number;
+  currentStreak: number;
+}
+
 @Injectable()
 export class ChallengeService {
   constructor(
@@ -34,7 +42,7 @@ export class ChallengeService {
     userId: string,
   ): Promise<ChallengeResponseDto[]> {
     // Analyze user's 30-day activity pattern
-    const pattern = await this.analyzePattern(userId);
+    const pattern = this.analyzePattern(userId);
 
     const challenges: ChallengeResponseDto[] = []; // Actually returns DTOs
 
@@ -66,7 +74,7 @@ export class ChallengeService {
     return challenges;
   }
 
-  private async analyzePattern(userId: string): Promise<any> {
+  private analyzePattern(_userId: string): AnalysisPattern {
     // TODO: Implement 30-day pattern analysis
     // For now, return default pattern
     return {
@@ -78,7 +86,7 @@ export class ChallengeService {
     };
   }
 
-  private selectWeaknessChallenge(pattern: any): ChallengeType {
+  private selectWeaknessChallenge(pattern: AnalysisPattern): ChallengeType {
     // Select based on what user does least
     if (pattern.conversationCount < 10) {
       return ChallengeType.CONVERSATION;
@@ -102,7 +110,6 @@ export class ChallengeService {
       config.min + (config.max - config.min) * difficulty,
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.repository.createUserChallenge(
       userId,
       type,
@@ -167,6 +174,9 @@ export class ChallengeService {
     }
 
     const updated = await this.repository.updateProgress(challengeId, progress);
+    if (!updated) {
+      throw new NotFoundException('Challenge not found');
+    }
     return ChallengeResponseDto.fromEntity(updated);
   }
 }

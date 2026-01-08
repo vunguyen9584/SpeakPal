@@ -29,7 +29,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     // Generate request ID (fallback if not set by middleware)
-    const requestId = (request as any).id || this.generateRequestId();
+    const requestId =
+      ((request as any).id as string) || this.generateRequestId();
 
     // Determine status code and build error response
     const { status, errorResponse } = this.buildErrorResponse(
@@ -67,7 +68,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
             message:
               typeof exceptionResponse === 'string'
                 ? exceptionResponse
-                : (exceptionResponse as any).message || exception.message,
+                : ((exceptionResponse as Record<string, any>)
+                    .message as string) || exception.message,
             timestamp: new Date().toISOString(),
             requestId,
           },
@@ -130,7 +132,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     requestId: string,
     status: number,
   ) {
-    const errorLog: any = {
+    const errorLog: Record<string, unknown> = {
       requestId,
       timestamp: new Date().toISOString(),
       path: request.url,

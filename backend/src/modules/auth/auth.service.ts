@@ -161,7 +161,7 @@ export class AuthService {
           expirySeconds * 1000, // Convert to milliseconds for cache-manager
         );
       }
-    } catch (error) {
+    } catch (_error) {
       // If token is invalid or expired, no need to blacklist
       // Just return successfully
     }
@@ -174,7 +174,7 @@ export class AuthService {
       decoded = this.jwtService.verify<JwtRefreshPayload>(refreshToken, {
         secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
       });
-    } catch (error) {
+    } catch (_error) {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
@@ -331,7 +331,7 @@ export class AuthService {
     const decodedToken = await this.firebaseService.verifyIdToken(dto.idToken);
 
     // Extract user info from Firebase token
-    const { uid, email, name, picture } = decodedToken;
+    const { uid: _uid, email, name, picture: _picture } = decodedToken;
 
     if (!email) {
       throw new BadRequestException('Email not provided by OAuth provider');
@@ -398,7 +398,7 @@ export class AuthService {
     };
   }
 
-  private async generateTokens(
+  private generateTokens(
     userId: string,
     email: string,
   ): Promise<{
@@ -444,11 +444,11 @@ export class AuthService {
     // Parse expiresIn to seconds for the response
     const expiresIn = this.parseExpiresIn(accessExpiresIn);
 
-    return {
+    return Promise.resolve({
       accessToken,
       refreshToken,
       expiresIn,
-    };
+    });
   }
 
   private async hashPassword(password: string): Promise<string> {

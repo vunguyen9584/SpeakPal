@@ -22,7 +22,7 @@ export class WsAuthGuard implements CanActivate {
       const payload = this.jwtService.verify(token, {
         secret: this.configService.get('WS_JWT_SECRET'),
         maxAge: '1h', // Short-lived token
-      });
+      }) as unknown as { userId: string; conversationId: string };
 
       client.data.userId = payload.userId;
       client.data.conversationId = payload.conversationId;

@@ -67,7 +67,7 @@ export class ErrorDetails {
     this.code = code;
     this.message = message;
     if (details) {
-      this.details = details;
+      this.details = details as unknown;
     }
   }
 }

@@ -21,7 +21,7 @@ export class STTService {
    * @param audio Audio buffer (16kHz, mono, PCM)
    * @returns AsyncGenerator yielding transcript chunks
    */
-  async *streamTranscribe(audio: Buffer): AsyncGenerator<TranscriptChunk> {
+  async *streamTranscribe(_audio: Buffer): AsyncGenerator<TranscriptChunk> {
     try {
       // TODO: Implement actual Deepgram streaming
       // const { createClient } = require('@deepgram/sdk');
@@ -75,26 +75,26 @@ export class STTService {
    * @param audio Audio buffer
    * @returns Detected language code (e.g., 'en', 'ja')
    */
-  async detectLanguage(audio: Buffer): Promise<string> {
+  detectLanguage(_audio: Buffer): Promise<string> {
     try {
       // TODO: Implement with Deepgram language detection
       // For now, default to English
-      return 'en';
+      return Promise.resolve('en');
     } catch (error) {
       console.error('Language detection error:', error);
-      return 'en'; // Default fallback
+      return Promise.resolve('en'); // Default fallback
     }
   }
 
   /**
    * Check if Deepgram service is available
    */
-  async healthCheck(): Promise<boolean> {
+  healthCheck(): Promise<boolean> {
     try {
       // TODO: Implement actual health check
-      return !!this.apiKey;
-    } catch (error) {
-      return false;
+      return Promise.resolve(!!this.apiKey);
+    } catch (_error) {
+      return Promise.resolve(false);
     }
   }
 
