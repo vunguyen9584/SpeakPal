@@ -8,7 +8,7 @@ import {
 
 @Injectable()
 export class PurchaseService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Verify purchase from App Store or Play Store

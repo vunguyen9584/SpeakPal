@@ -18,7 +18,7 @@ export class ChallengeService {
   constructor(
     private readonly repository: ChallengeRepository,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   async getTodayChallenge(userId: string): Promise<ChallengeResponseDto[]> {
     const existing = await this.repository.findTodayChallenges(userId);
@@ -94,7 +94,8 @@ export class ChallengeService {
     type: ChallengeType,
     userLevel: string,
   ) {
-    const config = CHALLENGE_CONFIG[type] || CHALLENGE_CONFIG[ChallengeType.CONVERSATION];
+    const config =
+      CHALLENGE_CONFIG[type] || CHALLENGE_CONFIG[ChallengeType.CONVERSATION];
     const difficulty = this.adjustDifficulty(userLevel);
 
     const targetProgress = Math.floor(

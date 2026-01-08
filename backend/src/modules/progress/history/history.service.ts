@@ -9,7 +9,7 @@ import { ChallengeStatus } from '@prisma/client';
 
 @Injectable()
 export class HistoryService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Query learning history with filters and pagination
@@ -160,12 +160,14 @@ export class HistoryService {
     userId: string,
     dateRange: any,
   ): Promise<HistoryItemDto[]> {
-    const filter = dateRange ? {
-      completedAt: {
-        ...dateRange,
-        not: null,
-      }
-    } : { completedAt: { not: null } };
+    const filter = dateRange
+      ? {
+          completedAt: {
+            ...dateRange,
+            not: null,
+          },
+        }
+      : { completedAt: { not: null } };
 
     const challenges = await this.prisma.userChallenge.findMany({
       where: {

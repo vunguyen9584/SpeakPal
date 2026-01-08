@@ -4,13 +4,9 @@ import { GroupMemberRole } from '@prisma/client';
 
 @Injectable()
 export class GroupRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-  async create(data: {
-    name: string;
-    description?: string;
-    ownerId: string;
-  }) {
+  async create(data: { name: string; description?: string; ownerId: string }) {
     return this.prisma.group.create({
       data: {
         name: data.name,

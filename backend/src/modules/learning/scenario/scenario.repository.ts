@@ -4,7 +4,7 @@ import { Scenario, ScenarioCategory, ScenarioDifficulty } from '@prisma/client';
 
 @Injectable()
 export class ScenarioRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async findAll(category?: string, difficulty?: string): Promise<Scenario[]> {
     return this.prisma.scenario.findMany({

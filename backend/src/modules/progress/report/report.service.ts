@@ -13,7 +13,7 @@ import { SrsLevel } from '@prisma/client';
 
 @Injectable()
 export class ReportService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Generate weekly report for a specific week
@@ -393,7 +393,9 @@ export class ReportService {
     }
 
     // Dedup by title
-    const uniqueAchievements = achievements.filter((val, id, array) => array.findIndex(v => v.title === val.title) === id);
+    const uniqueAchievements = achievements.filter(
+      (val, id, array) => array.findIndex((v) => v.title === val.title) === id,
+    );
 
     return uniqueAchievements.slice(0, 10); // Limit to 10 achievements
   }

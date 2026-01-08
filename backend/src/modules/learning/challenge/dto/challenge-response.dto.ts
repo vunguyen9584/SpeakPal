@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ChallengeType as PrismaChallengeType, ChallengeStatus } from '@prisma/client';
+import {
+  ChallengeType as PrismaChallengeType,
+  ChallengeStatus,
+} from '@prisma/client';
 
 export enum ChallengeType {
   CONVERSATION = 'conversation',
@@ -46,7 +49,7 @@ export class ChallengeResponseDto {
     dto.description = uc.challenge.description;
 
     // Parse condition for target
-    const condition = uc.challenge.condition as any;
+    const condition = uc.challenge.condition;
     dto.targetProgress = condition?.target || 0;
 
     dto.currentProgress = uc.currentProgress;

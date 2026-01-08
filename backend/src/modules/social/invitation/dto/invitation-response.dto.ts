@@ -7,7 +7,7 @@ export class InvitationResponseDto {
   expiresAt: Date;
   createdAt: Date;
   isActive: boolean;
-  isActive: boolean;
+
   status: InvitationStatus;
   maxUsage?: number;
 

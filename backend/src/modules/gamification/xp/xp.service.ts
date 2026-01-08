@@ -8,7 +8,7 @@ const XP_PER_LEVEL = 200;
 
 @Injectable()
 export class XpService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Calculate level from total XP

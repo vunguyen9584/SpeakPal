@@ -24,7 +24,7 @@ export const PLAN_FEATURES = {
 
 @Injectable()
 export class PlanService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Get current plan for a user

@@ -4,7 +4,7 @@ import { StatsResponseDto } from '../dto/stats-response.dto';
 
 @Injectable()
 export class StatsService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async getUserStats(userId: string): Promise<StatsResponseDto> {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });

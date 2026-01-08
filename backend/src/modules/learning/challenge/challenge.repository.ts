@@ -4,7 +4,7 @@ import { UserChallenge, ChallengeType, ChallengeStatus } from '@prisma/client';
 
 @Injectable()
 export class ChallengeRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async findTodayChallenges(userId: string): Promise<any[]> {
     const today = new Date();
@@ -66,10 +66,7 @@ export class ChallengeRepository {
     return userChallenge;
   }
 
-  async updateProgress(
-    id: string,
-    newProgress: number,
-  ): Promise<any> {
+  async updateProgress(id: string, newProgress: number): Promise<any> {
     const uc = await this.prisma.userChallenge.findUnique({
       where: { id },
       include: { challenge: true },
@@ -84,7 +81,9 @@ export class ChallengeRepository {
       where: { id },
       data: {
         currentProgress: newProgress,
-        status: isCompleted ? ChallengeStatus.COMPLETED : ChallengeStatus.ACTIVE,
+        status: isCompleted
+          ? ChallengeStatus.COMPLETED
+          : ChallengeStatus.ACTIVE,
         completedAt: isCompleted ? new Date() : null,
       },
       include: {

@@ -25,4 +25,4 @@ import { PrismaModule } from '../../prisma/prisma.module';
   ],
   exports: [VocabularyService, ScenarioService, ChallengeService],
 })
-export class LearningModule { }
+export class LearningModule {}

@@ -12,7 +12,7 @@ import { GroupMemberRole } from '@prisma/client';
 
 @Injectable()
 export class GroupService {
-  constructor(private readonly groupRepo: GroupRepository) { }
+  constructor(private readonly groupRepo: GroupRepository) {}
 
   /**
    * Create a new group with the user as owner
@@ -25,7 +25,6 @@ export class GroupService {
       name: dto.name,
       description: dto.description,
       ownerId: userId,
-      isPublic: dto.isPublic ?? true,
     });
 
     // Add creator as owner member

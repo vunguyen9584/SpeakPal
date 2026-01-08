@@ -17,7 +17,9 @@ export class SubscriptionResponseDto {
     const dto = new SubscriptionResponseDto();
     // Convert Prisma enum to lowercase string
     dto.plan = subscription?.plan
-      ? (subscription.plan === SubscriptionPlan.PREMIUM ? 'premium' : 'free')
+      ? subscription.plan === SubscriptionPlan.PREMIUM
+        ? 'premium'
+        : 'free'
       : 'free';
     dto.status = subscription?.status || 'active';
     dto.expiresAt = subscription?.expiresAt || null;

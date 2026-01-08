@@ -6,7 +6,7 @@ import { CreateVocabularyDto } from './dto/create-vocabulary.dto';
 
 @Injectable()
 export class VocabularyRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(userId: string, dto: CreateVocabularyDto): Promise<Vocabulary> {
     return this.prisma.vocabulary.create({
@@ -34,7 +34,7 @@ export class VocabularyRepository {
 
     const where: Prisma.VocabularyWhereInput = {
       userId,
-      ...(srsLevel && { srsLevel: srsLevel as SrsLevel }),
+      ...(srsLevel && { srsLevel: srsLevel }),
       ...(search && {
         word: {
           contains: search,

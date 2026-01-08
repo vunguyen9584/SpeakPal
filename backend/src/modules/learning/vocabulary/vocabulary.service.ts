@@ -16,7 +16,7 @@ export class VocabularyService {
   constructor(
     private readonly repository: VocabularyRepository,
     private readonly srsService: SrsService,
-  ) { }
+  ) {}
 
   async addWord(
     userId: string,

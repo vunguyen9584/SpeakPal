@@ -15,6 +15,4 @@ export class CreateGroupDto {
   @IsString()
   @MaxLength(200)
   description?: string;
-
-
 }

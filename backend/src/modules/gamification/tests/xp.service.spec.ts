@@ -116,7 +116,9 @@ describe('XpService', () => {
 
     it('should update userRanking when it exists', async () => {
       const existingRanking = { id: 'ranking-1', weeklyXp: 100 };
-      (prisma.userRanking.findUnique as jest.Mock).mockResolvedValue(existingRanking);
+      (prisma.userRanking.findUnique as jest.Mock).mockResolvedValue(
+        existingRanking,
+      );
 
       await service.addXP('user-1', 50, 'test');
 

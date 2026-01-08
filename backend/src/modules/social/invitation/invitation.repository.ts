@@ -4,7 +4,7 @@ import { InvitationStatus } from '@prisma/client';
 
 @Injectable()
 export class InvitationRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(data: {
     userId: string;

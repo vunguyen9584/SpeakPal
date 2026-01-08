@@ -11,7 +11,7 @@ import { InvitationStatus } from '@prisma/client';
 
 @Injectable()
 export class InvitationService {
-  constructor(private readonly invitationRepo: InvitationRepository) { }
+  constructor(private readonly invitationRepo: InvitationRepository) {}
 
   /**
    * Generate a unique invite code for a user

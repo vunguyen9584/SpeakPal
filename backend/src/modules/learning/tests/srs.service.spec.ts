@@ -47,7 +47,10 @@ describe('SrsService', () => {
     });
 
     it('should upgrade from learning to young on correct', () => {
-      const result = service.updateLevel(SrsLevel.LEARNING, ReviewResult.CORRECT);
+      const result = service.updateLevel(
+        SrsLevel.LEARNING,
+        ReviewResult.CORRECT,
+      );
       expect(result).toBe(SrsLevel.YOUNG);
     });
 
@@ -62,29 +65,44 @@ describe('SrsService', () => {
     });
 
     it('should stay at mastered on correct (edge case)', () => {
-      const result = service.updateLevel(SrsLevel.MASTERED, ReviewResult.CORRECT);
+      const result = service.updateLevel(
+        SrsLevel.MASTERED,
+        ReviewResult.CORRECT,
+      );
       expect(result).toBe(SrsLevel.MASTERED);
     });
   });
 
   describe('updateLevel - Incorrect Answers', () => {
     it('should downgrade from mastered to mature on incorrect', () => {
-      const result = service.updateLevel(SrsLevel.MASTERED, ReviewResult.INCORRECT);
+      const result = service.updateLevel(
+        SrsLevel.MASTERED,
+        ReviewResult.INCORRECT,
+      );
       expect(result).toBe(SrsLevel.MATURE);
     });
 
     it('should downgrade from mature to young on incorrect', () => {
-      const result = service.updateLevel(SrsLevel.MATURE, ReviewResult.INCORRECT);
+      const result = service.updateLevel(
+        SrsLevel.MATURE,
+        ReviewResult.INCORRECT,
+      );
       expect(result).toBe(SrsLevel.YOUNG);
     });
 
     it('should downgrade from young to learning on incorrect', () => {
-      const result = service.updateLevel(SrsLevel.YOUNG, ReviewResult.INCORRECT);
+      const result = service.updateLevel(
+        SrsLevel.YOUNG,
+        ReviewResult.INCORRECT,
+      );
       expect(result).toBe(SrsLevel.LEARNING);
     });
 
     it('should stay at learning on incorrect (minimum level)', () => {
-      const result = service.updateLevel(SrsLevel.LEARNING, ReviewResult.INCORRECT);
+      const result = service.updateLevel(
+        SrsLevel.LEARNING,
+        ReviewResult.INCORRECT,
+      );
       expect(result).toBe(SrsLevel.LEARNING);
     });
 

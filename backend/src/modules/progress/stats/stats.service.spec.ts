@@ -51,7 +51,9 @@ describe('StatsService', () => {
   describe('getUserStats', () => {
     it('should return aggregated stats for user', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(5);
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 300 },
@@ -81,7 +83,9 @@ describe('StatsService', () => {
 
     it('should calculate all-time stats correctly', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(50);
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 7200 }, // 120 minutes
@@ -98,8 +102,12 @@ describe('StatsService', () => {
   describe('getDailyStats', () => {
     it('should return daily conversation count', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 300 },
       });
@@ -128,8 +136,12 @@ describe('StatsService', () => {
   describe('getWeeklyStats', () => {
     it('should return weekly conversation count', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 300 },
       });
@@ -156,8 +168,12 @@ describe('StatsService', () => {
   describe('getMonthlyStats', () => {
     it('should return monthly conversation count', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 300 },
       });
@@ -186,7 +202,9 @@ describe('StatsService', () => {
   describe('Date Range Calculations', () => {
     it('should calculate today start correctly', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 300 },
       });
@@ -215,7 +233,9 @@ describe('StatsService', () => {
 
     it('should use correct date for weekly stats', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 300 },
       });
@@ -248,7 +268,9 @@ describe('StatsService', () => {
         ...mockUser,
         totalMinutesPracticed: undefined,
       });
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(0);
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 0 },
@@ -261,7 +283,9 @@ describe('StatsService', () => {
 
     it('should handle zero conversations', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({ currentStreak: 7 });
+      (prisma.streak.findUnique as jest.Mock).mockResolvedValue({
+        currentStreak: 7,
+      });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(0);
       (prisma.conversation.aggregate as jest.Mock).mockResolvedValue({
         _sum: { durationSeconds: 0 },

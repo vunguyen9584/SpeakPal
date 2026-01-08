@@ -175,7 +175,7 @@ describe('StreakService', () => {
         where: { userId: 'user-1' },
         data: expect.objectContaining({
           lastActivityDate: expect.any(Date),
-        })
+        }),
       });
     });
 
@@ -290,13 +290,17 @@ describe('StreakService', () => {
         freezeRemaining: 0,
       });
 
-      await expect(service.useFreeze('user-1')).rejects.toThrow(BadRequestException);
+      await expect(service.useFreeze('user-1')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw error if streak not found', async () => {
       (prisma.streak.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.useFreeze('user-1')).rejects.toThrow('Streak not found');
+      await expect(service.useFreeze('user-1')).rejects.toThrow(
+        'Streak not found',
+      );
     });
   });
 
