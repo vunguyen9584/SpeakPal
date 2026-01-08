@@ -3,6 +3,23 @@ import { DeepgramClient } from './deepgram.client';
 import type { TranscriptionResult, StreamingOptions, WordInfo } from './types';
 import { LiveTranscriptionEvents } from '@deepgram/sdk';
 
+interface DeepgramWord {
+  word: string;
+  start: number;
+  end: number;
+  confidence: number;
+}
+
+interface DeepgramAlternative {
+  transcript: string;
+  confidence: number;
+  words?: DeepgramWord[];
+}
+
+interface DeepgramChannel {
+  alternatives?: DeepgramAlternative[];
+}
+
 @Injectable()
 export class DeepgramService {
   private readonly logger = new Logger(DeepgramService.name);
@@ -24,7 +41,7 @@ export class DeepgramService {
       this.logger.log('Deepgram connection closed');
     });
 
-    connection.on(LiveTranscriptionEvents.Error, (error: any) => {
+    connection.on(LiveTranscriptionEvents.Error, (error: Error) => {
       this.logger.error('Deepgram error:', error);
     });
 
@@ -34,7 +51,10 @@ export class DeepgramService {
   /**
    * Send audio chunk to streaming session
    */
-  sendAudioChunk(connection: any, audioChunk: Buffer) {
+  sendAudioChunk(
+    connection: { send: (data: Buffer) => void },
+    audioChunk: Buffer,
+  ) {
     try {
       connection.send(audioChunk);
     } catch (error) {
@@ -46,7 +66,7 @@ export class DeepgramService {
   /**
    * Close streaming session
    */
-  closeStreamingSession(connection: any) {
+  closeStreamingSession(connection: { finish: () => void }) {
     try {
       connection.finish();
       this.logger.log('Deepgram streaming session closed');
@@ -58,8 +78,11 @@ export class DeepgramService {
   /**
    * Parse Deepgram response to TranscriptionResult
    */
-  parseTranscriptionResult(data: any): TranscriptionResult {
-    const channel = data.channel;
+  parseTranscriptionResult(data: {
+    channel: unknown;
+    is_final?: boolean;
+  }): TranscriptionResult {
+    const channel = data.channel as DeepgramChannel;
     const alternative = channel?.alternatives?.[0];
 
     if (!alternative) {
@@ -71,7 +94,7 @@ export class DeepgramService {
     }
 
     const words: WordInfo[] =
-      alternative.words?.map((word: any) => ({
+      alternative.words?.map((word) => ({
         word: word.word,
         start: word.start,
         end: word.end,
@@ -108,7 +131,11 @@ export class DeepgramService {
         throw new Error(`Transcription failed: ${error.message}`);
       }
 
-      const alternative = result.results?.channels?.[0]?.alternatives?.[0];
+      // Cast result to expected structure since SDK types might be complex/loose
+      const typedResult = result as {
+        results?: { channels?: DeepgramChannel[] };
+      };
+      const alternative = typedResult.results?.channels?.[0]?.alternatives?.[0];
 
       if (!alternative) {
         return {
@@ -119,7 +146,7 @@ export class DeepgramService {
       }
 
       const words: WordInfo[] =
-        alternative.words?.map((word: any) => ({
+        alternative.words?.map((word) => ({
           word: word.word,
           start: word.start,
           end: word.end,

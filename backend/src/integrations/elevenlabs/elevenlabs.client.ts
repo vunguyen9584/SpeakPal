@@ -93,9 +93,9 @@ export class ElevenLabsClient {
 
     if (envMap) {
       try {
-        const parsed = JSON.parse(envMap);
+        const parsed = JSON.parse(envMap) as Record<string, string>;
         return { ...defaultMap, ...parsed }; // Merge default with env override
-      } catch (error) {
+      } catch {
         this.logger.warn(
           'Failed to parse ELEVENLABS_VOICE_MAP, using defaults',
         );

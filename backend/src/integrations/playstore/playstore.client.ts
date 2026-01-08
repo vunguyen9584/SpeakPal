@@ -11,7 +11,8 @@ import type {
 export class PlayStoreClient {
   private readonly logger = new Logger(PlayStoreClient.name);
   private readonly config: PlayStoreConfig;
-  private readonly androidPublisher: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly androidPublisher: any; // google-api-client
 
   constructor(private readonly configService: ConfigService) {
     this.config = {
@@ -34,7 +35,10 @@ export class PlayStoreClient {
     try {
       const auth = new google.auth.GoogleAuth({
         credentials: this.config.serviceAccountKey
-          ? JSON.parse(this.config.serviceAccountKey)
+          ? (JSON.parse(this.config.serviceAccountKey) as Record<
+              string,
+              unknown
+            >)
           : undefined,
         scopes: ['https://www.googleapis.com/auth/androidpublisher'],
       });
@@ -62,11 +66,14 @@ export class PlayStoreClient {
     purchaseToken: string,
   ): Promise<SubscriptionPurchase | null> {
     try {
-      const response = await this.androidPublisher.purchases.subscriptions.get({
-        packageName: this.config.packageName,
-        subscriptionId: productId,
-        token: purchaseToken,
-      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      const response = (await this.androidPublisher.purchases.subscriptions.get(
+        {
+          packageName: this.config.packageName,
+          subscriptionId: productId,
+          token: purchaseToken,
+        },
+      )) as { data: unknown };
 
       return response.data as SubscriptionPurchase;
     } catch (error) {
@@ -83,11 +90,12 @@ export class PlayStoreClient {
     purchaseToken: string,
   ): Promise<ProductPurchase | null> {
     try {
-      const response = await this.androidPublisher.purchases.products.get({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      const response = (await this.androidPublisher.purchases.products.get({
         packageName: this.config.packageName,
         productId,
         token: purchaseToken,
-      });
+      })) as { data: unknown };
 
       return response.data as ProductPurchase;
     } catch (error) {
@@ -104,6 +112,7 @@ export class PlayStoreClient {
     purchaseToken: string,
   ): Promise<boolean> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       await this.androidPublisher.purchases.subscriptions.acknowledge({
         packageName: this.config.packageName,
         subscriptionId: productId,
@@ -126,6 +135,7 @@ export class PlayStoreClient {
     purchaseToken: string,
   ): Promise<boolean> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       await this.androidPublisher.purchases.products.acknowledge({
         packageName: this.config.packageName,
         productId,

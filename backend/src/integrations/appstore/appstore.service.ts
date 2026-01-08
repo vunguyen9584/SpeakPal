@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { AppStoreClient } from './appstore.client';
 import type {
   ReceiptVerificationRequest,
+  ReceiptVerificationResponse,
   SubscriptionStatus,
   ServerNotification,
   LatestReceiptInfo,
@@ -55,7 +56,9 @@ export class AppStoreService {
   /**
    * Get subscription status from receipt
    */
-  private getSubscriptionStatus(response: any): SubscriptionStatus {
+  private getSubscriptionStatus(
+    response: ReceiptVerificationResponse,
+  ): SubscriptionStatus {
     const latestReceipt = this.getLatestReceiptInfo(response);
 
     if (!latestReceipt) {
@@ -96,8 +99,10 @@ export class AppStoreService {
   /**
    * Get latest receipt info
    */
-  private getLatestReceiptInfo(response: any): LatestReceiptInfo | null {
-    const receipts = response.latest_receipt_info || [];
+  private getLatestReceiptInfo(
+    response: ReceiptVerificationResponse,
+  ): LatestReceiptInfo | null {
+    const receipts: LatestReceiptInfo[] = response.latest_receipt_info || [];
 
     if (receipts.length === 0) {
       return null;
@@ -116,11 +121,9 @@ export class AppStoreService {
   /**
    * Handle server notification from Apple
    */
-  async handleServerNotification(
-    notification: ServerNotification,
-  ): Promise<void> {
+  handleServerNotification(notification: ServerNotification): void {
     try {
-      const { notification_type, unified_receipt } = notification;
+      const { notification_type } = notification;
 
       this.logger.log(`Received notification: ${notification_type}`);
 

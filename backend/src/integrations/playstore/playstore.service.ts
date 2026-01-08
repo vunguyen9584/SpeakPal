@@ -86,7 +86,7 @@ export class PlayStoreService {
   /**
    * Handle Real-time Developer Notification (RTDN)
    */
-  async handleRTDN(message: RTDNMessage): Promise<void> {
+  handleRTDN(message: RTDNMessage): void {
     try {
       this.logger.log(`Received RTDN: ${JSON.stringify(message)}`);
 
@@ -101,16 +101,12 @@ export class PlayStoreService {
 
       // Handle subscription notification
       if (message.subscriptionNotification) {
-        await this.handleSubscriptionNotification(
-          message.subscriptionNotification,
-        );
+        this.handleSubscriptionNotification(message.subscriptionNotification);
       }
 
       // Handle one-time product notification
       if (message.oneTimeProductNotification) {
-        await this.handleProductNotification(
-          message.oneTimeProductNotification,
-        );
+        this.handleProductNotification(message.oneTimeProductNotification);
       }
     } catch (error) {
       this.logger.error('Error handling RTDN:', error);
@@ -120,9 +116,9 @@ export class PlayStoreService {
   /**
    * Handle subscription notification
    */
-  private async handleSubscriptionNotification(
-    notification: any,
-  ): Promise<void> {
+  private handleSubscriptionNotification(notification: {
+    notificationType: number;
+  }): void {
     const notificationTypes = [
       'SUBSCRIPTION_RECOVERED',
       'SUBSCRIPTION_RENEWED',
@@ -171,7 +167,9 @@ export class PlayStoreService {
   /**
    * Handle product notification
    */
-  private async handleProductNotification(notification: any): Promise<void> {
+  private handleProductNotification(notification: {
+    notificationType: number;
+  }): void {
     const notificationTypes = [
       'ONE_TIME_PRODUCT_PURCHASED',
       'ONE_TIME_PRODUCT_CANCELED',

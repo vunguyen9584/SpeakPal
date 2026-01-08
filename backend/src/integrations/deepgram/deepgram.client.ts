@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createClient, LiveTranscriptionEvents } from '@deepgram/sdk';
+import { createClient } from '@deepgram/sdk';
 import type { DeepgramConfig, StreamingOptions } from './types';
 
 @Injectable()
 export class DeepgramClient {
   private readonly logger = new Logger(DeepgramClient.name);
-  private readonly client: any;
+  private readonly client: ReturnType<typeof createClient>;
   private readonly config: DeepgramConfig;
 
   constructor(private readonly configService: ConfigService) {

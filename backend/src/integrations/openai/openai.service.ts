@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OpenAIClient } from './openai.client';
+import OpenAI from 'openai';
 import type {
   ConversationContext,
   ErrorAnalysisRequest,
@@ -31,7 +32,7 @@ export class OpenAIService {
 
       const completion = (await this.openaiClient.createChatCompletion(
         messages,
-      )) as any;
+      )) as OpenAI.Chat.ChatCompletion;
 
       return completion.choices[0]?.message?.content || '';
     } catch (error) {
@@ -58,13 +59,10 @@ export class OpenAIService {
 
       const stream = (await this.openaiClient.createStreamingChatCompletion(
         messages,
-      )) as any;
-
-      let fullContent = '';
+      )) as AsyncIterable<OpenAI.Chat.ChatCompletionChunk>;
 
       for await (const chunk of stream) {
         const content = chunk.choices[0]?.delta?.content || '';
-        fullContent += content;
 
         yield {
           content,
@@ -101,13 +99,13 @@ export class OpenAIService {
           role: 'user',
           content: prompt,
         },
-      ])) as any;
+      ])) as OpenAI.Chat.ChatCompletion;
 
       const responseText = completion.choices[0]?.message?.content || '{}';
-      let analysis;
+      let analysis: Partial<ErrorAnalysisResult>;
       try {
-        analysis = JSON.parse(responseText);
-      } catch (e) {
+        analysis = JSON.parse(responseText) as Partial<ErrorAnalysisResult>;
+      } catch {
         // Fallback or retry logic could go here
         analysis = {};
       }
@@ -149,7 +147,7 @@ export class OpenAIService {
           role: 'user',
           content: prompt,
         },
-      ])) as any;
+      ])) as OpenAI.Chat.ChatCompletion;
 
       const responseText = completion.choices[0]?.message?.content || '';
       return responseText.split('\n').filter((line) => line.trim().length > 0);
@@ -178,12 +176,12 @@ export class OpenAIService {
           role: 'user',
           content: prompt,
         },
-      ])) as any;
+      ])) as OpenAI.Chat.ChatCompletion;
 
       const responseText = completion.choices[0]?.message?.content || '[]';
       try {
-        return JSON.parse(responseText);
-      } catch (e) {
+        return JSON.parse(responseText) as string[];
+      } catch {
         return [];
       }
     } catch (error) {

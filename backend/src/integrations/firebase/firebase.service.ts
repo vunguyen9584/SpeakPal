@@ -49,7 +49,7 @@ export class FirebaseService implements OnModuleInit {
     try {
       const decodedToken = await this.app.auth().verifyIdToken(idToken);
       return decodedToken;
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Invalid Firebase ID token');
     }
   }
@@ -63,7 +63,7 @@ export class FirebaseService implements OnModuleInit {
 
     try {
       return await this.app.auth().getUser(uid);
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Firebase user not found');
     }
   }

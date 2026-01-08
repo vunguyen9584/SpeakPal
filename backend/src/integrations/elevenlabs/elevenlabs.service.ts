@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ElevenLabsClient } from './elevenlabs.client';
 import type { TTSRequest, StreamingTTSOptions, VoiceSettings } from './types';
-import { Readable } from 'stream';
 
 @Injectable()
 export class ElevenLabsService {
@@ -33,7 +32,7 @@ export class ElevenLabsService {
 
       // Convert the stream to async generator
       for await (const chunk of audioStream) {
-        yield chunk as Buffer;
+        yield chunk as unknown as Buffer;
       }
     } catch (error) {
       this.logger.error('Error in streaming TTS:', error);
