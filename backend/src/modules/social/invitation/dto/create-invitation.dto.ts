@@ -8,4 +8,8 @@ export class CreateInvitationDto {
   @Min(1)
   @Max(365)
   expiryDays?: number = 30;
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  maxUsage?: number;
 }

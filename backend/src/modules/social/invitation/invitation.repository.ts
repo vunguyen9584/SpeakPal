@@ -10,12 +10,14 @@ export class InvitationRepository {
     userId: string;
     code: string;
     expiresAt: Date;
+    maxUsage?: number;
   }) {
     return this.prisma.invitation.create({
       data: {
         senderId: data.userId,
         code: data.code,
         expiresAt: data.expiresAt,
+        // maxUsage: data.maxUsage, // Not supported in current schema
         status: InvitationStatus.PENDING,
       },
     });

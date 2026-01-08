@@ -28,6 +28,7 @@ export class InvitationService {
       userId,
       code,
       expiresAt,
+      maxUsage: dto.maxUsage,
     });
 
     const baseUrl = process.env.APP_URL || 'https://speakpal.app';

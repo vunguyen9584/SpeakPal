@@ -7,7 +7,9 @@ export class InvitationResponseDto {
   expiresAt: Date;
   createdAt: Date;
   isActive: boolean;
+  isActive: boolean;
   status: InvitationStatus;
+  maxUsage?: number;
 
   constructor(partial: Partial<InvitationResponseDto>) {
     Object.assign(this, partial);
@@ -25,6 +27,7 @@ export class InvitationResponseDto {
       expiresAt: entity.expiresAt,
       createdAt: entity.createdAt,
       status: entity.status,
+      maxUsage: entity.maxUsage,
       isActive,
     });
   }

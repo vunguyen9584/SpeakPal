@@ -25,6 +25,7 @@ export class GroupService {
       name: dto.name,
       description: dto.description,
       ownerId: userId,
+      isPublic: dto.isPublic ?? true,
     });
 
     // Add creator as owner member

@@ -125,7 +125,7 @@ describe('BadgeService', () => {
     beforeEach(() => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 7,
+        streak: { currentStreak: 7 },
         level: 5,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(10);
@@ -205,7 +205,7 @@ describe('BadgeService', () => {
       });
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 5,
+        streak: { currentStreak: 5 },
         level: 3,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(10);
@@ -226,7 +226,7 @@ describe('BadgeService', () => {
       });
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 5,
+        streak: { currentStreak: 5 },
         level: 7,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(10);
@@ -247,7 +247,7 @@ describe('BadgeService', () => {
       });
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 5,
+        streak: { currentStreak: 5 },
         level: 7,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(50);
@@ -267,7 +267,7 @@ describe('BadgeService', () => {
       });
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 15,
+        streak: { currentStreak: 15 },
         level: 3,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(10);
@@ -298,7 +298,7 @@ describe('BadgeService', () => {
     it('should check streak condition correctly', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 7,
+        streak: { currentStreak: 7 },
         level: 1,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(0);
@@ -313,7 +313,7 @@ describe('BadgeService', () => {
     it('should check level condition correctly', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 0,
+        streak: { currentStreak: 0 },
         level: 10,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(0);
@@ -327,7 +327,7 @@ describe('BadgeService', () => {
     it('should check conversation count condition correctly', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 0,
+        streak: { currentStreak: 0 },
         level: 1,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(100);
@@ -346,7 +346,7 @@ describe('BadgeService', () => {
     it('should check vocabulary count condition correctly', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 0,
+        streak: { currentStreak: 0 },
         level: 1,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(0);
@@ -364,7 +364,7 @@ describe('BadgeService', () => {
     it('should award multiple badges when conditions are met', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 30,
+        streak: { currentStreak: 30 },
         level: 10,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(100);
@@ -382,7 +382,7 @@ describe('BadgeService', () => {
     it('should prevent duplicate badge awards', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({
         id: 'user-1',
-        currentStreak: 7,
+        streak: { currentStreak: 7 },
         level: 5,
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(10);

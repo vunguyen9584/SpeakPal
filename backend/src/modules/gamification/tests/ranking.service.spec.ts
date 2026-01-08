@@ -103,11 +103,13 @@ describe('RankingService', () => {
       });
       (prisma.userRanking.findMany as jest.Mock).mockResolvedValue([]);
 
-      await service.getWeeklyRanking('user-1', 'gold');
+      await service.getWeeklyRanking('user-1', League.GOLD);
 
       expect(prisma.userRanking.findMany).toHaveBeenCalledWith({
         where: expect.objectContaining({
-          user: { league: 'gold' },
+          league: 'gold',
+          weekNumber: expect.any(Number),
+          year: expect.any(Number),
         }),
         include: { user: true },
         orderBy: { weeklyXp: 'desc' },
@@ -126,7 +128,9 @@ describe('RankingService', () => {
 
       expect(prisma.userRanking.findMany).toHaveBeenCalledWith({
         where: expect.objectContaining({
-          user: { league: 'silver' },
+          league: 'silver',
+          weekNumber: expect.any(Number),
+          year: expect.any(Number),
         }),
         include: { user: true },
         orderBy: { weeklyXp: 'desc' },
@@ -142,7 +146,9 @@ describe('RankingService', () => {
 
       expect(prisma.userRanking.findMany).toHaveBeenCalledWith({
         where: expect.objectContaining({
-          user: { league: 'bronze' },
+          league: 'bronze',
+          weekNumber: expect.any(Number),
+          year: expect.any(Number),
         }),
         include: { user: true },
         orderBy: { weeklyXp: 'desc' },
@@ -229,7 +235,7 @@ describe('RankingService', () => {
       expect(result.league).toBe('platinum');
       expect(prisma.userRanking.count).toHaveBeenCalledWith({
         where: expect.objectContaining({
-          user: { league: 'platinum' },
+          league: 'platinum',
         }),
       });
     });
@@ -250,7 +256,7 @@ describe('RankingService', () => {
 
       (prisma.userRanking.findMany as jest.Mock).mockImplementation(
         ({ where }) => {
-          if (where.user.league === 'bronze') {
+          if (where.league === 'bronze') {
             return Promise.resolve(bronzeUsers);
           }
           return Promise.resolve([]);
@@ -304,7 +310,7 @@ describe('RankingService', () => {
 
       (prisma.userRanking.findMany as jest.Mock).mockImplementation(
         ({ where }) => {
-          if (where.user.league === 'diamond') {
+          if (where.league === 'diamond') {
             return Promise.resolve(diamondUsers);
           }
           return Promise.resolve([]);
@@ -332,7 +338,7 @@ describe('RankingService', () => {
 
       (prisma.userRanking.findMany as jest.Mock).mockImplementation(
         ({ where }) => {
-          if (where.user.league === 'bronze') {
+          if (where.league === 'bronze') {
             return Promise.resolve(bronzeUsers);
           }
           return Promise.resolve([]);
@@ -367,7 +373,7 @@ describe('RankingService', () => {
 
       (prisma.userRanking.findMany as jest.Mock).mockImplementation(
         ({ where }) => {
-          if (where.user.league === 'platinum') {
+          if (where.league === 'platinum') {
             return Promise.resolve(platinumUsers);
           }
           return Promise.resolve([]);
@@ -391,11 +397,11 @@ describe('RankingService', () => {
   describe('League System', () => {
     it('should maintain correct league order', async () => {
       const leagues: League[] = [
-        'bronze',
-        'silver',
-        'gold',
-        'platinum',
-        'diamond',
+        League.BRONZE,
+        League.SILVER,
+        League.GOLD,
+        League.PLATINUM,
+        League.DIAMOND,
       ];
 
       for (let i = 0; i < leagues.length - 1; i++) {
@@ -413,7 +419,7 @@ describe('RankingService', () => {
 
         (prisma.userRanking.findMany as jest.Mock).mockImplementation(
           ({ where }) => {
-            if (where.user.league === league) {
+            if (where.league === league) {
               return Promise.resolve(users);
             }
             return Promise.resolve([]);
@@ -447,17 +453,17 @@ describe('RankingService', () => {
 
       (prisma.userRanking.findMany as jest.Mock).mockImplementation(
         ({ where }) => {
-          const league = where.user.league;
-          if (league === 'bronze')
-            return Promise.resolve(setupLeagueUsers('bronze', 20));
-          if (league === 'silver')
-            return Promise.resolve(setupLeagueUsers('silver', 20));
-          if (league === 'gold')
-            return Promise.resolve(setupLeagueUsers('gold', 20));
-          if (league === 'platinum')
-            return Promise.resolve(setupLeagueUsers('platinum', 20));
-          if (league === 'diamond')
-            return Promise.resolve(setupLeagueUsers('diamond', 20));
+          const league = where.league;
+          if (league === League.BRONZE)
+            return Promise.resolve(setupLeagueUsers(League.BRONZE, 20));
+          if (league === League.SILVER)
+            return Promise.resolve(setupLeagueUsers(League.SILVER, 20));
+          if (league === League.GOLD)
+            return Promise.resolve(setupLeagueUsers(League.GOLD, 20));
+          if (league === League.PLATINUM)
+            return Promise.resolve(setupLeagueUsers(League.PLATINUM, 20));
+          if (league === League.DIAMOND)
+            return Promise.resolve(setupLeagueUsers(League.DIAMOND, 20));
           return Promise.resolve([]);
         },
       );

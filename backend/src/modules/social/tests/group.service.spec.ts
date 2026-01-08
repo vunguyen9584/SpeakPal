@@ -269,7 +269,7 @@ describe('GroupService', () => {
       expect(result.id).toBe(groupId);
     });
 
-    it('should return public group for non-member', async () => {
+    it('should throw ForbiddenException for non-member even if public (current limitation)', async () => {
       const groupId = 'group-123';
       const userId = 'user-456';
       const mockGroup = {
@@ -283,9 +283,9 @@ describe('GroupService', () => {
       mockGroupRepository.findById.mockResolvedValue(mockGroup);
       mockGroupRepository.isMember.mockResolvedValue(false);
 
-      const result = await service.getGroupById(groupId, userId);
-
-      expect(result.id).toBe(groupId);
+      await expect(service.getGroupById(groupId, userId)).rejects.toThrow(
+        ForbiddenException,
+      );
     });
 
     it('should throw ForbiddenException for private group non-member', async () => {

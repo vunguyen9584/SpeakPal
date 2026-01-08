@@ -35,7 +35,7 @@ describe('HistoryService', () => {
       title: 'Chat Master',
       description: 'Complete 10 conversations',
       xpReward: 100,
-      targetCount: 10,
+      condition: { target: 10 },
     },
   };
 
@@ -260,7 +260,7 @@ describe('HistoryService', () => {
       expect(prisma.conversation.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
-            createdAt: expect.objectContaining({
+            startedAt: expect.objectContaining({
               gte: new Date('2024-01-01'),
             }),
           }),
@@ -281,7 +281,7 @@ describe('HistoryService', () => {
       expect(prisma.conversation.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
-            createdAt: expect.objectContaining({
+            startedAt: expect.objectContaining({
               lte: new Date('2024-01-31'),
             }),
           }),
@@ -305,7 +305,7 @@ describe('HistoryService', () => {
       expect(prisma.conversation.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
-            createdAt: expect.objectContaining({
+            startedAt: expect.objectContaining({
               gte: new Date('2024-01-01'),
               lte: new Date('2024-01-31'),
             }),

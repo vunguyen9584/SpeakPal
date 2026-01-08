@@ -20,83 +20,83 @@ describe('SrsService', () => {
 
   describe('getInterval', () => {
     it('should return 0 days for new level', () => {
-      expect(service.getInterval('new')).toBe(0);
+      expect(service.getInterval(SrsLevel.NEW)).toBe(0);
     });
 
     it('should return 1 day for learning level', () => {
-      expect(service.getInterval('learning')).toBe(1);
+      expect(service.getInterval(SrsLevel.LEARNING)).toBe(1);
     });
 
     it('should return 3 days for young level', () => {
-      expect(service.getInterval('young')).toBe(3);
+      expect(service.getInterval(SrsLevel.YOUNG)).toBe(3);
     });
 
     it('should return 7 days for mature level', () => {
-      expect(service.getInterval('mature')).toBe(7);
+      expect(service.getInterval(SrsLevel.MATURE)).toBe(7);
     });
 
     it('should return 30 days for mastered level', () => {
-      expect(service.getInterval('mastered')).toBe(30);
+      expect(service.getInterval(SrsLevel.MASTERED)).toBe(30);
     });
   });
 
   describe('updateLevel - Correct Answers', () => {
     it('should upgrade from new to learning on correct', () => {
-      const result = service.updateLevel('new', ReviewResult.CORRECT);
-      expect(result).toBe('learning');
+      const result = service.updateLevel(SrsLevel.NEW, ReviewResult.CORRECT);
+      expect(result).toBe(SrsLevel.LEARNING);
     });
 
     it('should upgrade from learning to young on correct', () => {
-      const result = service.updateLevel('learning', ReviewResult.CORRECT);
-      expect(result).toBe('young');
+      const result = service.updateLevel(SrsLevel.LEARNING, ReviewResult.CORRECT);
+      expect(result).toBe(SrsLevel.YOUNG);
     });
 
     it('should upgrade from young to mature on correct', () => {
-      const result = service.updateLevel('young', ReviewResult.CORRECT);
-      expect(result).toBe('mature');
+      const result = service.updateLevel(SrsLevel.YOUNG, ReviewResult.CORRECT);
+      expect(result).toBe(SrsLevel.MATURE);
     });
 
     it('should upgrade from mature to mastered on correct', () => {
-      const result = service.updateLevel('mature', ReviewResult.CORRECT);
-      expect(result).toBe('mastered');
+      const result = service.updateLevel(SrsLevel.MATURE, ReviewResult.CORRECT);
+      expect(result).toBe(SrsLevel.MASTERED);
     });
 
     it('should stay at mastered on correct (edge case)', () => {
-      const result = service.updateLevel('mastered', ReviewResult.CORRECT);
-      expect(result).toBe('mastered');
+      const result = service.updateLevel(SrsLevel.MASTERED, ReviewResult.CORRECT);
+      expect(result).toBe(SrsLevel.MASTERED);
     });
   });
 
   describe('updateLevel - Incorrect Answers', () => {
     it('should downgrade from mastered to mature on incorrect', () => {
-      const result = service.updateLevel('mastered', ReviewResult.INCORRECT);
-      expect(result).toBe('mature');
+      const result = service.updateLevel(SrsLevel.MASTERED, ReviewResult.INCORRECT);
+      expect(result).toBe(SrsLevel.MATURE);
     });
 
     it('should downgrade from mature to young on incorrect', () => {
-      const result = service.updateLevel('mature', ReviewResult.INCORRECT);
-      expect(result).toBe('young');
+      const result = service.updateLevel(SrsLevel.MATURE, ReviewResult.INCORRECT);
+      expect(result).toBe(SrsLevel.YOUNG);
     });
 
     it('should downgrade from young to learning on incorrect', () => {
-      const result = service.updateLevel('young', ReviewResult.INCORRECT);
-      expect(result).toBe('learning');
+      const result = service.updateLevel(SrsLevel.YOUNG, ReviewResult.INCORRECT);
+      expect(result).toBe(SrsLevel.LEARNING);
     });
 
     it('should stay at learning on incorrect (minimum level)', () => {
-      const result = service.updateLevel('learning', ReviewResult.INCORRECT);
-      expect(result).toBe('learning');
+      const result = service.updateLevel(SrsLevel.LEARNING, ReviewResult.INCORRECT);
+      expect(result).toBe(SrsLevel.LEARNING);
     });
 
     it('should move to learning from new on incorrect', () => {
-      const result = service.updateLevel('new', ReviewResult.INCORRECT);
-      expect(result).toBe('learning');
+      const result = service.updateLevel(SrsLevel.NEW, ReviewResult.INCORRECT);
+      expect(result).toBe(SrsLevel.LEARNING);
     });
   });
 
   describe('calculateNextReview', () => {
     it('should calculate next review date for new level with correct answer', () => {
-      const currentLevel: SrsLevel = 'new';
+      const currentLevel: SrsLevel = SrsLevel.NEW;
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -110,7 +110,7 @@ describe('SrsService', () => {
     });
 
     it('should calculate next review date for learning level with correct answer', () => {
-      const currentLevel: SrsLevel = 'learning';
+      const currentLevel: SrsLevel = SrsLevel.LEARNING;
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -123,7 +123,7 @@ describe('SrsService', () => {
     });
 
     it('should calculate next review date for young level with correct answer', () => {
-      const currentLevel: SrsLevel = 'young';
+      const currentLevel: SrsLevel = SrsLevel.YOUNG;
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -136,7 +136,7 @@ describe('SrsService', () => {
     });
 
     it('should calculate next review date for mature level with correct answer', () => {
-      const currentLevel: SrsLevel = 'mature';
+      const currentLevel: SrsLevel = SrsLevel.MATURE;
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -149,7 +149,7 @@ describe('SrsService', () => {
     });
 
     it('should calculate next review date for mastered level with correct answer', () => {
-      const currentLevel: SrsLevel = 'mastered';
+      const currentLevel: SrsLevel = SrsLevel.MASTERED;
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -162,7 +162,7 @@ describe('SrsService', () => {
     });
 
     it('should calculate next review date for mature level with incorrect answer', () => {
-      const currentLevel: SrsLevel = 'mature';
+      const currentLevel: SrsLevel = SrsLevel.MATURE;
       const result = ReviewResult.INCORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -175,7 +175,7 @@ describe('SrsService', () => {
     });
 
     it('should calculate next review date for learning level with incorrect answer', () => {
-      const currentLevel: SrsLevel = 'learning';
+      const currentLevel: SrsLevel = SrsLevel.LEARNING;
       const result = ReviewResult.INCORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -256,67 +256,67 @@ describe('SrsService', () => {
 
   describe('Edge Cases and Full Cycle Tests', () => {
     it('should handle full progression from new to mastered', () => {
-      let currentLevel: SrsLevel = 'new';
+      let currentLevel: SrsLevel = SrsLevel.NEW;
 
       // new -> learning
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('learning');
+      expect(currentLevel).toBe(SrsLevel.LEARNING);
 
       // learning -> young
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('young');
+      expect(currentLevel).toBe(SrsLevel.YOUNG);
 
       // young -> mature
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('mature');
+      expect(currentLevel).toBe(SrsLevel.MATURE);
 
       // mature -> mastered
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('mastered');
+      expect(currentLevel).toBe(SrsLevel.MASTERED);
 
       // mastered -> mastered (stays)
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('mastered');
+      expect(currentLevel).toBe(SrsLevel.MASTERED);
     });
 
     it('should handle full regression from mastered to learning', () => {
-      let currentLevel: SrsLevel = 'mastered';
+      let currentLevel: SrsLevel = SrsLevel.MASTERED;
 
       // mastered -> mature
       currentLevel = service.updateLevel(currentLevel, ReviewResult.INCORRECT);
-      expect(currentLevel).toBe('mature');
+      expect(currentLevel).toBe(SrsLevel.MATURE);
 
       // mature -> young
       currentLevel = service.updateLevel(currentLevel, ReviewResult.INCORRECT);
-      expect(currentLevel).toBe('young');
+      expect(currentLevel).toBe(SrsLevel.YOUNG);
 
       // young -> learning
       currentLevel = service.updateLevel(currentLevel, ReviewResult.INCORRECT);
-      expect(currentLevel).toBe('learning');
+      expect(currentLevel).toBe(SrsLevel.LEARNING);
 
       // learning -> learning (stays)
       currentLevel = service.updateLevel(currentLevel, ReviewResult.INCORRECT);
-      expect(currentLevel).toBe('learning');
+      expect(currentLevel).toBe(SrsLevel.LEARNING);
     });
 
     it('should handle mixed correct and incorrect answers', () => {
-      let currentLevel: SrsLevel = 'learning';
+      let currentLevel: SrsLevel = SrsLevel.LEARNING;
 
       // learning -> young (correct)
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('young');
+      expect(currentLevel).toBe(SrsLevel.YOUNG);
 
       // young -> learning (incorrect)
       currentLevel = service.updateLevel(currentLevel, ReviewResult.INCORRECT);
-      expect(currentLevel).toBe('learning');
+      expect(currentLevel).toBe(SrsLevel.LEARNING);
 
       // learning -> young (correct)
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('young');
+      expect(currentLevel).toBe(SrsLevel.YOUNG);
 
       // young -> mature (correct)
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
-      expect(currentLevel).toBe('mature');
+      expect(currentLevel).toBe(SrsLevel.MATURE);
     });
   });
 });
