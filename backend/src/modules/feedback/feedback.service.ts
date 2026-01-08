@@ -26,6 +26,7 @@ export interface SuggestionContext {
 export class FeedbackService {
   private readonly logger = new Logger(FeedbackService.name);
   private apiKey: string;
+  private openaiUrl: string;
   private correctionCache: Map<
     string,
     { corrections: Correction[]; timestamp: number }
@@ -33,7 +34,14 @@ export class FeedbackService {
   private readonly CACHE_TTL = 1000 * 60 * 60; // 1 hour
 
   constructor(private configService: ConfigService) {
-    this.apiKey = this.configService.get<string>('OPENAI_API_KEY') || '';
+    this.apiKey = this.configService.get<string>(
+      'externalServices.openai.apiKey',
+      '',
+    );
+    this.openaiUrl = this.configService.get<string>(
+      'externalServices.openai.baseUrl',
+      'https://api.openai.com/v1/chat/completions',
+    );
   }
 
   /**
@@ -191,33 +199,30 @@ export class FeedbackService {
     }
 
     try {
-      const response = await fetch(
-        'https://api.openai.com/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.apiKey}`,
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [
-              {
-                role: 'system',
-                content:
-                  'You are an expert English language teacher helping students improve their English. Always respond with valid JSON only.',
-              },
-              {
-                role: 'user',
-                content: prompt,
-              },
-            ],
-            response_format: { type: 'json_object' },
-            temperature: 0.3,
-            max_tokens: 1000,
-          }),
+      const response = await fetch(this.openaiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.apiKey}`,
         },
-      );
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            {
+              role: 'system',
+              content:
+                'You are an expert English language teacher helping students improve their English. Always respond with valid JSON only.',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.3,
+          max_tokens: 1000,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(

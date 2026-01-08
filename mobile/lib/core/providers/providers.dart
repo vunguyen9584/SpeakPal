@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
 import '../network/api_client.dart';
+import '../config/api_config.dart';
 
 /// Provider for SharedPreferences instance
 /// Used for non-sensitive local storage
@@ -19,10 +20,12 @@ final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
 /// Provider for Dio HTTP client
 /// Used for making API requests
 final dioProvider = Provider<Dio>((ref) {
+  // Get API config from centralized configuration
+  final apiConfig = ref.watch(apiConfigProvider);
+
   final dio = Dio(
     BaseOptions(
-      // TODO: Update with actual API base URL from environment config
-      baseUrl: 'http://localhost:3000/api/v1',
+      baseUrl: apiConfig.apiBaseUrl,
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers: {

@@ -1,12 +1,7 @@
 /// API Endpoints
+/// Contains only endpoint paths - base URL is managed by ApiConfig
 class ApiEndpoints {
   ApiEndpoints._();
-
-  // Base URL (will be configured via environment)
-  static const String baseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: 'http://localhost:3000',
-  );
 
   // Auth endpoints
   static const String login = '/auth/login';

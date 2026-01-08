@@ -3,6 +3,7 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InvitationRepository } from './invitation.repository';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { InvitationResponseDto } from './dto/invitation-response.dto';
@@ -11,7 +12,10 @@ import { InvitationStatus, Invitation } from '@prisma/client';
 
 @Injectable()
 export class InvitationService {
-  constructor(private readonly invitationRepo: InvitationRepository) {}
+  constructor(
+    private readonly invitationRepo: InvitationRepository,
+    private readonly configService: ConfigService,
+  ) {}
 
   /**
    * Generate a unique invite code for a user
@@ -31,7 +35,10 @@ export class InvitationService {
       maxUsage: dto.maxUsage,
     });
 
-    const baseUrl = process.env.APP_URL || 'https://speakpal.app';
+    const baseUrl = this.configService.get<string>(
+      'externalServices.app.baseUrl',
+      'https://speakpal.app',
+    );
     return InvitationResponseDto.fromEntity(invitation, baseUrl);
   }
 
@@ -80,7 +87,10 @@ export class InvitationService {
    */
   async getUserInvitations(userId: string): Promise<InvitationResponseDto[]> {
     const invitations = await this.invitationRepo.findByUserId(userId);
-    const baseUrl = process.env.APP_URL || 'https://speakpal.app';
+    const baseUrl = this.configService.get<string>(
+      'externalServices.app.baseUrl',
+      'https://speakpal.app',
+    );
 
     return invitations.map((inv) =>
       InvitationResponseDto.fromEntity(inv, baseUrl),

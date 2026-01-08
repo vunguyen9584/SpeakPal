@@ -2,13 +2,11 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/models.dart';
+import '../../../core/providers/providers.dart';
 
 final translationRepositoryProvider = Provider<TranslationRepository>((ref) {
-  // Get dio instance from core services
-  final dio = Dio(BaseOptions(
-    baseUrl: 'http://localhost:3000/api',
-    headers: {'Content-Type': 'application/json'},
-  ));
+  // Use shared Dio instance from core providers (already configured with API config)
+  final dio = ref.watch(dioProvider);
   return TranslationRepository(dio);
 });
 

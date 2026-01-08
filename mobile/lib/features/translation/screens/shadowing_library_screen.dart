@@ -16,7 +16,7 @@ class _ShadowingLibraryScreenState
   ContentType? _selectedType;
   String? _selectedLevel;
 
-  // Mock data
+  // Mock data - URLs will be provided by backend API
   final List<ShadowingContent> _mockContents = [
     const ShadowingContent(
       id: '1',
@@ -24,7 +24,7 @@ class _ShadowingLibraryScreenState
       type: 'conversation',
       level: 'beginner',
       durationSeconds: 90,
-      audioUrl: 'https://example.com/audio1.mp3',
+      audioUrl: '', // TODO: Replace with actual API data
       transcript: 'Hello, I would like to order...',
       isPremium: false,
     ),
@@ -34,7 +34,7 @@ class _ShadowingLibraryScreenState
       type: 'news',
       level: 'advanced',
       durationSeconds: 180,
-      audioUrl: 'https://example.com/audio2.mp3',
+      audioUrl: '', // TODO: Replace with actual API data
       transcript: 'In today\'s tech news...',
       isPremium: true,
     ),

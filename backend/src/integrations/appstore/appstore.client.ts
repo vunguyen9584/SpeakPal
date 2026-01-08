@@ -11,18 +11,33 @@ import type {
 export class AppStoreClient {
   private readonly logger = new Logger(AppStoreClient.name);
   private readonly config: AppStoreConfig;
-  private readonly productionUrl = 'https://buy.itunes.apple.com/verifyReceipt';
-  private readonly sandboxUrl =
-    'https://sandbox.itunes.apple.com/verifyReceipt';
+  private readonly productionUrl: string;
+  private readonly sandboxUrl: string;
 
   constructor(private readonly configService: ConfigService) {
+    // Get URLs from centralized config
+    this.productionUrl = this.configService.get<string>(
+      'externalServices.appStore.productionUrl',
+      'https://buy.itunes.apple.com/verifyReceipt',
+    );
+    this.sandboxUrl = this.configService.get<string>(
+      'externalServices.appStore.sandboxUrl',
+      'https://sandbox.itunes.apple.com/verifyReceipt',
+    );
+
     this.config = {
       sharedSecret: this.configService.get<string>(
-        'APPSTORE_SHARED_SECRET',
+        'externalServices.appStore.sharedSecret',
         '',
       ),
-      bundleId: this.configService.get<string>('APPSTORE_BUNDLE_ID', ''),
-      useSandbox: this.configService.get<boolean>('APPSTORE_USE_SANDBOX', true),
+      bundleId: this.configService.get<string>(
+        'externalServices.appStore.bundleId',
+        '',
+      ),
+      useSandbox: this.configService.get<boolean>(
+        'externalServices.appStore.useSandbox',
+        true,
+      ),
     };
 
     if (!this.config.sharedSecret) {

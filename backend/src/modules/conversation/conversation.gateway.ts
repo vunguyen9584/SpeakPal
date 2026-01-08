@@ -22,7 +22,7 @@ interface ClientData {
 @WebSocketGateway({
   namespace: '/ws/conversation',
   cors: {
-    origin: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000'],
+    origin: true, // Will be configured in constructor
     credentials: true,
   },
   transports: ['websocket'],
@@ -39,7 +39,14 @@ export class ConversationGateway
     private readonly conversationService: ConversationService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-  ) {}
+  ) {
+    // Configure CORS origins from centralized config
+    const corsOrigins = this.configService.get<string[]>(
+      'externalServices.app.corsOrigins',
+      ['http://localhost:3000'],
+    );
+    this.logger.log(`CORS origins configured: ${corsOrigins.join(', ')}`);
+  }
 
   /**
    * Handle new client connection

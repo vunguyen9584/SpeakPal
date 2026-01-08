@@ -1,43 +1,42 @@
-- Goal: Phase 6 External Integration - COMPLETED ✅
+- Goal: Code Quality - URL Refactoring COMPLETED ✅
 - Constraints:
-  - Requires API keys for external services (Deepgram, OpenAI, ElevenLabs) ✅
-  - IAP integration requires App Store Connect and Google Play Console setup ✅
-  - Must implement proper error handling and fallback mechanisms ✅
-  - Need to handle rate limiting and token counting for API services ✅
+  - Must not break existing functionality
+  - Must pass all lint and build checks
+  - Must maintain backward compatibility with environment variables
 - Key decisions:
-  - Create separate integration modules for each external service ✅
-  - Implement streaming support for STT, LLM, and TTS ✅
-  - Add caching layer for TTS to reduce API costs ✅
-  - Use sandbox mode for IAP testing ✅
-  - Implement retry logic and circuit breakers for external API calls ✅
+  - Created centralized config for all external service URLs (backend)
+  - Created ApiConfig provider for mobile app
+  - Removed all hardcoded URLs from production code
+  - Maintained environment-based configuration support
 - State:
   - Done:
-    - **Phase 0-7: 279/339 tasks (82.3%)** ✅
-    - Phase 6: External Integration (30/30 tasks) ✅
-      - WP-INT-001: Deepgram STT Integration (6/6 tasks)
-      - WP-INT-002: OpenAI GPT-4o Integration (6/6 tasks)
-      - WP-INT-003: ElevenLabs TTS Integration (6/6 tasks)
-      - WP-INT-004: App Store IAP Integration (6/6 tasks)
-      - WP-INT-005: Play Store IAP Integration (6/6 tasks)
-    - Phase 5: Translation Practice (41/41 tasks) ✅
-    - Phase 4: Learning & Gamification (42/42 tasks) ✅
-    - Phase 3: Conversation (50/50 tasks) ✅
-    - Phase 2: Auth & User (41/41 tasks) ✅
-    - Phase 1: Foundation (35/35 tasks) ✅
+    - **URL Refactoring (13 files changed)** ✅
+      - Backend: 8 files refactored
+        - Created `external-services.config.ts`
+        - Updated 6 service files
+        - Registered config in ConfigModule
+      - Mobile: 5 files refactored
+        - Created `api_config.dart`
+        - Updated providers, repositories, endpoints
+        - Fixed mock data URLs
+    - **Verification** ✅
+      - Backend: Lint passed (0 errors), Build successful
+      - Mobile: Analyze passed (0 issues in refactored files)
+    - **Documentation** ✅
+      - Created `docs/refactoring/URL_REFACTORING.md`
   - Now:
-    - **Phase 6: FULLY COMPLETE** 🎉
-    - All external integrations implemented
-    - 26 new files created
-    - 5 NPM packages installed
-    - Fixed all linting errors in `src/integrations` directory ✅
+    - All hardcoded URLs eliminated from production code
+    - Centralized configuration in place
+    - Ready for environment-specific deployments
   - Next:
-    - Phase 8: Quality Assurance (35 tasks)
-    - Phase 9: Deployment & Launch (18 tasks)
+    - Continue with other code quality improvements
+    - Consider adding URL validation
+    - Implement health checks for external services
 - Open questions:
-  - Need to obtain actual API keys for production
-  - Need to configure App Store Connect and Google Play Console
+  - None
 - Working set:
-  - `backend/src/integrations/` (26 files created)
-  - `backend/.env.example` (updated with all integration configs)
-  - `docs/implementation-plan/CHECKLIST.md` (updated to 82.3%)
-  - `docs/implementation-plan/phase-6-integration/IMPLEMENTATION_REPORT.md` (created)
+  - Backend: `src/config/external-services.config.ts` (new)
+  - Backend: `src/integrations/`, `src/modules/` (6 files updated)
+  - Mobile: `lib/core/config/api_config.dart` (new)
+  - Mobile: `lib/core/providers/`, `lib/features/translation/` (4 files updated)
+  - Documentation: `docs/refactoring/URL_REFACTORING.md` (new)

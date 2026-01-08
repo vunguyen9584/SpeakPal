@@ -12,9 +12,17 @@ export interface Turn {
 export class VocabularyExtractorService {
   private readonly logger = new Logger(VocabularyExtractorService.name);
   private apiKey: string;
+  private openaiUrl: string;
 
   constructor(private configService: ConfigService) {
-    this.apiKey = this.configService.get<string>('OPENAI_API_KEY') || '';
+    this.apiKey = this.configService.get<string>(
+      'externalServices.openai.apiKey',
+      '',
+    );
+    this.openaiUrl = this.configService.get<string>(
+      'externalServices.openai.baseUrl',
+      'https://api.openai.com/v1/chat/completions',
+    );
   }
 
   /**
@@ -79,33 +87,30 @@ export class VocabularyExtractorService {
     }
 
     try {
-      const response = await fetch(
-        'https://api.openai.com/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.apiKey}`,
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [
-              {
-                role: 'system',
-                content:
-                  'You are an expert English language teacher helping students learn new vocabulary. Always respond with valid JSON only.',
-              },
-              {
-                role: 'user',
-                content: prompt,
-              },
-            ],
-            response_format: { type: 'json_object' },
-            temperature: 0.3,
-            max_tokens: 1000,
-          }),
+      const response = await fetch(this.openaiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.apiKey}`,
         },
-      );
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            {
+              role: 'system',
+              content:
+                'You are an expert English language teacher helping students learn new vocabulary. Always respond with valid JSON only.',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.3,
+          max_tokens: 1000,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(

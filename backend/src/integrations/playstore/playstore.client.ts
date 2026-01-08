@@ -16,13 +16,16 @@ export class PlayStoreClient {
 
   constructor(private readonly configService: ConfigService) {
     this.config = {
-      packageName: this.configService.get<string>('PLAYSTORE_PACKAGE_NAME', ''),
+      packageName: this.configService.get<string>(
+        'externalServices.playStore.packageName',
+        '',
+      ),
       serviceAccountEmail: this.configService.get<string>(
-        'PLAYSTORE_SERVICE_ACCOUNT_EMAIL',
+        'externalServices.playStore.serviceAccountEmail',
         '',
       ),
       serviceAccountKey: this.configService.get<string>(
-        'PLAYSTORE_SERVICE_ACCOUNT_KEY',
+        'externalServices.playStore.serviceAccountKey',
         '',
       ),
     };
@@ -33,6 +36,11 @@ export class PlayStoreClient {
 
     // Initialize Google Play Developer API client
     try {
+      const authScope = this.configService.get<string>(
+        'externalServices.playStore.authScope',
+        'https://www.googleapis.com/auth/androidpublisher',
+      );
+
       const auth = new google.auth.GoogleAuth({
         credentials: this.config.serviceAccountKey
           ? (JSON.parse(this.config.serviceAccountKey) as Record<
@@ -40,7 +48,7 @@ export class PlayStoreClient {
               unknown
             >)
           : undefined,
-        scopes: ['https://www.googleapis.com/auth/androidpublisher'],
+        scopes: [authScope],
       });
 
       this.androidPublisher = google.androidpublisher({
