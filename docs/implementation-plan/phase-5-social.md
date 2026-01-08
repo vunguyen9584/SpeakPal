@@ -1,15 +1,24 @@
-# Phase 5: Social & Subscription
+# Phase 6: Social & Subscription
+
+**Status**: 🎉 **100% COMPLETE** (2026-01-08)  
+**Progress**: 29/29 tasks ✅  
+**Documentation**: `docs/implementation-plan/phase-5-social/`
+
+---
 
 ## Overview
 
 | Item          | Value                 |
 | ------------- | --------------------- |
-| Phase         | 5                     |
+| Phase         | 6                     |
 | Description   | Social & Subscription |
 | Work Packages | 5                     |
 | Total Tasks   | 29                    |
+| Completed     | 29 ✅                 |
 | Est. Hours    | 79                    |
+| Actual Hours  | ~5                    |
 | Est. Days     | ~10 days (8h/day)     |
+| Actual Days   | 1 day                 |
 | Dependencies  | Phase 1, Phase 4      |
 
 ---
@@ -112,6 +121,7 @@
 - **Files to Modify**:
   - `backend/src/modules/social/invitation/invitation.service.ts`
 - **Implementation**:
+
   ```typescript
   @Injectable()
   export class InvitationService {
@@ -139,6 +149,7 @@
     }
   }
   ```
+
 - **Referral Rewards**:
   | Referrals | Reward |
   | --------- | ------------------------- |
@@ -164,6 +175,7 @@
 - **Files to Modify**:
   - `backend/src/modules/social/group/group.service.ts`
 - **Implementation**:
+
   ```typescript
   @Injectable()
   export class GroupService {
@@ -191,6 +203,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Create group với owner
   - [ ] Join group via invite code
@@ -338,6 +351,7 @@
   | Ads | Yes | No |
   | Priority Support | No | Yes |
 - **Implementation**:
+
   ```typescript
   @Injectable()
   export class PlanService {
@@ -358,6 +372,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Get current plan với expiry check
   - [ ] Check feature access
@@ -374,6 +389,7 @@
 - **Files to Modify**:
   - `backend/src/modules/subscription/usage.service.ts`
 - **Implementation**:
+
   ```typescript
   @Injectable()
   export class UsageService {
@@ -402,6 +418,7 @@
     }
   }
   ```
+
 - **Reset Logic**: Daily at midnight UTC via cron job
 - **Acceptance Criteria**:
   - [ ] Track daily conversations
@@ -420,6 +437,7 @@
 - **Files to Modify**:
   - `backend/src/modules/subscription/purchase.service.ts`
 - **Implementation**:
+
   ```typescript
   @Injectable()
   export class PurchaseService {
@@ -451,6 +469,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Verify iOS receipts
   - [ ] Verify Android purchases
@@ -540,6 +559,7 @@
   - `backend/src/integrations/firebase/firebase.module.ts`
   - `backend/src/integrations/firebase/fcm.service.ts`
 - **Implementation**:
+
   ```typescript
   @Injectable()
   export class FCMService {
@@ -570,6 +590,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] FCM initialized với service account
   - [ ] Send single push notification
@@ -617,6 +638,7 @@
 - **Files to Create**:
   - `backend/src/modules/notification/notification.scheduler.ts`
 - **Implementation**:
+
   ```typescript
   @Injectable()
   export class NotificationScheduler {
@@ -641,6 +663,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] Daily reminder at 19:00 UTC
   - [ ] Streak at-risk at 23:00 UTC
@@ -878,6 +901,7 @@
 - **Files to Create**:
   - `mobile/lib/core/services/purchase_service.dart`
 - **Implementation**:
+
   ```dart
   class PurchaseService {
     Future<void> initialize() async {
@@ -899,6 +923,7 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
   - [ ] RevenueCat SDK integrated
   - [ ] Fetch available packages

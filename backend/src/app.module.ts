@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
@@ -13,10 +14,13 @@ import { LearningModule } from './modules/learning/learning.module';
 import { GamificationModule } from './modules/gamification/gamification.module';
 import { ProgressModule } from './modules/progress/progress.module';
 import { SocialModule } from './modules/social/social.module';
+import { SubscriptionModule } from './modules/subscription/subscription.module';
+import { FirebaseModule } from './integrations/firebase/firebase.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
-  imports: [ConfigModule, PrismaModule, CacheModule, AuthModule, UserModule, PersonaModule, ConversationModule, FeedbackModule, LearningModule, GamificationModule, ProgressModule, SocialModule],
+  imports: [ScheduleModule.forRoot(), ConfigModule, PrismaModule, CacheModule, FirebaseModule, AuthModule, UserModule, PersonaModule, ConversationModule, FeedbackModule, LearningModule, GamificationModule, ProgressModule, SocialModule, SubscriptionModule, NotificationModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

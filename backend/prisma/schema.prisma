@@ -197,10 +197,14 @@ model Subscription {
   id              String           @id @default(uuid())
   userId          String           @unique @map("user_id")
   plan            SubscriptionPlan @default(FREE)
+  status          String           @default("active") // active, expired, cancelled
   dailyUsageCount Int              @default(0) @map("daily_usage_count")
   dailyUsageLimit Int              @default(3) @map("daily_usage_limit")
   lastResetDate   DateTime         @default(now()) @map("last_reset_date") @db.Date
   expiresAt       DateTime?        @map("expires_at")
+  autoRenewing    Boolean          @default(false) @map("auto_renewing")
+  orderId         String?          @map("order_id")
+  platform        String?          // ios, android
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
 
@@ -209,6 +213,7 @@ model Subscription {
 
   @@index([plan])
   @@index([expiresAt])
+  @@index([status])
   @@map("subscriptions")
 }
 
@@ -502,4 +507,23 @@ model GroupMember {
   @@index([groupId])
   @@index([userId])
   @@map("group_members")
+}
+
+// ============================================================================
+// SUBSCRIPTION USAGE TRACKING
+// ============================================================================
+
+model DailyUsage {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  date      DateTime @db.Date
+  type      String   // conversation, vocabulary
+  count     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, date, type], name: "userId_date_type")
+  @@index([userId, date])
+  @@index([date])
+  @@map("daily_usage")
 }

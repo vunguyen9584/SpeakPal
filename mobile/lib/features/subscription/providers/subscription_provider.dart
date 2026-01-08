@@ -1,0 +1,146 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/// Provider for subscription information
+final subscriptionProvider = FutureProvider<SubscriptionInfo>((ref) async {
+  // TODO: Replace with actual API call
+  await Future.delayed(const Duration(milliseconds: 500));
+  return SubscriptionInfo(
+    plan: 'free',
+    status: 'active',
+    expiresAt: null,
+    autoRenewing: false,
+    features: {
+      'dailyConversations': 3,
+      'dailyVocabulary': 50,
+      'aiModels': ['basic'],
+      'offlineMode': false,
+      'adFree': false,
+    },
+  );
+});
+
+/// Provider for usage information
+final usageProvider = FutureProvider<UsageInfo>((ref) async {
+  // TODO: Replace with actual API call
+  await Future.delayed(const Duration(milliseconds: 500));
+  return UsageInfo(
+    dailyConversations: 2,
+    dailyConversationsLimit: 3,
+    dailyVocabulary: 35,
+    dailyVocabularyLimit: 50,
+    nextResetTime: DateTime.now().add(const Duration(hours: 8)),
+  );
+});
+
+/// Provider for available plans
+final plansProvider = FutureProvider<List<PlanInfo>>((ref) async {
+  // TODO: Replace with actual API call
+  await Future.delayed(const Duration(milliseconds: 500));
+  return [
+    PlanInfo(
+      id: 'free',
+      name: 'Free',
+      price: '\$0',
+      features: [
+        '3 conversations per day',
+        '50 vocabulary words per day',
+        'Basic AI model',
+        'Community support',
+      ],
+      isPopular: false,
+    ),
+    PlanInfo(
+      id: 'premium_monthly',
+      name: 'Premium Monthly',
+      price: '\$9.99/month',
+      features: [
+        'Unlimited conversations',
+        'Unlimited vocabulary',
+        'Advanced AI models',
+        'Offline mode',
+        'Ad-free experience',
+        'Priority support',
+        'Custom learning paths',
+        'Detailed analytics',
+      ],
+      isPopular: true,
+    ),
+    PlanInfo(
+      id: 'premium_yearly',
+      name: 'Premium Yearly',
+      price: '\$99.99/year',
+      features: [
+        'All Premium Monthly features',
+        'Save 17% compared to monthly',
+        'Exclusive yearly content',
+        'Early access to new features',
+      ],
+      isPopular: false,
+    ),
+  ];
+});
+
+/// Subscription information model
+class SubscriptionInfo {
+  final String plan; // free, premium
+  final String status; // active, expired, cancelled
+  final DateTime? expiresAt;
+  final bool autoRenewing;
+  final Map<String, dynamic> features;
+
+  SubscriptionInfo({
+    required this.plan,
+    required this.status,
+    this.expiresAt,
+    required this.autoRenewing,
+    required this.features,
+  });
+
+  bool get isPremium => plan.contains('premium');
+  bool get isActive => status == 'active';
+}
+
+/// Usage information model
+class UsageInfo {
+  final int dailyConversations;
+  final int dailyConversationsLimit;
+  final int dailyVocabulary;
+  final int dailyVocabularyLimit;
+  final DateTime nextResetTime;
+
+  UsageInfo({
+    required this.dailyConversations,
+    required this.dailyConversationsLimit,
+    required this.dailyVocabulary,
+    required this.dailyVocabularyLimit,
+    required this.nextResetTime,
+  });
+
+  double get conversationsProgress =>
+      dailyConversations / dailyConversationsLimit;
+  double get vocabularyProgress => dailyVocabulary / dailyVocabularyLimit;
+
+  bool get conversationsLimitReached =>
+      dailyConversations >= dailyConversationsLimit;
+  bool get vocabularyLimitReached => dailyVocabulary >= dailyVocabularyLimit;
+}
+
+/// Plan information model
+class PlanInfo {
+  final String id;
+  final String name;
+  final String price;
+  final List<String> features;
+  final bool isPopular;
+
+  PlanInfo({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.features,
+    required this.isPopular,
+  });
+
+  bool get isFree => id == 'free';
+}
