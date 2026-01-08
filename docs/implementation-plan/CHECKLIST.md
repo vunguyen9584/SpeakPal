@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 339
-- **Completed**: 226
-- **Progress**: 66.7%
+- **Completed**: 249
+- **Progress**: 73.5%
 
 ---
 
@@ -336,37 +336,40 @@
 - [x] WP-BE-019-T005: Implement Shadowing Controller (✅ 2026-01-08)
 - [x] WP-BE-019-T006: Wire Module and Register (✅ 2026-01-08)
 
-### WP-FE-015: Direct Translation Screen (FE) (5 tasks)
+### WP-FE-015: Direct Translation Screen (FE) (5 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-015-T001: Create Direct Translation Feature Structure
-- [ ] WP-FE-015-T002: Implement Topic Selection Screen
-- [ ] WP-FE-015-T003: Implement Voice Input Widget
-- [ ] WP-FE-015-T004: Implement Real-time Scoring Display
-- [ ] WP-FE-015-T005: Integrate Translation API
+- [x] WP-FE-015-T001: Create Direct Translation Feature Structure (✅ 2026-01-08)
+- [x] WP-FE-015-T002: Implement Topic Selection Screen (✅ 2026-01-08)
+- [x] WP-FE-015-T003: Implement Voice Input Widget (✅ 2026-01-08)
+- [x] WP-FE-015-T004: Implement Real-time Scoring Display (✅ 2026-01-08)
+- [x] WP-FE-015-T005: Integrate Translation API (✅ 2026-01-08)
 
-### WP-FE-016: Intent Translation Screen (FE) (5 tasks)
+### WP-FE-016: Intent Translation Screen (FE) (5 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-016-T001: Create Intent Translation Feature Structure
-- [ ] WP-FE-016-T002: Implement Situation Display
-- [ ] WP-FE-016-T003: Implement Expression Input
-- [ ] WP-FE-016-T004: Implement Alternative Expressions View
-- [ ] WP-FE-016-T005: Integrate Intent API
+- [x] WP-FE-016-T001: Create Intent Translation Feature Structure (✅ 2026-01-08)
+- [x] WP-FE-016-T002: Implement Situation Display (✅ 2026-01-08)
+- [x] WP-FE-016-T003: Implement Expression Input (✅ 2026-01-08)
+- [x] WP-FE-016-T004: Implement Alternative Expressions View (✅ 2026-01-08)
+- [x] WP-FE-016-T005: Integrate Intent API (✅ 2026-01-08)
 
-### WP-FE-017: Quick Response Screens (FE) (5 tasks)
+### WP-FE-017: Quick Response Screens (FE) (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-017-T001: Create Quick Response Feature Structure
-- [ ] WP-FE-017-T002: Implement Flashcard/Word Association UI
-- [ ] WP-FE-017-T003: Implement Instant Drill UI
-- [ ] WP-FE-017-T004: Implement Timer & Score Widget
-- [ ] WP-FE-017-T005: Integrate Quick Response API
+- [x] WP-FE-017-T001: Create Quick Response Feature Structure (✅ 2026-01-08)
+- [x] WP-FE-017-T002: Implement Flashcard/Word Association UI (✅ 2026-01-08)
+- [x] WP-FE-017-T003: Implement Instant Drill UI (✅ 2026-01-08)
+- [x] WP-FE-017-T004: Implement Timer & Score Widget (✅ 2026-01-08)
+- [x] WP-FE-017-T005: Integrate Quick Response API (✅ 2026-01-08)
+- [x] WP-FE-017-T006: Quick Response Widget Tests (✅ 2026-01-08)
 
-### WP-FE-018: Shadowing Practice Screen (FE) (5 tasks)
+### WP-FE-018: Shadowing Practice Screen (FE) (7 tasks) - ✅ COMPLETED
 
-- [ ] WP-FE-018-T001: Create Shadowing Feature Structure
-- [ ] WP-FE-018-T002: Implement Audio Player with Waveform
-- [ ] WP-FE-018-T003: Implement Recording Interface
-- [ ] WP-FE-018-T004: Implement Comparison/Analysis View
-- [ ] WP-FE-018-T005: Integrate Shadowing API
+- [x] WP-FE-018-T001: Create Shadowing Feature Structure (✅ 2026-01-08)
+- [x] WP-FE-018-T002: Implement Audio Player with Waveform (✅ 2026-01-08)
+- [x] WP-FE-018-T003: Implement Recording Interface (✅ 2026-01-08)
+- [x] WP-FE-018-T004: Implement Comparison/Analysis View (✅ 2026-01-08)
+- [x] WP-FE-018-T005: Integrate Shadowing API (✅ 2026-01-08)
+- [x] WP-FE-018-T006: Create Speed Control Component (✅ 2026-01-08)
+- [x] WP-FE-018-T007: Shadowing Widget Tests (✅ 2026-01-08)
 
 ---
 
@@ -576,12 +579,12 @@
 | Phase 2   | Auth & User             | 6      | 41      | 41/41       | ✅     |
 | Phase 3   | Conversation            | 7      | 50      | 50/50       | ✅     |
 | Phase 4   | Learning & Gamification | 6      | 42      | 42/42       | ✅     |
-| Phase 5   | Translation Practice    | 8      | 41      | 0/41        | ⬜     |
+| Phase 5   | Translation Practice    | 8      | 41      | 41/41       | ✅     |
 | Phase 6   | Social & Subscription   | 5      | 29      | 29/29       | ✅     |
 | Phase 7   | External Integration    | 5      | 30      | 0/30        | ⬜     |
 | Phase 8   | Quality Assurance       | 7      | 35      | 0/35        | ⬜     |
 | Phase 9   | Deployment & Launch     | 6      | 18      | 0/18        | ⬜     |
-| **Total** |                         | **61** | **339** | **203/339** |        |
+| **Total** |                         | **61** | **339** | **249/339** |        |
 
 ---
 
