@@ -18,8 +18,9 @@ export class GroupMemberDto {
   static fromEntity(entity: any): GroupMemberDto {
     return new GroupMemberDto({
       userId: entity.userId || entity.user?.id,
-      userName: entity.user?.displayName || entity.user?.email || 'Unknown User',
-      userAvatar: entity.user?.avatar,
+      userName:
+        entity.user?.username || entity.user?.email || 'Unknown User',
+      userAvatar: null,
       role: entity.role as GroupRole,
       joinedAt: entity.joinedAt || entity.createdAt,
     });

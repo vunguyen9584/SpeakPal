@@ -1,42 +1,47 @@
+import { SubscriptionPlan } from '@prisma/client';
+
 export class SubscriptionResponseDto {
-    plan: 'free' | 'premium';
-    status: 'active' | 'expired' | 'cancelled';
-    expiresAt: Date | null;
-    autoRenewing: boolean;
-    features: {
-        dailyConversations: number;
-        unlimitedVocabulary: boolean;
-        prioritySupport: boolean;
-        noAds: boolean;
-        allPersonas: boolean;
-    };
+  plan: 'free' | 'premium';
+  status: 'active' | 'expired' | 'cancelled';
+  expiresAt: Date | null;
+  autoRenewing: boolean;
+  features: {
+    dailyConversations: number;
+    unlimitedVocabulary: boolean;
+    prioritySupport: boolean;
+    noAds: boolean;
+    allPersonas: boolean;
+  };
 
-    static fromEntity(subscription: any): SubscriptionResponseDto {
-        const dto = new SubscriptionResponseDto();
-        dto.plan = subscription?.plan || 'free';
-        dto.status = subscription?.status || 'active';
-        dto.expiresAt = subscription?.expiresAt || null;
-        dto.autoRenewing = subscription?.autoRenewing || false;
+  static fromEntity(subscription: any): SubscriptionResponseDto {
+    const dto = new SubscriptionResponseDto();
+    // Convert Prisma enum to lowercase string
+    dto.plan = subscription?.plan
+      ? (subscription.plan === SubscriptionPlan.PREMIUM ? 'premium' : 'free')
+      : 'free';
+    dto.status = subscription?.status || 'active';
+    dto.expiresAt = subscription?.expiresAt || null;
+    dto.autoRenewing = subscription?.autoRenewing || false;
 
-        // Set features based on plan
-        if (dto.plan === 'premium') {
-            dto.features = {
-                dailyConversations: -1, // Unlimited
-                unlimitedVocabulary: true,
-                prioritySupport: true,
-                noAds: true,
-                allPersonas: true,
-            };
-        } else {
-            dto.features = {
-                dailyConversations: 3,
-                unlimitedVocabulary: false,
-                prioritySupport: false,
-                noAds: false,
-                allPersonas: false,
-            };
-        }
-
-        return dto;
+    // Set features based on plan
+    if (dto.plan === 'premium') {
+      dto.features = {
+        dailyConversations: -1, // Unlimited
+        unlimitedVocabulary: true,
+        prioritySupport: true,
+        noAds: true,
+        allPersonas: true,
+      };
+    } else {
+      dto.features = {
+        dailyConversations: 3,
+        unlimitedVocabulary: false,
+        prioritySupport: false,
+        noAds: false,
+        allPersonas: false,
+      };
     }
+
+    return dto;
+  }
 }

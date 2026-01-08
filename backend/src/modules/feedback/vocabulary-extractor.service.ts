@@ -115,8 +115,7 @@ export class VocabularyExtractorService {
 
       const data = await response.json();
       return (
-        data.choices[0]?.message?.content ||
-        JSON.stringify({ vocabulary: [] })
+        data.choices[0]?.message?.content || JSON.stringify({ vocabulary: [] })
       );
     } catch (error) {
       this.logger.error('Error calling OpenAI API:', error);

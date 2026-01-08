@@ -17,10 +17,33 @@ import { SocialModule } from './modules/social/social.module';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { FirebaseModule } from './integrations/firebase/firebase.module';
 import { NotificationModule } from './modules/notification/notification.module';
+import { TranslationModule } from './translation/translation.module';
+import { QuickResponseModule } from './quick-response/quick-response.module';
+import { ShadowingModule } from './shadowing/shadowing.module';
 
 @Module({
-  imports: [ScheduleModule.forRoot(), ConfigModule, PrismaModule, CacheModule, FirebaseModule, AuthModule, UserModule, PersonaModule, ConversationModule, FeedbackModule, LearningModule, GamificationModule, ProgressModule, SocialModule, SubscriptionModule, NotificationModule],
+  imports: [
+    ScheduleModule.forRoot(),
+    ConfigModule,
+    PrismaModule,
+    CacheModule,
+    FirebaseModule,
+    AuthModule,
+    UserModule,
+    PersonaModule,
+    ConversationModule,
+    FeedbackModule,
+    LearningModule,
+    GamificationModule,
+    ProgressModule,
+    SocialModule,
+    SubscriptionModule,
+    NotificationModule,
+    TranslationModule,
+    QuickResponseModule,
+    ShadowingModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -110,7 +110,10 @@ export function normalizeUuid(uuid: string): string {
  * // Throws if userId is not a valid UUID
  * ```
  */
-export function validateUuidOrThrow(uuid: string, fieldName: string = 'id'): void {
+export function validateUuidOrThrow(
+  uuid: string,
+  fieldName: string = 'id',
+): void {
   if (!isValidUuid(uuid)) {
     throw new Error(`Invalid UUID format for ${fieldName}: ${uuid}`);
   }

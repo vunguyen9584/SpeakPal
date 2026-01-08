@@ -9,7 +9,7 @@ import { SrsService } from './srs/srs.service';
 import { VocabularyRepository } from './vocabulary/vocabulary.repository';
 import { ScenarioRepository } from './scenario/scenario.repository';
 import { ChallengeRepository } from './challenge/challenge.repository';
-import { PrismaModule } from '../../common/prisma/prisma.module';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],
@@ -25,4 +25,4 @@ import { PrismaModule } from '../../common/prisma/prisma.module';
   ],
   exports: [VocabularyService, ScenarioService, ChallengeService],
 })
-export class LearningModule {}
+export class LearningModule { }

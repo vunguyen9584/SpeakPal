@@ -26,7 +26,9 @@ export class CreateConversationDto {
   @IsUUID()
   scenarioId?: string;
 
-  @ApiPropertyOptional({ description: 'Topic for conversation (max 100 chars)' })
+  @ApiPropertyOptional({
+    description: 'Topic for conversation (max 100 chars)',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(100)

@@ -52,7 +52,10 @@ describe('PersonaController', () => {
 
   describe('findAll', () => {
     it('should call service.findAll with userId and return results', async () => {
-      const personas = [mockPersonaDto, { ...mockPersonaDto, id: 'persona-456' }];
+      const personas = [
+        mockPersonaDto,
+        { ...mockPersonaDto, id: 'persona-456' },
+      ];
       service.findAll.mockResolvedValue(personas);
 
       const result = await controller.findAll(mockUser);

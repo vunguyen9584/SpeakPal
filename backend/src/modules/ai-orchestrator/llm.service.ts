@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ConversationMode } from '@prisma/client';
 import { ConversationContext } from './interfaces/conversation-context.interface';
 import { Correction, Suggestion } from './interfaces/ai-response.interface';
 
@@ -57,10 +58,7 @@ export class LLMService {
    * @param level User proficiency level
    * @returns Array of corrections
    */
-  async analyzeErrors(
-    text: string,
-    level: string,
-  ): Promise<Correction[]> {
+  async analyzeErrors(text: string, level: string): Promise<Correction[]> {
     try {
       const prompt = this.buildErrorAnalysisPrompt(text, level);
 
@@ -123,9 +121,7 @@ export class LLMService {
     context: ConversationContext,
   ): LLMMessage[] {
     const systemPrompt = this.getSystemPrompt(context);
-    const messages: LLMMessage[] = [
-      { role: 'system', content: systemPrompt },
-    ];
+    const messages: LLMMessage[] = [{ role: 'system', content: systemPrompt }];
 
     // Add previous turns if available
     if (context.previousTurns && context.previousTurns.length > 0) {
@@ -152,11 +148,11 @@ export class LLMService {
     const basePrompt = `You are an AI English conversation partner helping a ${context.userLevel} level student practice English.`;
 
     switch (context.mode) {
-      case 'instructor':
+      case ConversationMode.INSTRUCTOR:
         return `${basePrompt} Provide helpful corrections and explanations when the student makes mistakes. Be encouraging and patient.`;
-      case 'freetalk':
+      case ConversationMode.FREETALK:
         return `${basePrompt} Have a natural, friendly conversation. Let the student lead the discussion.`;
-      case 'roleplay':
+      case ConversationMode.ROLEPLAY:
         return `${basePrompt} You are roleplaying a specific scenario. Stay in character and help the student practice realistic conversations.`;
       default:
         return basePrompt;

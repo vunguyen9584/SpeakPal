@@ -1,27 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { UserChallenge, ChallengeType } from '@prisma/client';
+import { UserChallenge, ChallengeType, ChallengeStatus } from '@prisma/client';
 
 @Injectable()
 export class ChallengeRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
-  async findTodayChallenges(userId: string): Promise<UserChallenge[]> {
+  async findTodayChallenges(userId: string): Promise<any[]> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    return this.prisma.userChallenge.findMany({
+    const userChallenges = await this.prisma.userChallenge.findMany({
       where: {
         userId,
-        date: {
+        assignedDate: {
           gte: today,
           lt: tomorrow,
         },
       },
+      include: {
+        challenge: true,
+      },
     });
+
+    return userChallenges;
   }
 
   async createUserChallenge(
@@ -29,37 +34,75 @@ export class ChallengeRepository {
     type: ChallengeType,
     targetProgress: number,
     xpReward: number,
-  ): Promise<UserChallenge> {
-    return this.prisma.userChallenge.create({
+  ): Promise<any> {
+    // Create a new Challenge definition (or could reuse if we implemented caching/lookup)
+    // For now, creating a new one to support the dynamic nature of the code
+    const challenge = await this.prisma.challenge.create({
       data: {
-        userId,
         type,
-        targetProgress,
-        currentProgress: 0,
+        title: `${type} Challenge`, // Generic title
+        titleJa: `${type} Challenge`, // Placeholder
+        description: `Complete ${targetProgress} ${type} tasks`,
+        condition: { target: targetProgress },
         xpReward,
-        completed: false,
-        date: new Date(),
+        isActive: true,
       },
     });
+
+    // Assign to user
+    const userChallenge = await this.prisma.userChallenge.create({
+      data: {
+        userId,
+        challengeId: challenge.id,
+        assignedDate: new Date(),
+        currentProgress: 0,
+        status: ChallengeStatus.ACTIVE,
+      },
+      include: {
+        challenge: true,
+      },
+    });
+
+    return userChallenge;
   }
 
   async updateProgress(
     id: string,
     newProgress: number,
-  ): Promise<UserChallenge> {
+  ): Promise<any> {
+    const uc = await this.prisma.userChallenge.findUnique({
+      where: { id },
+      include: { challenge: true },
+    });
+
+    if (!uc) return null;
+
+    const targetProxy = (uc.challenge.condition as any)?.target || 1;
+    const isCompleted = newProgress >= targetProxy;
+
     return this.prisma.userChallenge.update({
       where: { id },
       data: {
         currentProgress: newProgress,
-        completed: newProgress >= (await this.prisma.userChallenge.findUnique({ where: { id } })).targetProgress,
+        status: isCompleted ? ChallengeStatus.COMPLETED : ChallengeStatus.ACTIVE,
+        completedAt: isCompleted ? new Date() : null,
+      },
+      include: {
+        challenge: true,
       },
     });
   }
 
-  async markCompleted(id: string): Promise<UserChallenge> {
+  async markCompleted(id: string): Promise<any> {
     return this.prisma.userChallenge.update({
       where: { id },
-      data: { completed: true },
+      data: {
+        status: ChallengeStatus.COMPLETED,
+        completedAt: new Date(),
+      },
+      include: {
+        challenge: true,
+      },
     });
   }
 }

@@ -22,10 +22,7 @@ export class InvitationController {
    * Generate a new invite code
    */
   @Post()
-  async generateInviteCode(
-    @Request() req,
-    @Body() dto: CreateInvitationDto,
-  ) {
+  async generateInviteCode(@Request() req, @Body() dto: CreateInvitationDto) {
     return this.invitationService.generateInviteCode(req.user.userId, dto);
   }
 
@@ -44,10 +41,7 @@ export class InvitationController {
    */
   @Post('accept')
   @HttpCode(HttpStatus.OK)
-  async acceptInvitation(
-    @Request() req,
-    @Body() body: { code: string },
-  ) {
+  async acceptInvitation(@Request() req, @Body() body: { code: string }) {
     await this.invitationService.acceptInvitation(body.code, req.user.userId);
     return { message: 'Invitation accepted successfully' };
   }

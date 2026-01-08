@@ -24,7 +24,7 @@ export class BadgeService {
       category: badge.category as any,
       xpBonus: badge.xpBonus,
       iconUrl: badge.iconUrl,
-      condition: badge.condition,
+      condition: badge.condition as string,
     }));
   }
 
@@ -49,7 +49,7 @@ export class BadgeService {
         category: ub.badge.category as any,
         xpBonus: ub.badge.xpBonus,
         iconUrl: ub.badge.iconUrl,
-        condition: ub.badge.condition,
+        condition: ub.badge.condition as string,
       },
       earnedAt: ub.earnedAt,
     }));
@@ -141,7 +141,10 @@ export class BadgeService {
   /**
    * Get badge progress for a user
    */
-  async getProgress(userId: string, badgeCode: string): Promise<{
+  async getProgress(
+    userId: string,
+    badgeCode: string,
+  ): Promise<{
     current: number;
     target: number;
     percent: number;
@@ -158,18 +161,19 @@ export class BadgeService {
 
     // Parse condition to get target value
     // e.g., "currentStreak >= 7" -> target = 7
-    const match = badge.condition.match(/>=\s*(\d+)/);
+    const match = (badge.condition as string).match(/>=\s*(\d+)/);
     const target = match ? parseInt(match[1]) : 100;
 
     // Get current value based on condition
     let current = 0;
-    if (badge.condition.includes('currentStreak')) {
+    const conditionStr = badge.condition as string;
+    if (conditionStr.includes('currentStreak')) {
       current = stats.currentStreak;
-    } else if (badge.condition.includes('level')) {
+    } else if (conditionStr.includes('level')) {
       current = stats.level;
-    } else if (badge.condition.includes('conversationCount')) {
+    } else if (conditionStr.includes('conversationCount')) {
       current = stats.conversationCount;
-    } else if (badge.condition.includes('vocabularyCount')) {
+    } else if (conditionStr.includes('vocabularyCount')) {
       current = stats.vocabularyCount;
     }
 
@@ -213,6 +217,7 @@ export class BadgeService {
   private async getUserStats(userId: string): Promise<any> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
+      include: { streak: true },
     });
 
     if (!user) {
@@ -233,11 +238,10 @@ export class BadgeService {
     });
 
     return {
-      currentStreak: user.currentStreak,
+      currentStreak: user.streak?.currentStreak || 0,
       level: user.level,
       conversationCount,
       vocabularyCount,
     };
   }
 }
-

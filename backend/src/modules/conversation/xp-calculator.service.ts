@@ -66,7 +66,10 @@ export class XPCalculatorService {
   /**
    * Check if user leveled up
    */
-  checkLevelUp(oldXP: number, newXP: number): {
+  checkLevelUp(
+    oldXP: number,
+    newXP: number,
+  ): {
     leveledUp: boolean;
     oldLevel: number;
     newLevel: number;

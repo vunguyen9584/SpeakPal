@@ -72,22 +72,34 @@ describe('HistoryService', () => {
 
   describe('queryHistory', () => {
     it('should return all activity types when no filter specified', async () => {
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([mockConversation]);
-      (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([mockVocabulary]);
-      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([mockChallenge]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        mockConversation,
+      ]);
+      (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([
+        mockVocabulary,
+      ]);
+      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([
+        mockChallenge,
+      ]);
 
       const query: HistoryQueryDto = {};
       const result = await service.queryHistory('user-1', query);
 
       expect(result.data).toHaveLength(3);
       expect(result.total).toBe(3);
-      expect(result.data.some(item => item.type === 'conversation')).toBe(true);
-      expect(result.data.some(item => item.type === 'vocabulary_review')).toBe(true);
-      expect(result.data.some(item => item.type === 'challenge')).toBe(true);
+      expect(result.data.some((item) => item.type === 'conversation')).toBe(
+        true,
+      );
+      expect(
+        result.data.some((item) => item.type === 'vocabulary_review'),
+      ).toBe(true);
+      expect(result.data.some((item) => item.type === 'challenge')).toBe(true);
     });
 
     it('should filter by conversation type only', async () => {
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([mockConversation]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        mockConversation,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -102,7 +114,9 @@ describe('HistoryService', () => {
 
     it('should filter by vocabulary_review type only', async () => {
       (prisma.conversation.findMany as jest.Mock).mockResolvedValue([]);
-      (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([mockVocabulary]);
+      (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([
+        mockVocabulary,
+      ]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
       const query: HistoryQueryDto = { type: 'vocabulary_review' };
@@ -117,7 +131,9 @@ describe('HistoryService', () => {
     it('should filter by challenge type only', async () => {
       (prisma.conversation.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
-      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([mockChallenge]);
+      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([
+        mockChallenge,
+      ]);
 
       const query: HistoryQueryDto = { type: 'challenge' };
       const result = await service.queryHistory('user-1', query);
@@ -129,10 +145,20 @@ describe('HistoryService', () => {
     });
 
     it('should sort items by timestamp descending', async () => {
-      const oldConv = { ...mockConversation, startedAt: new Date('2024-01-10T10:00:00Z') };
-      const newConv = { ...mockConversation, id: 'conv-2', startedAt: new Date('2024-01-20T10:00:00Z') };
+      const oldConv = {
+        ...mockConversation,
+        startedAt: new Date('2024-01-10T10:00:00Z'),
+      };
+      const newConv = {
+        ...mockConversation,
+        id: 'conv-2',
+        startedAt: new Date('2024-01-20T10:00:00Z'),
+      };
 
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([oldConv, newConv]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        oldConv,
+        newConv,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -151,7 +177,9 @@ describe('HistoryService', () => {
         id: `conv-${i}`,
       }));
 
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue(conversations);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue(
+        conversations,
+      );
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -170,7 +198,9 @@ describe('HistoryService', () => {
         id: `conv-${i}`,
       }));
 
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue(conversations);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue(
+        conversations,
+      );
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -188,7 +218,9 @@ describe('HistoryService', () => {
         id: `conv-${i}`,
       }));
 
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue(conversations);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue(
+        conversations,
+      );
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -200,7 +232,9 @@ describe('HistoryService', () => {
     });
 
     it('should handle empty page', async () => {
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([mockConversation]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        mockConversation,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -214,7 +248,9 @@ describe('HistoryService', () => {
 
   describe('Date Filtering', () => {
     it('should filter by start date only', async () => {
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([mockConversation]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        mockConversation,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -233,7 +269,9 @@ describe('HistoryService', () => {
     });
 
     it('should filter by end date only', async () => {
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([mockConversation]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        mockConversation,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -252,11 +290,16 @@ describe('HistoryService', () => {
     });
 
     it('should filter by date range', async () => {
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([mockConversation]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        mockConversation,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
-      const query: HistoryQueryDto = { startDate: '2024-01-01', endDate: '2024-01-31' };
+      const query: HistoryQueryDto = {
+        startDate: '2024-01-01',
+        endDate: '2024-01-31',
+      };
       await service.queryHistory('user-1', query);
 
       expect(prisma.conversation.findMany).toHaveBeenCalledWith(
@@ -274,7 +317,9 @@ describe('HistoryService', () => {
 
   describe('Activity Details', () => {
     it('should include conversation details', async () => {
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([mockConversation]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        mockConversation,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -292,7 +337,9 @@ describe('HistoryService', () => {
 
     it('should include vocabulary details', async () => {
       (prisma.conversation.findMany as jest.Mock).mockResolvedValue([]);
-      (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([mockVocabulary]);
+      (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([
+        mockVocabulary,
+      ]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
       const query: HistoryQueryDto = { type: 'vocabulary_review' };
@@ -309,7 +356,9 @@ describe('HistoryService', () => {
     it('should include challenge details', async () => {
       (prisma.conversation.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
-      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([mockChallenge]);
+      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([
+        mockChallenge,
+      ]);
 
       const query: HistoryQueryDto = { type: 'challenge' };
       const result = await service.queryHistory('user-1', query);
@@ -350,7 +399,9 @@ describe('HistoryService', () => {
         endedAt: null,
       };
 
-      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([minimalConv]);
+      (prisma.conversation.findMany as jest.Mock).mockResolvedValue([
+        minimalConv,
+      ]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([]);
 
@@ -369,7 +420,9 @@ describe('HistoryService', () => {
 
       (prisma.conversation.findMany as jest.Mock).mockResolvedValue([]);
       (prisma.vocabulary.findMany as jest.Mock).mockResolvedValue([]);
-      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([incompleteChallenge]);
+      (prisma.userChallenge.findMany as jest.Mock).mockResolvedValue([
+        incompleteChallenge,
+      ]);
 
       const query: HistoryQueryDto = {};
       const result = await service.queryHistory('user-1', query);

@@ -11,7 +11,9 @@ export class HistoryQueryDto {
   @IsOptional()
   endDate?: string;
 
-  @ApiPropertyOptional({ enum: ['conversation', 'vocabulary_review', 'challenge'] })
+  @ApiPropertyOptional({
+    enum: ['conversation', 'vocabulary_review', 'challenge'],
+  })
   @IsOptional()
   type?: 'conversation' | 'vocabulary_review' | 'challenge';
 

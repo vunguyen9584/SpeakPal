@@ -22,9 +22,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('me')
-  async getProfile(
-    @CurrentUser() user: { userId: string },
-  ): Promise<UserDto> {
+  async getProfile(@CurrentUser() user: { userId: string }): Promise<UserDto> {
     return this.userService.getProfile(user.userId);
   }
 

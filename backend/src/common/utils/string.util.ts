@@ -76,7 +76,11 @@ export function toSlug(str: string): string {
  * // "This is a..."
  * ```
  */
-export function truncate(str: string, length: number, suffix: string = '...'): string {
+export function truncate(
+  str: string,
+  length: number,
+  suffix: string = '...',
+): string {
   if (str.length <= length) return str;
   return str.substring(0, length - suffix.length) + suffix;
 }

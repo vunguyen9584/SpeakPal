@@ -5,8 +5,8 @@ import { NotificationScheduler } from './notification.scheduler';
 import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
-    imports: [PrismaModule],
-    providers: [NotificationService, FCMService, NotificationScheduler],
-    exports: [NotificationService],
+  imports: [PrismaModule],
+  providers: [NotificationService, FCMService, NotificationScheduler],
+  exports: [NotificationService],
 })
-export class NotificationModule { }
+export class NotificationModule {}

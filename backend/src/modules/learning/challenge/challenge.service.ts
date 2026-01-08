@@ -1,14 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ChallengeRepository } from './challenge.repository';
-import { ChallengeResponseDto, ChallengeType } from './dto/challenge-response.dto';
+import { ChallengeResponseDto } from './dto/challenge-response.dto';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { ChallengeType } from '@prisma/client';
 
 const CHALLENGE_CONFIG = {
-  conversation: { min: 2, max: 5, xp: 50 },
-  vocabulary: { min: 5, max: 20, xp: 30 },
-  pronunciation: { min: 70, max: 90, xp: 40 },
-  streak: { min: 3, max: 7, xp: 100 },
-  time: { min: 10, max: 30, xp: 60 },
+  [ChallengeType.CONVERSATION]: { min: 2, max: 5, xp: 50 },
+  [ChallengeType.VOCABULARY]: { min: 5, max: 20, xp: 30 },
+  [ChallengeType.PRONUNCIATION]: { min: 70, max: 90, xp: 40 },
+  [ChallengeType.STREAK]: { min: 3, max: 7, xp: 100 },
+  // TIME is not in original config? Adding default
+  [ChallengeType.TIME]: { min: 10, max: 30, xp: 60 },
 };
 
 @Injectable()
@@ -16,36 +18,49 @@ export class ChallengeService {
   constructor(
     private readonly repository: ChallengeRepository,
     private readonly prisma: PrismaService,
-  ) {}
+  ) { }
 
   async getTodayChallenge(userId: string): Promise<ChallengeResponseDto[]> {
     const existing = await this.repository.findTodayChallenges(userId);
     if (existing.length > 0) {
-      return existing.map(ChallengeResponseDto.fromEntity);
+      return existing.map((uc) => ChallengeResponseDto.fromEntity(uc));
     }
 
     // Generate daily challenges
     return this.generateDailyChallenge(userId);
   }
 
-  async generateDailyChallenge(userId: string): Promise<ChallengeResponseDto[]> {
+  async generateDailyChallenge(
+    userId: string,
+  ): Promise<ChallengeResponseDto[]> {
     // Analyze user's 30-day activity pattern
     const pattern = await this.analyzePattern(userId);
 
-    // Generate 3 challenges: 1 weakness-focused, 1 balanced, 1 variety
-    const challenges: ChallengeResponseDto[] = [];
+    const challenges: ChallengeResponseDto[] = []; // Actually returns DTOs
 
     // Challenge 1: Based on weakness
     const weaknessType = this.selectWeaknessChallenge(pattern);
-    const challenge1 = await this.createChallenge(userId, weaknessType, pattern.userLevel);
+    const challenge1 = await this.createChallenge(
+      userId,
+      weaknessType,
+      pattern.userLevel,
+    );
     challenges.push(ChallengeResponseDto.fromEntity(challenge1));
 
     // Challenge 2: Vocabulary (most common)
-    const challenge2 = await this.createChallenge(userId, ChallengeType.VOCABULARY, pattern.userLevel);
+    const challenge2 = await this.createChallenge(
+      userId,
+      ChallengeType.VOCABULARY,
+      pattern.userLevel,
+    );
     challenges.push(ChallengeResponseDto.fromEntity(challenge2));
 
     // Challenge 3: Time-based
-    const challenge3 = await this.createChallenge(userId, ChallengeType.TIME, pattern.userLevel);
+    const challenge3 = await this.createChallenge(
+      userId,
+      ChallengeType.TIME,
+      pattern.userLevel,
+    );
     challenges.push(ChallengeResponseDto.fromEntity(challenge3));
 
     return challenges;
@@ -79,7 +94,7 @@ export class ChallengeService {
     type: ChallengeType,
     userLevel: string,
   ) {
-    const config = CHALLENGE_CONFIG[type];
+    const config = CHALLENGE_CONFIG[type] || CHALLENGE_CONFIG[ChallengeType.CONVERSATION];
     const difficulty = this.adjustDifficulty(userLevel);
 
     const targetProgress = Math.floor(
@@ -111,26 +126,27 @@ export class ChallengeService {
     userId: string,
     challengeId: string,
   ): Promise<{ xpEarned: number; completed: boolean }> {
-    const challenge = await this.prisma.userChallenge.findUnique({
+    const uc = await this.prisma.userChallenge.findUnique({
       where: { id: challengeId },
+      include: { challenge: true },
     });
 
-    if (!challenge) {
+    if (!uc) {
       throw new NotFoundException('Challenge not found');
     }
 
-    if (challenge.userId !== userId) {
+    if (uc.userId !== userId) {
       throw new NotFoundException('Challenge not found');
     }
 
-    if (challenge.completed) {
+    if (uc.status === 'COMPLETED') {
       return { xpEarned: 0, completed: true };
     }
 
     await this.repository.markCompleted(challengeId);
 
     return {
-      xpEarned: challenge.xpReward,
+      xpEarned: uc.challenge.xpReward,
       completed: true,
     };
   }
@@ -140,11 +156,11 @@ export class ChallengeService {
     challengeId: string,
     progress: number,
   ): Promise<ChallengeResponseDto> {
-    const challenge = await this.prisma.userChallenge.findUnique({
+    const uc = await this.prisma.userChallenge.findUnique({
       where: { id: challengeId },
     });
 
-    if (!challenge || challenge.userId !== userId) {
+    if (!uc || uc.userId !== userId) {
       throw new NotFoundException('Challenge not found');
     }
 
@@ -152,4 +168,3 @@ export class ChallengeService {
     return ChallengeResponseDto.fromEntity(updated);
   }
 }
-

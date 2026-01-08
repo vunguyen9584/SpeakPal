@@ -6,9 +6,9 @@ import { PurchaseService } from './purchase.service';
 import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
-    imports: [PrismaModule],
-    controllers: [SubscriptionController],
-    providers: [PlanService, UsageService, PurchaseService],
-    exports: [PlanService, UsageService, PurchaseService],
+  imports: [PrismaModule],
+  controllers: [SubscriptionController],
+  providers: [PlanService, UsageService, PurchaseService],
+  exports: [PlanService, UsageService, PurchaseService],
 })
-export class SubscriptionModule { }
+export class SubscriptionModule {}

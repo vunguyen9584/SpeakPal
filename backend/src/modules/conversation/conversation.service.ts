@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
+import type { Cache } from 'cache-manager';
 import { ConversationRepository } from './conversation.repository';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { ConversationResponseDto } from './dto/conversation-response.dto';
@@ -33,12 +33,11 @@ export class ConversationService {
   ): Promise<ConversationResponseDto> {
     // Check usage limit for free users
     if (userPlan === 'free') {
-      const todayCount = await this.conversationRepo.countTodayConversations(
-        userId,
-      );
+      const todayCount =
+        await this.conversationRepo.countTodayConversations(userId);
       if (todayCount >= USAGE_LIMIT_FREE) {
         throw new ForbiddenException(
-          `Daily conversation limit reached (${USAGE_LIMIT_FREE}/day). Upgrade to Premium for unlimited conversations.`,
+          `Daily conversation limit reached(${USAGE_LIMIT_FREE} / day).Upgrade to Premium for unlimited conversations.`,
         );
       }
     }
@@ -73,16 +72,10 @@ export class ConversationService {
     return new ConversationResponseDto({
       id: conversation.id,
       mode: conversation.mode,
-      status: conversation.status,
+      status: conversation.endedAt ? 'ended' : 'active', // Inferred from endedAt
       websocketUrl: wsUrl,
       token: wsToken,
-      persona: conversation.persona
-        ? {
-            id: conversation.persona.id,
-            name: conversation.persona.name,
-            avatar: conversation.persona.avatar,
-          }
-        : undefined,
+      // persona: undefined, // TODO: Add persona relation to Conversation model
       topic: conversation.topic,
       startedAt: conversation.startedAt,
     });
@@ -147,15 +140,19 @@ export class ConversationService {
     });
   }
 
-  async getConversation(userId: string, conversationId: string): Promise<Conversation> {
+  async getConversation(
+    userId: string,
+    conversationId: string,
+  ): Promise<Conversation> {
     const conversation = await this.conversationRepo.findById(conversationId);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
     if (conversation.userId !== userId) {
-      throw new ForbiddenException('Not authorized to access this conversation');
+      throw new ForbiddenException(
+        'Not authorized to access this conversation',
+      );
     }
     return conversation;
   }
 }
-

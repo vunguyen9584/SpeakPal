@@ -142,9 +142,9 @@ describe('InvitationService', () => {
 
       mockInvitationRepository.findByCode.mockResolvedValue(null);
 
-      await expect(
-        service.acceptInvitation(code, newUserId),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.acceptInvitation(code, newUserId)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('should throw BadRequestException if max usage reached', async () => {
@@ -161,9 +161,9 @@ describe('InvitationService', () => {
 
       mockInvitationRepository.findByCode.mockResolvedValue(mockInvitation);
 
-      await expect(
-        service.acceptInvitation(code, newUserId),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.acceptInvitation(code, newUserId)).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw BadRequestException if invitation expired', async () => {
@@ -180,9 +180,9 @@ describe('InvitationService', () => {
 
       mockInvitationRepository.findByCode.mockResolvedValue(mockInvitation);
 
-      await expect(
-        service.acceptInvitation(code, newUserId),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.acceptInvitation(code, newUserId)).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw BadRequestException for self-invitation', async () => {

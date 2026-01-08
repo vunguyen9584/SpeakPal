@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ChallengeType as PrismaChallengeType, ChallengeStatus } from '@prisma/client';
 
 export enum ChallengeType {
   CONVERSATION = 'conversation',
@@ -36,17 +37,22 @@ export class ChallengeResponseDto {
   @ApiProperty()
   date: Date;
 
-  static fromEntity(challenge: any): ChallengeResponseDto {
+  static fromEntity(uc: any): ChallengeResponseDto {
     const dto = new ChallengeResponseDto();
-    dto.id = challenge.id;
-    dto.type = challenge.type;
-    dto.title = challenge.title;
-    dto.description = challenge.description;
-    dto.targetProgress = challenge.targetProgress;
-    dto.currentProgress = challenge.currentProgress;
-    dto.xpReward = challenge.xpReward;
-    dto.completed = challenge.completed;
-    dto.date = challenge.date;
+    dto.id = uc.id;
+    // Map Prisma Enum to DTO Enum (lowercase)
+    dto.type = uc.challenge.type.toLowerCase() as ChallengeType;
+    dto.title = uc.challenge.title;
+    dto.description = uc.challenge.description;
+
+    // Parse condition for target
+    const condition = uc.challenge.condition as any;
+    dto.targetProgress = condition?.target || 0;
+
+    dto.currentProgress = uc.currentProgress;
+    dto.xpReward = uc.challenge.xpReward;
+    dto.completed = uc.status === ChallengeStatus.COMPLETED;
+    dto.date = uc.assignedDate;
     return dto;
   }
 }

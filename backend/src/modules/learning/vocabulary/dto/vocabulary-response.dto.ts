@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { SRSLevel } from '@prisma/client';
+import { SrsLevel } from '@prisma/client';
 
 export class VocabularyResponseDto {
   @ApiProperty()
@@ -17,8 +17,8 @@ export class VocabularyResponseDto {
   @ApiProperty({ nullable: true })
   exampleSentence: string | null;
 
-  @ApiProperty({ enum: SRSLevel })
-  srsLevel: SRSLevel;
+  @ApiProperty({ enum: SrsLevel })
+  srsLevel: SrsLevel;
 
   @ApiProperty()
   nextReviewDate: Date;

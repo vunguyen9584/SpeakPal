@@ -23,4 +23,3 @@ export class StreakController {
     return this.streakService.useFreeze(userId);
   }
 }
-

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SrsService } from '../srs/srs.service';
-import { SRSLevel } from '@prisma/client';
+import { SrsLevel } from '@prisma/client';
 import { ReviewResult } from '../vocabulary/dto/review-request.dto';
 
 describe('SrsService', () => {
@@ -96,7 +96,7 @@ describe('SrsService', () => {
 
   describe('calculateNextReview', () => {
     it('should calculate next review date for new level with correct answer', () => {
-      const currentLevel: SRSLevel = 'new';
+      const currentLevel: SrsLevel = 'new';
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
@@ -104,73 +104,87 @@ describe('SrsService', () => {
       expectedDate.setDate(expectedDate.getDate() + 1); // learning = 1 day
 
       // Compare dates (within 1 second tolerance)
-      expect(Math.abs(nextDate.getTime() - expectedDate.getTime())).toBeLessThan(1000);
+      expect(
+        Math.abs(nextDate.getTime() - expectedDate.getTime()),
+      ).toBeLessThan(1000);
     });
 
     it('should calculate next review date for learning level with correct answer', () => {
-      const currentLevel: SRSLevel = 'learning';
+      const currentLevel: SrsLevel = 'learning';
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() + 3); // young = 3 days
 
-      expect(Math.abs(nextDate.getTime() - expectedDate.getTime())).toBeLessThan(1000);
+      expect(
+        Math.abs(nextDate.getTime() - expectedDate.getTime()),
+      ).toBeLessThan(1000);
     });
 
     it('should calculate next review date for young level with correct answer', () => {
-      const currentLevel: SRSLevel = 'young';
+      const currentLevel: SrsLevel = 'young';
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() + 7); // mature = 7 days
 
-      expect(Math.abs(nextDate.getTime() - expectedDate.getTime())).toBeLessThan(1000);
+      expect(
+        Math.abs(nextDate.getTime() - expectedDate.getTime()),
+      ).toBeLessThan(1000);
     });
 
     it('should calculate next review date for mature level with correct answer', () => {
-      const currentLevel: SRSLevel = 'mature';
+      const currentLevel: SrsLevel = 'mature';
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() + 30); // mastered = 30 days
 
-      expect(Math.abs(nextDate.getTime() - expectedDate.getTime())).toBeLessThan(1000);
+      expect(
+        Math.abs(nextDate.getTime() - expectedDate.getTime()),
+      ).toBeLessThan(1000);
     });
 
     it('should calculate next review date for mastered level with correct answer', () => {
-      const currentLevel: SRSLevel = 'mastered';
+      const currentLevel: SrsLevel = 'mastered';
       const result = ReviewResult.CORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() + 30); // mastered stays = 30 days
 
-      expect(Math.abs(nextDate.getTime() - expectedDate.getTime())).toBeLessThan(1000);
+      expect(
+        Math.abs(nextDate.getTime() - expectedDate.getTime()),
+      ).toBeLessThan(1000);
     });
 
     it('should calculate next review date for mature level with incorrect answer', () => {
-      const currentLevel: SRSLevel = 'mature';
+      const currentLevel: SrsLevel = 'mature';
       const result = ReviewResult.INCORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() + 3); // downgrade to young = 3 days
 
-      expect(Math.abs(nextDate.getTime() - expectedDate.getTime())).toBeLessThan(1000);
+      expect(
+        Math.abs(nextDate.getTime() - expectedDate.getTime()),
+      ).toBeLessThan(1000);
     });
 
     it('should calculate next review date for learning level with incorrect answer', () => {
-      const currentLevel: SRSLevel = 'learning';
+      const currentLevel: SrsLevel = 'learning';
       const result = ReviewResult.INCORRECT;
       const nextDate = service.calculateNextReview(currentLevel, result);
 
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() + 1); // stays at learning = 1 day
 
-      expect(Math.abs(nextDate.getTime() - expectedDate.getTime())).toBeLessThan(1000);
+      expect(
+        Math.abs(nextDate.getTime() - expectedDate.getTime()),
+      ).toBeLessThan(1000);
     });
   });
 
@@ -209,7 +223,7 @@ describe('SrsService', () => {
 
       const dueItems = service.filterDueItems(items);
       expect(dueItems).toHaveLength(2);
-      expect(dueItems.map(i => i.id)).toEqual(['1', '3']);
+      expect(dueItems.map((i) => i.id)).toEqual(['1', '3']);
     });
 
     it('should return empty array when no items are due', () => {
@@ -242,7 +256,7 @@ describe('SrsService', () => {
 
   describe('Edge Cases and Full Cycle Tests', () => {
     it('should handle full progression from new to mastered', () => {
-      let currentLevel: SRSLevel = 'new';
+      let currentLevel: SrsLevel = 'new';
 
       // new -> learning
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);
@@ -266,7 +280,7 @@ describe('SrsService', () => {
     });
 
     it('should handle full regression from mastered to learning', () => {
-      let currentLevel: SRSLevel = 'mastered';
+      let currentLevel: SrsLevel = 'mastered';
 
       // mastered -> mature
       currentLevel = service.updateLevel(currentLevel, ReviewResult.INCORRECT);
@@ -286,7 +300,7 @@ describe('SrsService', () => {
     });
 
     it('should handle mixed correct and incorrect answers', () => {
-      let currentLevel: SRSLevel = 'learning';
+      let currentLevel: SrsLevel = 'learning';
 
       // learning -> young (correct)
       currentLevel = service.updateLevel(currentLevel, ReviewResult.CORRECT);

@@ -17,7 +17,10 @@ import { TokenDto } from './dto/token.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { OAuthDto } from './dto/oauth.dto';
-import { JwtPayload, JwtRefreshPayload } from './interfaces/jwt-payload.interface';
+import {
+  JwtPayload,
+  JwtRefreshPayload,
+} from './interfaces/jwt-payload.interface';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -231,7 +234,9 @@ export class AuthService {
     // Always return success to prevent email enumeration
     if (!user) {
       // Log for debugging but don't reveal to user
-      console.log(`Password reset requested for non-existent email: ${dto.email}`);
+      console.log(
+        `Password reset requested for non-existent email: ${dto.email}`,
+      );
       return;
     }
 
@@ -255,7 +260,9 @@ export class AuthService {
 
     // TEMPORARY: Log to console (REMOVE IN PRODUCTION)
     console.log(`Password reset token for ${user.email}: ${resetToken}`);
-    console.log(`Reset link: ${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`);
+    console.log(
+      `Reset link: ${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`,
+    );
   }
 
   async resetPassword(dto: ResetPasswordDto): Promise<void> {
@@ -413,8 +420,14 @@ export class AuthService {
       tokenId: tokenId,
     };
 
-    const accessExpiresIn = this.configService.get<string>('JWT_EXPIRES_IN', '15m');
-    const refreshExpiresIn = this.configService.get<string>('JWT_REFRESH_EXPIRES_IN', '7d');
+    const accessExpiresIn = this.configService.get<string>(
+      'JWT_EXPIRES_IN',
+      '15m',
+    );
+    const refreshExpiresIn = this.configService.get<string>(
+      'JWT_REFRESH_EXPIRES_IN',
+      '7d',
+    );
 
     // Generate access token
     const accessToken = this.jwtService.sign(accessPayload, {

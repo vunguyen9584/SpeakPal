@@ -1,4 +1,10 @@
-import { IsString, IsOptional, IsBoolean, Length, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsBoolean,
+  Length,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateGroupDto {
   @IsString()
@@ -10,7 +16,5 @@ export class CreateGroupDto {
   @MaxLength(200)
   description?: string;
 
-  @IsOptional()
-  @IsBoolean()
-  isPublic?: boolean = true;
+
 }

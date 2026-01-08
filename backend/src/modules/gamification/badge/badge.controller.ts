@@ -23,4 +23,3 @@ export class BadgeController {
     return this.badgeService.listUserBadges(userId);
   }
 }
-

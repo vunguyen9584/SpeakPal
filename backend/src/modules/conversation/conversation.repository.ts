@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../common/services/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Conversation, ConversationMode } from '@prisma/client';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 
@@ -32,7 +32,7 @@ export class ConversationRepository {
         personaId: dto.personaId,
         scenarioId: dto.scenarioId,
         topic: dto.topic,
-        status: 'active',
+        // status is inferred from endedAt (null = active)
       },
     });
   }
@@ -41,8 +41,8 @@ export class ConversationRepository {
     return this.prisma.conversation.findUnique({
       where: { id },
       include: {
-        persona: true,
-        scenario: true,
+        // persona: true, // TODO: Add persona relation to Conversation model
+        // scenario: true, // TODO: Add scenario relation to Conversation model
       },
     });
   }
@@ -63,8 +63,8 @@ export class ConversationRepository {
         skip: (query.page - 1) * query.limit,
         take: query.limit,
         include: {
-          persona: true,
-          scenario: true,
+          // persona: true, // TODO: Add persona relation to Conversation model
+          // scenario: true, // TODO: Add scenario relation to Conversation model
         },
       }),
       this.prisma.conversation.count({ where }),
@@ -88,7 +88,7 @@ export class ConversationRepository {
       where: { id },
       data: {
         endedAt: new Date(),
-        status: 'completed',
+        // status is inferred from endedAt (not null = completed)
         summary,
         pronunciationScore: score,
       },

@@ -12,21 +12,32 @@ export class StreakService {
    * Record user activity and update streak
    */
   async recordActivity(userId: string): Promise<StreakResponseDto> {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
+    // Get or create streak record
+    let streak = await this.prisma.streak.findUnique({
+      where: { userId },
     });
 
-    if (!user) {
-      throw new Error('User not found');
+    if (!streak) {
+      // Create initial streak
+      streak = await this.prisma.streak.create({
+        data: {
+          userId,
+          currentStreak: 1,
+          longestStreak: 1,
+          freezeRemaining: 0,
+          lastActivityDate: new Date(),
+        },
+      });
+      return this.getStreakStatus(userId);
     }
 
     const today = this.getToday();
     const yesterday = this.getYesterday();
-    const lastActivity = user.lastActivityDate
-      ? this.stripTime(user.lastActivityDate)
+    const lastActivity = streak.lastActivityDate
+      ? this.stripTime(streak.lastActivityDate)
       : null;
 
-    let newStreak = user.currentStreak;
+    let newStreak = streak.currentStreak;
 
     // Already recorded activity today
     if (lastActivity && lastActivity.getTime() === today.getTime()) {
@@ -35,17 +46,17 @@ export class StreakService {
 
     // Yesterday active → increment streak
     if (lastActivity && lastActivity.getTime() === yesterday.getTime()) {
-      newStreak = user.currentStreak + 1;
+      newStreak = streak.currentStreak + 1;
     }
     // Gap exists
     else if (lastActivity && lastActivity.getTime() < yesterday.getTime()) {
       // Try to use freeze
-      if (user.streakFreezeCount > 0) {
+      if (streak.freezeRemaining > 0) {
         // Use freeze, maintain streak
-        await this.prisma.user.update({
-          where: { id: userId },
+        await this.prisma.streak.update({
+          where: { userId },
           data: {
-            streakFreezeCount: user.streakFreezeCount - 1,
+            freezeRemaining: streak.freezeRemaining - 1,
           },
         });
       } else {
@@ -59,10 +70,10 @@ export class StreakService {
     }
 
     // Update streak
-    const longestStreak = Math.max(user.longestStreak, newStreak);
+    const longestStreak = Math.max(streak.longestStreak, newStreak);
 
-    await this.prisma.user.update({
-      where: { id: userId },
+    await this.prisma.streak.update({
+      where: { userId },
       data: {
         currentStreak: newStreak,
         longestStreak,
@@ -80,22 +91,30 @@ export class StreakService {
    * Get current streak status
    */
   async getStreakStatus(userId: string): Promise<StreakResponseDto> {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
+    let streak = await this.prisma.streak.findUnique({
+      where: { userId },
     });
 
-    if (!user) {
-      throw new Error('User not found');
+    if (!streak) {
+      // Create initial streak if not exists
+      streak = await this.prisma.streak.create({
+        data: {
+          userId,
+          currentStreak: 0,
+          longestStreak: 0,
+          freezeRemaining: 0,
+        },
+      });
     }
 
-    const nextMilestone = this.getNextMilestone(user.currentStreak);
-    const daysUntilMilestone = nextMilestone - user.currentStreak;
+    const nextMilestone = this.getNextMilestone(streak.currentStreak);
+    const daysUntilMilestone = nextMilestone - streak.currentStreak;
 
     return {
-      currentStreak: user.currentStreak,
-      longestStreak: user.longestStreak,
-      freezeRemaining: user.streakFreezeCount,
-      lastActivityDate: user.lastActivityDate,
+      currentStreak: streak.currentStreak,
+      longestStreak: streak.longestStreak,
+      freezeRemaining: streak.freezeRemaining,
+      lastActivityDate: streak.lastActivityDate,
       nextMilestone,
       daysUntilMilestone,
     };
@@ -104,23 +123,25 @@ export class StreakService {
   /**
    * Use streak freeze
    */
-  async useFreeze(userId: string): Promise<{ success: boolean; message: string }> {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
+  async useFreeze(
+    userId: string,
+  ): Promise<{ success: boolean; message: string }> {
+    const streak = await this.prisma.streak.findUnique({
+      where: { userId },
     });
 
-    if (!user) {
-      throw new Error('User not found');
+    if (!streak) {
+      throw new Error('Streak not found');
     }
 
-    if (user.streakFreezeCount <= 0) {
+    if (streak.freezeRemaining <= 0) {
       throw new BadRequestException('No streak freezes available');
     }
 
-    await this.prisma.user.update({
-      where: { id: userId },
+    await this.prisma.streak.update({
+      where: { userId },
       data: {
-        streakFreezeCount: user.streakFreezeCount - 1,
+        freezeRemaining: streak.freezeRemaining - 1,
       },
     });
 
@@ -134,20 +155,39 @@ export class StreakService {
    * Award streak freeze (e.g., from premium subscription or achievements)
    */
   async awardFreeze(userId: string, count: number = 1): Promise<void> {
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: {
-        streakFreezeCount: {
-          increment: count,
-        },
-      },
+    // Get or create streak
+    const streak = await this.prisma.streak.findUnique({
+      where: { userId },
     });
+
+    if (!streak) {
+      await this.prisma.streak.create({
+        data: {
+          userId,
+          currentStreak: 0,
+          longestStreak: 0,
+          freezeRemaining: count,
+        },
+      });
+    } else {
+      await this.prisma.streak.update({
+        where: { userId },
+        data: {
+          freezeRemaining: {
+            increment: count,
+          },
+        },
+      });
+    }
   }
 
   /**
    * Check and award streak badges
    */
-  private async checkStreakBadges(userId: string, streak: number): Promise<void> {
+  private async checkStreakBadges(
+    userId: string,
+    streak: number,
+  ): Promise<void> {
     // Check for milestone badges (7, 30, 100 days)
     const badgeCodes = [];
     if (streak >= 7) badgeCodes.push('STREAK_7');
@@ -157,7 +197,9 @@ export class StreakService {
     // TODO: Award badges (integrate with BadgeService)
     // For now, just log
     if (badgeCodes.length > 0) {
-      console.log(`User ${userId} eligible for badges: ${badgeCodes.join(', ')}`);
+      console.log(
+        `User ${userId} eligible for badges: ${badgeCodes.join(', ')}`,
+      );
     }
   }
 
@@ -198,4 +240,3 @@ export class StreakService {
     return stripped;
   }
 }
-

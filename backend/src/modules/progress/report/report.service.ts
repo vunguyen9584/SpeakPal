@@ -9,10 +9,11 @@ import {
   VocabularyProgressDto,
   AchievementDto,
 } from '../dto/report-response.dto';
+import { SrsLevel } from '@prisma/client';
 
 @Injectable()
 export class ReportService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * Generate weekly report for a specific week
@@ -23,12 +24,27 @@ export class ReportService {
     year?: number,
   ): Promise<WeeklyReportResponseDto> {
     const currentYear = year || new Date().getFullYear();
-    const { startDate, endDate } = this.getWeekDateRange(weekNumber, currentYear);
+    const { startDate, endDate } = this.getWeekDateRange(
+      weekNumber,
+      currentYear,
+    );
 
     const summary = await this.aggregateStats(userId, startDate, endDate);
-    const pronunciationTrend = await this.getPronunciationTrend(userId, startDate, endDate);
-    const topCorrections = await this.getTopCorrections(userId, startDate, endDate);
-    const vocabularyProgress = await this.getVocabProgress(userId, startDate, endDate);
+    const pronunciationTrend = await this.getPronunciationTrend(
+      userId,
+      startDate,
+      endDate,
+    );
+    const topCorrections = await this.getTopCorrections(
+      userId,
+      startDate,
+      endDate,
+    );
+    const vocabularyProgress = await this.getVocabProgress(
+      userId,
+      startDate,
+      endDate,
+    );
     const achievements = await this.getAchievements(userId, startDate, endDate);
 
     return {
@@ -55,9 +71,21 @@ export class ReportService {
     const { startDate, endDate } = this.getMonthDateRange(month, year);
 
     const summary = await this.aggregateStats(userId, startDate, endDate);
-    const pronunciationTrend = await this.getPronunciationTrend(userId, startDate, endDate);
-    const topCorrections = await this.getTopCorrections(userId, startDate, endDate);
-    const vocabularyProgress = await this.getVocabProgress(userId, startDate, endDate);
+    const pronunciationTrend = await this.getPronunciationTrend(
+      userId,
+      startDate,
+      endDate,
+    );
+    const topCorrections = await this.getTopCorrections(
+      userId,
+      startDate,
+      endDate,
+    );
+    const vocabularyProgress = await this.getVocabProgress(
+      userId,
+      startDate,
+      endDate,
+    );
     const achievements = await this.getAchievements(userId, startDate, endDate);
 
     return {
@@ -85,7 +113,7 @@ export class ReportService {
     const totalConversations = await this.prisma.conversation.count({
       where: {
         userId,
-        createdAt: {
+        startedAt: {
           gte: startDate,
           lte: endDate,
         },
@@ -93,38 +121,32 @@ export class ReportService {
     });
 
     // Sum practice minutes from conversations
-    const conversations = await this.prisma.conversation.findMany({
+    const duration = await this.prisma.conversation.aggregate({
+      _sum: { durationSeconds: true },
       where: {
         userId,
-        createdAt: {
+        startedAt: {
           gte: startDate,
           lte: endDate,
         },
       },
-      select: {
-        durationSeconds: true,
-      },
     });
 
-    const totalMinutes = Math.floor(
-      conversations.reduce((sum, conv) => sum + (conv.durationSeconds || 0), 0) / 60,
-    );
+    const totalMinutes = Math.floor((duration._sum.durationSeconds || 0) / 60);
 
-    // Sum XP from XPHistory
-    const xpHistory = await this.prisma.xPHistory.aggregate({
+    // Sum XP from Conversations (and potentially other sources if queried)
+    const xp = await this.prisma.conversation.aggregate({
+      _sum: { xpEarned: true },
       where: {
         userId,
-        createdAt: {
+        startedAt: {
           gte: startDate,
           lte: endDate,
         },
       },
-      _sum: {
-        amount: true,
-      },
     });
 
-    const totalXp = xpHistory._sum.amount || 0;
+    const totalXp = xp._sum.xpEarned || 0;
 
     // Count vocabulary reviews (words reviewed in this period)
     const totalVocabularyReviews = await this.prisma.vocabulary.count({
@@ -159,7 +181,7 @@ export class ReportService {
     const conversations = await this.prisma.conversation.findMany({
       where: {
         userId,
-        createdAt: {
+        startedAt: {
           gte: startDate,
           lte: endDate,
         },
@@ -168,11 +190,11 @@ export class ReportService {
         },
       },
       select: {
-        createdAt: true,
+        startedAt: true,
         pronunciationScore: true,
       },
       orderBy: {
-        createdAt: 'asc',
+        startedAt: 'asc',
       },
     });
 
@@ -180,7 +202,7 @@ export class ReportService {
     const trendMap = new Map<string, { total: number; count: number }>();
 
     conversations.forEach((conv) => {
-      const dateKey = conv.createdAt.toISOString().split('T')[0];
+      const dateKey = conv.startedAt.toISOString().split('T')[0];
       const existing = trendMap.get(dateKey) || { total: 0, count: 0 };
       existing.total += conv.pronunciationScore || 0;
       existing.count += 1;
@@ -206,39 +228,42 @@ export class ReportService {
     startDate: Date,
     endDate: Date,
   ): Promise<TopCorrectionDto[]> {
-    // Query feedback records from conversations
-    const feedback = await this.prisma.feedback.findMany({
+    const corrections = await this.prisma.correction.findMany({
       where: {
-        conversation: {
-          userId,
-          createdAt: {
-            gte: startDate,
-            lte: endDate,
+        turn: {
+          conversation: {
+            userId,
+            startedAt: {
+              gte: startDate,
+              lte: endDate,
+            },
           },
         },
       },
-      select: {
-        corrections: true,
+      include: {
+        // We might need context if logic required it, but for now we just count types/examples
       },
     });
 
     // Aggregate correction types
-    const correctionMap = new Map<string, { count: number; examples: Set<string> }>();
+    const correctionMap = new Map<
+      string,
+      { count: number; examples: Set<string> }
+    >();
 
-    feedback.forEach((fb) => {
-      if (fb.corrections && Array.isArray(fb.corrections)) {
-        (fb.corrections as any[]).forEach((correction: any) => {
-          const type = correction.type || 'grammar';
-          const example = correction.original || '';
+    corrections.forEach((c) => {
+      const type = c.type.toString(); // CorrectionType is Enum
+      const example = c.originalText || '';
 
-          const existing = correctionMap.get(type) || { count: 0, examples: new Set() };
-          existing.count += 1;
-          if (example && existing.examples.size < 3) {
-            existing.examples.add(example);
-          }
-          correctionMap.set(type, existing);
-        });
+      const existing = correctionMap.get(type) || {
+        count: 0,
+        examples: new Set(),
+      };
+      existing.count += 1;
+      if (example && existing.examples.size < 3) {
+        existing.examples.add(example);
       }
+      correctionMap.set(type, existing);
     });
 
     // Convert to array and sort by count
@@ -251,9 +276,7 @@ export class ReportService {
       });
     });
 
-    return topCorrections
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
+    return topCorrections.sort((a, b) => b.count - a.count).slice(0, 5);
   }
 
   /**
@@ -289,11 +312,12 @@ export class ReportService {
       },
     });
 
-    // Words that reached mastered status in this period
+    // Words that reached mastered status
+    // Note: This is an approximation (currently mastered, updated in this period)
     const masteredWords = await this.prisma.vocabulary.count({
       where: {
         userId,
-        srsLevel: 'mastered',
+        srsLevel: SrsLevel.MASTERED,
         updatedAt: {
           gte: startDate,
           lte: endDate,
@@ -345,48 +369,19 @@ export class ReportService {
       });
     });
 
-    // Level ups in this period (check XP history for level changes)
-    const xpHistory = await this.prisma.xPHistory.findMany({
-      where: {
-        userId,
-        createdAt: {
-          gte: startDate,
-          lte: endDate,
-        },
-      },
-      orderBy: {
-        createdAt: 'asc',
-      },
+    // Streak milestones (check specific streaks)
+    const streak = await this.prisma.streak.findUnique({
+      where: { userId },
     });
 
-    // Detect level ups by checking when totalXpAfter crosses level boundaries
-    // Level N requires N * 200 XP
-    let previousLevel = 1;
-    xpHistory.forEach((entry) => {
-      const currentLevel = Math.floor(entry.totalXpAfter / 200) + 1;
-      if (currentLevel > previousLevel) {
-        achievements.push({
-          type: 'level_up',
-          title: `Reached Level ${currentLevel}`,
-          description: `You've advanced to level ${currentLevel}!`,
-          earnedAt: entry.createdAt,
-        });
-      }
-      previousLevel = currentLevel;
-    });
-
-    // Streak milestones (check if user reached 7, 30, 100 days in this period)
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: { currentStreak: true, longestStreak: true },
-    });
-
-    if (user) {
+    if (streak) {
       const milestones = [7, 30, 100];
       milestones.forEach((milestone) => {
-        if (user.currentStreak >= milestone || user.longestStreak >= milestone) {
-          // Check if this milestone was likely reached in this period
-          // This is a simplified check - in production, you'd track this more precisely
+        if (
+          streak.currentStreak >= milestone ||
+          streak.longestStreak >= milestone
+        ) {
+          // Approximate check
           achievements.push({
             type: 'streak_milestone',
             title: `${milestone} Day Streak`,
@@ -397,18 +392,27 @@ export class ReportService {
       });
     }
 
-    return achievements.slice(0, 10); // Limit to 10 achievements
+    // Dedup by title
+    const uniqueAchievements = achievements.filter((val, id, array) => array.findIndex(v => v.title === val.title) === id);
+
+    return uniqueAchievements.slice(0, 10); // Limit to 10 achievements
   }
 
   /**
    * Get week date range from week number
    */
-  private getWeekDateRange(weekNumber: number, year: number): { startDate: Date; endDate: Date } {
+  private getWeekDateRange(
+    weekNumber: number,
+    year: number,
+  ): { startDate: Date; endDate: Date } {
     // Calculate the start date of the week
     const janFirst = new Date(year, 0, 1);
+    const dayOfWeek = janFirst.getDay(); // 0 (Sun) to 6 (Sat)
+    // Adjust to get first Monday or Sunday? Assuming ISO week start?
+    // Simplified calculation
     const daysOffset = (weekNumber - 1) * 7;
     const startDate = new Date(janFirst);
-    startDate.setDate(janFirst.getDate() + daysOffset);
+    startDate.setDate(janFirst.getDate() + daysOffset - dayOfWeek); // Adjust to start of week
 
     // Set to beginning of day
     startDate.setHours(0, 0, 0, 0);
@@ -424,7 +428,10 @@ export class ReportService {
   /**
    * Get month date range
    */
-  private getMonthDateRange(month: number, year: number): { startDate: Date; endDate: Date } {
+  private getMonthDateRange(
+    month: number,
+    year: number,
+  ): { startDate: Date; endDate: Date } {
     const startDate = new Date(year, month - 1, 1);
     startDate.setHours(0, 0, 0, 0);
 

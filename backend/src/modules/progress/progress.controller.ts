@@ -17,4 +17,3 @@ export class ProgressController {
     return this.statsService.getUserStats(userId);
   }
 }
-

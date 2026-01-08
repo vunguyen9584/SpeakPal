@@ -9,12 +9,12 @@ import {
 
 @Injectable()
 export class AIOrchestrator {
-  constructor(
+  constructor() {
     // Dependencies will be injected when services are implemented
     // private readonly sttService: STTService,
     // private readonly llmService: LLMService,
     // private readonly ttsService: TTSService,
-  ) {}
+  }
 
   /**
    * Process audio stream through STT → LLM → TTS pipeline
@@ -184,4 +184,3 @@ export class AIOrchestrator {
     console.log(`Stopping processing for conversation: ${conversationId}`);
   }
 }
-

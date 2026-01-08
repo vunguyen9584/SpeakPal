@@ -1,4 +1,5 @@
-export const ERROR_ANALYSIS_PROMPT = (text: string, level: string): string => `
+export const ERROR_ANALYSIS_PROMPT = (text: string, level: string): string =>
+  `
 Analyze the following English text for errors.
 Student Level: ${level}
 
@@ -30,7 +31,8 @@ export const SUGGESTION_PROMPT = (
   context: string,
   level: string,
   topic?: string,
-): string => `
+): string =>
+  `
 Based on the conversation context, generate helpful speaking suggestions.
 
 Topic: ${topic || 'General conversation'}
@@ -55,7 +57,8 @@ Rules:
 export const VOCABULARY_EXTRACTION_PROMPT = (
   texts: string[],
   level: string,
-): string => `
+): string =>
+  `
 Extract new vocabulary from the following conversation texts that would be useful for a ${level} level student.
 
 Texts:

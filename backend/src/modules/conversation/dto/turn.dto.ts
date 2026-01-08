@@ -1,13 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { TurnSpeaker } from '@prisma/client';
+import { Speaker } from '@prisma/client';
 import { CorrectionDto } from './conversation-summary.dto';
 
 export class TurnDto {
   @ApiProperty()
   id: string;
 
-  @ApiProperty({ enum: TurnSpeaker })
-  speaker: TurnSpeaker;
+  @ApiProperty({ enum: Speaker })
+  speaker: Speaker;
 
   @ApiProperty()
   content: string;

@@ -128,7 +128,11 @@ export class InvitationAlreadyUsedException extends BusinessException {
 export class GroupFullException extends BusinessException {
   readonly code = BUSINESS_ERROR_CODES.GROUP_FULL;
 
-  constructor(groupId: string, maxMembers: number, details?: Record<string, any>) {
+  constructor(
+    groupId: string,
+    maxMembers: number,
+    details?: Record<string, any>,
+  ) {
     super(
       `Group is full (${maxMembers} members)`,
       BUSINESS_ERROR_CODES.GROUP_FULL,
@@ -148,7 +152,11 @@ export class GroupFullException extends BusinessException {
 export class ResourceNotFoundException extends BusinessException {
   readonly code = RESOURCE_ERROR_CODES.NOT_FOUND;
 
-  constructor(resourceType: string, resourceId: string, details?: Record<string, any>) {
+  constructor(
+    resourceType: string,
+    resourceId: string,
+    details?: Record<string, any>,
+  ) {
     super(
       `${resourceType} not found: ${resourceId}`,
       RESOURCE_ERROR_CODES.NOT_FOUND,

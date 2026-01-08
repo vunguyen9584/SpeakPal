@@ -102,9 +102,7 @@ export class WsRateLimiter {
 
     // Check limit
     if (sessions.size >= this.config.maxConcurrentSessions) {
-      this.logger.warn(
-        `Concurrent session limit exceeded for user: ${userId}`,
-      );
+      this.logger.warn(`Concurrent session limit exceeded for user: ${userId}`);
       return false;
     }
 

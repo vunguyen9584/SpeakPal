@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../common/services/prisma.service';
-import { ConversationTurn, TurnSpeaker } from '@prisma/client';
+import { PrismaService } from '../../prisma/prisma.service';
+import { ConversationTurn, Speaker } from '@prisma/client';
 
 export interface Correction {
   type: string;
@@ -16,7 +16,7 @@ export class TurnRepository {
 
   async addTurn(
     conversationId: string,
-    speaker: TurnSpeaker,
+    speaker: Speaker,
     content: string,
     sequence: number,
   ): Promise<ConversationTurn> {
@@ -37,9 +37,7 @@ export class TurnRepository {
     });
   }
 
-  async getLastTurn(
-    conversationId: string,
-  ): Promise<ConversationTurn | null> {
+  async getLastTurn(conversationId: string): Promise<ConversationTurn | null> {
     return this.prisma.conversationTurn.findFirst({
       where: { conversationId },
       orderBy: { sequence: 'desc' },

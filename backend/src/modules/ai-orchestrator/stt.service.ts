@@ -48,7 +48,7 @@ export class STTService {
         {
           text: 'Hello, how',
           isFinal: false,
-          confidence: 0.90,
+          confidence: 0.9,
           timestamp: new Date(),
         },
         {

@@ -6,7 +6,7 @@ import { ConflictException, NotFoundException } from '@nestjs/common';
 import { CreateVocabularyDto } from '../vocabulary/dto/create-vocabulary.dto';
 import { ReviewResult } from '../vocabulary/dto/review-request.dto';
 import { VocabularyQueryDto } from '../vocabulary/dto/vocabulary-query.dto';
-import { Vocabulary, SRSLevel } from '@prisma/client';
+import { Vocabulary, SrsLevel } from '@prisma/client';
 
 describe('VocabularyService', () => {
   let service: VocabularyService;
@@ -20,7 +20,7 @@ describe('VocabularyService', () => {
     meaning: 'a test',
     pronunciation: '/test/',
     exampleSentence: 'This is a test',
-    srsLevel: 'learning' as SRSLevel,
+    srsLevel: 'learning' as SrsLevel,
     nextReviewDate: new Date(),
     reviewCount: 1,
     correctCount: 0,
@@ -196,7 +196,7 @@ describe('VocabularyService', () => {
 
     it('should filter by SRS level', async () => {
       const query: VocabularyQueryDto = {
-        srsLevel: 'learning' as SRSLevel,
+        srsLevel: 'learning' as SrsLevel,
         page: 1,
         limit: 20,
       };
@@ -246,7 +246,7 @@ describe('VocabularyService', () => {
       repository.findById.mockResolvedValue(mockVocabulary);
       repository.updateAfterReview.mockResolvedValue({
         ...mockVocabulary,
-        srsLevel: 'young' as SRSLevel,
+        srsLevel: 'young' as SrsLevel,
       });
 
       const result = await service.recordReview(
@@ -427,7 +427,13 @@ describe('VocabularyService', () => {
     });
 
     it('should award 5 XP for correct review at all levels', async () => {
-      const levels: SRSLevel[] = ['new', 'learning', 'young', 'mature', 'mastered'];
+      const levels: SrsLevel[] = [
+        'new',
+        'learning',
+        'young',
+        'mature',
+        'mastered',
+      ];
 
       for (const level of levels) {
         repository.findById.mockResolvedValue({
@@ -447,7 +453,13 @@ describe('VocabularyService', () => {
     });
 
     it('should award 1 XP for incorrect review at all levels', async () => {
-      const levels: SRSLevel[] = ['new', 'learning', 'young', 'mature', 'mastered'];
+      const levels: SrsLevel[] = [
+        'new',
+        'learning',
+        'young',
+        'mature',
+        'mastered',
+      ];
 
       for (const level of levels) {
         repository.findById.mockResolvedValue({
@@ -490,7 +502,7 @@ describe('VocabularyService', () => {
       srsService.calculateNextReview.mockReturnValue(new Date());
       repository.updateAfterReview.mockResolvedValue({
         ...mockVocabulary,
-        srsLevel: 'young' as SRSLevel,
+        srsLevel: 'young' as SrsLevel,
       });
 
       const review = await service.recordReview(

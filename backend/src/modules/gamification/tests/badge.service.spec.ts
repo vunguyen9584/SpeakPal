@@ -69,7 +69,10 @@ describe('BadgeService', () => {
 
   describe('listAll', () => {
     it('should return all badges', async () => {
-      const badges = [mockBadge, { ...mockBadge, id: 'badge-2', code: 'LEVEL_5' }];
+      const badges = [
+        mockBadge,
+        { ...mockBadge, id: 'badge-2', code: 'LEVEL_5' },
+      ];
       (prisma.badge.findMany as jest.Mock).mockResolvedValue(badges);
 
       const result = await service.listAll();
@@ -93,7 +96,9 @@ describe('BadgeService', () => {
 
   describe('listUserBadges', () => {
     it('should return user earned badges', async () => {
-      (prisma.userBadge.findMany as jest.Mock).mockResolvedValue([mockUserBadge]);
+      (prisma.userBadge.findMany as jest.Mock).mockResolvedValue([
+        mockUserBadge,
+      ]);
 
       const result = await service.listUserBadges('user-1');
 
@@ -138,7 +143,9 @@ describe('BadgeService', () => {
     });
 
     it('should not award badge if already earned', async () => {
-      (prisma.userBadge.findFirst as jest.Mock).mockResolvedValue(mockUserBadge);
+      (prisma.userBadge.findFirst as jest.Mock).mockResolvedValue(
+        mockUserBadge,
+      );
 
       const earnedBadges = await service.checkAndAward('user-1', 'streak');
 
@@ -172,7 +179,9 @@ describe('BadgeService', () => {
 
     it('should not award duplicate badge', async () => {
       (prisma.badge.findUnique as jest.Mock).mockResolvedValue(mockBadge);
-      (prisma.userBadge.findFirst as jest.Mock).mockResolvedValue(mockUserBadge);
+      (prisma.userBadge.findFirst as jest.Mock).mockResolvedValue(
+        mockUserBadge,
+      );
 
       await service.awardBadge('user-1', 'STREAK_7');
 
@@ -273,7 +282,9 @@ describe('BadgeService', () => {
     it('should throw error if badge not found', async () => {
       (prisma.badge.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.getProgress('user-1', 'INVALID')).rejects.toThrow('Badge not found');
+      await expect(service.getProgress('user-1', 'INVALID')).rejects.toThrow(
+        'Badge not found',
+      );
     });
   });
 
@@ -322,7 +333,10 @@ describe('BadgeService', () => {
       (prisma.conversation.count as jest.Mock).mockResolvedValue(100);
       (prisma.vocabulary.count as jest.Mock).mockResolvedValue(0);
 
-      const earnedBadges = await service.checkAndAward('user-1', 'conversation');
+      const earnedBadges = await service.checkAndAward(
+        'user-1',
+        'conversation',
+      );
 
       expect(prisma.conversation.count).toHaveBeenCalledWith({
         where: { userId: 'user-1' },
@@ -373,7 +387,9 @@ describe('BadgeService', () => {
       });
       (prisma.conversation.count as jest.Mock).mockResolvedValue(10);
       (prisma.vocabulary.count as jest.Mock).mockResolvedValue(50);
-      (prisma.userBadge.findFirst as jest.Mock).mockResolvedValue(mockUserBadge); // Already earned
+      (prisma.userBadge.findFirst as jest.Mock).mockResolvedValue(
+        mockUserBadge,
+      ); // Already earned
       (prisma.badge.findUnique as jest.Mock).mockResolvedValue(mockBadge);
 
       const earnedBadges = await service.checkAndAward('user-1', 'streak');

@@ -1,20 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { InvitationStatus } from '@prisma/client';
 
 @Injectable()
 export class InvitationRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: {
     userId: string;
     code: string;
-    maxUsage: number;
     expiresAt: Date;
   }) {
     return this.prisma.invitation.create({
       data: {
-        ...data,
-        usageCount: 0,
+        senderId: data.userId,
+        code: data.code,
+        expiresAt: data.expiresAt,
+        status: InvitationStatus.PENDING,
       },
     });
   }
@@ -23,11 +25,11 @@ export class InvitationRepository {
     return this.prisma.invitation.findUnique({
       where: { code },
       include: {
-        user: {
+        sender: {
           select: {
             id: true,
             email: true,
-            displayName: true,
+            username: true,
           },
         },
       },
@@ -36,62 +38,49 @@ export class InvitationRepository {
 
   async findByUserId(userId: string) {
     return this.prisma.invitation.findMany({
-      where: { userId },
+      where: { senderId: userId },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async incrementUsageCount(invitationId: string) {
+  async acceptInvitation(invitationId: string, receiverId: string) {
     return this.prisma.invitation.update({
       where: { id: invitationId },
       data: {
-        usageCount: {
-          increment: 1,
-        },
-      },
-    });
-  }
-
-  async recordReferral(invitationId: string, newUserId: string) {
-    // Increment usage count and create referral record
-    await this.incrementUsageCount(invitationId);
-
-    return this.prisma.referral.create({
-      data: {
-        invitationId,
-        referredUserId: newUserId,
+        status: InvitationStatus.ACCEPTED,
+        receiverId,
+        usedAt: new Date(),
       },
     });
   }
 
   async getReferralCount(userId: string): Promise<number> {
-    return this.prisma.referral.count({
+    return this.prisma.invitation.count({
       where: {
-        invitation: {
-          userId,
-        },
+        senderId: userId,
+        status: InvitationStatus.ACCEPTED,
       },
     });
   }
 
   async getReferrals(userId: string) {
-    return this.prisma.referral.findMany({
+    return this.prisma.invitation.findMany({
       where: {
-        invitation: {
-          userId,
-        },
+        senderId: userId,
+        status: InvitationStatus.ACCEPTED,
       },
       include: {
-        referredUser: {
+        receiver: {
           select: {
             id: true,
             email: true,
-            displayName: true,
-            avatar: true,
+            username: true,
+            // User model doesn't have avatar or displayName in the provided schema
+            // but let's check schema again.
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { usedAt: 'desc' },
     });
   }
 }

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ConversationMode, ConversationStatus } from '@prisma/client';
+import { ConversationMode } from '@prisma/client';
 
 export class PersonaResponseDto {
   @ApiProperty()
@@ -20,7 +20,7 @@ export class ConversationResponseDto {
   mode: ConversationMode;
 
   @ApiProperty()
-  status: ConversationStatus;
+  status: 'active' | 'ended';
 
   @ApiProperty()
   websocketUrl: string;

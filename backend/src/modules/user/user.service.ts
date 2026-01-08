@@ -55,10 +55,7 @@ export class UserService {
     return userDto;
   }
 
-  async updateProfile(
-    userId: string,
-    dto: UpdateProfileDto,
-  ): Promise<UserDto> {
+  async updateProfile(userId: string, dto: UpdateProfileDto): Promise<UserDto> {
     // Verify user exists
     const user = await this.userRepository.findById(userId);
     if (!user) {
@@ -121,10 +118,7 @@ export class UserService {
     };
   }
 
-  async changePassword(
-    userId: string,
-    dto: ChangePasswordDto,
-  ): Promise<void> {
+  async changePassword(userId: string, dto: ChangePasswordDto): Promise<void> {
     // Get user
     const user = await this.userRepository.findById(userId);
     if (!user) {

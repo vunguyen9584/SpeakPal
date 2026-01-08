@@ -25,10 +25,7 @@ export class GroupController {
    * Create a new group
    */
   @Post()
-  async createGroup(
-    @Request() req,
-    @Body() dto: CreateGroupDto,
-  ) {
+  async createGroup(@Request() req, @Body() dto: CreateGroupDto) {
     return this.groupService.createGroup(req.user.userId, dto);
   }
 
@@ -47,10 +44,7 @@ export class GroupController {
    */
   @Post('join')
   @HttpCode(HttpStatus.OK)
-  async joinGroup(
-    @Request() req,
-    @Body() body: { code: string },
-  ) {
+  async joinGroup(@Request() req, @Body() body: { code: string }) {
     await this.groupService.joinGroup(body.code, req.user.userId);
     return { message: 'Successfully joined the group' };
   }
@@ -60,10 +54,7 @@ export class GroupController {
    * Get group details
    */
   @Get(':id')
-  async getGroupById(
-    @Request() req,
-    @Param('id') groupId: string,
-  ) {
+  async getGroupById(@Request() req, @Param('id') groupId: string) {
     return this.groupService.getGroupById(groupId, req.user.userId);
   }
 
@@ -72,10 +63,7 @@ export class GroupController {
    * List group members
    */
   @Get(':id/members')
-  async getGroupMembers(
-    @Request() req,
-    @Param('id') groupId: string,
-  ) {
+  async getGroupMembers(@Request() req, @Param('id') groupId: string) {
     return this.groupService.getGroupMembers(groupId, req.user.userId);
   }
 
@@ -84,10 +72,7 @@ export class GroupController {
    * Get group weekly rankings
    */
   @Get(':id/ranking')
-  async getGroupRanking(
-    @Request() req,
-    @Param('id') groupId: string,
-  ) {
+  async getGroupRanking(@Request() req, @Param('id') groupId: string) {
     return this.groupService.getGroupRanking(groupId, req.user.userId);
   }
 
@@ -110,10 +95,7 @@ export class GroupController {
    */
   @Delete(':id/leave')
   @HttpCode(HttpStatus.OK)
-  async leaveGroup(
-    @Request() req,
-    @Param('id') groupId: string,
-  ) {
+  async leaveGroup(@Request() req, @Param('id') groupId: string) {
     await this.groupService.leaveGroup(groupId, req.user.userId);
     return { message: 'Successfully left the group' };
   }
@@ -124,10 +106,7 @@ export class GroupController {
    */
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  async deleteGroup(
-    @Request() req,
-    @Param('id') groupId: string,
-  ) {
+  async deleteGroup(@Request() req, @Param('id') groupId: string) {
     await this.groupService.deleteGroup(groupId, req.user.userId);
     return { message: 'Group deleted successfully' };
   }

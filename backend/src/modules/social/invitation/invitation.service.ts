@@ -1,12 +1,17 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InvitationRepository } from './invitation.repository';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { InvitationResponseDto } from './dto/invitation-response.dto';
 import { randomBytes } from 'crypto';
+import { InvitationStatus } from '@prisma/client';
 
 @Injectable()
 export class InvitationService {
-  constructor(private readonly invitationRepo: InvitationRepository) {}
+  constructor(private readonly invitationRepo: InvitationRepository) { }
 
   /**
    * Generate a unique invite code for a user
@@ -22,7 +27,6 @@ export class InvitationService {
     const invitation = await this.invitationRepo.create({
       userId,
       code,
-      maxUsage: dto.maxUsage || 10,
       expiresAt,
     });
 
@@ -41,23 +45,25 @@ export class InvitationService {
     }
 
     // Validate invitation
-    if (invitation.usageCount >= invitation.maxUsage) {
-      throw new BadRequestException('Invitation has reached maximum usage limit');
+    if (invitation.status !== InvitationStatus.PENDING) {
+      throw new BadRequestException(
+        'Invitation has already been used or is not pending',
+      );
     }
 
     if (invitation.expiresAt < new Date()) {
       throw new BadRequestException('Invitation has expired');
     }
 
-    if (invitation.userId === newUserId) {
+    if (invitation.senderId === newUserId) {
       throw new BadRequestException('You cannot accept your own invitation');
     }
 
-    // Record referral
-    await this.invitationRepo.recordReferral(invitation.id, newUserId);
+    // Accept invitation
+    await this.invitationRepo.acceptInvitation(invitation.id, newUserId);
 
     // Award referral bonus
-    await this.awardReferralBonus(invitation.userId);
+    await this.awardReferralBonus(invitation.senderId);
   }
 
   /**
@@ -81,11 +87,11 @@ export class InvitationService {
 
     return {
       totalReferrals: referralCount,
-      referrals: referrals.map((ref) => ({
-        userId: ref.referredUser.id,
-        userName: ref.referredUser.displayName || ref.referredUser.email,
-        userAvatar: ref.referredUser.avatar,
-        referredAt: ref.createdAt,
+      referrals: referrals.map((inv) => ({
+        userId: inv.receiver?.id,
+        userName: inv.receiver?.username || inv.receiver?.email,
+        userAvatar: null, // Avatar not in schema
+        referredAt: inv.usedAt,
       })),
       rewards: this.calculateRewards(referralCount),
     };

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { League } from '@prisma/client';
 
 // Level formula: Level N requires N * 200 XP
 // Level 1: 200 XP, Level 5: 1000 XP (cumulative), Level 10: 2000 XP
@@ -7,7 +8,7 @@ const XP_PER_LEVEL = 200;
 
 @Injectable()
 export class XpService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * Calculate level from total XP
@@ -27,7 +28,6 @@ export class XpService {
    * Calculate progress percentage to next level
    */
   progressToNextLevel(totalXp: number): number {
-    const currentLevel = this.calculateLevel(totalXp);
     const xpInCurrentLevel = totalXp % XP_PER_LEVEL;
     const xpNeeded = XP_PER_LEVEL;
     return Math.floor((xpInCurrentLevel / xpNeeded) * 100);
@@ -55,26 +55,20 @@ export class XpService {
     const leveledUp = newLevel > oldLevel;
 
     // Update user XP
+    // Note: We don't update 'level' column as it is an Enum (CEFR), not the numeric level
     await this.prisma.user.update({
       where: { id: userId },
       data: {
         totalXp: newTotalXp,
-        level: newLevel,
       },
+      // Note: If we wanted to update CEFR level based on XP, we would do it here
     });
 
     // Update weekly XP (for rankings)
     await this.updateWeeklyXp(userId, amount);
 
-    // Log XP history
-    await this.prisma.xPHistory.create({
-      data: {
-        userId,
-        amount,
-        source,
-        totalXpAfter: newTotalXp,
-      },
-    });
+    // Log XP history - Skipped as XPHistory table doesn't exist in current schema
+    // console.log(`[XP] User ${userId} gained ${amount} XP from ${source}`);
 
     return {
       leveledUp,
@@ -88,30 +82,45 @@ export class XpService {
    */
   private async updateWeeklyXp(userId: string, amount: number): Promise<void> {
     const weekNumber = this.getCurrentWeekNumber();
+    const year = new Date().getFullYear();
 
     // Check if user has weekly stats for this week
-    const existing = await this.prisma.weeklyStats.findFirst({
+    const existing = await this.prisma.userRanking.findUnique({
       where: {
-        userId,
-        weekNumber,
+        userId_weekNumber_year: {
+          userId,
+          weekNumber,
+          year,
+        },
       },
     });
 
     if (existing) {
-      await this.prisma.weeklyStats.update({
+      await this.prisma.userRanking.update({
         where: { id: existing.id },
         data: {
-          weeklyXp: existing.weeklyXp + amount,
+          weeklyXp: { increment: amount },
         },
       });
     } else {
-      await this.prisma.weeklyStats.create({
-        data: {
-          userId,
-          weekNumber,
-          weeklyXp: amount,
-        },
+      // Need user's league
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { league: true },
       });
+
+      if (user) {
+        await this.prisma.userRanking.create({
+          data: {
+            userId,
+            weekNumber,
+            year,
+            league: user.league,
+            weeklyXp: amount,
+            rank: 0, // Will be calculated by a background job or triggers
+          },
+        });
+      }
     }
   }
 
@@ -145,7 +154,7 @@ export class XpService {
     }
 
     const level = this.calculateLevel(user.totalXp);
-    const xpToNextLevel = this.xpForNextLevel(level) - (user.totalXp % XP_PER_LEVEL);
+    const xpToNextLevel = XP_PER_LEVEL - (user.totalXp % XP_PER_LEVEL);
     const progressPercent = this.progressToNextLevel(user.totalXp);
 
     return {
@@ -156,4 +165,3 @@ export class XpService {
     };
   }
 }
-

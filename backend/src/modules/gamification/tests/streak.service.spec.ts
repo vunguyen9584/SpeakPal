@@ -227,7 +227,9 @@ describe('StreakService', () => {
     it('should throw error if user not found', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.recordActivity('user-1')).rejects.toThrow('User not found');
+      await expect(service.recordActivity('user-1')).rejects.toThrow(
+        'User not found',
+      );
     });
   });
 
@@ -295,7 +297,9 @@ describe('StreakService', () => {
     it('should throw error if user not found', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.getStreakStatus('user-1')).rejects.toThrow('User not found');
+      await expect(service.getStreakStatus('user-1')).rejects.toThrow(
+        'User not found',
+      );
     });
   });
 
@@ -328,14 +332,20 @@ describe('StreakService', () => {
         streakFreezeCount: 0,
       });
 
-      await expect(service.useFreeze('user-1')).rejects.toThrow(BadRequestException);
-      await expect(service.useFreeze('user-1')).rejects.toThrow('No streak freezes available');
+      await expect(service.useFreeze('user-1')).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.useFreeze('user-1')).rejects.toThrow(
+        'No streak freezes available',
+      );
     });
 
     it('should throw error if user not found', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.useFreeze('user-1')).rejects.toThrow('User not found');
+      await expect(service.useFreeze('user-1')).rejects.toThrow(
+        'User not found',
+      );
     });
   });
 

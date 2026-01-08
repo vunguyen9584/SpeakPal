@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { Scenario } from '@prisma/client';
+import { Scenario, ScenarioCategory, ScenarioDifficulty } from '@prisma/client';
 
 @Injectable()
 export class ScenarioRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async findAll(category?: string, difficulty?: string): Promise<Scenario[]> {
     return this.prisma.scenario.findMany({
       where: {
-        ...(category && { category }),
-        ...(difficulty && { difficulty }),
+        ...(category && { category: category as ScenarioCategory }),
+        ...(difficulty && { difficulty: difficulty as ScenarioDifficulty }),
       },
       orderBy: { title: 'asc' },
     });
@@ -24,7 +24,7 @@ export class ScenarioRepository {
 
   async findByCategory(category: string): Promise<Scenario[]> {
     return this.prisma.scenario.findMany({
-      where: { category },
+      where: { category: category as ScenarioCategory },
       orderBy: { difficulty: 'asc' },
     });
   }

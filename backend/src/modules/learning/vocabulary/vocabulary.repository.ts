@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { Vocabulary, SRSLevel, Prisma } from '@prisma/client';
+import { Vocabulary, SrsLevel, Prisma } from '@prisma/client';
 import { VocabularyQueryDto } from './dto/vocabulary-query.dto';
 import { CreateVocabularyDto } from './dto/create-vocabulary.dto';
 
 @Injectable()
 export class VocabularyRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(userId: string, dto: CreateVocabularyDto): Promise<Vocabulary> {
     return this.prisma.vocabulary.create({
@@ -17,7 +17,7 @@ export class VocabularyRepository {
         pronunciation: dto.pronunciation || '',
         exampleSentence: dto.exampleSentence,
         conversationId: dto.conversationId,
-        srsLevel: 'new' as SRSLevel,
+        srsLevel: SrsLevel.NEW,
         nextReviewDate: new Date(),
         reviewCount: 0,
         correctCount: 0,
@@ -34,7 +34,7 @@ export class VocabularyRepository {
 
     const where: Prisma.VocabularyWhereInput = {
       userId,
-      ...(srsLevel && { srsLevel }),
+      ...(srsLevel && { srsLevel: srsLevel as SrsLevel }),
       ...(search && {
         word: {
           contains: search,
@@ -76,7 +76,7 @@ export class VocabularyRepository {
 
   async updateAfterReview(
     id: string,
-    newLevel: SRSLevel,
+    newLevel: SrsLevel,
     nextDate: Date,
   ): Promise<Vocabulary> {
     return this.prisma.vocabulary.update({
@@ -88,7 +88,7 @@ export class VocabularyRepository {
           increment: 1,
         },
         correctCount: {
-          increment: newLevel !== 'learning' ? 1 : 0,
+          increment: newLevel !== SrsLevel.LEARNING ? 1 : 0,
         },
       },
     });

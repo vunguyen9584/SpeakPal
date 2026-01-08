@@ -43,6 +43,8 @@ export class TimeoutInterceptor implements NestInterceptor {
 /**
  * Factory function to create TimeoutInterceptor with custom timeout
  */
-export function createTimeoutInterceptor(timeoutMs: number): TimeoutInterceptor {
+export function createTimeoutInterceptor(
+  timeoutMs: number,
+): TimeoutInterceptor {
   return new TimeoutInterceptor(timeoutMs);
 }

@@ -383,9 +383,9 @@ describe('GroupService', () => {
 
       mockGroupRepository.findById.mockResolvedValue(mockGroup);
 
-      await expect(
-        service.updateGroup(groupId, userId, dto),
-      ).rejects.toThrow(ForbiddenException);
+      await expect(service.updateGroup(groupId, userId, dto)).rejects.toThrow(
+        ForbiddenException,
+      );
     });
   });
 

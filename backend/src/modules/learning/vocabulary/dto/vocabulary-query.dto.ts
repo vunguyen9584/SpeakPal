@@ -1,7 +1,7 @@
 import { IsOptional, IsEnum, IsInt, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { SRSLevel } from '@prisma/client';
+import { SrsLevel } from '@prisma/client';
 
 export class VocabularyQueryDto {
   @ApiPropertyOptional({ minimum: 1, default: 1 })
@@ -18,10 +18,10 @@ export class VocabularyQueryDto {
   @Min(1)
   limit?: number = 20;
 
-  @ApiPropertyOptional({ enum: SRSLevel })
+  @ApiPropertyOptional({ enum: SrsLevel })
   @IsOptional()
-  @IsEnum(SRSLevel)
-  srsLevel?: SRSLevel;
+  @IsEnum(SrsLevel)
+  srsLevel?: SrsLevel;
 
   @ApiPropertyOptional({ description: 'Search by word' })
   @IsOptional()

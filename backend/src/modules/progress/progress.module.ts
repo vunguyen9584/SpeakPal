@@ -3,7 +3,7 @@ import { ProgressController } from './progress.controller';
 import { StatsService } from './stats/stats.service';
 import { ReportService } from './report/report.service';
 import { HistoryService } from './history/history.service';
-import { PrismaModule } from '../../common/prisma/prisma.module';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],

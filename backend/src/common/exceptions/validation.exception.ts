@@ -6,11 +6,7 @@ import { VALIDATION_ERROR_CODES } from './error-codes';
  * Base validation exception
  */
 export abstract class ValidationException extends AppException {
-  constructor(
-    message: string,
-    code: string,
-    details?: Record<string, any>,
-  ) {
+  constructor(message: string, code: string, details?: Record<string, any>) {
     super(message, code, HttpStatus.BAD_REQUEST, details);
   }
 }
@@ -36,7 +32,11 @@ export class RequiredFieldMissingException extends ValidationException {
 export class InvalidFormatException extends ValidationException {
   readonly code = VALIDATION_ERROR_CODES.INVALID_FORMAT;
 
-  constructor(field: string, expectedFormat?: string, details?: Record<string, any>) {
+  constructor(
+    field: string,
+    expectedFormat?: string,
+    details?: Record<string, any>,
+  ) {
     super(
       `Invalid format for field: ${field}`,
       VALIDATION_ERROR_CODES.INVALID_FORMAT,

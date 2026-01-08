@@ -17,9 +17,10 @@ import { PaginatedResponseDto } from '../dto/pagination.dto';
  * Handles both regular responses and paginated responses.
  */
 @Injectable()
-export class TransformInterceptor<T>
-  implements NestInterceptor<T, ApiResponse<T> | PaginatedResponseDto<any>>
-{
+export class TransformInterceptor<T> implements NestInterceptor<
+  T,
+  ApiResponse<T> | PaginatedResponseDto<any>
+> {
   intercept(
     context: ExecutionContext,
     next: CallHandler,

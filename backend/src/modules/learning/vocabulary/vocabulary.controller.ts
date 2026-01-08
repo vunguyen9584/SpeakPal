@@ -25,7 +25,10 @@ export class VocabularyController {
 
   @Get()
   @ApiOperation({ summary: 'List user vocabulary' })
-  async list(@CurrentUser('id') userId: string, @Query() query: VocabularyQueryDto) {
+  async list(
+    @CurrentUser('id') userId: string,
+    @Query() query: VocabularyQueryDto,
+  ) {
     return this.vocabularyService.listByUser(userId, query);
   }
 
@@ -46,10 +49,7 @@ export class VocabularyController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get vocabulary by ID' })
-  async getById(
-    @CurrentUser('id') userId: string,
-    @Param('id') id: string,
-  ) {
+  async getById(@CurrentUser('id') userId: string, @Param('id') id: string) {
     return this.vocabularyService.getById(userId, id);
   }
 
@@ -65,12 +65,8 @@ export class VocabularyController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete vocabulary' })
-  async delete(
-    @CurrentUser('id') userId: string,
-    @Param('id') id: string,
-  ) {
+  async delete(@CurrentUser('id') userId: string, @Param('id') id: string) {
     await this.vocabularyService.deleteWord(userId, id);
     return { message: 'Vocabulary deleted successfully' };
   }
 }
-

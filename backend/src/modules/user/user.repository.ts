@@ -43,51 +43,56 @@ export class UserRepository {
     today.setHours(0, 0, 0, 0);
 
     // Parallel queries for efficiency
-    const [user, streak, conversationStats, vocabularyStats, pronunciationData] =
-      await Promise.all([
-        // Get user XP data
-        this.prisma.user.findUnique({
-          where: { id: userId },
-          select: { totalXp: true, level: true },
-        }),
+    const [
+      user,
+      streak,
+      conversationStats,
+      vocabularyStats,
+      pronunciationData,
+    ] = await Promise.all([
+      // Get user XP data
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { totalXp: true, level: true },
+      }),
 
-        // Get streak data
-        this.prisma.streak.findUnique({
-          where: { userId },
-          select: {
-            currentStreak: true,
-            longestStreak: true,
-            freezeRemaining: true,
-          },
-        }),
+      // Get streak data
+      this.prisma.streak.findUnique({
+        where: { userId },
+        select: {
+          currentStreak: true,
+          longestStreak: true,
+          freezeRemaining: true,
+        },
+      }),
 
-        // Get conversation statistics
-        this.prisma.conversation.aggregate({
-          where: { userId },
-          _count: { id: true },
-          _avg: { durationSeconds: true },
-        }),
+      // Get conversation statistics
+      this.prisma.conversation.aggregate({
+        where: { userId },
+        _count: { id: true },
+        _avg: { durationSeconds: true },
+      }),
 
-        // Get vocabulary statistics
-        this.prisma.vocabulary.aggregate({
-          where: { userId },
-          _count: { id: true },
-        }),
+      // Get vocabulary statistics
+      this.prisma.vocabulary.aggregate({
+        where: { userId },
+        _count: { id: true },
+      }),
 
-        // Get pronunciation scores for trend analysis
-        this.prisma.conversation.findMany({
-          where: {
-            userId,
-            pronunciationScore: { not: null },
-          },
-          select: {
-            pronunciationScore: true,
-            startedAt: true,
-          },
-          orderBy: { startedAt: 'desc' },
-          take: 10, // Last 10 conversations with pronunciation scores
-        }),
-      ]);
+      // Get pronunciation scores for trend analysis
+      this.prisma.conversation.findMany({
+        where: {
+          userId,
+          pronunciationScore: { not: null },
+        },
+        select: {
+          pronunciationScore: true,
+          startedAt: true,
+        },
+        orderBy: { startedAt: 'desc' },
+        take: 10, // Last 10 conversations with pronunciation scores
+      }),
+    ]);
 
     // Get conversation stats for this week
     const conversationsThisWeek = await this.prisma.conversation.count({
@@ -169,7 +174,9 @@ export class UserRepository {
       conversations: {
         total: conversationStats._count.id || 0,
         thisWeek: conversationsThisWeek,
-        averageDuration: Math.round(conversationStats._avg.durationSeconds || 0),
+        averageDuration: Math.round(
+          conversationStats._avg.durationSeconds || 0,
+        ),
       },
       pronunciation: {
         averageScore: Math.round(averagePronunciationScore),

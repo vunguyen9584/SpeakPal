@@ -59,6 +59,8 @@ export async function comparePassword(
  * @param password - Password to hash (default: 'password')
  * @returns Hashed password
  */
-export async function generateTestHash(password: string = 'password'): Promise<string> {
+export async function generateTestHash(
+  password: string = 'password',
+): Promise<string> {
   return hashPassword(password);
 }

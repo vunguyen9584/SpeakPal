@@ -1,20 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { GroupRole } from './dto/group-member.dto';
+import { GroupMemberRole } from '@prisma/client';
 
 @Injectable()
 export class GroupRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: {
     name: string;
     description?: string;
-    isPublic: boolean;
     ownerId: string;
-    inviteCode: string;
   }) {
     return this.prisma.group.create({
-      data,
+      data: {
+        name: data.name,
+        description: data.description,
+        ownerId: data.ownerId,
+        isActive: true,
+      },
     });
   }
 
@@ -28,13 +31,14 @@ export class GroupRepository {
               select: {
                 id: true,
                 email: true,
-                displayName: true,
-                avatar: true,
+                username: true,
+                level: true,
+                totalXp: true,
               },
             },
           },
           orderBy: {
-            createdAt: 'asc',
+            joinedAt: 'asc',
           },
         },
       },
@@ -42,8 +46,9 @@ export class GroupRepository {
   }
 
   async findByInviteCode(inviteCode: string) {
+    // Since inviteCode is not in schema, we assume the code might be the GLobal ID
     return this.prisma.group.findUnique({
-      where: { inviteCode },
+      where: { id: inviteCode },
     });
   }
 
@@ -55,6 +60,7 @@ export class GroupRepository {
             userId,
           },
         },
+        isActive: true,
       },
       include: {
         members: {
@@ -63,8 +69,7 @@ export class GroupRepository {
               select: {
                 id: true,
                 email: true,
-                displayName: true,
-                avatar: true,
+                username: true,
               },
             },
           },
@@ -76,7 +81,7 @@ export class GroupRepository {
     });
   }
 
-  async addMember(groupId: string, userId: string, role: GroupRole) {
+  async addMember(groupId: string, userId: string, role: GroupMemberRole) {
     return this.prisma.groupMember.create({
       data: {
         groupId,
@@ -105,14 +110,17 @@ export class GroupRepository {
     return !!member;
   }
 
-  async getMemberRole(groupId: string, userId: string): Promise<GroupRole | null> {
+  async getMemberRole(
+    groupId: string,
+    userId: string,
+  ): Promise<GroupMemberRole | null> {
     const member = await this.prisma.groupMember.findFirst({
       where: {
         groupId,
         userId,
       },
     });
-    return member ? (member.role as GroupRole) : null;
+    return member ? member.role : null;
   }
 
   async getMemberCount(groupId: string): Promise<number> {
@@ -129,19 +137,19 @@ export class GroupRepository {
           select: {
             id: true,
             email: true,
-            displayName: true,
-            avatar: true,
+            username: true,
           },
         },
       },
       orderBy: {
-        createdAt: 'asc',
+        joinedAt: 'asc',
       },
     });
   }
 
   async getMembersByWeeklyXP(groupId: string) {
-    // Get all members with their weekly XP
+    // Get all members with their XP details
+    // Ideally we would join with UserRanking for current week, but for now using User properties
     const members = await this.prisma.groupMember.findMany({
       where: { groupId },
       include: {
@@ -149,25 +157,22 @@ export class GroupRepository {
           select: {
             id: true,
             email: true,
-            displayName: true,
-            avatar: true,
-            currentXP: true,
-            currentLevel: true,
+            username: true,
+            totalXp: true,
+            level: true,
           },
         },
       },
     });
 
-    // TODO: Calculate weekly XP from user's activity
-    // For now, using current XP as placeholder
     return members
       .map((member) => ({
         userId: member.user.id,
-        userName: member.user.displayName || member.user.email,
-        userAvatar: member.user.avatar,
-        weeklyXP: member.user.currentXP || 0, // TODO: Calculate actual weekly XP
-        level: member.user.currentLevel || 1,
-        rank: 0, // Will be set after sorting
+        userName: member.user.username || member.user.email,
+        userAvatar: null,
+        weeklyXP: member.user.totalXp || 0, // Placeholder
+        level: member.user.level,
+        rank: 0,
       }))
       .sort((a, b) => b.weeklyXP - a.weeklyXP)
       .map((entry, index) => ({
@@ -181,7 +186,6 @@ export class GroupRepository {
     data: {
       name?: string;
       description?: string;
-      isPublic?: boolean;
     },
   ) {
     return this.prisma.group.update({
@@ -191,14 +195,14 @@ export class GroupRepository {
   }
 
   async deleteGroup(groupId: string) {
-    // Delete all members first
-    await this.prisma.groupMember.deleteMany({
+    const deleteMembers = this.prisma.groupMember.deleteMany({
       where: { groupId },
     });
 
-    // Delete the group
-    return this.prisma.group.delete({
+    const deleteGroup = this.prisma.group.delete({
       where: { id: groupId },
     });
+
+    return this.prisma.$transaction([deleteMembers, deleteGroup]);
   }
 }

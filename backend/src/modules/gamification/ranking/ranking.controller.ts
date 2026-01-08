@@ -21,4 +21,3 @@ export class RankingController {
     return this.rankingService.getWeeklyRanking(userId, league);
   }
 }
-

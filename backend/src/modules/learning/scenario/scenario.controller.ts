@@ -23,4 +23,3 @@ export class ScenarioController {
     return this.scenarioService.getById(id);
   }
 }
-

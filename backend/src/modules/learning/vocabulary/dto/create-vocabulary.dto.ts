@@ -12,7 +12,10 @@ export class CreateVocabularyDto {
   @Length(1, 500)
   meaning: string;
 
-  @ApiPropertyOptional({ example: '/həˈloʊ/', description: 'IPA pronunciation' })
+  @ApiPropertyOptional({
+    example: '/həˁEoʁE',
+    description: 'IPA pronunciation',
+  })
   @IsOptional()
   @IsString()
   pronunciation?: string;
@@ -25,7 +28,9 @@ export class CreateVocabularyDto {
   @IsString()
   exampleSentence?: string;
 
-  @ApiPropertyOptional({ description: 'Conversation ID where this word was encountered' })
+  @ApiPropertyOptional({
+    description: 'Conversation ID where this word was encountered',
+  })
   @IsOptional()
   @IsUUID()
   conversationId?: string;

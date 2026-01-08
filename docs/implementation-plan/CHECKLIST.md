@@ -12,8 +12,8 @@
 ## Progress
 
 - **Total Tasks**: 339
-- **Completed**: 203
-- **Progress**: 59.9%
+- **Completed**: 226
+- **Progress**: 66.7%
 
 ---
 
@@ -301,38 +301,40 @@
 
 ## Phase 5: Translation Practice (41 tasks) 🆕
 
-### WP-BE-017: Translation Service (BE) (6 tasks)
+### WP-DB-001: Translation Tables Migration (3 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-017-T001: Create Translation Module Structure
-- [ ] WP-BE-017-T002: Create Translation DTOs
-- [ ] WP-BE-017-T003: Implement Translation Question Repository
-- [ ] WP-BE-017-T004: Implement Translation Service (Scoring logic)
-- [ ] WP-BE-017-T005: Implement Translation Controller
-- [ ] WP-BE-017-T006: Add Unit Tests
+- [x] WP-DB-001-T001: Define Translation Schemas (Prisma) (✅ 2026-01-08)
+- [x] WP-DB-001-T002: Create Migration Script (✅ 2026-01-08)
+- [x] WP-DB-001-T003: Run Migration (✅ 2026-01-08)
 
-### WP-BE-018: Quick Response Service (BE) (6 tasks)
+### WP-BE-017: Translation Service (BE) (8 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-018-T001: Create Quick Response Module Structure
-- [ ] WP-BE-018-T002: Create Quick Response DTOs
-- [ ] WP-BE-018-T003: Implement Quick Response Repository
-- [ ] WP-BE-018-T004: Implement Quick Response Service
-- [ ] WP-BE-018-T005: Implement Quick Response Controller
-- [ ] WP-BE-018-T006: Add Unit Tests
+- [x] WP-BE-017-T001: Create Translation Module Structure (✅ 2026-01-08)
+- [x] WP-BE-017-T002: Create Translation DTOs (✅ 2026-01-08)
+- [x] WP-BE-017-T003: Implement Translation Question Repository (✅ 2026-01-08)
+- [x] WP-BE-017-T004: Implement Translation Service (Scoring logic) (✅ 2026-01-08)
+- [x] WP-BE-017-T005: Implement Translation Controller (✅ 2026-01-08)
+- [x] WP-BE-017-T006: Implement Intent Translation (✅ 2026-01-08)
+- [x] WP-BE-017-T007: Wire Translation Module (✅ 2026-01-08)
+- [x] WP-BE-017-T008: Register in AppModule (✅ 2026-01-08)
 
-### WP-BE-019: Shadowing Service (BE) (6 tasks)
+### WP-BE-018: Quick Response Service (BE) (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-BE-019-T001: Create Shadowing Module Structure
-- [ ] WP-BE-019-T002: Create Shadowing DTOs
-- [ ] WP-BE-019-T003: Implement Shadowing Repository
-- [ ] WP-BE-019-T004: Implement Shadowing Service (Audio Sync Analysis)
-- [ ] WP-BE-019-T005: Implement Shadowing Controller
-- [ ] WP-BE-019-T006: Add Unit Tests
+- [x] WP-BE-018-T001: Create Quick Response Module Structure (✅ 2026-01-08)
+- [x] WP-BE-018-T002: Create Quick Response DTOs (✅ 2026-01-08)
+- [x] WP-BE-018-T003: Implement Quick Response Repository (✅ 2026-01-08)
+- [x] WP-BE-018-T004: Implement Quick Response Service (✅ 2026-01-08)
+- [x] WP-BE-018-T005: Implement Quick Response Controller (✅ 2026-01-08)
+- [x] WP-BE-018-T006: Wire Module and Register (✅ 2026-01-08)
 
-### WP-DB-001: Translation Tables Migration (3 tasks)
+### WP-BE-019: Shadowing Service (BE) (6 tasks) - ✅ COMPLETED
 
-- [ ] WP-DB-001-T001: Define Translation Schemas (Prisma)
-- [ ] WP-DB-001-T002: Create Migration Script
-- [ ] WP-DB-001-T003: Run Migration
+- [x] WP-BE-019-T001: Create Shadowing Module Structure (✅ 2026-01-08)
+- [x] WP-BE-019-T002: Create Shadowing DTOs (✅ 2026-01-08)
+- [x] WP-BE-019-T003: Implement Shadowing Repository (✅ 2026-01-08)
+- [x] WP-BE-019-T004: Implement Shadowing Service (Audio Sync Analysis) (✅ 2026-01-08)
+- [x] WP-BE-019-T005: Implement Shadowing Controller (✅ 2026-01-08)
+- [x] WP-BE-019-T006: Wire Module and Register (✅ 2026-01-08)
 
 ### WP-FE-015: Direct Translation Screen (FE) (5 tasks)
 

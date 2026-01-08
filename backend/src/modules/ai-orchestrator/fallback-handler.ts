@@ -15,7 +15,8 @@ export interface FallbackStrategy {
 @Injectable()
 export class FallbackHandler {
   private readonly logger = new Logger(FallbackHandler.name);
-  private readonly circuitBreakers: Map<ServiceType, CircuitBreaker> = new Map();
+  private readonly circuitBreakers: Map<ServiceType, CircuitBreaker> =
+    new Map();
   private readonly MAX_RETRIES = 2;
   private readonly RETRY_DELAY_MS = 1000;
 
@@ -39,7 +40,8 @@ export class FallbackHandler {
       return {
         service: ServiceType.STT,
         action: 'error',
-        message: 'STT service is currently unavailable. Please try again later.',
+        message:
+          'STT service is currently unavailable. Please try again later.',
       };
     }
 
@@ -48,7 +50,8 @@ export class FallbackHandler {
     return {
       service: ServiceType.STT,
       action: 'error',
-      message: 'Failed to transcribe audio. Please check your microphone and try again.',
+      message:
+        'Failed to transcribe audio. Please check your microphone and try again.',
     };
   }
 
@@ -151,8 +154,8 @@ export class FallbackHandler {
   private getFallbackResponse(): string {
     const fallbackResponses = [
       "I'm having trouble processing that right now. Could you try again?",
-      'Please continue. I'm listening.',
-      'That's interesting. Tell me more.',
+      "Please continue. I'm listening.",
+      "That's interesting. Tell me more.",
       'I see. Can you elaborate on that?',
     ];
 

@@ -9,7 +9,7 @@ import { TurnRepository } from './turn.repository';
 import { TurnService } from './turn.service';
 import { XPCalculatorService } from './xp-calculator.service';
 import { WsRateLimiter } from './ws-rate-limiter';
-import { PrismaModule } from '../../common/services/prisma.module';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [

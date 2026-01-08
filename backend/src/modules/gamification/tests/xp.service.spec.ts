@@ -191,7 +191,9 @@ describe('XpService', () => {
         weeklyXp: 100,
       };
 
-      (prisma.weeklyStats.findFirst as jest.Mock).mockResolvedValue(existingWeeklyStats);
+      (prisma.weeklyStats.findFirst as jest.Mock).mockResolvedValue(
+        existingWeeklyStats,
+      );
 
       await service.addXP('user-1', 50, 'challenge');
 
@@ -219,7 +221,9 @@ describe('XpService', () => {
     it('should throw error if user not found', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.addXP('user-1', 100, 'test')).rejects.toThrow('User not found');
+      await expect(service.addXP('user-1', 100, 'test')).rejects.toThrow(
+        'User not found',
+      );
     });
 
     it('should handle multiple level ups', async () => {
@@ -291,7 +295,9 @@ describe('XpService', () => {
     it('should throw error if user not found', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.getUserXpStats('user-1')).rejects.toThrow('User not found');
+      await expect(service.getUserXpStats('user-1')).rejects.toThrow(
+        'User not found',
+      );
     });
   });
 
@@ -325,8 +331,8 @@ describe('XpService', () => {
 
   describe('Integration Scenarios', () => {
     it('should handle full progression from level 1 to level 3', async () => {
-      let currentXp = 0;
-      let currentLevel = 1;
+      const currentXp = 0;
+      const currentLevel = 1;
 
       // Add 100 XP - should stay at level 1
       (prisma.user.findUnique as jest.Mock).mockResolvedValue({

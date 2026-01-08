@@ -5,10 +5,11 @@ import {
   HistoryResponseDto,
   HistoryItemDto,
 } from '../dto/history-query.dto';
+import { ChallengeStatus } from '@prisma/client';
 
 @Injectable()
 export class HistoryService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * Query learning history with filters and pagination
@@ -21,7 +22,7 @@ export class HistoryService {
     const skip = (page - 1) * limit;
 
     // Build date filter
-    const dateFilter = this.buildDateFilter(startDate, endDate);
+    const dateRange = this.buildDateRange(startDate, endDate);
 
     // Collect history items from different sources
     const items: HistoryItemDto[] = [];
@@ -30,7 +31,7 @@ export class HistoryService {
     if (!type || type === 'conversation') {
       const conversations = await this.getConversationHistory(
         userId,
-        dateFilter,
+        dateRange,
       );
       items.push(...conversations);
     }
@@ -39,14 +40,14 @@ export class HistoryService {
     if (!type || type === 'vocabulary_review') {
       const vocabularyReviews = await this.getVocabularyHistory(
         userId,
-        dateFilter,
+        dateRange,
       );
       items.push(...vocabularyReviews);
     }
 
     // Get challenges if type matches or no type filter
     if (!type || type === 'challenge') {
-      const challenges = await this.getChallengeHistory(userId, dateFilter);
+      const challenges = await this.getChallengeHistory(userId, dateRange);
       items.push(...challenges);
     }
 
@@ -72,12 +73,12 @@ export class HistoryService {
    */
   private async getConversationHistory(
     userId: string,
-    dateFilter: any,
+    dateRange: any,
   ): Promise<HistoryItemDto[]> {
     const conversations = await this.prisma.conversation.findMany({
       where: {
         userId,
-        ...dateFilter,
+        startedAt: dateRange,
       },
       select: {
         id: true,
@@ -115,20 +116,16 @@ export class HistoryService {
    */
   private async getVocabularyHistory(
     userId: string,
-    dateFilter: any,
+    dateRange: any,
   ): Promise<HistoryItemDto[]> {
     // Map date filter from createdAt to updatedAt
-    const vocabDateFilter = dateFilter.createdAt
-      ? { updatedAt: dateFilter.createdAt }
-      : {};
-
     const vocabularies = await this.prisma.vocabulary.findMany({
       where: {
         userId,
         reviewCount: {
           gt: 0, // Only include words that have been reviewed
         },
-        ...vocabDateFilter,
+        updatedAt: dateRange,
       },
       select: {
         id: true,
@@ -161,23 +158,20 @@ export class HistoryService {
    */
   private async getChallengeHistory(
     userId: string,
-    dateFilter: any,
+    dateRange: any,
   ): Promise<HistoryItemDto[]> {
-    // Map date filter from createdAt to completedAt
-    const challengeDateFilter = dateFilter.createdAt
-      ? {
-          completedAt: {
-            ...dateFilter.createdAt,
-            not: null,
-          },
-        }
-      : { completedAt: { not: null } };
+    const filter = dateRange ? {
+      completedAt: {
+        ...dateRange,
+        not: null,
+      }
+    } : { completedAt: { not: null } };
 
     const challenges = await this.prisma.userChallenge.findMany({
       where: {
         userId,
-        status: 'COMPLETED',
-        ...challengeDateFilter,
+        status: ChallengeStatus.COMPLETED,
+        ...filter,
       },
       select: {
         id: true,
@@ -189,7 +183,7 @@ export class HistoryService {
             title: true,
             description: true,
             xpReward: true,
-            targetCount: true,
+            condition: true,
           },
         },
       },
@@ -203,7 +197,7 @@ export class HistoryService {
       .map((ch) => ({
         id: ch.id,
         type: 'challenge',
-        timestamp: ch.completedAt!,
+        timestamp: ch.completedAt,
         duration: 0, // Challenges don't have duration
         xpEarned: ch.challenge.xpReward,
         details: {
@@ -211,37 +205,29 @@ export class HistoryService {
           title: ch.challenge.title,
           description: ch.challenge.description,
           progress: ch.currentProgress,
-          targetCount: ch.challenge.targetCount,
+          targetCount: (ch.challenge.condition as any)?.target || 0,
         },
       }));
   }
 
   /**
-   * Build date filter for Prisma query
+   * Build date range for Prisma query
    */
-  private buildDateFilter(
+  private buildDateRange(
     startDate?: string,
     endDate?: string,
-  ): { createdAt?: any } {
+  ): { gte?: Date; lte?: Date } | undefined {
     if (!startDate && !endDate) {
-      return {};
+      return undefined;
     }
 
     const filter: any = {};
 
-    if (startDate && endDate) {
-      filter.createdAt = {
-        gte: new Date(startDate),
-        lte: new Date(endDate),
-      };
-    } else if (startDate) {
-      filter.createdAt = {
-        gte: new Date(startDate),
-      };
-    } else if (endDate) {
-      filter.createdAt = {
-        lte: new Date(endDate),
-      };
+    if (startDate) {
+      filter.gte = new Date(startDate);
+    }
+    if (endDate) {
+      filter.lte = new Date(endDate);
     }
 
     return filter;

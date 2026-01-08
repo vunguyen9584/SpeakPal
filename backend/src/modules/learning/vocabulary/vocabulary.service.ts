@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { VocabularyRepository } from './vocabulary.repository';
 import { SrsService } from '../srs/srs.service';
 import { CreateVocabularyDto } from './dto/create-vocabulary.dto';
@@ -12,7 +16,7 @@ export class VocabularyService {
   constructor(
     private readonly repository: VocabularyRepository,
     private readonly srsService: SrsService,
-  ) {}
+  ) { }
 
   async addWord(
     userId: string,
@@ -21,7 +25,9 @@ export class VocabularyService {
     // Check for duplicate
     const isDuplicate = await this.repository.checkDuplicate(userId, dto.word);
     if (isDuplicate) {
-      throw new ConflictException('This word already exists in your vocabulary');
+      throw new ConflictException(
+        'This word already exists in your vocabulary',
+      );
     }
 
     // TODO: Auto-fetch pronunciation if empty (integrate with external API)
@@ -37,7 +43,12 @@ export class VocabularyService {
   async listByUser(
     userId: string,
     query: VocabularyQueryDto,
-  ): Promise<{ data: VocabularyResponseDto[]; total: number; page: number; limit: number }> {
+  ): Promise<{
+    data: VocabularyResponseDto[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
     const { data, total } = await this.repository.findByUser(userId, query);
     return {
       data: data.map(VocabularyResponseDto.fromEntity),
@@ -69,7 +80,10 @@ export class VocabularyService {
 
     const previousLevel = vocab.srsLevel;
     const newLevel = this.srsService.updateLevel(vocab.srsLevel, result);
-    const nextDate = this.srsService.calculateNextReview(vocab.srsLevel, result);
+    const nextDate = this.srsService.calculateNextReview(
+      vocab.srsLevel,
+      result,
+    );
 
     await this.repository.updateAfterReview(vocabularyId, newLevel, nextDate);
 

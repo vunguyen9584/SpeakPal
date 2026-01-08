@@ -1,17 +1,17 @@
-import { SRSLevel } from '@prisma/client';
+import { SrsLevel } from '@prisma/client';
 
-export const SRS_INTERVALS: Record<SRSLevel, number> = {
-  new: 0, // Review immediately
-  learning: 1, // 1 day
-  young: 3, // 3 days
-  mature: 7, // 7 days
-  mastered: 30, // 30 days
+export const SRS_INTERVALS: Record<SrsLevel, number> = {
+  [SrsLevel.NEW]: 0, // Review immediately
+  [SrsLevel.LEARNING]: 1, // 1 day
+  [SrsLevel.YOUNG]: 3, // 3 days
+  [SrsLevel.MATURE]: 7, // 7 days
+  [SrsLevel.MASTERED]: 30, // 30 days
 };
 
-export const SRS_LEVEL_ORDER: SRSLevel[] = [
-  'new',
-  'learning',
-  'young',
-  'mature',
-  'mastered',
+export const SRS_LEVEL_ORDER: SrsLevel[] = [
+  SrsLevel.NEW,
+  SrsLevel.LEARNING,
+  SrsLevel.YOUNG,
+  SrsLevel.MATURE,
+  SrsLevel.MASTERED,
 ];

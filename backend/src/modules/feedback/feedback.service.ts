@@ -4,10 +4,7 @@ import {
   Correction,
   CorrectionResult,
 } from './interfaces/correction.interface';
-import {
-  Suggestion,
-  VocabularyItem,
-} from './interfaces/suggestion.interface';
+import { Suggestion, VocabularyItem } from './interfaces/suggestion.interface';
 import {
   ERROR_ANALYSIS_PROMPT,
   SUGGESTION_PROMPT,
@@ -29,7 +26,10 @@ export interface SuggestionContext {
 export class FeedbackService {
   private readonly logger = new Logger(FeedbackService.name);
   private apiKey: string;
-  private correctionCache: Map<string, { corrections: Correction[]; timestamp: number }> = new Map();
+  private correctionCache: Map<
+    string,
+    { corrections: Correction[]; timestamp: number }
+  > = new Map();
   private readonly CACHE_TTL = 1000 * 60 * 60; // 1 hour
 
   constructor(private configService: ConfigService) {
@@ -56,7 +56,10 @@ export class FeedbackService {
           cached.corrections,
           context.displayMode || 'summary',
         );
-        const overallAccuracy = this.calculateAccuracy(text, cached.corrections);
+        const overallAccuracy = this.calculateAccuracy(
+          text,
+          cached.corrections,
+        );
         return { corrections: filteredCorrections, overallAccuracy };
       }
 
@@ -181,41 +184,51 @@ export class FeedbackService {
    */
   private async callLLM(prompt: string): Promise<string> {
     if (!this.apiKey) {
-      this.logger.warn('OpenAI API key not configured, returning empty response');
+      this.logger.warn(
+        'OpenAI API key not configured, returning empty response',
+      );
       return JSON.stringify({ corrections: [] });
     }
 
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`,
+      const response = await fetch(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.apiKey}`,
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+              {
+                role: 'system',
+                content:
+                  'You are an expert English language teacher helping students improve their English. Always respond with valid JSON only.',
+              },
+              {
+                role: 'user',
+                content: prompt,
+              },
+            ],
+            response_format: { type: 'json_object' },
+            temperature: 0.3,
+            max_tokens: 1000,
+          }),
         },
-        body: JSON.stringify({
-          model: 'gpt-4o',
-          messages: [
-            {
-              role: 'system',
-              content: 'You are an expert English language teacher helping students improve their English. Always respond with valid JSON only.',
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          response_format: { type: 'json_object' },
-          temperature: 0.3,
-          max_tokens: 1000,
-        }),
-      });
+      );
 
       if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `OpenAI API error: ${response.status} ${response.statusText}`,
+        );
       }
 
       const data = await response.json();
-      return data.choices[0]?.message?.content || JSON.stringify({ corrections: [] });
+      return (
+        data.choices[0]?.message?.content || JSON.stringify({ corrections: [] })
+      );
     } catch (error) {
       this.logger.error('Error calling OpenAI API:', error);
       throw error;
@@ -243,7 +256,11 @@ export class FeedbackService {
   private parseSuggestion(response: string): Suggestion | null {
     try {
       const parsed = JSON.parse(response);
-      if (!parsed.template || !parsed.vocabulary || !parsed.alternativeResponses) {
+      if (
+        !parsed.template ||
+        !parsed.vocabulary ||
+        !parsed.alternativeResponses
+      ) {
         return null;
       }
       return {
@@ -257,4 +274,3 @@ export class FeedbackService {
     }
   }
 }
-

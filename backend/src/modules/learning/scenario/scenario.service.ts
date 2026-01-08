@@ -5,7 +5,7 @@ import { ScenarioResponseDto } from './dto/scenario-response.dto';
 
 @Injectable()
 export class ScenarioService {
-  constructor(private readonly repository: ScenarioRepository) {}
+  constructor(private readonly repository: ScenarioRepository) { }
 
   async list(query: ScenarioQueryDto): Promise<ScenarioResponseDto[]> {
     const scenarios = await this.repository.findAll(
@@ -42,11 +42,10 @@ export class ScenarioService {
     return {
       conversationContext: {
         scenarioId: scenario.id,
-        prompt: scenario.prompt,
-        suggestedTopics: scenario.suggestedTopics,
-        estimatedMinutes: scenario.estimatedMinutes,
+        prompt: (scenario.initialContext as any)?.prompt || scenario.description,
+        suggestedTopics: scenario.keyPhrases,
+        estimatedMinutes: scenario.estimatedDurationMinutes,
       },
     };
   }
 }
-

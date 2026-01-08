@@ -12,9 +12,8 @@ export class ChallengeController {
   constructor(private readonly challengeService: ChallengeService) {}
 
   @Get('today')
-  @ApiOperation({ summary: 'Get today\'s challenges' })
+  @ApiOperation({ summary: "Get today's challenges" })
   async getToday(@CurrentUser('id') userId: string) {
     return this.challengeService.getTodayChallenge(userId);
   }
 }
-

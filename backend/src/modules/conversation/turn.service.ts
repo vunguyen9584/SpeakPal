@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TurnRepository, Correction } from './turn.repository';
-import { ConversationTurn, TurnSpeaker } from '@prisma/client';
+import { ConversationTurn, Speaker } from '@prisma/client';
 
 @Injectable()
 export class TurnService {
@@ -11,7 +11,7 @@ export class TurnService {
     text: string,
   ): Promise<ConversationTurn> {
     const sequence = await this.turnRepo.getNextSequence(conversationId);
-    return this.turnRepo.addTurn(conversationId, 'user', text, sequence);
+    return this.turnRepo.addTurn(conversationId, Speaker.USER, text, sequence);
   }
 
   async addAITurn(
@@ -19,7 +19,7 @@ export class TurnService {
     text: string,
   ): Promise<ConversationTurn> {
     const sequence = await this.turnRepo.getNextSequence(conversationId);
-    return this.turnRepo.addTurn(conversationId, 'ai', text, sequence);
+    return this.turnRepo.addTurn(conversationId, Speaker.AI, text, sequence);
   }
 
   async attachCorrections(
@@ -33,9 +33,7 @@ export class TurnService {
     return this.turnRepo.getTurns(conversationId);
   }
 
-  async getLastTurn(
-    conversationId: string,
-  ): Promise<ConversationTurn | null> {
+  async getLastTurn(conversationId: string): Promise<ConversationTurn | null> {
     return this.turnRepo.getLastTurn(conversationId);
   }
 }

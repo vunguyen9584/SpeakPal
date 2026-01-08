@@ -1,35 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { RankingResponseDto, RankingEntryDto, League } from './dto/ranking-response.dto';
+import { Prisma } from '@prisma/client';
+import {
+  RankingResponseDto,
+  RankingEntryDto,
+  League,
+} from './dto/ranking-response.dto';
 
-const LEAGUE_ORDER: League[] = ['bronze', 'silver', 'gold', 'platinum', 'diamond'];
+const LEAGUE_ORDER: League[] = [
+  League.BRONZE,
+  League.SILVER,
+  League.GOLD,
+  League.PLATINUM,
+  League.DIAMOND,
+];
 
 @Injectable()
 export class RankingService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getWeeklyRanking(userId: string, league?: League): Promise<RankingResponseDto> {
+  async getWeeklyRanking(
+    userId: string,
+    league?: League,
+  ): Promise<RankingResponseDto> {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
-    const currentLeague = league || (user?.currentLeague as League) || 'bronze';
+    const currentLeague = league || (user?.league as League) || League.BRONZE;
     const weekNumber = this.getCurrentWeekNumber();
+    const year = new Date().getFullYear();
 
-    const weeklyStats = await this.prisma.weeklyStats.findMany({
+    const rankings = (await this.prisma.userRanking.findMany({
       where: {
         weekNumber,
-        user: { currentLeague: currentLeague },
+        year,
+        league: currentLeague as any, // Type compatibility issue with Prisma generated types
       },
       include: { user: true },
       orderBy: { weeklyXp: 'desc' },
       take: 50,
-    });
+    })) as unknown as Array<{
+      id: string;
+      userId: string;
+      weeklyXp: number;
+      user: { username: string | null };
+    }>;
 
-    const entries: RankingEntryDto[] = weeklyStats.map((stat, index) => ({
+    const entries: RankingEntryDto[] = rankings.map((ranking, index) => ({
       rank: index + 1,
-      userId: stat.userId,
-      username: stat.user.username,
-      avatarUrl: stat.user.avatarUrl || '',
-      weeklyXp: stat.weeklyXp,
-      isCurrentUser: stat.userId === userId,
+      userId: ranking.userId,
+      username: ranking.user.username || 'User',
+      avatarUrl: '', // avatarUrl not in schema
+      weeklyXp: ranking.weeklyXp,
+      isCurrentUser: ranking.userId === userId,
     }));
 
     const currentUserRank = entries.findIndex((e) => e.userId === userId) + 1;
@@ -44,61 +65,71 @@ export class RankingService {
     };
   }
 
-  async getUserRank(userId: string): Promise<{ rank: number; league: League; weeklyXp: number }> {
+  async getUserRank(
+    userId: string,
+  ): Promise<{ rank: number; league: League; weeklyXp: number }> {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     const weekNumber = this.getCurrentWeekNumber();
+    const year = new Date().getFullYear();
 
-    const userStat = await this.prisma.weeklyStats.findFirst({
-      where: { userId, weekNumber },
+    const userRanking = await this.prisma.userRanking.findFirst({
+      where: { userId, weekNumber, year },
     });
 
-    const rank = await this.prisma.weeklyStats.count({
+    const rank = await this.prisma.userRanking.count({
       where: {
         weekNumber,
-        weeklyXp: { gt: userStat?.weeklyXp || 0 },
-        user: { currentLeague: user?.currentLeague },
+        year,
+        weeklyXp: { gt: userRanking?.weeklyXp || 0 },
+        league: user?.league,
       },
     });
 
     return {
       rank: rank + 1,
-      league: (user?.currentLeague as League) || 'bronze',
-      weeklyXp: userStat?.weeklyXp || 0,
+      league: (user?.league as League) || League.BRONZE,
+      weeklyXp: userRanking?.weeklyXp || 0,
     };
   }
 
   async processWeeklyPromotions(): Promise<void> {
     const weekNumber = this.getCurrentWeekNumber() - 1;
+    const year = new Date().getFullYear();
 
     for (const league of LEAGUE_ORDER) {
-      const stats = await this.prisma.weeklyStats.findMany({
+      const rankings = await this.prisma.userRanking.findMany({
         where: {
           weekNumber,
-          user: { currentLeague: league },
+          year,
+          league: league as any,
         },
         include: { user: true },
         orderBy: { weeklyXp: 'desc' },
       });
 
       // Promote top 10
-      for (let i = 0; i < Math.min(10, stats.length); i++) {
+      for (let i = 0; i < Math.min(10, rankings.length); i++) {
         const nextLeagueIndex = LEAGUE_ORDER.indexOf(league) + 1;
         if (nextLeagueIndex < LEAGUE_ORDER.length) {
           await this.prisma.user.update({
-            where: { id: stats[i].userId },
-            data: { currentLeague: LEAGUE_ORDER[nextLeagueIndex] },
+            where: { id: rankings[i].userId },
+            data: { league: LEAGUE_ORDER[nextLeagueIndex] as any },
           });
         }
       }
 
       // Demote bottom 10
-      if (stats.length > 10) {
-        for (let i = Math.max(0, stats.length - 10); i < stats.length; i++) {
+      if (rankings.length > 10) {
+        for (
+          let i = Math.max(0, rankings.length - 10);
+          i < rankings.length;
+          i++
+        ) {
           const prevLeagueIndex = LEAGUE_ORDER.indexOf(league) - 1;
           if (prevLeagueIndex >= 0) {
             await this.prisma.user.update({
-              where: { id: stats[i].userId },
-              data: { currentLeague: LEAGUE_ORDER[prevLeagueIndex] },
+              where: { id: rankings[i].userId },
+              data: { league: LEAGUE_ORDER[prevLeagueIndex] as any },
             });
           }
         }
@@ -109,7 +140,8 @@ export class RankingService {
   private getCurrentWeekNumber(): number {
     const now = new Date();
     const onejan = new Date(now.getFullYear(), 0, 1);
-    return Math.ceil(((now.getTime() - onejan.getTime()) / 86400000 + onejan.getDay() + 1) / 7);
+    return Math.ceil(
+      ((now.getTime() - onejan.getTime()) / 86400000 + onejan.getDay() + 1) / 7,
+    );
   }
 }
-

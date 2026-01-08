@@ -6,7 +6,7 @@ import { RankingService } from './ranking/ranking.service';
 import { StreakController } from './streak/streak.controller';
 import { BadgeController } from './badge/badge.controller';
 import { RankingController } from './ranking/ranking.controller';
-import { PrismaModule } from '../../common/prisma/prisma.module';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],

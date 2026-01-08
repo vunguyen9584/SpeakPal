@@ -149,9 +149,7 @@ describe('PersonaService', () => {
 
     it('should allow unlimited personas for premium users', async () => {
       repository.countByUserId.mockResolvedValue(10);
-      prisma.subscription.findUnique.mockResolvedValue(
-        mockPremiumSubscription,
-      );
+      prisma.subscription.findUnique.mockResolvedValue(mockPremiumSubscription);
       prisma.user.findUnique.mockResolvedValue(mockUser);
       repository.create.mockResolvedValue({
         ...mockPersona,
@@ -222,9 +220,9 @@ describe('PersonaService', () => {
     it('should throw NotFoundException for invalid persona', async () => {
       repository.findById.mockResolvedValue(null);
 
-      await expect(
-        service.findById(mockUser.id, 'invalid-id'),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.findById(mockUser.id, 'invalid-id')).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('should throw NotFoundException for wrong owner', async () => {
@@ -283,9 +281,9 @@ describe('PersonaService', () => {
         isDefault: true,
       });
 
-      await expect(
-        service.delete(mockUser.id, mockPersona.id),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.delete(mockUser.id, mockPersona.id)).rejects.toThrow(
+        BadRequestException,
+      );
 
       expect(repository.delete).not.toHaveBeenCalled();
     });
@@ -308,9 +306,9 @@ describe('PersonaService', () => {
         userId: 'other-user',
       });
 
-      await expect(
-        service.delete(mockUser.id, mockPersona.id),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.delete(mockUser.id, mockPersona.id)).rejects.toThrow(
+        NotFoundException,
+      );
 
       expect(repository.delete).not.toHaveBeenCalled();
     });
@@ -347,4 +345,3 @@ describe('PersonaService', () => {
     });
   });
 });
-
