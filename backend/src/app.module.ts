@@ -20,6 +20,7 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { TranslationModule } from './translation/translation.module';
 import { QuickResponseModule } from './quick-response/quick-response.module';
 import { ShadowingModule } from './shadowing/shadowing.module';
+import { TestIntegrationModule } from './integrations/test/test.module';
 
 @Module({
   imports: [
@@ -42,8 +43,9 @@ import { ShadowingModule } from './shadowing/shadowing.module';
     TranslationModule,
     QuickResponseModule,
     ShadowingModule,
+    TestIntegrationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
