@@ -3,7 +3,7 @@ import { AppStoreClient } from './appstore.client';
 import { AppStoreService } from './appstore.service';
 
 @Module({
-    providers: [AppStoreClient, AppStoreService],
-    exports: [AppStoreService],
+  providers: [AppStoreClient, AppStoreService],
+  exports: [AppStoreService],
 })
-export class AppStoreModule { }
+export class AppStoreModule {}

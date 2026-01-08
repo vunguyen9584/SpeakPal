@@ -3,7 +3,7 @@ import { PlayStoreClient } from './playstore.client';
 import { PlayStoreService } from './playstore.service';
 
 @Module({
-    providers: [PlayStoreClient, PlayStoreService],
-    exports: [PlayStoreService],
+  providers: [PlayStoreClient, PlayStoreService],
+  exports: [PlayStoreService],
 })
-export class PlayStoreModule { }
+export class PlayStoreModule {}

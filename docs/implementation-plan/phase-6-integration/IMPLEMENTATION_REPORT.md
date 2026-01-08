@@ -121,6 +121,8 @@ ELEVENLABS_DEFAULT_VOICE_ID=EXAVITQu4vr4xnSDxMaL
 ELEVENLABS_MODEL=eleven_monolingual_v1
 ELEVENLABS_STABILITY=0.5
 ELEVENLABS_SIMILARITY_BOOST=0.75
+# Optional: JSON string to override default voice map
+# ELEVENLABS_VOICE_MAP={"sarah":"custom-voice-id"}
 ```
 
 ---

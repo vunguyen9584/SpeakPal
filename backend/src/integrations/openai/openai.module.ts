@@ -3,7 +3,7 @@ import { OpenAIClient } from './openai.client';
 import { OpenAIService } from './openai.service';
 
 @Module({
-    providers: [OpenAIClient, OpenAIService],
-    exports: [OpenAIService],
+  providers: [OpenAIClient, OpenAIService],
+  exports: [OpenAIService],
 })
-export class OpenAIModule { }
+export class OpenAIModule {}

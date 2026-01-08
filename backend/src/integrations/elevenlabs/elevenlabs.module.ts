@@ -3,7 +3,7 @@ import { ElevenLabsClient } from './elevenlabs.client';
 import { ElevenLabsService } from './elevenlabs.service';
 
 @Module({
-    providers: [ElevenLabsClient, ElevenLabsService],
-    exports: [ElevenLabsService],
+  providers: [ElevenLabsClient, ElevenLabsService],
+  exports: [ElevenLabsService],
 })
-export class ElevenLabsModule { }
+export class ElevenLabsModule {}

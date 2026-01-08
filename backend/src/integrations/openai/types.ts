@@ -1,51 +1,51 @@
 export interface OpenAIConfig {
-    apiKey: string;
-    model: string;
-    temperature: number;
-    maxTokens: number;
+  apiKey: string;
+  model: string;
+  temperature: number;
+  maxTokens: number;
 }
 
 export interface ConversationContext {
-    personaId: string;
-    topic: string;
-    level: string;
-    conversationHistory: Message[];
+  personaId: string;
+  topic: string;
+  level: string;
+  conversationHistory: Message[];
 }
 
 export interface Message {
-    role: 'system' | 'user' | 'assistant';
-    content: string;
+  role: 'system' | 'user' | 'assistant';
+  content: string;
 }
 
 export interface ErrorAnalysisRequest {
-    userText: string;
-    context: string;
-    level: string;
+  userText: string;
+  context: string;
+  level: string;
 }
 
 export interface ErrorAnalysisResult {
-    errors: DetectedError[];
-    corrections: string[];
-    suggestions: string[];
-    vocabularyIssues: VocabularyIssue[];
+  errors: DetectedError[];
+  corrections: string[];
+  suggestions: string[];
+  vocabularyIssues: VocabularyIssue[];
 }
 
 export interface DetectedError {
-    type: 'grammar' | 'vocabulary' | 'pronunciation' | 'fluency';
-    original: string;
-    correction: string;
-    explanation: string;
-    severity: 'low' | 'medium' | 'high';
+  type: 'grammar' | 'vocabulary' | 'pronunciation' | 'fluency';
+  original: string;
+  correction: string;
+  explanation: string;
+  severity: 'low' | 'medium' | 'high';
 }
 
 export interface VocabularyIssue {
-    word: string;
-    issue: string;
-    suggestion: string;
+  word: string;
+  issue: string;
+  suggestion: string;
 }
 
 export interface StreamingResponse {
-    content: string;
-    done: boolean;
-    tokens?: number;
+  content: string;
+  done: boolean;
+  tokens?: number;
 }

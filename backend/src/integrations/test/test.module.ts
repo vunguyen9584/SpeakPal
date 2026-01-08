@@ -7,13 +7,13 @@ import { AppStoreModule } from '../appstore/appstore.module';
 import { PlayStoreModule } from '../playstore/playstore.module';
 
 @Module({
-    imports: [
-        DeepgramModule,
-        OpenAIModule,
-        ElevenLabsModule,
-        AppStoreModule,
-        PlayStoreModule,
-    ],
-    controllers: [TestIntegrationController],
+  imports: [
+    DeepgramModule,
+    OpenAIModule,
+    ElevenLabsModule,
+    AppStoreModule,
+    PlayStoreModule,
+  ],
+  controllers: [TestIntegrationController],
 })
-export class TestIntegrationModule { }
+export class TestIntegrationModule {}

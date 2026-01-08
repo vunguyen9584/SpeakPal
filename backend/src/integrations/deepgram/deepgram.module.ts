@@ -3,7 +3,7 @@ import { DeepgramClient } from './deepgram.client';
 import { DeepgramService } from './deepgram.service';
 
 @Module({
-    providers: [DeepgramClient, DeepgramService],
-    exports: [DeepgramService],
+  providers: [DeepgramClient, DeepgramService],
+  exports: [DeepgramService],
 })
-export class DeepgramModule { }
+export class DeepgramModule {}
