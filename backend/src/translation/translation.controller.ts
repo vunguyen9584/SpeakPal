@@ -42,8 +42,8 @@ export class TranslationController {
     @Query() query: GetTranslationQuestionQueryDto,
     @Request() req: any,
   ): Promise<TranslationQuestionResponseDto> {
-    const userId = req.user?.id || 'demo-user';
-    const userPlan = req.user?.subscription?.plan || 'FREE';
+    const userId = (req.user?.id as string) || 'demo-user';
+    const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
 
     return this.translationService.getTranslationQuestion(
       userId,
@@ -66,8 +66,8 @@ export class TranslationController {
     @UploadedFile() audio: Express.Multer.File,
     @Request() req: any,
   ): Promise<TranslationResultResponseDto> {
-    const userId = req.user?.id || 'demo-user';
-    const userPlan = req.user?.subscription?.plan || 'FREE';
+    const userId = (req.user?.id as string) || 'demo-user';
+    const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
 
     // 1. Transcribe audio (mock for now - would use STT service)
     const transcript = this.mockTranscribe(audio);
@@ -92,8 +92,8 @@ export class TranslationController {
     @Query() query: GetIntentQuestionQueryDto,
     @Request() req: any,
   ): Promise<any> {
-    const userId = req.user?.id || 'demo-user';
-    const userPlan = req.user?.subscription?.plan || 'FREE';
+    const userId = (req.user?.id as string) || 'demo-user';
+    const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
 
     return this.translationService.getIntentQuestion(
       userId,
@@ -116,7 +116,7 @@ export class TranslationController {
     @UploadedFile() audio: Express.Multer.File,
     @Request() req: any,
   ): Promise<any> {
-    const userId = req.user?.id || 'demo-user';
+    const userId = (req.user?.id as string) || 'demo-user';
 
     // 1. Transcribe audio
     const transcript = this.mockTranscribe(audio);

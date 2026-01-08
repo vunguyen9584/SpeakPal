@@ -1,4 +1,4 @@
-import { SubscriptionPlan } from '@prisma/client';
+import { SubscriptionPlan, Subscription } from '@prisma/client';
 
 export class SubscriptionResponseDto {
   plan: 'free' | 'premium';
@@ -13,7 +13,7 @@ export class SubscriptionResponseDto {
     allPersonas: boolean;
   };
 
-  static fromEntity(subscription: any): SubscriptionResponseDto {
+  static fromEntity(subscription: Subscription): SubscriptionResponseDto {
     const dto = new SubscriptionResponseDto();
     // Convert Prisma enum to lowercase string
     dto.plan = subscription?.plan
@@ -21,7 +21,8 @@ export class SubscriptionResponseDto {
         ? 'premium'
         : 'free'
       : 'free';
-    dto.status = subscription?.status || 'active';
+    dto.status =
+      (subscription?.status as 'active' | 'expired' | 'cancelled') || 'active';
     dto.expiresAt = subscription?.expiresAt || null;
     dto.autoRenewing = subscription?.autoRenewing || false;
 

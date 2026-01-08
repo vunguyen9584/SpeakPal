@@ -40,7 +40,8 @@ export class ConversationController {
     description: 'Returns paginated conversation list',
   })
   async list(@Req() req, @Query() query: ListConversationsQueryDto) {
-    const userId = req.user.id;
+    const userId = (req.user as { id: string }).id;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.conversationService.listConversations(userId, query);
   }
 
@@ -59,8 +60,9 @@ export class ConversationController {
     @Req() req,
     @Body() dto: CreateConversationDto,
   ): Promise<ConversationResponseDto> {
-    const userId = req.user.id;
-    const userPlan = req.user.subscriptionPlan || 'free';
+    const userId = (req.user as { id: string }).id;
+    const userPlan =
+      (req.user as { subscriptionPlan?: string }).subscriptionPlan || 'free';
     return this.conversationService.createSession(userId, dto, userPlan);
   }
 
@@ -70,7 +72,7 @@ export class ConversationController {
   @ApiResponse({ status: 404, description: 'Conversation not found' })
   @ApiResponse({ status: 403, description: 'Not authorized' })
   async get(@Req() req, @Param('id') id: string) {
-    const userId = req.user.id;
+    const userId = (req.user as { id: string }).id;
     return this.conversationService.getConversation(userId, id);
   }
 
@@ -84,7 +86,7 @@ export class ConversationController {
   @ApiResponse({ status: 404, description: 'Conversation not found' })
   @ApiResponse({ status: 403, description: 'Not authorized' })
   async end(@Req() req, @Param('id') id: string) {
-    const userId = req.user.id;
+    const userId = (req.user as { id: string }).id;
     // TODO: Calculate summary and score from conversation data
     const summary = 'Conversation summary will be generated here';
     const score = 0;
@@ -111,7 +113,7 @@ export class ConversationController {
   @ApiResponse({ status: 404, description: 'Conversation not found' })
   @ApiResponse({ status: 403, description: 'Not authorized' })
   async getTurns(@Req() req, @Param('id') id: string): Promise<TurnDto[]> {
-    const userId = req.user.id;
+    const userId = (req.user as { id: string }).id;
     // Verify ownership first
     await this.conversationService.getConversation(userId, id);
 

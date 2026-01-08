@@ -26,14 +26,16 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export const CurrentUser = createParamDecorator(
   (data: string | undefined, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    const user = request.user;
+    const user = request.user as Record<string, any>;
 
     // If no specific property requested, return entire user object
     if (!data) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return user;
     }
 
     // Return specific property of user object
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return user?.[data];
   },
 );

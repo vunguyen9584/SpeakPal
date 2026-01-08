@@ -1,4 +1,4 @@
-import { InvitationStatus } from '@prisma/client';
+import { InvitationStatus, Invitation } from '@prisma/client';
 
 export class InvitationResponseDto {
   id: string;
@@ -15,10 +15,13 @@ export class InvitationResponseDto {
     Object.assign(this, partial);
   }
 
-  static fromEntity(entity: any, baseUrl: string): InvitationResponseDto {
+  static fromEntity(
+    entity: Invitation,
+    baseUrl: string,
+  ): InvitationResponseDto {
+    const inv = entity as Invitation & { maxUsage?: number };
     const isActive =
-      entity.status === InvitationStatus.PENDING &&
-      entity.expiresAt > new Date();
+      inv.status === InvitationStatus.PENDING && inv.expiresAt > new Date();
 
     return new InvitationResponseDto({
       id: entity.id,
@@ -27,7 +30,7 @@ export class InvitationResponseDto {
       expiresAt: entity.expiresAt,
       createdAt: entity.createdAt,
       status: entity.status,
-      maxUsage: entity.maxUsage,
+      maxUsage: inv.maxUsage,
       isActive,
     });
   }

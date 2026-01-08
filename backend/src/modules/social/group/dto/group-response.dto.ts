@@ -1,4 +1,5 @@
 import { GroupMemberDto } from './group-member.dto';
+import { Group, GroupMember } from '@prisma/client';
 
 export class GroupResponseDto {
   id: string;
@@ -16,7 +17,7 @@ export class GroupResponseDto {
   }
 
   static fromEntity(
-    entity: any,
+    entity: Group & { members?: GroupMember[] },
     includemembers: boolean = false,
   ): GroupResponseDto {
     return new GroupResponseDto({
@@ -30,7 +31,7 @@ export class GroupResponseDto {
       updatedAt: entity.updatedAt,
       members:
         includemembers && entity.members
-          ? entity.members.map((m: any) => GroupMemberDto.fromEntity(m))
+          ? entity.members.map((m) => GroupMemberDto.fromEntity(m))
           : undefined,
     });
   }

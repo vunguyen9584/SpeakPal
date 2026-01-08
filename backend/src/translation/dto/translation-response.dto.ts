@@ -90,7 +90,11 @@ export class TranslationResultResponseDto {
       vocabScore: result.vocabScore || 0,
       speedScore: result.speedScore || 0,
       modelAnswer,
-      feedback: (result.feedback as any) || {
+      feedback: (result.feedback as unknown as {
+        goodPoints: string[];
+        improvements: string[];
+        grammarNotes?: string;
+      }) || {
         goodPoints: [],
         improvements: [],
       },

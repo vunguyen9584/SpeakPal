@@ -345,7 +345,7 @@ export class AuthService {
     // Create new user if doesn't exist (OAuth registration)
     if (!user) {
       // Generate username from email or name
-      let username = name || email.split('@')[0];
+      let username = (name as string) || email.split('@')[0];
 
       // Ensure username is unique
       const existingUsername = await this.prisma.user.findFirst({

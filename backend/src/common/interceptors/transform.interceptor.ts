@@ -29,24 +29,24 @@ export class TransformInterceptor<T> implements NestInterceptor<
     const requestId = (request as any).id || this.generateRequestId();
 
     return next.handle().pipe(
-      map((data) => {
+      map((data: unknown) => {
         // If response is already wrapped (e.g., PaginatedResponseDto), return as-is
         if (this.isWrappedResponse(data)) {
-          return data;
+          return data as PaginatedResponseDto<any>;
         }
 
         // If response is null or undefined (e.g., 204 No Content), return as-is
         if (data === null || data === undefined) {
-          return data;
+          return data as ApiResponse<T>;
         }
 
         // Wrap regular responses in ApiResponse
-        return new ApiResponse(data, requestId);
+        return new ApiResponse(data as T, requestId);
       }),
     );
   }
 
-  private isWrappedResponse(data: any): boolean {
+  private isWrappedResponse(data: unknown): boolean {
     // Check if response is already wrapped (has 'success' field)
     return data && typeof data === 'object' && 'success' in data;
   }

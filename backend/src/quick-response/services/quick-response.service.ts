@@ -192,7 +192,9 @@ export class QuickResponseService {
     };
 
     const list = wordLists[practiceType] || [];
-    return list.filter((item) => item.difficulty <= difficulty).slice(0, 10);
+    return list
+      .filter((item) => item.difficulty <= difficulty)
+      .slice(0, 10) as unknown[];
   }
 
   /**

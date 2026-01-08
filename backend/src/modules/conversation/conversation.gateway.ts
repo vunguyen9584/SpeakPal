@@ -58,7 +58,7 @@ export class ConversationGateway
       }
 
       // Validate WebSocket token
-      let payload: any;
+      let payload: { userId: string };
       try {
         payload = this.jwtService.verify(token, {
           secret: this.configService.get('WS_JWT_SECRET'),
@@ -258,7 +258,11 @@ export class ConversationGateway
     const responseId = this.generateResponseId();
 
     try {
-      for await (const response of responseGenerator) {
+      for await (const rawResponse of responseGenerator) {
+        const response = rawResponse as {
+          type: string;
+          data: any;
+        };
         switch (response.type) {
           case 'ai_response_start':
             client.emit('ai_response_start', { responseId });
@@ -266,7 +270,7 @@ export class ConversationGateway
 
           case 'ai_response_audio':
             client.emit('ai_response_audio', {
-              chunk: response.data.chunk.toString('base64'),
+              chunk: (response.data.chunk as Buffer).toString('base64'),
               sequence: sequence++,
             });
             break;

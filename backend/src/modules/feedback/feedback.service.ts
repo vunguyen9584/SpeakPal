@@ -227,7 +227,8 @@ export class FeedbackService {
 
       const data = await response.json();
       return (
-        data.choices[0]?.message?.content || JSON.stringify({ corrections: [] })
+        (data.choices[0]?.message?.content as string) ||
+        JSON.stringify({ corrections: [] })
       );
     } catch (error) {
       this.logger.error('Error calling OpenAI API:', error);
@@ -242,7 +243,7 @@ export class FeedbackService {
   private parseCorrections(response: string): Correction[] {
     try {
       const parsed = JSON.parse(response);
-      return parsed.corrections || [];
+      return (parsed.corrections || []) as Correction[];
     } catch (error) {
       this.logger.error('Failed to parse corrections:', error);
       return [];

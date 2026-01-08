@@ -223,7 +223,7 @@ export class HistoryService {
       return undefined;
     }
 
-    const filter: any = {};
+    const filter: { gte?: Date; lte?: Date } = {};
 
     if (startDate) {
       filter.gte = new Date(startDate);

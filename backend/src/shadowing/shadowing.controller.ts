@@ -16,7 +16,7 @@ import { ContentType, Level } from '@prisma/client';
 @ApiTags('Shadowing Practice')
 @ApiBearerAuth()
 export class ShadowingController {
-  constructor(private readonly service: ShadowingService) {}
+  constructor(private readonly service: ShadowingService) { }
 
   /**
    * GET /api/v1/shadowing/content
@@ -30,8 +30,8 @@ export class ShadowingController {
     @Query() query: GetShadowingContentQueryDto,
     @Request() req: any,
   ): Promise<any> {
-    const userId = req.user?.id || 'demo-user';
-    const userPlan = req.user?.subscription?.plan || 'FREE';
+    const userId = (req.user?.id as string) || 'demo-user';
+    const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
 
     return this.service.getShadowingContent(
       userId,
@@ -51,7 +51,7 @@ export class ShadowingController {
     @Body() dto: SubmitShadowingResultDto,
     @Request() req: any,
   ): Promise<any> {
-    const userId = req.user?.id || 'demo-user';
+    const userId = (req.user?.id as string) || 'demo-user';
 
     return this.service.submitResult(
       userId,

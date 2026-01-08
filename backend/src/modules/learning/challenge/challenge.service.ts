@@ -102,6 +102,7 @@ export class ChallengeService {
       config.min + (config.max - config.min) * difficulty,
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.repository.createUserChallenge(
       userId,
       type,

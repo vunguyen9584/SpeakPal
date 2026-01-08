@@ -7,7 +7,7 @@ import { InvitationRepository } from './invitation.repository';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { InvitationResponseDto } from './dto/invitation-response.dto';
 import { randomBytes } from 'crypto';
-import { InvitationStatus } from '@prisma/client';
+import { InvitationStatus, Invitation } from '@prisma/client';
 
 @Injectable()
 export class InvitationService {
@@ -60,7 +60,11 @@ export class InvitationService {
       throw new BadRequestException('You cannot accept your own invitation');
     }
 
-    if (invitation.maxUsage && invitation.usageCount >= invitation.maxUsage) {
+    const inv = invitation as unknown as Invitation & {
+      maxUsage?: number;
+      usageCount: number;
+    };
+    if (inv.maxUsage && inv.usageCount >= inv.maxUsage) {
       throw new BadRequestException('Invitation limit has been reached');
     }
 
@@ -150,7 +154,13 @@ export class InvitationService {
    * Calculate rewards earned based on referral count
    */
   private calculateRewards(referralCount: number) {
-    const rewards = [];
+    const rewards: {
+      type: string;
+      amount?: number;
+      days?: number;
+      unlocked: boolean;
+      required?: number;
+    }[] = [];
 
     if (referralCount >= 1) {
       rewards.push({ type: 'streak_freeze', amount: 1, unlocked: true });

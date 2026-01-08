@@ -95,7 +95,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
           field: match ? match[1] : 'unknown',
           message: msg,
         };
-      });
+      }) as any[];
     }
     return [];
   }

@@ -8,7 +8,7 @@ import { PracticeType } from '@prisma/client';
 @ApiTags('Quick Response Practice')
 @ApiBearerAuth()
 export class QuickResponseController {
-  constructor(private readonly service: QuickResponseService) {}
+  constructor(private readonly service: QuickResponseService) { }
 
   /**
    * POST /api/v1/quick-response/start
@@ -22,8 +22,8 @@ export class QuickResponseController {
     @Body() dto: StartQuickResponseSessionDto,
     @Request() req: any,
   ): Promise<any> {
-    const userId = req.user?.id || 'demo-user';
-    const userPlan = req.user?.subscription?.plan || 'FREE';
+    const userId = (req.user?.id as string) || 'demo-user';
+    const userPlan = (req.user?.subscription?.plan as string) || 'FREE';
 
     return this.service.startSession(
       userId,
@@ -45,7 +45,7 @@ export class QuickResponseController {
     @Body() dto: SubmitQuickResponseDto,
     @Request() req: any,
   ): Promise<any> {
-    const userId = req.user?.id || 'demo-user';
+    const userId = (req.user?.id as string) || 'demo-user';
 
     // Determine practice type from session (would normally fetch from session store)
     const practiceType = PracticeType.WORD_ASSOCIATION;
@@ -75,7 +75,7 @@ export class QuickResponseController {
     @Query('limit') limit: number = 20,
     @Request() req: any,
   ): Promise<any[]> {
-    const userId = req.user?.id || 'demo-user';
+    const userId = (req.user?.id as string) || 'demo-user';
 
     return this.service.getHistory(userId, practiceType, limit);
   }
