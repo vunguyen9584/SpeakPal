@@ -7,9 +7,13 @@ import { createTestingModule } from './test-helper.module';
  * Tests all translation-related APIs including direct translation,
  * intent translation, quick response, and shadowing
  */
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Level, ContentType } from '@prisma/client';
+
 describe('Translation Features (e2e)', () => {
   let app: INestApplication;
   let accessToken: string;
+  let prisma: PrismaService;
 
   beforeAll(async () => {
     const moduleFixture = await createTestingModule().compile();
@@ -20,11 +24,95 @@ describe('Translation Features (e2e)', () => {
     );
     await app.init();
 
-    // Login to get access token
+    prisma = app.get(PrismaService);
+
+    // Seed Test Data
+    await prisma.translationResult.deleteMany();
+    await prisma.translationQuestion.deleteMany({ where: { topic: { in: ['daily', 'business'] } } });
+    await prisma.intentQuestion.deleteMany({ where: { category: { in: ['greeting', 'daily'] } } });
+    await prisma.shadowingContent.deleteMany();
+
+    // 1. Seed Translation Questions
+    await prisma.translationQuestion.create({
+      data: {
+        topic: 'daily',
+        level: Level.BEGINNER,
+        sourceText: 'Good morning',
+        targetText: 'Ohayou gozaimasu',
+        wordCount: 2,
+        difficulty: 1,
+        isActive: true,
+      },
+    });
+
+    await prisma.translationQuestion.create({
+      data: {
+        topic: 'business',
+        level: Level.INTERMEDIATE,
+        sourceText: 'Please submit the report by Friday.',
+        targetText: 'Kinyoubi made ni houkokusho wo teishutsu shite kudasai.',
+        wordCount: 7,
+        difficulty: 3,
+        isActive: true,
+      },
+    });
+
+    // 2. Seed Intent Questions
+    await prisma.intentQuestion.create({
+      data: {
+        category: 'greeting',
+        level: Level.INTERMEDIATE,
+        intentDescription: 'Greet someone politely in the morning',
+        expectedExpressions: ['Ohayou gozaimasu'],
+        alternativePhrases: ['Ohayou'],
+        difficulty: 2,
+        isActive: true,
+      },
+    });
+
+    await prisma.intentQuestion.create({
+      data: {
+        category: 'daily',
+        level: Level.BEGINNER, // for negative test case
+        intentDescription: 'Say goodbye',
+        expectedExpressions: ['Sayonara'],
+        alternativePhrases: ['Bye'],
+        difficulty: 1,
+        isActive: true,
+      },
+    });
+
+    // 3. Seed Shadowing Content
+    await prisma.shadowingContent.create({
+      data: {
+        contentType: ContentType.CONVERSATION,
+        title: 'Daily Conversation',
+        level: Level.BEGINNER,
+        transcript: 'Hello, how are you?',
+        audioUrl: 'https://example.com/audio.mp3',
+        timestamps: [],
+        durationSec: 10,
+        isPremium: false,
+        isActive: true,
+      },
+    });
+
+    // Login to get access token (create user if needed)
+    // First try to register to ensure user exists
+    try {
+      await request(app.getHttpServer())
+        .post('/auth/register')
+        .send({
+          email: 'test_trans@example.com',
+          password: 'Test@123',
+          username: 'test_trans'
+        });
+    } catch (e) { } // Ignore if already exists
+
     const loginResponse = await request(app.getHttpServer())
-      .post('/api/v1/auth/login')
+      .post('/auth/login')
       .send({
-        email: 'test@example.com',
+        email: 'test_trans@example.com',
         password: 'Test@123',
       });
 
@@ -37,13 +125,29 @@ describe('Translation Features (e2e)', () => {
     }
   });
 
-  const authRequest = () =>
-    request(app.getHttpServer()).set('Authorization', `Bearer ${accessToken}`);
+  const authRequest = () => ({
+    get: (url: string) =>
+      request(app.getHttpServer())
+        .get(url)
+        .set('Authorization', `Bearer ${accessToken}`),
+    post: (url: string) =>
+      request(app.getHttpServer())
+        .post(url)
+        .set('Authorization', `Bearer ${accessToken}`),
+    put: (url: string) =>
+      request(app.getHttpServer())
+        .put(url)
+        .set('Authorization', `Bearer ${accessToken}`),
+    delete: (url: string) =>
+      request(app.getHttpServer())
+        .delete(url)
+        .set('Authorization', `Bearer ${accessToken}`),
+  });
 
   describe('Direct Translation (API-T01, API-T02)', () => {
     let questionId: string;
 
-    describe('GET /translation/questions', () => {
+    describe('GET /api/v1/translation/questions', () => {
       it('should get a translation question with topic filter', async () => {
         const response = await authRequest()
           .get('/api/v1/translation/questions')
@@ -82,7 +186,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('POST /translation/answers', () => {
+    describe('POST /api/v1/translation/answers', () => {
       it('should evaluate translation answer (mocked audio)', async () => {
         // Note: In real tests, this would use a mock audio file
         const response = await authRequest()
@@ -120,7 +224,7 @@ describe('Translation Features (e2e)', () => {
   });
 
   describe('Intent Translation (API-T03, API-T04)', () => {
-    describe('GET /translation/intent-questions', () => {
+    describe('GET /api/v1/translation/intent-questions', () => {
       it('should get intent question for qualified user', async () => {
         // Note: Requires Intermediate+ level user
         const response = await authRequest()
@@ -160,7 +264,7 @@ describe('Translation Features (e2e)', () => {
   describe('Quick Response - Word Association (API-T04, API-T05)', () => {
     let sessionId: string;
 
-    describe('POST /quick-response/word-association/start', () => {
+    describe('POST /api/v1/quick-response/word-association/start', () => {
       it('should start word association session', async () => {
         const response = await authRequest()
           .post('/api/v1/quick-response/word-association/start')
@@ -181,7 +285,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('POST /quick-response/word-association/answer', () => {
+    describe('POST /api/v1/quick-response/word-association/answer', () => {
       it('should process word association answer', async () => {
         if (!sessionId) {
           console.log('Skipping: No session available');
@@ -204,7 +308,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('POST /quick-response/word-association/end', () => {
+    describe('POST /api/v1/quick-response/word-association/end', () => {
       it('should end word association session', async () => {
         if (!sessionId) {
           console.log('Skipping: No session available');
@@ -226,7 +330,7 @@ describe('Translation Features (e2e)', () => {
   describe('Quick Response - Instant Drill (API-T06)', () => {
     let sessionId: string;
 
-    describe('POST /quick-response/instant-drill/start', () => {
+    describe('POST /api/v1/quick-response/instant-drill/start', () => {
       it('should start instant drill session', async () => {
         const response = await authRequest()
           .post('/api/v1/quick-response/instant-drill/start')
@@ -245,7 +349,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('GET /quick-response/instant-drill/next', () => {
+    describe('GET /api/v1/quick-response/instant-drill/next', () => {
       it('should get next question', async () => {
         if (!sessionId) return;
 
@@ -260,7 +364,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('POST /quick-response/instant-drill/answer', () => {
+    describe('POST /api/v1/quick-response/instant-drill/answer', () => {
       it('should process drill answer', async () => {
         if (!sessionId) return;
 
@@ -276,7 +380,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('POST /quick-response/instant-drill/end', () => {
+    describe('POST /api/v1/quick-response/instant-drill/end', () => {
       it('should end drill session', async () => {
         if (!sessionId) return;
 
@@ -296,7 +400,7 @@ describe('Translation Features (e2e)', () => {
     let contentId: string;
     let sessionId: string;
 
-    describe('GET /shadowing/contents', () => {
+    describe('GET /api/v1/shadowing/contents', () => {
       it('should list shadowing contents', async () => {
         const response = await authRequest()
           .get('/api/v1/shadowing/contents')
@@ -356,7 +460,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('GET /shadowing/contents/:id', () => {
+    describe('GET /api/v1/shadowing/contents/:id', () => {
       it('should get content details', async () => {
         if (!contentId) return;
 
@@ -379,7 +483,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('POST /shadowing/sessions/start', () => {
+    describe('POST /api/v1/shadowing/sessions/start', () => {
       it('should start shadowing session', async () => {
         if (!contentId) return;
 
@@ -398,7 +502,7 @@ describe('Translation Features (e2e)', () => {
       });
     });
 
-    describe('POST /shadowing/sessions/:id/analyze', () => {
+    describe('POST /api/v1/shadowing/sessions/:id/analyze', () => {
       it('should analyze shadowing audio', async () => {
         if (!sessionId) return;
 

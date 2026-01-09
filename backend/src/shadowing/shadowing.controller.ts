@@ -12,12 +12,15 @@ import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ShadowingService } from './services/shadowing.service';
 import { GetShadowingContentQueryDto, SubmitShadowingResultDto } from './dto';
 import { ContentType, Level } from '@prisma/client';
+import { JwtAuthGuard } from '../modules/auth/guards/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Controller('api/v1/shadowing')
+@UseGuards(JwtAuthGuard)
 @ApiTags('Shadowing Practice')
 @ApiBearerAuth()
 export class ShadowingController {
-  constructor(private readonly service: ShadowingService) {}
+  constructor(private readonly service: ShadowingService) { }
 
   /**
    * GET /api/v1/shadowing/content

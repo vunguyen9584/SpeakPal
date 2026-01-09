@@ -6,7 +6,7 @@ import { TranslationQuestion, Level, Prisma } from '@prisma/client';
 export class TranslationQuestionRepository {
   private readonly logger = new Logger(TranslationQuestionRepository.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * Find a random translation question excluding recently shown ones
@@ -18,16 +18,26 @@ export class TranslationQuestionRepository {
     excludeIds: string[],
   ): Promise<TranslationQuestion | null> {
     try {
-      // Use raw query for RANDOM() selection with exclusions
-      const questions = await this.prisma.$queryRaw<TranslationQuestion[]>`
-        SELECT * FROM translation_questions
-        WHERE topic = ${topic}
-          AND level = ${level}
-          AND is_active = true
-          AND id NOT IN (${Prisma.join(excludeIds.length ? excludeIds : [''])})
-        ORDER BY RANDOM()
-        LIMIT 1
-      `;
+      const where: Prisma.TranslationQuestionWhereInput = {
+        topic,
+        level,
+        isActive: true,
+        ...(excludeIds.length > 0 && { id: { notIn: excludeIds } }),
+      };
+
+      const count = await this.prisma.translationQuestion.count({ where });
+
+      if (count === 0) {
+        return null;
+      }
+
+      const skip = Math.floor(Math.random() * count);
+
+      const questions = await this.prisma.translationQuestion.findMany({
+        where,
+        take: 1,
+        skip,
+      });
 
       return questions[0] || null;
     } catch (error) {

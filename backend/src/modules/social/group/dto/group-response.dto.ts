@@ -5,6 +5,7 @@ export class GroupResponseDto {
   id: string;
   name: string;
   description?: string;
+  inviteCode: string; // Map to ID for now
 
   ownerId: string;
   memberCount: number;
@@ -24,6 +25,7 @@ export class GroupResponseDto {
       id: entity.id,
       name: entity.name,
       description: entity.description,
+      inviteCode: entity.id, // Use ID as invite code
 
       ownerId: entity.ownerId,
       memberCount: entity.members?.length || 0,

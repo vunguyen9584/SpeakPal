@@ -25,12 +25,15 @@ import {
   GetIntentQuestionQueryDto,
   IntentAnswerDto,
 } from './dto';
+import { JwtAuthGuard } from '../modules/auth/guards/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Controller('api/v1/translation')
+@UseGuards(JwtAuthGuard)
 @ApiTags('Translation Practice')
 @ApiBearerAuth()
 export class TranslationController {
-  constructor(private readonly translationService: TranslationService) {}
+  constructor(private readonly translationService: TranslationService) { }
 
   /**
    * GET /api/v1/translation/questions

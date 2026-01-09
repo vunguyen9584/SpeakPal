@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { createTestingModule } from './test-helper.module';
 
@@ -15,6 +15,7 @@ describe('UserModule (e2e)', () => {
   beforeAll(async () => {
     const moduleFixture = await createTestingModule().compile();
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
     await app.init();
 
     // Register a user to get a token
@@ -71,7 +72,7 @@ describe('UserModule (e2e)', () => {
         .send({
           aiSpeed: 5.0, // Invalid value (max 2.0)
         })
-        .expect(400);
+        .expect(400); // Bad Request
     });
   });
 

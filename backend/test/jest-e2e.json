@@ -9,5 +9,8 @@
   "setupFilesAfterEnv": ["<rootDir>/setup.ts"],
   "moduleNameMapper": {
     "^src/(.*)$": "<rootDir>/../src/$1"
-  }
+  },
+  "maxWorkers": 1,
+  "forceExit": true,
+  "detectOpenHandles": true
 }

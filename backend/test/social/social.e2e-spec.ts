@@ -92,13 +92,13 @@ describe('Social Module (E2E)', () => {
         })
         .expect(201);
 
-      expect(response.body).toHaveProperty('code');
+      expect(response.body).toHaveProperty('inviteCode');
       expect(response.body).toHaveProperty('inviteUrl');
-      expect(response.body.code).toHaveLength(8);
+      expect(response.body.inviteCode).toHaveLength(8);
       expect(response.body.maxUsage).toBe(5);
       expect(response.body.usageCount).toBe(0);
 
-      inviteCode = response.body.code;
+      inviteCode = response.body.inviteCode;
     });
 
     it('GET /invitations/mine - should list user invitations', async () => {
@@ -109,7 +109,7 @@ describe('Social Module (E2E)', () => {
 
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body.length).toBeGreaterThan(0);
-      expect(response.body[0]).toHaveProperty('code');
+      expect(response.body[0]).toHaveProperty('inviteCode');
       expect(response.body[0]).toHaveProperty('inviteUrl');
     });
 
@@ -180,7 +180,7 @@ describe('Social Module (E2E)', () => {
       expect(response.body).toHaveProperty('name', 'Test Study Group');
       expect(response.body).toHaveProperty('inviteCode');
       expect(response.body).toHaveProperty('memberCount', 1);
-      expect(response.body.inviteCode).toHaveLength(6);
+      expect(response.body.inviteCode).toBe(response.body.id);
 
       groupId = response.body.id;
       groupInviteCode = response.body.inviteCode;

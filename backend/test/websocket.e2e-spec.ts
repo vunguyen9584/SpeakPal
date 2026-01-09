@@ -27,7 +27,7 @@ describe('WebSocket Conversation (e2e)', () => {
 
     // Login to get access token
     const loginResponse = await request(app.getHttpServer())
-      .post('/api/v1/auth/login')
+      .post('/auth/login')
       .send({
         email: 'test@example.com',
         password: 'Test@123',
@@ -42,8 +42,16 @@ describe('WebSocket Conversation (e2e)', () => {
     }
   });
 
-  const authRequest = () =>
-    request(app.getHttpServer()).set('Authorization', `Bearer ${accessToken}`);
+  const authRequest = () => ({
+    get: (url: string) =>
+      request(app.getHttpServer())
+        .get(url)
+        .set('Authorization', `Bearer ${accessToken}`),
+    post: (url: string) =>
+      request(app.getHttpServer())
+        .post(url)
+        .set('Authorization', `Bearer ${accessToken}`),
+  });
 
   describe('TST-WS-001: WebSocket Connection and Communication', () => {
     let client: Socket;
@@ -52,7 +60,7 @@ describe('WebSocket Conversation (e2e)', () => {
 
     beforeAll(async () => {
       // Create conversation to get WS token
-      const response = await authRequest().post('/api/v1/conversations').send({
+      const response = await authRequest().post('/conversations').send({
         mode: 'instructor',
         topic: 'Daily practice',
       });
@@ -233,7 +241,7 @@ describe('WebSocket Conversation (e2e)', () => {
 
     beforeAll(async () => {
       const response = await authRequest()
-        .post('/api/v1/conversations')
+        .post('/conversations')
         .send({ mode: 'freetalk' });
 
       wsToken = response.body.data.token;
@@ -309,7 +317,7 @@ describe('WebSocket Conversation (e2e)', () => {
       // Create a conversation but wait for token to expire
       // (In real tests, use a short-lived token for testing)
       const response = await authRequest()
-        .post('/api/v1/conversations')
+        .post('/conversations')
         .send({ mode: 'instructor' });
 
       const expiredToken = response.body.data.token;
@@ -342,7 +350,7 @@ describe('WebSocket Conversation (e2e)', () => {
     it('should handle invalid audio format', (done) => {
       // First create valid connection
       authRequest()
-        .post('/api/v1/conversations')
+        .post('/conversations')
         .send({ mode: 'instructor' })
         .then((response) => {
           const wsToken = response.body.data.token;
@@ -379,7 +387,7 @@ describe('WebSocket Conversation (e2e)', () => {
     it('should complete a full conversation cycle', async () => {
       // 1. Create conversation via REST API
       const createRes = await authRequest()
-        .post('/api/v1/conversations')
+        .post('/conversations')
         .send({
           mode: 'instructor',
           topic: 'Test conversation',
@@ -409,7 +417,7 @@ describe('WebSocket Conversation (e2e)', () => {
 
       // 5. End conversation via REST API
       const endRes = await authRequest()
-        .post(`/api/v1/conversations/${conversationId}/end`)
+        .post(`/conversations/${conversationId}/end`)
         .expect(200);
 
       expect(endRes.body.data).toHaveProperty('summary');
@@ -418,7 +426,7 @@ describe('WebSocket Conversation (e2e)', () => {
 
       // 6. Verify conversation in history
       const historyRes = await authRequest()
-        .get('/api/v1/conversations')
+        .get('/conversations')
         .expect(200);
 
       const conv = historyRes.body.data.find(
@@ -429,7 +437,7 @@ describe('WebSocket Conversation (e2e)', () => {
 
       // 7. Verify turns recorded
       const turnsRes = await authRequest()
-        .get(`/api/v1/conversations/${conversationId}/turns`)
+        .get(`/conversations/${conversationId}/turns`)
         .expect(200);
 
       expect(Array.isArray(turnsRes.body.data)).toBe(true);
@@ -440,7 +448,7 @@ describe('WebSocket Conversation (e2e)', () => {
     it('should handle multiple rapid connections', async () => {
       const createConversation = async () => {
         const res = await authRequest()
-          .post('/api/v1/conversations')
+          .post('/conversations')
           .send({ mode: 'freetalk' });
         return res.body.data;
       };

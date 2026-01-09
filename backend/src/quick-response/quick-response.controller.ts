@@ -4,12 +4,15 @@ import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { QuickResponseService } from './services/quick-response.service';
 import { StartQuickResponseSessionDto, SubmitQuickResponseDto } from './dto';
 import { PracticeType } from '@prisma/client';
+import { JwtAuthGuard } from '../modules/auth/guards/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Controller('api/v1/quick-response')
+@UseGuards(JwtAuthGuard)
 @ApiTags('Quick Response Practice')
 @ApiBearerAuth()
 export class QuickResponseController {
-  constructor(private readonly service: QuickResponseService) {}
+  constructor(private readonly service: QuickResponseService) { }
 
   /**
    * POST /api/v1/quick-response/start

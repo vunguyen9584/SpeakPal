@@ -28,7 +28,7 @@ export class TranslationService {
     private readonly questionRepo: TranslationQuestionRepository,
     private readonly resultRepo: TranslationResultRepository,
     private readonly intentRepo: IntentQuestionRepository,
-  ) {}
+  ) { }
 
   /**
    * Get a translation question for the user
@@ -239,8 +239,8 @@ export class TranslationService {
     // 3. Calculate total score (40% intent match, 30% naturalness, 30% vocab)
     const totalScore = Math.round(
       aiEval.intentScore * 0.4 +
-        aiEval.naturalnessScore * 0.3 +
-        aiEval.vocabScore * 0.3,
+      aiEval.naturalnessScore * 0.3 +
+      aiEval.vocabScore * 0.3,
     );
 
     // 4. Calculate XP (BR-104)
