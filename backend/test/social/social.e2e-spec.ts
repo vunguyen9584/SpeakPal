@@ -1,7 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
-import { AppModule } from '../../src/app.module';
+import { createTestingModule } from '../test-helper.module';
 import { PrismaService } from '../../src/prisma/prisma.service';
 
 describe('Social Module (E2E)', () => {
@@ -11,9 +10,7 @@ describe('Social Module (E2E)', () => {
   let authToken2: string;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    const moduleFixture = await createTestingModule().compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
@@ -21,17 +18,22 @@ describe('Social Module (E2E)', () => {
 
     prisma = app.get<PrismaService>(PrismaService);
 
-    // Clean up test data
-    await prisma.groupMember.deleteMany({});
-    await prisma.group.deleteMany({});
-    await prisma.invitation.deleteMany({});
-    await prisma.user.deleteMany({
-      where: {
-        email: {
-          in: ['social-test1@example.com', 'social-test2@example.com'],
+    // Only clean up if database is connected - use try/catch for safety
+    try {
+      await prisma.groupMember.deleteMany({});
+      await prisma.group.deleteMany({});
+      await prisma.invitation.deleteMany({});
+      await prisma.user.deleteMany({
+        where: {
+          email: {
+            in: ['social-test1@example.com', 'social-test2@example.com'],
+          },
         },
-      },
-    });
+      });
+    } catch {
+      // Database not connected or cleanup failed - continue anyway
+      console.log('Database cleanup skipped or failed');
+    }
 
     // Create test users
     const user1Response = await request(app.getHttpServer())
@@ -56,19 +58,25 @@ describe('Social Module (E2E)', () => {
   });
 
   afterAll(async () => {
-    // Clean up
-    await prisma.groupMember.deleteMany({});
-    await prisma.group.deleteMany({});
-    await prisma.invitation.deleteMany({});
-    await prisma.user.deleteMany({
-      where: {
-        email: {
-          in: ['social-test1@example.com', 'social-test2@example.com'],
+    // Clean up if database is connected - use try/catch for safety
+    try {
+      await prisma.groupMember.deleteMany({});
+      await prisma.group.deleteMany({});
+      await prisma.invitation.deleteMany({});
+      await prisma.user.deleteMany({
+        where: {
+          email: {
+            in: ['social-test1@example.com', 'social-test2@example.com'],
+          },
         },
-      },
-    });
+      });
+    } catch {
+      // Database not connected or cleanup failed - ignore
+    }
 
-    await app.close();
+    if (app) {
+      await app.close();
+    }
   });
 
   describe('Invitation Flow', () => {

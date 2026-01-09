@@ -1,7 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import request from 'supertest';
+import { createTestingModule } from './test-helper.module';
 
 /**
  * API Integration Test Suite
@@ -17,9 +16,7 @@ describe('API Integration - Full User Journey (e2e)', () => {
   let websocketToken: string;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    const moduleFixture = await createTestingModule().compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(
@@ -29,7 +26,9 @@ describe('API Integration - Full User Journey (e2e)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
   });
 
   // Helper function for authenticated requests

@@ -1,7 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { createTestingModule } from './test-helper.module';
 
 describe('ConversationModule (e2e)', () => {
   let app: INestApplication;
@@ -15,10 +14,7 @@ describe('ConversationModule (e2e)', () => {
   };
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
+    const moduleFixture = await createTestingModule().compile();
     app = moduleFixture.createNestApplication();
     await app.init();
 
@@ -32,7 +28,9 @@ describe('ConversationModule (e2e)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
   });
 
   describe('/conversations (POST)', () => {

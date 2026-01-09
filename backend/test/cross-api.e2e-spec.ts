@@ -1,7 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import request from 'supertest';
+import { createTestingModule } from './test-helper.module';
 
 /**
  * Cross-API Integration Tests
@@ -12,9 +11,7 @@ describe('Cross-API Integration (e2e)', () => {
   let accessToken: string;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    const moduleFixture = await createTestingModule().compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(
@@ -37,7 +34,9 @@ describe('Cross-API Integration (e2e)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
   });
 
   const authRequest = () =>

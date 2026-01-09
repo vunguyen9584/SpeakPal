@@ -6,17 +6,22 @@ import type { DeepgramConfig, StreamingOptions } from './types';
 @Injectable()
 export class DeepgramClient {
   private readonly logger = new Logger(DeepgramClient.name);
-  private readonly client: ReturnType<typeof createClient>;
+  private client: ReturnType<typeof createClient> | null = null;
   private readonly config: DeepgramConfig;
+  private readonly isConfigured: boolean;
 
   constructor(private readonly configService: ConfigService) {
     const apiKey = this.configService.get<string>('DEEPGRAM_API_KEY');
 
-    if (!apiKey) {
-      this.logger.warn('DEEPGRAM_API_KEY not configured');
-    }
+    this.isConfigured = !!apiKey;
 
-    this.client = createClient(apiKey || '');
+    if (!apiKey) {
+      this.logger.warn(
+        'DEEPGRAM_API_KEY not configured. Speech-to-text features will not work.',
+      );
+    } else {
+      this.client = createClient(apiKey);
+    }
 
     this.config = {
       apiKey: apiKey || '',
@@ -29,12 +34,26 @@ export class DeepgramClient {
       ),
     };
 
-    this.logger.log(
-      `Deepgram client initialized with model: ${this.config.model}`,
-    );
+    if (this.isConfigured) {
+      this.logger.log(
+        `Deepgram client initialized with model: ${this.config.model}`,
+      );
+    }
+  }
+
+  /**
+   * Check if the Deepgram client is properly configured
+   */
+  isAvailable(): boolean {
+    return this.isConfigured && this.client !== null;
   }
 
   getClient() {
+    if (!this.client) {
+      throw new Error(
+        'Deepgram client not configured. Set DEEPGRAM_API_KEY environment variable.',
+      );
+    }
     return this.client;
   }
 
@@ -43,6 +62,11 @@ export class DeepgramClient {
   }
 
   createLiveTranscription(options: StreamingOptions) {
+    if (!this.client) {
+      throw new Error(
+        'Deepgram client not configured. Set DEEPGRAM_API_KEY environment variable.',
+      );
+    }
     return this.client.listen.live({
       model: this.config.model,
       language: this.config.language,

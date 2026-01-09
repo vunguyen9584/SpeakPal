@@ -1,8 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { io, Socket } from 'socket.io-client';
-import { AppModule } from '../src/app.module';
+import { createTestingModule } from './test-helper.module';
 
 /**
  * WebSocket Integration Tests
@@ -14,9 +13,7 @@ describe('WebSocket Conversation (e2e)', () => {
   let wsUrl: string;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    const moduleFixture = await createTestingModule().compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(
@@ -40,7 +37,9 @@ describe('WebSocket Conversation (e2e)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
   });
 
   const authRequest = () =>
