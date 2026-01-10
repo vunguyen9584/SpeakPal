@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class ScoreGauge extends StatelessWidget {
@@ -104,3 +104,4 @@ class GaugePainter extends CustomPainter {
     return oldDelegate.score != score || oldDelegate.color != color;
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'colors.dart';
 
 /// App Typography System
@@ -239,3 +239,4 @@ class AppTypography {
     color: AppColors.textDark,
   );
 }
+

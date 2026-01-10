@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'quick_response_models.freezed.dart';
 part 'quick_response_models.g.dart';
@@ -56,3 +56,4 @@ abstract class QuickResponseResult with _$QuickResponseResult {
   factory QuickResponseResult.fromJson(Map<String, dynamic> json) =>
       _$QuickResponseResultFromJson(json);
 }
+

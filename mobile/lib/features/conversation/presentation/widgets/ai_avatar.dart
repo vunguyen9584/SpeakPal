@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class AiAvatar extends StatelessWidget {
   final String name;
@@ -66,3 +66,4 @@ class AiAvatar extends StatelessWidget {
     );
   }
 }
+

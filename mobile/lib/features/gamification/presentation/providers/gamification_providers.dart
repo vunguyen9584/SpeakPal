@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/badge.dart';
 import '../../domain/models/streak.dart';
 import '../../domain/models/ranking.dart';
@@ -62,3 +62,4 @@ final badgeProgressProvider = Provider.family<double, Badge>((ref, badge) {
     error: (_, __) => 0.0,
   );
 });
+

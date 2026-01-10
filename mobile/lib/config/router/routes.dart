@@ -1,4 +1,4 @@
-/// Route path constants for navigation
+﻿/// Route path constants for navigation
 class AppRoutes {
   // Private constructor to prevent instantiation
   AppRoutes._();
@@ -53,3 +53,4 @@ class AppRoutes {
   static const String subscription = '/subscription';
   static const String plans = '/subscription/plans';
 }
+

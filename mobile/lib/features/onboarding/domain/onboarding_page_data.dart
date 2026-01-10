@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Onboarding Page Model
 class OnboardingPageData {
@@ -41,3 +41,4 @@ class OnboardingPageData {
     ),
   ];
 }
+

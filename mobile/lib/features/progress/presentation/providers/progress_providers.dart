@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/stats.dart';
 import '../../domain/models/report.dart';
 import '../../domain/models/history_item.dart';
@@ -33,3 +33,4 @@ final historyProvider = FutureProvider.autoDispose.family<PaginatedHistory, Hist
   final repository = ref.watch(progressRepositoryProvider);
   return repository.getHistory(query);
 });
+

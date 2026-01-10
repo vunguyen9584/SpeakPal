@@ -1,4 +1,4 @@
-class Suggestion {
+﻿class Suggestion {
   final String template;
   final List<VocabularyItem> vocabulary;
   final List<String> alternativeResponses;
@@ -65,3 +65,4 @@ class VocabularyItem {
     };
   }
 }
+

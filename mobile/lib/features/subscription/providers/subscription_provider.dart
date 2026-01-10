@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for subscription information
 final subscriptionProvider = FutureProvider<SubscriptionInfo>((ref) async {
@@ -143,3 +143,4 @@ class PlanInfo {
 
   bool get isFree => id == 'free';
 }
+

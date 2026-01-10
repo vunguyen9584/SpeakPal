@@ -1,4 +1,4 @@
-// Vocabulary Model
+﻿// Vocabulary Model
 class Vocabulary {
   final String id;
   final String word;
@@ -58,3 +58,4 @@ class Vocabulary {
     };
   }
 }
+

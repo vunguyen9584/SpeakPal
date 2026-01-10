@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class EndConversationDialog extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -50,3 +50,4 @@ class EndConversationDialog extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:confetti/confetti.dart';
@@ -179,7 +179,7 @@ class _TranslationResultSheetState
       height: 150,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         border: Border.all(color: color, width: 4),
       ),
       child: Center(
@@ -317,3 +317,4 @@ class _TranslationResultSheetState
     ).animate().shimmer(duration: 1500.ms);
   }
 }
+

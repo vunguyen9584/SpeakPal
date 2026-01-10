@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/recent_conversation.dart';
 
 class RecentConversationsWidget extends StatelessWidget {
@@ -102,7 +102,7 @@ class ConversationListItem extends StatelessWidget {
     }
 
     return CircleAvatar(
-      backgroundColor: color.withOpacity(0.2),
+      backgroundColor: color.withValues(alpha: 0.2),
       child: Icon(icon, color: color, size: 20),
     );
   }
@@ -150,7 +150,7 @@ class ScoreBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -164,3 +164,4 @@ class ScoreBadge extends StatelessWidget {
     );
   }
 }
+

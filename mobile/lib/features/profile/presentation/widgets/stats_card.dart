@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Stats Card Widget
 class StatsCard extends StatelessWidget {
@@ -55,3 +55,4 @@ class StatsCard extends StatelessWidget {
     );
   }
 }
+

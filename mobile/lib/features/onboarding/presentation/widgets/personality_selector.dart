@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Personality Selector Widget
 class PersonalitySelector extends StatelessWidget {
@@ -71,7 +71,7 @@ class PersonalitySelector extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(12),
                   color: isSelected
-                      ? Theme.of(context).primaryColor.withOpacity(0.1)
+                      ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
                       : Colors.transparent,
                 ),
                 child: Column(
@@ -115,3 +115,4 @@ class PersonalitySelector extends StatelessWidget {
     );
   }
 }
+

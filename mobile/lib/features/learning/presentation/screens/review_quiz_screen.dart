@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/vocabulary.dart';
 
 class ReviewQuizScreen extends StatefulWidget {
@@ -243,3 +243,4 @@ class FlashcardWidget extends StatelessWidget {
     );
   }
 }
+

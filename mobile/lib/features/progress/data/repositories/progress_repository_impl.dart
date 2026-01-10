@@ -1,4 +1,4 @@
-import '../../domain/models/stats.dart';
+﻿import '../../domain/models/stats.dart';
 import '../../domain/models/history_item.dart';
 import '../../domain/models/report.dart';
 import '../../domain/models/history_query.dart';
@@ -84,7 +84,7 @@ class ProgressRepositoryImpl implements ProgressRepository {
       summary: ReportSummary(totalConversations: 15, totalMinutes: 240, totalXp: 850),
       pronunciationTrend: [75.0, 78.0, 80.0, 82.0, 85.0, 83.0, 87.0],
       topCorrections: [
-        TopCorrection(type: 'Grammar', count: 12, example: 'I goes → I go'),
+        TopCorrection(type: 'Grammar', count: 12, example: 'I goes 竊・I go'),
         TopCorrection(type: 'Pronunciation', count: 8, example: 'th sound'),
         TopCorrection(type: 'Vocabulary', count: 5, example: 'Word choice'),
       ],
@@ -144,3 +144,4 @@ class ProgressRepositoryImpl implements ProgressRepository {
     );
   }
 }
+

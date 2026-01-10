@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 
@@ -18,15 +18,15 @@ enum IntentCategory {
   String get displayName {
     switch (this) {
       case IntentCategory.greeting:
-        return '挨拶';
+        return '謖ｨ諡ｶ';
       case IntentCategory.daily:
-        return '日常';
+        return '譌･蟶ｸ';
       case IntentCategory.business:
-        return 'ビジネス';
+        return '繝薙ず繝阪せ';
       case IntentCategory.emotion:
-        return '感情';
+        return '諢滓ュ';
       case IntentCategory.request:
-        return '依頼';
+        return '萓晞ｼ';
     }
   }
 
@@ -60,3 +60,4 @@ enum IntentCategory {
     }
   }
 }
+

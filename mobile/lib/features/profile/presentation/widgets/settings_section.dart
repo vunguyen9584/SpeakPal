@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Settings Section Widget
 class SettingsSection extends StatelessWidget {
@@ -32,3 +32,4 @@ class SettingsSection extends StatelessWidget {
     );
   }
 }
+

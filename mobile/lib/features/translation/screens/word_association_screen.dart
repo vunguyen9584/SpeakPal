@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:async';
@@ -101,7 +101,7 @@ class _WordAssociationScreenState
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('結果'),
+        title: const Text('邨先棡'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -113,9 +113,9 @@ class _WordAssociationScreenState
                 color: Colors.green,
               ),
             ),
-            const Text('点'),
+            const Text('轤ｹ'),
             const SizedBox(height: 16),
-            Text('最大チェイン: $_chain'),
+            Text('譛螟ｧ繝√ぉ繧､繝ｳ: $_chain'),
           ],
         ),
         actions: [
@@ -180,7 +180,7 @@ class _WordAssociationScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ワード連想'),
+        title: const Text('繝ｯ繝ｼ繝蛾｣諠ｳ'),
         automaticallyImplyLeading: false,
       ),
       body: Stack(
@@ -334,3 +334,4 @@ class _WordAssociationScreenState
     );
   }
 }
+

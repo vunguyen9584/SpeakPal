@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class MicButton extends StatefulWidget {
   final VoidCallback? onPressed;
@@ -59,7 +59,7 @@ class _MicButtonState extends State<MicButton> with SingleTickerProviderStateMix
                 boxShadow: [
                   BoxShadow(
                     color: (widget.isRecording ? Colors.red : Theme.of(context).primaryColor)
-                        .withOpacity(0.3),
+                        .withValues(alpha: 0.3),
                     blurRadius: 20,
                     spreadRadius: 5,
                   ),
@@ -77,3 +77,4 @@ class _MicButtonState extends State<MicButton> with SingleTickerProviderStateMix
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/shadowing_models.dart';
 import 'shadowing_player_screen.dart';
@@ -327,3 +327,4 @@ class _ShadowingLibraryScreenState
     );
   }
 }
+

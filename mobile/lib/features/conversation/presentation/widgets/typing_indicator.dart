@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class TypingIndicator extends StatefulWidget {
   const TypingIndicator({super.key});
@@ -74,3 +74,4 @@ class _TypingIndicatorState extends State<TypingIndicator>
     );
   }
 }
+

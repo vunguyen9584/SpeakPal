@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'routes.dart';
 import '../../features/learning/presentation/screens/vocabulary_list_screen.dart';
@@ -259,3 +259,4 @@ class AppRouter {
     );
   }
 }
+

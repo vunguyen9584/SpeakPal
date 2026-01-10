@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// App Color Palette
 /// Based on Design System from DD: 09-ui-specifications.md
@@ -118,3 +118,4 @@ class AppColors {
   static const Color accent = secondary;
   static const Color textPrimary = text;
 }
+

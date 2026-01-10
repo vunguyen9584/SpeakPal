@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import '../models/shadowing_models.dart';
@@ -295,3 +295,4 @@ class _ShadowingPlayerScreenState
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/translation_provider.dart';
 import '../providers/topic_provider.dart';
@@ -91,7 +91,7 @@ class QuestionCard extends ConsumerWidget {
               const Icon(Icons.error, color: Colors.red, size: 48),
               const SizedBox(height: 8),
               Text(
-                'エラーが発生しました',
+                '繧ｨ繝ｩ繝ｼ縺檎匱逕溘＠縺ｾ縺励◆',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 4),
@@ -146,3 +146,4 @@ class QuestionCard extends ConsumerWidget {
     );
   }
 }
+

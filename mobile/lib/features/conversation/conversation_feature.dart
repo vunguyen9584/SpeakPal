@@ -1,4 +1,4 @@
-// Conversation Feature Barrel File
+﻿// Conversation Feature Barrel File
 library;
 
 // Domain Models
@@ -15,3 +15,4 @@ export 'data/repositories/conversation_repository_impl.dart';
 // Presentation (will be added as we implement)
 // export 'presentation/screens/conversation_screen.dart';
 // export 'presentation/screens/conversation_setup_screen.dart';
+

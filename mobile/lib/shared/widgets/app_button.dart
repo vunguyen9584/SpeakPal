@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile/config/theme/colors.dart';
 import '../../config/theme/dimensions.dart';
 import 'package:mobile/config/theme/typography.dart';
@@ -142,3 +142,4 @@ class AppButton extends StatelessWidget {
 enum ButtonVariant { primary, secondary, text, danger }
 
 enum ButtonSize { small, medium, large }
+

@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+﻿import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:mobile/core/network/api_client.dart';
@@ -209,3 +209,4 @@ class AuthRepository {
     return await _tokenManager.isAuthenticated();
   }
 }
+

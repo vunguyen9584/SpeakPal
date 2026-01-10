@@ -1,4 +1,4 @@
-import 'package:mobile/core/network/api_client.dart';
+﻿import 'package:mobile/core/network/api_client.dart';
 import '../../domain/models/dashboard_stats.dart';
 import '../../domain/models/recent_conversation.dart';
 import '../../domain/repositories/home_repository.dart';
@@ -41,3 +41,4 @@ class HomeRepositoryImpl implements HomeRepository {
     ]);
   }
 }
+

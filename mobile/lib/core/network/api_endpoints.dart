@@ -1,4 +1,4 @@
-/// API Endpoints
+﻿/// API Endpoints
 /// Contains only endpoint paths - base URL is managed by ApiConfig
 class ApiEndpoints {
   ApiEndpoints._();
@@ -63,3 +63,4 @@ class ApiEndpoints {
   // WebSocket endpoint
   static const String wsConversation = '/ws/conversation';
 }
+

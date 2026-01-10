@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'intent_result.freezed.dart';
 part 'intent_result.g.dart';
@@ -31,3 +31,4 @@ abstract class IntentScoreBreakdown with _$IntentScoreBreakdown {
   factory IntentScoreBreakdown.fromJson(Map<String, dynamic> json) =>
       _$IntentScoreBreakdownFromJson(json);
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class LevelUpAnimation extends StatefulWidget {
@@ -117,7 +117,7 @@ class _LevelUpAnimationState extends State<LevelUpAnimation>
                               ),
                               child: Icon(
                                 Icons.star,
-                                color: Colors.amber.withOpacity(0.8),
+                                color: Colors.amber.withValues(alpha: 0.8),
                                 size: 24,
                               ),
                             );
@@ -146,7 +146,7 @@ class _LevelUpAnimationState extends State<LevelUpAnimation>
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.purple.withOpacity(0.5),
+                            color: Colors.purple.withValues(alpha: 0.5),
                             blurRadius: 30,
                             spreadRadius: 10,
                           ),
@@ -199,7 +199,7 @@ class _LevelUpAnimationState extends State<LevelUpAnimation>
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withValues(alpha: 0.2),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),
@@ -263,3 +263,4 @@ void showLevelUpAnimation(
     ),
   );
 }
+

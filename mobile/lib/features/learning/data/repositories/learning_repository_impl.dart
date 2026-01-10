@@ -1,4 +1,4 @@
-import '../../domain/repositories/learning_repository.dart';
+﻿import '../../domain/repositories/learning_repository.dart';
 import '../../domain/models/vocabulary.dart';
 import '../../domain/models/scenario.dart';
 import '../../domain/models/challenge.dart';
@@ -72,3 +72,4 @@ class LearningRepositoryImpl implements LearningRepository {
     return (response.data as List).map((e) => UserChallenge.fromJson(e)).toList();
   }
 }
+

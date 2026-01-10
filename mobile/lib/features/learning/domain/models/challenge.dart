@@ -1,4 +1,4 @@
-// Challenge Model
+﻿// Challenge Model
 class UserChallenge {
   final String id;
   final String type;
@@ -39,3 +39,4 @@ class UserChallenge {
   double get progressPercent =>
       targetProgress > 0 ? (currentProgress / targetProgress) * 100 : 0;
 }
+

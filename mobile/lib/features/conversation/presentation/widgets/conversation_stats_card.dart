@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../presentation/providers/summary_provider.dart';
 
 class ConversationStatsCard extends StatelessWidget {
@@ -108,3 +108,4 @@ class ConversationStatsCard extends StatelessWidget {
     return Colors.red;
   }
 }
+

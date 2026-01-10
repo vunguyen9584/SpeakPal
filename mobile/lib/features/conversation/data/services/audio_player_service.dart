@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:collection';
 import 'dart:typed_data';
 import 'package:just_audio/just_audio.dart';
@@ -102,3 +102,4 @@ class AudioPlayerService {
     _audioQueue.clear();
   }
 }
+

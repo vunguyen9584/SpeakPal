@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'translation_result.freezed.dart';
 part 'translation_result.g.dart';
@@ -32,3 +32,4 @@ abstract class ScoreBreakdown with _$ScoreBreakdown {
   factory ScoreBreakdown.fromJson(Map<String, dynamic> json) =>
       _$ScoreBreakdownFromJson(json);
 }
+

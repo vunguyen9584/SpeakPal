@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Settings Tile Widget
 class SettingsTile extends StatelessWidget {
@@ -28,3 +28,4 @@ class SettingsTile extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Badge;
+﻿import 'package:flutter/material.dart' hide Badge;
 import '../../domain/models/badge.dart';
 
 class BadgeDetailModal extends StatelessWidget {
@@ -72,7 +72,7 @@ class BadgeDetailModal extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: isEarned ? color.withOpacity(0.2) : Colors.grey[300],
+              color: isEarned ? color.withValues(alpha: 0.2) : Colors.grey[300],
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -99,7 +99,7 @@ class BadgeDetailModal extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
@@ -217,3 +217,4 @@ class BadgeDetailModal extends StatelessWidget {
     );
   }
 }
+

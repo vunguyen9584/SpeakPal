@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/challenge.dart';
 
 class ChallengeScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class ChallengeScreen extends StatelessWidget {
               children: [
                 // Header
                 Card(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -118,7 +118,7 @@ class ChallengeCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.2),
+                    color: color.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -188,3 +188,4 @@ class ChallengeCard extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-class HistoryItem {
+﻿class HistoryItem {
   final String id;
   final HistoryItemType type;
   final DateTime timestamp;
@@ -84,3 +84,4 @@ class PaginatedHistory {
 
   bool get hasMore => items.length < total;
 }
+

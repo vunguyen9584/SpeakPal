@@ -1,4 +1,4 @@
-/// Socket event constants
+﻿/// Socket event constants
 class SocketEvents {
   SocketEvents._();
 
@@ -28,3 +28,4 @@ class SocketEvents {
   static const String levelUp = 'level:up';
   static const String streakUpdated = 'streak:updated';
 }
+

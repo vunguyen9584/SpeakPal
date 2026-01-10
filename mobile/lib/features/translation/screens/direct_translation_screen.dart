@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../providers/topic_provider.dart';
 import '../providers/recording_provider.dart';
@@ -77,3 +77,4 @@ class _DirectTranslationScreenState
   //   );
   // }
 }
+

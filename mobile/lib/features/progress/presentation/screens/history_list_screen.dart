@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_text_styles.dart';
@@ -193,7 +193,7 @@ class _HistoryListScreenState extends ConsumerState<HistoryListScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -205,7 +205,7 @@ class _HistoryListScreenState extends ConsumerState<HistoryListScreen> {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: _getTypeColor(item.type).withOpacity(0.1),
+            color: _getTypeColor(item.type).withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(
@@ -243,7 +243,7 @@ class _HistoryListScreenState extends ConsumerState<HistoryListScreen> {
         trailing: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: AppColors.accent.withOpacity(0.1),
+            color: AppColors.accent.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -425,3 +425,4 @@ class _HistoryListScreenState extends ConsumerState<HistoryListScreen> {
     return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 }
+

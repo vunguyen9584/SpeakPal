@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile/features/auth/domain/models/user.dart';
 
 /// Level Progress Widget
@@ -83,3 +83,4 @@ class LevelProgress extends StatelessWidget {
     );
   }
 }
+

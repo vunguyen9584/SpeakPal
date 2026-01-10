@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../config/theme/dimensions.dart';
 
 /// Custom Text Field widget
@@ -67,3 +67,4 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
+

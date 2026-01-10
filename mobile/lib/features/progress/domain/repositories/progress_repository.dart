@@ -1,4 +1,4 @@
-import '../models/stats.dart';
+﻿import '../models/stats.dart';
 import '../models/history_item.dart';
 import '../models/report.dart';
 import '../models/history_query.dart';
@@ -9,3 +9,4 @@ abstract class ProgressRepository {
   Future<MonthlyReport> getMonthlyReport(int monthNumber);
   Future<PaginatedHistory> getHistory(HistoryQuery query);
 }
+

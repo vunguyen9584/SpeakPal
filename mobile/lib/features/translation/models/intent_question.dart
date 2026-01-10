@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'intent_question.freezed.dart';
 part 'intent_question.g.dart';
@@ -18,3 +18,4 @@ abstract class IntentQuestion with _$IntentQuestion {
   factory IntentQuestion.fromJson(Map<String, dynamic> json) =>
       _$IntentQuestionFromJson(json);
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class ConversationSettingsSheet extends StatefulWidget {
   final double aiSpeed;
@@ -143,3 +143,4 @@ class _ConversationSettingsSheetState extends State<ConversationSettingsSheet> {
     return 'Fast';
   }
 }
+

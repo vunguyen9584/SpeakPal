@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class AnimatedCounter extends StatefulWidget {
   final int endValue;
@@ -59,3 +59,4 @@ class _AnimatedCounterState extends State<AnimatedCounter>
     );
   }
 }
+

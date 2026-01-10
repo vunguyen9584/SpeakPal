@@ -1,4 +1,4 @@
-enum ConversationMode {
+﻿enum ConversationMode {
   freetalk,
   instructor,
   roleplay,
@@ -76,3 +76,4 @@ class Conversation {
     return end.difference(startedAt);
   }
 }
+

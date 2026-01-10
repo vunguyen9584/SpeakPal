@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ConversationSummaryScreen extends ConsumerWidget {
@@ -124,8 +124,8 @@ class ConversationSummaryScreen extends ConsumerWidget {
   Widget _buildVocabularyList() {
     // TODO: Load actual vocabulary
     final mockVocab = [
-      {'word': 'actually', 'meaning': '実は', 'pronunciation': '/ˈæktʃuəli/'},
-      {'word': 'particularly', 'meaning': '特に', 'pronunciation': '/pərˈtɪkjələrli/'},
+      {'word': 'actually', 'meaning': '螳溘・', 'pronunciation': '/ﾋ暗ｦktﾊブﾉ冤i/'},
+      {'word': 'particularly', 'meaning': '迚ｹ縺ｫ', 'pronunciation': '/pﾉ决ﾋ・ﾉｪkjﾉ冤ﾉ决li/'},
     ];
 
     return Column(
@@ -164,7 +164,7 @@ class ConversationSummaryScreen extends ConsumerWidget {
                     text: correction['original'],
                     style: const TextStyle(decoration: TextDecoration.lineThrough),
                   ),
-                  const TextSpan(text: ' → '),
+                  const TextSpan(text: ' 竊・'),
                   TextSpan(
                     text: correction['corrected'],
                     style: const TextStyle(fontWeight: FontWeight.bold),
@@ -179,3 +179,4 @@ class ConversationSummaryScreen extends ConsumerWidget {
     );
   }
 }
+

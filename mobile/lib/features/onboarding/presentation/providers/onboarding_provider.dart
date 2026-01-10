@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/features/auth/domain/models/user.dart';
 import '../../domain/onboarding_state.dart';
 
@@ -43,3 +43,4 @@ class OnboardingNotifier extends StateNotifier<OnboardingState> {
   /// Check if onboarding is complete
   bool get isComplete => state.currentStep >= 3;
 }
+

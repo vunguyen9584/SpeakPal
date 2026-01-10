@@ -1,4 +1,4 @@
-import '../models/dashboard_stats.dart';
+﻿import '../models/dashboard_stats.dart';
 import '../models/recent_conversation.dart';
 
 abstract class HomeRepository {
@@ -11,3 +11,4 @@ abstract class HomeRepository {
   /// Refresh dashboard data
   Future<void> refreshDashboard();
 }
+

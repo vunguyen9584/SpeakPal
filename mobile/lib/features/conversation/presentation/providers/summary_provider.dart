@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/turn.dart';
 import '../../domain/models/suggestion.dart';
 
@@ -70,3 +70,4 @@ final summaryProvider = FutureProvider.family<ConversationSummary, String>(
     );
   },
 );
+

@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/vocabulary.dart';
 import '../../domain/models/scenario.dart';
 import '../../domain/models/challenge.dart';
@@ -153,3 +153,4 @@ class ScenarioFilters {
   @override
   int get hashCode => category.hashCode ^ difficulty.hashCode;
 }
+

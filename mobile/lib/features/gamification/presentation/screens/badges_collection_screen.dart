@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Badge;
+﻿import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/badge.dart';
 import '../widgets/badge_detail_modal.dart';
@@ -35,7 +35,7 @@ class _BadgesCollectionScreenState extends ConsumerState<BadgesCollectionScreen>
           // Stats header
           Container(
             padding: const EdgeInsets.all(16),
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -220,7 +220,7 @@ class BadgeCardWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: isEarned ? color.withOpacity(0.2) : Colors.grey[300],
+                  color: isEarned ? color.withValues(alpha: 0.2) : Colors.grey[300],
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -251,3 +251,4 @@ class BadgeCardWidget extends StatelessWidget {
     );
   }
 }
+

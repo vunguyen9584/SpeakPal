@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/theme/dimensions.dart';
 import '../../../../shared/widgets/app_button.dart';
@@ -114,3 +114,4 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 }
+

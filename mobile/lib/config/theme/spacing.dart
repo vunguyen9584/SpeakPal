@@ -1,4 +1,4 @@
-/// App Spacing System
+﻿/// App Spacing System
 /// Based on Design System from DD: 09-ui-specifications.md
 /// Using 4px base unit
 class AppSpacing {
@@ -45,3 +45,4 @@ class AppSpacing {
   static const double chipPaddingVertical = spacing8;
   static const double chipPaddingHorizontal = spacing12;
 }
+

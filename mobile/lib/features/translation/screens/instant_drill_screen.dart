@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -63,7 +63,7 @@ class _InstantDrillScreenState extends ConsumerState<InstantDrillScreen> {
             ),
             const Text('平均スコア'),
             const SizedBox(height: 16),
-            Text('合計: $_totalScore点'),
+            Text('合計 $_totalScore点'),
           ],
         ),
         actions: [
@@ -85,7 +85,7 @@ class _InstantDrillScreenState extends ConsumerState<InstantDrillScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('瞬間応答ドリル'),
+        title: const Text('瞬間即答ドリル'),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
@@ -220,3 +220,4 @@ class _InstantDrillScreenState extends ConsumerState<InstantDrillScreen> {
     );
   }
 }
+

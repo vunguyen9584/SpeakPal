@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'shadowing_models.freezed.dart';
 part 'shadowing_models.g.dart';
@@ -85,3 +85,4 @@ abstract class WeakSegment with _$WeakSegment {
   factory WeakSegment.fromJson(Map<String, dynamic> json) =>
       _$WeakSegmentFromJson(json);
 }
+

@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'translation_question.freezed.dart';
 part 'translation_question.g.dart';
@@ -20,3 +20,4 @@ abstract class TranslationQuestion with _$TranslationQuestion {
   factory TranslationQuestion.fromJson(Map<String, dynamic> json) =>
       _$TranslationQuestionFromJson(json);
 }
+

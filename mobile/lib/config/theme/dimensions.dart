@@ -1,4 +1,4 @@
-/// App Dimensions
+﻿/// App Dimensions
 /// Based on Design System from DD: 09-ui-specifications.md
 class AppDimensions {
   // Private constructor to prevent instantiation
@@ -105,3 +105,4 @@ class AppDimensions {
   // League icon
   static const double leagueIconSize = 64.0;
 }
+

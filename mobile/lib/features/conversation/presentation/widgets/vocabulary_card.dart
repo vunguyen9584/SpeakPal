@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/suggestion.dart';
 
 class VocabularyCard extends StatefulWidget {
@@ -141,3 +141,4 @@ class _VocabularyCardState extends State<VocabularyCard> {
     );
   }
 }
+

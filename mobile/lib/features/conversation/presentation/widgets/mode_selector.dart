@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/conversation.dart';
 
 class ModeSelector extends StatelessWidget {
@@ -52,3 +52,4 @@ class ModeSelector extends StatelessWidget {
     }
   }
 }
+

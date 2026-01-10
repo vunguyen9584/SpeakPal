@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/streak.dart';
 
 class StreakWidget extends StatelessWidget {
@@ -290,3 +290,4 @@ class StreakDetailWidget extends StatelessWidget {
     }
   }
 }
+

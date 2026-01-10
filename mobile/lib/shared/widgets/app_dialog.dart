@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../config/theme/dimensions.dart';
 import 'app_button.dart';
 
@@ -102,3 +102,4 @@ class AppDialog extends StatelessWidget {
     );
   }
 }
+

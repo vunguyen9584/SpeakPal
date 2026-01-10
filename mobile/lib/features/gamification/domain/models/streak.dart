@@ -1,4 +1,4 @@
-class Streak {
+﻿class Streak {
   final int currentStreak;
   final int longestStreak;
   final int streakFreezeCount;
@@ -38,3 +38,4 @@ class Streak {
     };
   }
 }
+

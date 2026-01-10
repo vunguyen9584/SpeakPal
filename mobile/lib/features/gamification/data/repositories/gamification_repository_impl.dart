@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+﻿import 'package:dio/dio.dart';
 import '../../domain/models/badge.dart';
 import '../../domain/models/streak.dart';
 import '../../domain/models/ranking.dart';
@@ -67,3 +67,4 @@ class GamificationRepositoryImpl implements GamificationRepository {
     }
   }
 }
+

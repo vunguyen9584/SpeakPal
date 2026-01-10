@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/group_provider.dart';
 
@@ -177,7 +177,7 @@ class FriendsLeaderboardScreen extends ConsumerWidget {
       children: [
         CircleAvatar(
           radius: position == 1 ? 36 : 28,
-          backgroundColor: color.withOpacity(0.2),
+          backgroundColor: color.withValues(alpha: 0.2),
           child: Text(
             ranking.username[0].toUpperCase(),
             style: TextStyle(
@@ -210,7 +210,7 @@ class FriendsLeaderboardScreen extends ConsumerWidget {
           width: 80,
           height: height,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.3),
+            color: color.withValues(alpha: 0.3),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
             border: Border.all(color: color, width: 2),
           ),
@@ -313,7 +313,7 @@ class FriendsLeaderboardScreen extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: position <= 3
-              ? (medalColor?.withOpacity(0.2) ?? Colors.blue.shade50)
+              ? (medalColor?.withValues(alpha: 0.2) ?? Colors.blue.shade50)
               : Colors.blue.shade50,
           borderRadius: BorderRadius.circular(20),
         ),
@@ -413,3 +413,4 @@ class _UserRanking {
 
   _UserRanking({required this.username, required this.totalXp});
 }
+

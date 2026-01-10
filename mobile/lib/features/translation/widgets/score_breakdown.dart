@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../models/translation_result.dart';
 
 class ScoreBreakdownWidget extends StatelessWidget {
@@ -78,7 +78,7 @@ class ScoreBreakdownWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: percentage,
-            backgroundColor: color.withOpacity(0.2),
+            backgroundColor: color.withValues(alpha: 0.2),
             valueColor: AlwaysStoppedAnimation<Color>(color),
             minHeight: 8,
           ),
@@ -87,3 +87,4 @@ class ScoreBreakdownWidget extends StatelessWidget {
     );
   }
 }
+

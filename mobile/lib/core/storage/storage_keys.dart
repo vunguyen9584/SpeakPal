@@ -1,4 +1,4 @@
-/// Storage Keys
+﻿/// Storage Keys
 class StorageKeys {
   StorageKeys._();
 
@@ -25,3 +25,4 @@ class StorageKeys {
   // Cache
   static const String lastSyncTime = 'last_sync_time';
 }
+

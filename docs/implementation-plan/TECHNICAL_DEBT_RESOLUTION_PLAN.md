@@ -313,7 +313,7 @@
 
 #### Stage 3: Deprecated API Migration (0.5 day)
 
-- [ ] **T005: Update LinearGradient Usage**
+- [x] **T005: Update LinearGradient Usage** ✅ 2026-01-10
 
   ```dart
   // Find all instances of .withValues()
@@ -332,11 +332,11 @@
 
   **DoD:**
 
-  - [ ] All deprecated LinearGradient calls updated
-  - [ ] Visual regression testing passed
-  - [ ] No precision loss warnings
+  - [x] All deprecated LinearGradient calls updated
+  - [x] Visual regression testing passed
+  - [x] No precision loss warnings
 
-- [ ] **T006: Fix use_build_context_synchronously Warnings**
+- [x] **T006: Fix use_build_context_synchronously Warnings** ✅ 2026-01-10
 
   ```dart
   // Pattern to fix:
@@ -356,9 +356,9 @@
 
   **DoD:**
 
-  - [ ] All async BuildContext usages protected với mounted checks
-  - [ ] Widget lifecycle properly handled
-  - [ ] No use_build_context_synchronously warnings remain
+  - [x] All async BuildContext usages protected với mounted checks
+  - [x] Widget lifecycle properly handled
+  - [x] No use_build_context_synchronously warnings remain
 
 #### Stage 4: Cleanup & Validation (0.5 day)
 

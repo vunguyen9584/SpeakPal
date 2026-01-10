@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class SubtitleBox extends StatelessWidget {
   final String text;
@@ -47,3 +47,4 @@ class SubtitleBox extends StatelessWidget {
     );
   }
 }
+

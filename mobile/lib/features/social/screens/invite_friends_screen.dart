@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
@@ -152,6 +152,7 @@ class InviteFriendsScreen extends ConsumerWidget {
                   await repository.generateInvite();
                   ref.invalidate(myInvitationsProvider);
                 } catch (e) {
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Error: $e')),
                   );
@@ -265,3 +266,4 @@ class InviteFriendsScreen extends ConsumerWidget {
     return '${date.day}/${date.month}/${date.year}';
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
@@ -469,12 +469,15 @@ class GroupDetailScreen extends ConsumerWidget {
               try {
                 final repository = ref.read(groupRepositoryProvider);
                 await repository.leaveGroup(group.id);
+                
+                if (!context.mounted) return;
                 Navigator.pop(context); // Close dialog
                 Navigator.pop(context); // Go back to groups list
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Left group successfully')),
                 );
               } catch (e) {
+                if (!context.mounted) return;
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Error: $e')),
@@ -514,3 +517,4 @@ class GroupDetailScreen extends ConsumerWidget {
     return '${date.day}/${date.month}/${date.year}';
   }
 }
+

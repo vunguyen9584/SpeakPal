@@ -1,4 +1,4 @@
-import '../models/vocabulary.dart';
+﻿import '../models/vocabulary.dart';
 import '../models/scenario.dart';
 import '../models/challenge.dart';
 
@@ -22,3 +22,4 @@ abstract class LearningRepository {
   // Challenges
   Future<List<UserChallenge>> getTodayChallenges();
 }
+

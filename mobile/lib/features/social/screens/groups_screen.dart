@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/group_provider.dart';
 import 'group_detail_screen.dart';
@@ -157,9 +157,9 @@ class GroupsScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -312,11 +312,14 @@ class GroupsScreen extends ConsumerWidget {
                       : descriptionController.text.trim(),
                 );
                 ref.invalidate(myGroupsProvider);
+                
+                if (!context.mounted) return;
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Group created successfully!')),
                 );
               } catch (e) {
+                if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Error: $e')),
                 );
@@ -371,11 +374,14 @@ class GroupsScreen extends ConsumerWidget {
                 final repository = ref.read(groupRepositoryProvider);
                 await repository.joinGroup(codeController.text.trim());
                 ref.invalidate(myGroupsProvider);
+                
+                if (!context.mounted) return;
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Joined group successfully!')),
                 );
               } catch (e) {
+                if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Error: $e')),
                 );
@@ -388,3 +394,4 @@ class GroupsScreen extends ConsumerWidget {
     );
   }
 }
+

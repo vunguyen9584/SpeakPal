@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Persona Card Widget - displays created persona
 class PersonaCard extends StatelessWidget {
@@ -44,7 +44,7 @@ class PersonaCard extends StatelessWidget {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: Icon(
@@ -99,3 +99,4 @@ class PersonaCard extends StatelessWidget {
     );
   }
 }
+

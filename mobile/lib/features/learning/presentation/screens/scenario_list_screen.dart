@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/scenario.dart';
 
 class ScenarioListScreen extends StatefulWidget {
@@ -185,3 +185,4 @@ class ScenarioCard extends StatelessWidget {
     );
   }
 }
+

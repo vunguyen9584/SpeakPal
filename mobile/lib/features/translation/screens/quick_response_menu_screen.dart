@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'word_association_screen.dart';
 import 'instant_drill_screen.dart';
@@ -46,7 +46,7 @@ class QuickResponseMenuScreen extends ConsumerWidget {
               
               _buildGameModeCard(
                 context,
-                title: '瞬間応答',
+                title: '瞬間即答',
                 description: '10問の質問に素早く答えよう！',
                 icon: Icons.flash_on,
                 color: Colors.orange,
@@ -138,7 +138,7 @@ class QuickResponseMenuScreen extends ConsumerWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.2),
+                  color: color.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon, color: color, size: 32),
@@ -222,3 +222,4 @@ class QuickResponseMenuScreen extends ConsumerWidget {
     );
   }
 }
+

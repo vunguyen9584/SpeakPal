@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/onboarding_page_data.dart';
 
 /// Single Onboarding Page Widget
@@ -22,7 +22,7 @@ class OnboardingPage extends StatelessWidget {
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              color: pageData.color.withOpacity(0.1),
+              color: pageData.color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(60),
             ),
             child: Icon(
@@ -57,3 +57,4 @@ class OnboardingPage extends StatelessWidget {
     );
   }
 }
+

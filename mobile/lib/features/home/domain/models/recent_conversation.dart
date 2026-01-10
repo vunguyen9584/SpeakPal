@@ -1,4 +1,4 @@
-class RecentConversation {
+﻿class RecentConversation {
   final String id;
   final String mode;
   final int durationSeconds;
@@ -49,3 +49,4 @@ class RecentConversation {
     return 'red';
   }
 }
+

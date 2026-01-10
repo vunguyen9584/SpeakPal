@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// App Icon Set
 /// Custom icons and commonly used Material icons
@@ -105,3 +105,4 @@ class AppIcons {
   static const IconData timeline = Icons.timeline;
   static const IconData stats = Icons.analytics;
 }
+

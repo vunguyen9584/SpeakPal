@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+﻿import 'package:dio/dio.dart';
 
 /// Error Interceptor - Handles API errors
 class ErrorInterceptor extends Interceptor {
@@ -90,3 +90,4 @@ class ErrorInterceptor extends Interceptor {
     }
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/subscription_provider.dart';
 
@@ -150,7 +150,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -349,13 +349,13 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
             ),
             _buildComparisonRow(
               feature: 'Offline Mode',
-              free: '✗',
-              premium: '✓',
+              free: '❌',
+              premium: '✅',
             ),
             _buildComparisonRow(
               feature: 'Ad-Free',
-              free: '✗',
-              premium: '✓',
+              free: '❌',
+              premium: '✅',
             ),
             _buildComparisonRow(
               feature: 'Analytics',
@@ -459,3 +459,4 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
     );
   }
 }
+

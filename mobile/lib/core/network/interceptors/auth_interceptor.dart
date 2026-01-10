@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+﻿import 'package:dio/dio.dart';
 import '../../storage/secure_storage.dart';
 
 /// Auth Interceptor - Adds JWT token to requests
@@ -79,3 +79,4 @@ class AuthInterceptor extends Interceptor {
     }
   }
 }
+

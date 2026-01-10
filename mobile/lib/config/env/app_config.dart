@@ -1,4 +1,4 @@
-import 'environment.dart';
+﻿import 'environment.dart';
 
 /// App Configuration
 class AppConfig {
@@ -76,3 +76,4 @@ class AppConfig {
   static const Duration cacheExpiration = Duration(hours: 24);
   static const int maxCacheSize = 100; // MB
 }
+

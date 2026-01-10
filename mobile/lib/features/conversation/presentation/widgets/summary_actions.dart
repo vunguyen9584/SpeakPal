@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class SummaryActions extends StatelessWidget {
   final VoidCallback onShare;
@@ -66,3 +66,4 @@ class SummaryActions extends StatelessWidget {
     );
   }
 }
+

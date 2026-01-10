@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/providers/providers.dart';
 import '../../domain/models/dashboard_stats.dart';
 import '../../domain/models/recent_conversation.dart';
@@ -31,3 +31,4 @@ final refreshHomeProvider = FutureProvider.family<void, bool>((ref, force) async
     ref.invalidate(recentConversationsProvider);
   }
 });
+

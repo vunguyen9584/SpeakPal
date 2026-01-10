@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class AudioWaveAnimation extends StatefulWidget {
@@ -117,3 +117,4 @@ class WaveAnimationPainter extends CustomPainter {
     return oldDelegate.animation != animation || oldDelegate.isPlaying != isPlaying;
   }
 }
+

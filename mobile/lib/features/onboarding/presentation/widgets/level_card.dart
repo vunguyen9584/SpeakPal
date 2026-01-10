@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile/features/auth/domain/models/user.dart';
 
 /// Level Card Widget
@@ -146,3 +146,4 @@ class LevelCard extends StatelessWidget {
     );
   }
 }
+

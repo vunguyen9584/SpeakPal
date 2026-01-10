@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_text_styles.dart';
@@ -20,7 +20,7 @@ class PronunciationGauge extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -104,7 +104,7 @@ class _GaugePainter extends CustomPainter {
     final progressPaint = Paint()
       ..shader = LinearGradient(
         colors: [
-          _getScoreColor().withOpacity(0.5),
+          _getScoreColor().withValues(alpha: 0.5),
           _getScoreColor(),
         ],
       ).createShader(Rect.fromCircle(center: center, radius: radius))
@@ -133,3 +133,4 @@ class _GaugePainter extends CustomPainter {
     return oldDelegate.score != score;
   }
 }
+

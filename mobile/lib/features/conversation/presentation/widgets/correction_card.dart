@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/turn.dart';
 
 class CorrectionCard extends StatelessWidget {
@@ -17,7 +17,7 @@ class CorrectionCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      color: severityColor.withOpacity(0.1),
+      color: severityColor.withValues(alpha: 0.1),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -63,7 +63,7 @@ class CorrectionCard extends StatelessWidget {
                         color: Colors.red,
                       ),
                     ),
-                    const TextSpan(text: ' → '),
+                    const TextSpan(text: ' 竊・'),
                     TextSpan(
                       text: correction.corrected,
                       style: const TextStyle(
@@ -119,3 +119,4 @@ class CorrectionCard extends StatelessWidget {
     return type[0].toUpperCase() + type.substring(1);
   }
 }
+

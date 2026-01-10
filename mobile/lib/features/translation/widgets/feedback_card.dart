@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class FeedbackCard extends StatelessWidget {
   final List<String> feedback;
@@ -11,8 +11,8 @@ class FeedbackCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Separate feedback into good points and improvements
-    final goodPoints = feedback.where((f) => f.startsWith('✓')).toList();
-    final improvements = feedback.where((f) => !f.startsWith('✓')).toList();
+    final goodPoints = feedback.where((f) => f.startsWith('👍')).toList();
+    final improvements = feedback.where((f) => !f.startsWith('👍')).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class FeedbackCard extends StatelessWidget {
         
         // Good points
         if (goodPoints.isNotEmpty) ...[
-          _buildSection(
+            _buildSection(
             context,
             '良い点',
             goodPoints,
@@ -61,9 +61,9 @@ class FeedbackCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,10 +88,10 @@ class FeedbackCard extends StatelessWidget {
             children: items.map((item) {
               return Chip(
                 label: Text(
-                  item.replaceFirst('✓ ', ''),
+                  item.replaceFirst('👍', ''),
                   style: const TextStyle(fontSize: 12),
                 ),
-                backgroundColor: color.withOpacity(0.2),
+                backgroundColor: color.withValues(alpha: 0.2),
                 side: BorderSide.none,
               );
             }).toList(),
@@ -101,3 +101,4 @@ class FeedbackCard extends StatelessWidget {
     );
   }
 }
+

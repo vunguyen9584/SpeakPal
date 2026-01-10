@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 
 /// Translation practice topics
@@ -44,3 +44,4 @@ enum TranslationTopic {
     }
   }
 }
+

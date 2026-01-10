@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_stats.freezed.dart';
 part 'user_stats.g.dart';
@@ -19,3 +19,4 @@ abstract class UserStats with _$UserStats {
   factory UserStats.fromJson(Map<String, dynamic> json) =>
       _$UserStatsFromJson(json);
 }
+

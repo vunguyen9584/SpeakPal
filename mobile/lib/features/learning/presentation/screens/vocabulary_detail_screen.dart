@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/vocabulary.dart';
 
 class VocabularyDetailScreen extends StatelessWidget {
@@ -197,3 +197,4 @@ class VocabularyDetailScreen extends StatelessWidget {
     );
   }
 }
+

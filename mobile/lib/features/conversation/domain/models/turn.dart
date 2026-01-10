@@ -1,4 +1,4 @@
-enum TurnSpeaker {
+﻿enum TurnSpeaker {
   user,
   ai,
 }
@@ -88,3 +88,4 @@ class Correction {
     };
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class WaveformWidget extends StatelessWidget {
@@ -75,3 +75,4 @@ class WaveformPainter extends CustomPainter {
     return oldDelegate.amplitude != amplitude;
   }
 }
+

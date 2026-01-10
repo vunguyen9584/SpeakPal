@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/turn.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -68,3 +68,4 @@ class ChatBubble extends StatelessWidget {
     );
   }
 }
+

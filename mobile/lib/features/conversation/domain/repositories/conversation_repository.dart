@@ -1,4 +1,4 @@
-import '../models/conversation.dart';
+﻿import '../models/conversation.dart';
 
 abstract class ConversationRepository {
   /// Create a new conversation session
@@ -17,3 +17,4 @@ abstract class ConversationRepository {
   /// Get conversation turns
   Future<List<dynamic>> getTurns(String id);
 }
+

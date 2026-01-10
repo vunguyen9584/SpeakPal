@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../config/theme/dimensions.dart';
 
 /// Custom Card widget
@@ -48,3 +48,4 @@ class AppCard extends StatelessWidget {
     return card;
   }
 }
+

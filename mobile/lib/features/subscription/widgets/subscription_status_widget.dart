@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/subscription_provider.dart';
 
@@ -303,3 +303,4 @@ class SubscriptionStatusWidget extends ConsumerWidget {
     }
   }
 }
+

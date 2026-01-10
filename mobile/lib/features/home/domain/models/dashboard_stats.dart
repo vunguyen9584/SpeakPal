@@ -1,4 +1,4 @@
-class DashboardStats {
+﻿class DashboardStats {
   final int todayMinutes;
   final int weeklyMinutes;
   final int currentStreak;
@@ -47,3 +47,4 @@ class DashboardStats {
 
   double get progressPercentage => (todayMinutes / dailyGoal).clamp(0.0, 1.0);
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+﻿import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'storage_keys.dart';
 
 /// Secure Storage for sensitive data (tokens, credentials)
@@ -95,3 +95,4 @@ class SecureStorage {
     return accessToken != null && accessToken.isNotEmpty;
   }
 }
+

@@ -1,4 +1,4 @@
-class Badge {
+﻿class Badge {
   final String code;
   final String name;
   final String description;
@@ -73,3 +73,4 @@ class UserBadge {
     };
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/shadowing_models.dart';
@@ -91,7 +91,7 @@ class ShadowingResultScreen extends ConsumerWidget {
       height: 150,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         border: Border.all(color: color, width: 4),
       ),
       child: Center(
@@ -174,7 +174,7 @@ class ShadowingResultScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: percentage,
-            backgroundColor: color.withOpacity(0.2),
+            backgroundColor: color.withValues(alpha: 0.2),
             valueColor: AlwaysStoppedAnimation<Color>(color),
             minHeight: 10,
           ),
@@ -360,3 +360,4 @@ class ShadowingResultScreen extends ConsumerWidget {
     }
   }
 }
+

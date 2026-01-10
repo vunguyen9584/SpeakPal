@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+﻿import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:record/record.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -101,3 +101,4 @@ class RecordingNotifier extends Notifier<RecordingState> {
 
   // dispose is handled in build
 }
+

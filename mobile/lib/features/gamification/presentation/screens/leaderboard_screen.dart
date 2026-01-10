@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/ranking.dart';
 
@@ -37,7 +37,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
           // League selector
           Container(
             padding: const EdgeInsets.all(16),
-            color: _getLeagueColor(_selectedLeague).withOpacity(0.1),
+            color: _getLeagueColor(_selectedLeague).withValues(alpha: 0.1),
             child: Column(
               children: [
                 Text(
@@ -60,7 +60,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
                         child: ChoiceChip(
                           label: Text(league[0].toUpperCase() + league.substring(1)),
                           selected: _selectedLeague == league,
-                          selectedColor: _getLeagueColor(league).withOpacity(0.3),
+                          selectedColor: _getLeagueColor(league).withValues(alpha: 0.3),
                           onSelected: (selected) {
                             setState(() {
                               _selectedLeague = league;
@@ -174,7 +174,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
       children: [
         CircleAvatar(
           radius: 30,
-          backgroundColor: color.withOpacity(0.2),
+          backgroundColor: color.withValues(alpha: 0.2),
           child: ranking.avatarUrl != null
               ? ClipOval(child: Image.network(ranking.avatarUrl!))
               : Text(
@@ -205,7 +205,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
           width: 60,
           height: height,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.3),
+            color: color.withValues(alpha: 0.3),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
           ),
           child: Column(
@@ -259,10 +259,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
         title: const Text('League System'),
         content: const Text(
           'Compete weekly with others in your league!\n\n'
-          '• Top 10 players get promoted to higher league\n'
-          '• Bottom 10 players get demoted\n'
-          '• Rankings reset every Monday\n'
-          '• Earn XP by practicing conversations and completing challenges',
+          '窶｢ Top 10 players get promoted to higher league\n'
+          '窶｢ Bottom 10 players get demoted\n'
+          '窶｢ Rankings reset every Monday\n'
+          '窶｢ Earn XP by practicing conversations and completing challenges',
         ),
         actions: [
           TextButton(
@@ -304,7 +304,7 @@ class RankingListItem extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: _getRankColor(ranking.rank).withOpacity(0.2),
+              color: _getRankColor(ranking.rank).withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
@@ -408,3 +408,4 @@ class RankingListItem extends StatelessWidget {
     return Colors.blue;
   }
 }
+

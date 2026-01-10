@@ -1,4 +1,4 @@
-class WeeklyReport {
+﻿class WeeklyReport {
   final int weekNumber;
   final DateTime startDate;
   final DateTime endDate;
@@ -167,3 +167,4 @@ class Achievement {
     );
   }
 }
+

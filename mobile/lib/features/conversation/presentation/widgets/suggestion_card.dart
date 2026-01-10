@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/suggestion.dart';
 
 class SuggestionCard extends StatelessWidget {
@@ -62,7 +62,7 @@ class SuggestionCard extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('• ', style: TextStyle(fontSize: 14)),
+                      const Text('窶｢ ', style: TextStyle(fontSize: 14)),
                       Expanded(
                         child: Text(
                           alt,
@@ -106,3 +106,4 @@ class SuggestionCard extends StatelessWidget {
     );
   }
 }
+

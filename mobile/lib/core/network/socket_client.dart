@@ -1,4 +1,4 @@
-import 'package:socket_io_client/socket_io_client.dart' as io;
+﻿import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../storage/secure_storage.dart';
 import '../../config/env/app_config.dart';
 import 'socket_events.dart';
@@ -137,3 +137,4 @@ class SocketClient {
     });
   }
 }
+

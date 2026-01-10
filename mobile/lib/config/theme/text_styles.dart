@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'typography.dart';
 
@@ -34,3 +34,4 @@ class AppTextStyles {
   static TextStyle get overline => AppTypography.overline;
   static TextStyle get button => AppTypography.button;
 }
+

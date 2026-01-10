@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/suggestion.dart';
 import 'vocabulary_card.dart';
 
@@ -107,3 +107,4 @@ class VocabularySection extends StatelessWidget {
     print('Playing pronunciation for: ${word.word}');
   }
 }
+

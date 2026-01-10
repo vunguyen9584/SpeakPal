@@ -1,4 +1,4 @@
-class RankingEntry {
+﻿class RankingEntry {
   final int rank;
   final String userId;
   final String displayName;
@@ -77,3 +77,4 @@ class Leaderboard {
     };
   }
 }
+

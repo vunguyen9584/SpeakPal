@@ -1,4 +1,4 @@
-import 'package:mobile/core/network/api_client.dart';
+﻿import 'package:mobile/core/network/api_client.dart';
 import 'package:mobile/core/network/api_endpoints.dart';
 import 'package:mobile/features/auth/domain/models/user.dart';
 import '../domain/models/user_stats.dart';
@@ -69,3 +69,4 @@ class ProfileRepository {
     await _apiClient.delete(ApiEndpoints.user);
   }
 }
+

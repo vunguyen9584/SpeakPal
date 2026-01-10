@@ -1,4 +1,4 @@
-// Scenario Model
+﻿// Scenario Model
 class Scenario {
   final String id;
   final String title;
@@ -35,3 +35,4 @@ class Scenario {
     );
   }
 }
+

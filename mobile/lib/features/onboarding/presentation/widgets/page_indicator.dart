@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Page Indicator Dots Widget
 class PageIndicator extends StatelessWidget {
@@ -33,3 +33,4 @@ class PageIndicator extends StatelessWidget {
     );
   }
 }
+

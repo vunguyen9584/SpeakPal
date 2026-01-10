@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/intent_category.dart';
 import '../models/intent_question.dart';
@@ -156,7 +156,7 @@ class _IntentTranslationScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    'シチュエーション',
+                    '繧ｷ繝√Η繧ｨ繝ｼ繧ｷ繝ｧ繝ｳ',
                     style: TextStyle(
                       color: Colors.purple.shade900,
                       fontSize: 12,
@@ -262,3 +262,4 @@ class _IntentTranslationScreenState
     );
   }
 }
+

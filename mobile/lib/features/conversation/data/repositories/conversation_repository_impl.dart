@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+﻿import 'package:dio/dio.dart';
 import '../../domain/models/conversation.dart';
 import '../../domain/repositories/conversation_repository.dart';
 
@@ -54,3 +54,4 @@ class ConversationRepositoryImpl implements ConversationRepository {
     }
   }
 }
+

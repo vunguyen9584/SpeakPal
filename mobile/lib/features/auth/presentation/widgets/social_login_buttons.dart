@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:mobile/config/theme/colors.dart';
 
 /// Social Login Buttons Widget
@@ -70,3 +70,4 @@ class SocialLoginButtons extends StatelessWidget {
     );
   }
 }
+

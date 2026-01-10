@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class PersonaSelector extends StatelessWidget {
   final String selectedPersonaId;
@@ -45,3 +45,4 @@ class PersonaSelector extends StatelessWidget {
     return 'S';
   }
 }
+

@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+﻿// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'translation_result.dart';
 
@@ -51,3 +51,4 @@ Map<String, dynamic> _$ScoreBreakdownToJson(_ScoreBreakdown instance) =>
       'vocabularyScore': instance.vocabularyScore,
       'speedScore': instance.speedScore,
     };
+

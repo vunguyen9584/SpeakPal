@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+﻿import 'package:dio/dio.dart';
 import 'dart:developer' as developer;
 
 /// Logging Interceptor - Logs HTTP requests and responses
@@ -6,7 +6,7 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     developer.log(
-      '→ ${options.method} ${options.uri}',
+      '竊・${options.method} ${options.uri}',
       name: 'API Request',
     );
     developer.log(
@@ -26,7 +26,7 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     developer.log(
-      '← ${response.statusCode} ${response.requestOptions.uri}',
+      '竊・${response.statusCode} ${response.requestOptions.uri}',
       name: 'API Response',
     );
     developer.log(
@@ -40,7 +40,7 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     developer.log(
-      '✗ ${err.requestOptions.method} ${err.requestOptions.uri}',
+      '笨・${err.requestOptions.method} ${err.requestOptions.uri}',
       name: 'API Error',
       error: err.error,
     );
@@ -58,3 +58,4 @@ class LoggingInterceptor extends Interceptor {
     handler.next(err);
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+﻿import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local Storage using SharedPreferences
 class LocalStorage {
@@ -83,3 +83,4 @@ class LocalStorage {
     return _preferences!.getKeys();
   }
 }
+

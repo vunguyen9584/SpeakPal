@@ -1,4 +1,4 @@
-import '../models/badge.dart';
+﻿import '../models/badge.dart';
 import '../models/streak.dart';
 import '../models/ranking.dart';
 
@@ -14,3 +14,4 @@ abstract class GamificationRepository {
   // Ranking
   Future<Leaderboard> getWeeklyRanking({String? league});
 }
+

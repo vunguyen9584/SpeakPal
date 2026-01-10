@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:typed_data';
 import 'dart:io';
 import 'package:record/record.dart';
@@ -97,3 +97,4 @@ class AudioRecorderService {
     _recorder.dispose();
   }
 }
+

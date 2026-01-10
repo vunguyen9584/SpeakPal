@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/translation_topic.dart';
 import '../providers/topic_provider.dart';
@@ -13,7 +13,7 @@ class TranslationHeader extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.1),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         borderRadius: const BorderRadius.vertical(
           bottom: Radius.circular(16),
         ),
@@ -78,3 +78,4 @@ class TranslationHeader extends ConsumerWidget {
     );
   }
 }
+

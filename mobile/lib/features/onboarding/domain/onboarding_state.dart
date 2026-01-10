@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+﻿import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile/features/auth/domain/models/user.dart';
 
 part 'onboarding_state.freezed.dart';
@@ -13,3 +13,4 @@ abstract class OnboardingState with _$OnboardingState {
     @Default(0) int currentStep,
   }) = _OnboardingState;
 }
+

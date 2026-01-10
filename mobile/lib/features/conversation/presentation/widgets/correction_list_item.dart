@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/turn.dart';
 import 'correction_detail_modal.dart';
 
@@ -45,7 +45,7 @@ class _CorrectionListItemState extends State<CorrectionListItem> {
                               color: Colors.red,
                             ),
                           ),
-                          const TextSpan(text: ' → '),
+                          const TextSpan(text: ' 竊・'),
                           TextSpan(
                             text: widget.correction.corrected,
                             style: const TextStyle(
@@ -82,7 +82,7 @@ class _CorrectionListItemState extends State<CorrectionListItem> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  '日本語:',
+                  '譌･譛ｬ隱・',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -112,3 +112,4 @@ class _CorrectionListItemState extends State<CorrectionListItem> {
     );
   }
 }
+

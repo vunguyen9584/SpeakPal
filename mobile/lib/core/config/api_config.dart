@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/env/app_config.dart';
 
 /// Centralized API Configuration
@@ -41,3 +41,4 @@ class ApiConfig {
 final apiConfigProvider = Provider<ApiConfig>((ref) {
   return ApiConfig(baseUrl: AppConfig.apiBaseUrl);
 });
+

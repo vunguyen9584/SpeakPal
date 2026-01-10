@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/config/theme/typography.dart';
 import '../../../../config/theme/dimensions.dart';
@@ -22,7 +22,7 @@ class OnboardingCompleteScreen extends StatelessWidget {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(60),
                 ),
                 child: const Icon(
@@ -97,7 +97,7 @@ class OnboardingCompleteScreen extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(0.1),
+            color: Colors.blue.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(24),
           ),
           child: Icon(icon, color: Colors.blue),
@@ -128,3 +128,4 @@ class OnboardingCompleteScreen extends StatelessWidget {
     );
   }
 }
+

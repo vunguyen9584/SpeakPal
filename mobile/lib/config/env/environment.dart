@@ -1,4 +1,4 @@
-/// App Environment Configuration
+﻿/// App Environment Configuration
 enum Environment {
   development,
   staging,
@@ -37,3 +37,4 @@ class AppEnvironment {
     }
   }
 }
+

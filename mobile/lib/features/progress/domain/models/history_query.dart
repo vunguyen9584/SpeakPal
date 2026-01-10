@@ -1,4 +1,4 @@
-import 'history_item.dart';
+﻿import 'history_item.dart';
 
 class HistoryQuery {
   final int page;
@@ -13,3 +13,4 @@ class HistoryQuery {
     this.type,
   });
 }
+

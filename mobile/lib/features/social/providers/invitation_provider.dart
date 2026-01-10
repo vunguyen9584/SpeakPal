@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/network/api_client.dart';
 import 'package:mobile/core/providers/providers.dart';
 
@@ -139,3 +139,4 @@ final referralStatsProvider = FutureProvider<ReferralStats>((ref) {
   final repository = ref.watch(invitationRepositoryProvider);
   return repository.getReferralStats();
 });
+

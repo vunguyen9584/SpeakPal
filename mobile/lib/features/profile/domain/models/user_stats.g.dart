@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+﻿// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'user_stats.dart';
 
@@ -28,3 +28,4 @@ Map<String, dynamic> _$UserStatsToJson(_UserStats instance) =>
       'averageAccuracy': instance.averageAccuracy,
       'totalMinutes': instance.totalMinutes,
     };
+

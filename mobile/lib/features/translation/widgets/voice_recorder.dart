@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import '../providers/recording_provider.dart';
@@ -60,7 +60,7 @@ class _VoiceRecorderState extends ConsumerState<VoiceRecorder>
                     color: _getButtonColor(recordingState),
                     boxShadow: [
                       BoxShadow(
-                        color: _getButtonColor(recordingState).withOpacity(0.3),
+                        color: _getButtonColor(recordingState).withValues(alpha: 0.3),
                         blurRadius: 20,
                         spreadRadius: 5,
                       ),

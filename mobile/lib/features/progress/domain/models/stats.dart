@@ -1,4 +1,4 @@
-class Stats {
+﻿class Stats {
   final DailyStats daily;
   final WeeklyStats weekly;
   final MonthlyStats monthly;
@@ -122,3 +122,4 @@ enum StatsPeriod {
   thisMonth,
   allTime,
 }
+

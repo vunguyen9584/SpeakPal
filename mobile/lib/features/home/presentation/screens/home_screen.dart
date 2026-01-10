@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/home_provider.dart';
 import '../widgets/daily_progress_widget.dart';
@@ -119,3 +119,4 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/intent_result.dart';
@@ -49,7 +49,7 @@ class IntentResultSheet extends ConsumerWidget {
             // User expression
             _buildSection(
               context,
-              'あなたの表現',
+              '縺ゅ↑縺溘・陦ｨ迴ｾ',
               result!.userExpression,
               Colors.blue.shade50,
             ),
@@ -136,7 +136,7 @@ class IntentResultSheet extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'スコア内訳',
+          '繧ｹ繧ｳ繧｢蜀・ｨｳ',
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -181,7 +181,7 @@ class IntentResultSheet extends ConsumerWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: percentage,
-            backgroundColor: color.withOpacity(0.2),
+            backgroundColor: color.withValues(alpha: 0.2),
             valueColor: AlwaysStoppedAnimation<Color>(color),
             minHeight: 8,
           ),
@@ -263,3 +263,4 @@ class IntentResultSheet extends ConsumerWidget {
     ).animate().shimmer(duration: 1500.ms);
   }
 }
+

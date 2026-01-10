@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../domain/models/turn.dart';
 
 class CorrectionDetailModal extends StatelessWidget {
@@ -97,7 +97,7 @@ class CorrectionDetailModal extends StatelessWidget {
               const SizedBox(height: 16),
               // Japanese explanation
               const Text(
-                '日本語説明:',
+                '譌･譛ｬ隱櫁ｪｬ譏・',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -187,3 +187,4 @@ class CorrectionDetailModal extends StatelessWidget {
     return type[0].toUpperCase() + type.substring(1);
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/services/conversation_socket_service.dart';
 
 final conversationSocketServiceProvider = Provider<ConversationSocketService>((ref) {
@@ -15,3 +15,4 @@ final conversationSocketEventsProvider = StreamProvider.autoDispose.family<Socke
 );
 
 final socketConnectionStateProvider = StateProvider<bool>((ref) => false);
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../../shared/widgets/app_button.dart';
 
 /// Register Form Widget
@@ -297,3 +297,4 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 }
+

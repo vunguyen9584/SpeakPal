@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/dashboard_stats.dart';
 
@@ -56,7 +56,7 @@ class DailyProgressWidget extends ConsumerWidget {
                   ),
                   if (stats.todayMinutes >= stats.dailyGoal)
                     const Text(
-                      '🎉 Goal achieved!',
+                      '脂 Goal achieved!',
                       style: TextStyle(
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -102,14 +102,14 @@ class StreakBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.2),
+        color: Colors.orange.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
-            '🔥',
+            '櫨',
             style: TextStyle(fontSize: 16),
           ),
           const SizedBox(width: 4),
@@ -126,3 +126,4 @@ class StreakBadge extends StatelessWidget {
     );
   }
 }
+
