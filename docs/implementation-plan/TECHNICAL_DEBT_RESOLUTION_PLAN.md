@@ -158,7 +158,7 @@
 
 #### Tasks
 
-- [ ] **T001: Run Initial Metrics Collection**
+- [x] **T001: Run Initial Metrics Collection** ✅ 2026-01-10
 
   ```bash
   # Collect baseline
