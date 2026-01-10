@@ -1,27 +1,27 @@
-- Goal: Execute Phase 7 QA (Quality Assurance) - Equivalent to Phase 8 in Checklist
+- Goal: Execute comprehensive code review of mobile codebase against SRS/BD/DD
 - Constraints:
-  - Phase naming discrepancy: Plan is `phase-7-qa.md`, Checklist calls it Phase 8.
-  - Must sync with `CHECKLIST.md`.
-  - Some E2E tests already exist and pass; verify coverage before marking done.
+  - Must review against Japanese design docs (システム要件定義書, 基本設計書, 詳細設計書)
+  - Mobile codebase: Flutter/Dart architecture with Riverpod state management
+  - Phase 7 QA already executing with 147/147 tests passing
 - Key decisions:
-  - Will follow `phase-7-qa.md` for structure.
-  - Will verify existing tests against requirements before implementing new ones.
+  - Review focuses on: Technical Debt, Completeness vs Design, Best Practices, Production Readiness
+  - Analyze: 499 flutter analyze issues, 70+ TODO markers, security practices
 - State:
   - Done:
-    - Phase 6 (Social & Subscription) coding and integration.
-    - Resolving E2E failures (141 tests passing).
-    - WP-QA-001 (Backend Unit Tests) and WP-QA-002 (Backend Integration Tests) confirmed passing.
-    - WP-QA-003-T001 & T002 (Flutter Test Setup & Auth Feature Tests) implemented and passing.
+    - Read workflow /review-code requirements
+    - Analyzed flutter analyze output (499 issues found)
+    - Run flutter test suite (147 tests passing - 100% success)
+    - Examined key architecture files (main.dart, api_client.dart, config)
+    - Scanned for TODO items (70+ found), print statements (19 files), hardcoded URLs
   - Now:
-    - WP-QA-003: Flutter Widget Tests.
-    - Implementing tests for Conversation, Learning, and Shared Widgets.
-    - FIX COMPLETED: Translation feature Widget Tests and Analysis errors.
+    - Compiling comprehensive code audit report
   - Next:
-    - WP-QA-003-T003: Conversation Feature Tests.
-    - WP-QA-003-T004: Learning Feature Tests.
+    - Generate markdown table with findings
+    - Provide overall assessment and top 3 action items
 - Open questions:
-  - Confirm execution mode (Manual/Auto).
+  - None - proceeding with report generation
 - Working set:
-  - `docs/implementation-plan/phase-7-qa.md`
-  - `docs/implementation-plan/CHECKLIST.md`
-  - `backend/test/**/*`
+  - `mobile/lib/**/*`
+  - `docs/システム要件定義書/**/*`
+  - `docs/基本設計書/**/*`
+  - `docs/詳細設計書/**/*`
