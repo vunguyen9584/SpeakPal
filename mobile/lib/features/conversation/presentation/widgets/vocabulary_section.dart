@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import '../../domain/models/suggestion.dart';
+import '../../../../core/services/logger_service.dart';
 import 'vocabulary_card.dart';
 
 class VocabularySection extends StatelessWidget {
@@ -104,7 +105,7 @@ class VocabularySection extends StatelessWidget {
 
   void _playPronunciation(VocabularyItem word) {
     // TODO: Implement pronunciation playback
-    print('Playing pronunciation for: ${word.word}');
+    LoggerService.i('Playing pronunciation for: ${word.word}');
   }
 }
 

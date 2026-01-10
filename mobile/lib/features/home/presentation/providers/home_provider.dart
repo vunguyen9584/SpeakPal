@@ -3,7 +3,7 @@ import 'package:mobile/core/providers/providers.dart';
 import '../../domain/models/dashboard_stats.dart';
 import '../../domain/models/recent_conversation.dart';
 import '../../domain/repositories/home_repository.dart';
-import 'package:mobile/core/network/api_client.dart';
+
 import '../../data/repositories/home_repository_impl.dart';
 
 // Repository provider

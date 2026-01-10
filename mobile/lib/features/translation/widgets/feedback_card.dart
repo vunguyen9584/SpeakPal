@@ -88,7 +88,7 @@ class FeedbackCard extends StatelessWidget {
             children: items.map((item) {
               return Chip(
                 label: Text(
-                  item.replaceFirst('👍', ''),
+                  item.replaceFirst('👍', '').trim(),
                   style: const TextStyle(fontSize: 12),
                 ),
                 backgroundColor: color.withValues(alpha: 0.2),

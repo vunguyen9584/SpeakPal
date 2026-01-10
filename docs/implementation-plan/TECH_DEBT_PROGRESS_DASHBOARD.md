@@ -30,15 +30,15 @@
 
 ### Code Quality Metrics
 
-| Metric                       | Baseline (W0) | Current | Target | Status |
-| ---------------------------- | ------------- | ------- | ------ | ------ |
-| **Flutter Analyze Errors**   | 289           | 0       | 0      | ✅     |
-| **Flutter Analyze Warnings** | 20            | 52      | <50    | 🟡     |
-| **Test Pass Rate**           | 100% (147)    | 100%    | 100%   | ✅     |
-| **Code Coverage**            | 60%           | 60%     | >70%   | 🟡     |
-| **TODO Count**               | 80            | 80      | <10    | 🔴     |
-| **Print Statements**         | 19            | 19      | 0      | 🔴     |
-| **Hardcoded URLs**           | 3             | 3       | 0      | 🔴     |
+| Metric                       | Baseline (W0) | Current    | Target | Status |
+| ---------------------------- | ------------- | ---------- | ------ | ------ |
+| **Flutter Analyze Errors**   | 289           | 0          | 0      | ✅     |
+| **Flutter Analyze Warnings** | 20            | 26         | <50    | ✅     |
+| **Test Pass Rate**           | 100% (147)    | 100% (147) | 100%   | ✅     |
+| **Code Coverage**            | 60%           | 47.1%      | >70%   | �      |
+| **TODO Count**               | 80            | 80         | <10    | 🔴     |
+| **Print Statements**         | 19            | 19         | 0      | 🔴     |
+| **Hardcoded URLs**           | 3             | 3          | 0      | 🔴     |
 
 ### Feature Completeness
 

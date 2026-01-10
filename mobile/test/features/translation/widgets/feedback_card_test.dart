@@ -6,8 +6,8 @@ void main() {
   group('FeedbackCard Widget Tests', () {
     testWidgets('should display good points section', (WidgetTester tester) async {
       const feedback = [
-        '✓ 文法が正確です',
-        '✓ 発音が良いです',
+        '👍 文法が正確です',
+        '👍 発音が良いです',
         '改善: もっと早く話しましょう',
       ];
 
@@ -25,7 +25,7 @@ void main() {
 
     testWidgets('should display improvements section', (WidgetTester tester) async {
       const feedback = [
-        '✓ 文法が正確です',
+        '👍 文法が正確です',
         '改善: もっと早く話しましょう',
         '改善: 語彙を増やしましょう',
       ];
@@ -44,8 +44,8 @@ void main() {
 
     testWidgets('should display feedback as chips', (WidgetTester tester) async {
       const feedback = [
-        '✓ 文法が正確です',
-        '✓ 発音が良いです',
+        '👍 文法が正確です',
+        '👍 発音が良いです',
         '改善: スピードアップ',
       ];
 
@@ -60,9 +60,9 @@ void main() {
       expect(find.byType(Chip), findsNWidgets(3));
     });
 
-    testWidgets('should remove checkmark prefix from good points', (WidgetTester tester) async {
+    testWidgets('should remove thumbs up prefix from good points', (WidgetTester tester) async {
       const feedback = [
-        '✓ 文法が正確です',
+        '👍 文法が正確です',
       ];
 
       await tester.pumpWidget(
@@ -74,7 +74,7 @@ void main() {
       );
 
       expect(find.text('文法が正確です'), findsOneWidget);
-      expect(find.text('✓ 文法が正確です'), findsNothing);
+      expect(find.text('👍 文法が正確です'), findsNothing);
     });
 
     testWidgets('should handle empty feedback list', (WidgetTester tester) async {
@@ -94,8 +94,8 @@ void main() {
 
     testWidgets('should handle only good points', (WidgetTester tester) async {
       const feedback = [
-        '✓ 完璧です',
-        '✓ 素晴らしい',
+        '👍 完璧です',
+        '👍 素晴らしい',
       ];
 
       await tester.pumpWidget(

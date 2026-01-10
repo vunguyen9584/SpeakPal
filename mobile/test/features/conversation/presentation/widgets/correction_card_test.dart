@@ -60,7 +60,7 @@ void main() {
 
       // Assert
       final card = tester.widget<Card>(find.byType(Card));
-      expect(card.color, Colors.red.withOpacity(0.1));
+      expect(card.color, Colors.red.withValues(alpha: 0.1));
     });
 
     testWidgets('should use orange color for medium severity', (WidgetTester tester) async {
@@ -84,7 +84,7 @@ void main() {
 
       // Assert
       final card = tester.widget<Card>(find.byType(Card));
-      expect(card.color, Colors.orange.withOpacity(0.1));
+      expect(card.color, Colors.orange.withValues(alpha: 0.1));
     });
 
     testWidgets('should use blue color for low severity', (WidgetTester tester) async {
@@ -108,7 +108,7 @@ void main() {
 
       // Assert
       final card = tester.widget<Card>(find.byType(Card));
-      expect(card.color, Colors.blue.withOpacity(0.1));
+      expect(card.color, Colors.blue.withValues(alpha: 0.1));
     });
 
     testWidgets('should display correct icon for grammar type', (WidgetTester tester) async {

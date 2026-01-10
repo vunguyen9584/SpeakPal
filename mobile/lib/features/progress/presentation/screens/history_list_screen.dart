@@ -295,7 +295,9 @@ class _HistoryListScreenState extends ConsumerState<HistoryListScreen> {
                     _endDate = range.end;
                     _currentPage = 1;
                   });
-                  Navigator.pop(context);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                 }
               },
             ),

@@ -63,7 +63,7 @@ class CorrectionCard extends StatelessWidget {
                         color: Colors.red,
                       ),
                     ),
-                    const TextSpan(text: ' 竊・'),
+                    const TextSpan(text: ' → '),
                     TextSpan(
                       text: correction.corrected,
                       style: const TextStyle(

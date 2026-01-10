@@ -91,7 +91,7 @@ class QuestionCard extends ConsumerWidget {
               const Icon(Icons.error, color: Colors.red, size: 48),
               const SizedBox(height: 8),
               Text(
-                '繧ｨ繝ｩ繝ｼ縺檎匱逕溘＠縺ｾ縺励◆',
+                'エラーが発生しました',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 4),

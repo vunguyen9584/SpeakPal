@@ -1,5 +1,5 @@
 ﻿import 'package:flutter/material.dart';
-import 'colors.dart';
+
 import 'typography.dart';
 
 /// App Text Styles (Alias and Extension for AppTypography)

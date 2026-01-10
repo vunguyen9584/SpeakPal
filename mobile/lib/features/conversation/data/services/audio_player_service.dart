@@ -2,6 +2,7 @@
 import 'dart:collection';
 import 'dart:typed_data';
 import 'package:just_audio/just_audio.dart';
+import '../../../../core/services/logger_service.dart';
 
 class AudioPlayerService {
   final AudioPlayer _player = AudioPlayer();
@@ -63,7 +64,7 @@ class AudioPlayerService {
       );
       await _player.play();
     } catch (e) {
-      print('Error playing audio chunk: $e');
+      LoggerService.e('Error playing audio chunk: $e');
       _playNextChunk(); // Try next chunk
     }
   }
