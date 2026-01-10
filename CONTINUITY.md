@@ -1,4 +1,4 @@
-- Goal: Fix E2E Test Failures due to Prisma Client - COMPLETED ✅
+- Goal: Resolve Cross-API and Remaining E2E Test Failures - COMPLETED ✅
 - Constraints:
   - Must fix Prisma 7.x "engine type client requires adapter" error
   - Must follow best practices, not quick workarounds
@@ -10,31 +10,22 @@
   - Created test-helper.module.ts with MockFirebaseService and TestPrismaService
   - Created setup.ts to load .env.test and clear external service credentials
   - Updated all E2E test files to use createTestingModule() helper
-- State:
-- State:
+  - Updated `persona.e2e-spec.ts` to use valid `CHEERFUL` enum logic.
+  - Updated `translation.e2e-spec.ts` to clean up `QuickResponseResult` to prevent daily limit failures.
 - State:
   - Done:
     - Fixed `PrismaClient` initialization for Prisma 7.x (added adapter).
     - Configured `.env.test` and `setup.ts` for clean test environment.
     - Added database seeding to `translation.e2e-spec.ts`.
-    - Added missing `JwtAuthGuard` to `TranslationController`, `QuickResponseController`, `ShadowingController`, `InvitationController`, `GroupController`.
-    - Fixed `GroupResponseDto` in Social module to include `inviteCode` (mapped to `id`), fixing 500 errors in Group E2E tests.
-    - Fixed `social.e2e-spec.ts` to correctly access `inviteCode` property (instead of `code`) and updated length expectation.
-    - Fixed API prefixes in E2E tests.
-    - Updated `TranslationQuestionRepository` to use safe `findMany`.
+    - Fixed all `cross-api.e2e-spec.ts` failures (Persona creation, usage tracking, pagination).
+    - Fixed `persona.e2e-spec.ts` 404/Validation errors.
+    - Fixed `translation.e2e-spec.ts` 500 errors (Daily Limit).
+    - Verified ALL 141 E2E tests pass.
   - Now:
-    - Run `npm run test:e2e` to identify remaining assertion failures (likely test expectation mismatches).
+    - (Completed)
   - Next:
-    - Fix remaining assertion errors in `social.e2e-spec.ts` (Group flow) and `translation.e2e-spec.ts`.
-    - Address `404` for `/scenarios` in Integration tests.
+    - Proceed to Phase 6 wrapping up or deployment readiness.
 - Open questions:
   - None
 - Working set:
-  - `backend/src/prisma/prisma.service.ts`
-  - `backend/src/integrations/deepgram/deepgram.client.ts`
-  - `backend/src/integrations/firebase/firebase.service.ts`
-  - `backend/src/integrations/firebase/fcm.service.ts`
-  - `backend/test/test-helper.module.ts`
-  - `backend/test/setup.ts`
-  - `backend/.env.test`
   - `backend/test/*.e2e-spec.ts`

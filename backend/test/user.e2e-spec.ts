@@ -83,10 +83,11 @@ describe('UserModule (e2e)', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .expect(200)
         .expect((res) => {
-          expect(res.body).toHaveProperty('currentLevel');
-          expect(res.body).toHaveProperty('totalXp');
-          expect(res.body).toHaveProperty('dailyStreak');
+          expect(res.body.xp).toHaveProperty('level');
+          expect(res.body.xp).toHaveProperty('total');
+          expect(res.body.streak).toHaveProperty('current');
         });
     });
   });
 });
+

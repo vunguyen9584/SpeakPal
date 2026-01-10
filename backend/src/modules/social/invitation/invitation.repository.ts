@@ -4,7 +4,7 @@ import { InvitationStatus } from '@prisma/client';
 
 @Injectable()
 export class InvitationRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: {
     userId: string;
@@ -25,15 +25,8 @@ export class InvitationRepository {
 
   async findByCode(code: string) {
     return this.prisma.invitation.findUnique({
-      where: { code },
-      include: {
-        sender: {
-          select: {
-            id: true,
-            email: true,
-            username: true,
-          },
-        },
+      where: {
+        code: code
       },
     });
   }

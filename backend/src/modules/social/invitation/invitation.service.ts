@@ -15,7 +15,7 @@ export class InvitationService {
   constructor(
     private readonly invitationRepo: InvitationRepository,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   /**
    * Generate a unique invite code for a user
@@ -71,6 +71,7 @@ export class InvitationService {
       maxUsage?: number;
       usageCount: number;
     };
+
     if (inv.maxUsage && inv.usageCount >= inv.maxUsage) {
       throw new BadRequestException('Invitation limit has been reached');
     }

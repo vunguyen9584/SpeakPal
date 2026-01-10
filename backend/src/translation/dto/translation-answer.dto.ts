@@ -1,4 +1,5 @@
 import { IsUUID, IsNumber, Min, Max } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TranslationAnswerDto {
@@ -16,6 +17,7 @@ export class TranslationAnswerDto {
     maximum: 60,
   })
   @IsNumber()
+  @Type(() => Number)
   @Min(0)
   @Max(60)
   responseTimeSec: number;

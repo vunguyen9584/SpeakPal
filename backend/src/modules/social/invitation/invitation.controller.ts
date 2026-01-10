@@ -10,13 +10,14 @@ import {
 } from '@nestjs/common';
 import { InvitationService } from './invitation.service';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
+import { AcceptInvitationDto } from './dto/accept-invitation.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import type { RequestWithUser } from '../../../common/interfaces/request.interface';
 
 @Controller('invitations')
 @UseGuards(JwtAuthGuard)
 export class InvitationController {
-  constructor(private readonly invitationService: InvitationService) {}
+  constructor(private readonly invitationService: InvitationService) { }
 
   /**
    * POST /invitations
@@ -47,9 +48,9 @@ export class InvitationController {
   @HttpCode(HttpStatus.OK)
   async acceptInvitation(
     @Request() req: RequestWithUser,
-    @Body() body: { code: string },
+    @Body() dto: AcceptInvitationDto,
   ) {
-    await this.invitationService.acceptInvitation(body.code, req.user.userId);
+    await this.invitationService.acceptInvitation(dto.code, req.user.userId);
     return { message: 'Invitation accepted successfully' };
   }
 

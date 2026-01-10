@@ -15,8 +15,8 @@ describe('PersonaModule (e2e)', () => {
 
   const testPersona = {
     name: 'Test Persona',
-    voice: 'MALE_US',
-    personality: 'FRIENDLY',
+    voice: 'VOICE_1',
+    personality: 'CHEERFUL',
     targetLevel: 'BEGINNER',
   };
 
@@ -129,3 +129,4 @@ describe('PersonaModule (e2e)', () => {
     });
   });
 });
+

@@ -10,6 +10,7 @@ export class InvitationResponseDto {
 
   status: InvitationStatus;
   maxUsage?: number;
+  usageCount: number;
 
   constructor(partial: Partial<InvitationResponseDto>) {
     Object.assign(this, partial);
@@ -32,6 +33,7 @@ export class InvitationResponseDto {
       status: entity.status,
       maxUsage: inv.maxUsage,
       isActive,
+      usageCount: entity.usageCount,
     });
   }
 }

@@ -6,7 +6,7 @@ import { ShadowingContent, Level, ContentType, Prisma } from '@prisma/client';
 export class ShadowingContentRepository {
   private readonly logger = new Logger(ShadowingContentRepository.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * Find random shadowing content
@@ -17,17 +17,28 @@ export class ShadowingContentRepository {
     isPremiumUser: boolean = false,
   ): Promise<ShadowingContent | null> {
     try {
-      const contents = await this.prisma.$queryRaw<ShadowingContent[]>`
-        SELECT * FROM shadowing_contents
-        WHERE content_type = ${contentType}
-          AND level = ${level}
-          AND is_active = true
-          AND (is_premium = false OR ${isPremiumUser} = true)
-        ORDER BY RANDOM()
-        LIMIT 1
-      `;
+      const where: Prisma.ShadowingContentWhereInput = {
+        contentType,
+        level,
+        isActive: true,
+        ...(isPremiumUser ? {} : { isPremium: false }),
+      };
 
-      return contents[0] || null;
+      const count = await this.prisma.shadowingContent.count({ where });
+
+      if (count === 0) {
+        return null;
+      }
+
+      const skip = Math.floor(Math.random() * count);
+
+      const content = await this.prisma.shadowingContent.findFirst({
+        where,
+        take: 1,
+        skip,
+      });
+
+      return content;
     } catch (error) {
       this.logger.error(
         `Error finding random content: ${(error as Error).message}`,

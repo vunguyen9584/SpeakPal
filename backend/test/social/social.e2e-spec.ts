@@ -120,7 +120,7 @@ describe('Social Module (E2E)', () => {
         .send({
           code: inviteCode,
         })
-        .expect(201);
+        .expect(200);
 
       expect(response.body).toHaveProperty('message');
       expect(response.body.message).toContain('accepted');
@@ -218,7 +218,7 @@ describe('Social Module (E2E)', () => {
         .send({
           code: groupInviteCode,
         })
-        .expect(201);
+        .expect(200);
 
       expect(response.body).toHaveProperty('message');
       expect(response.body.message).toContain('joined');
@@ -233,7 +233,9 @@ describe('Social Module (E2E)', () => {
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body.length).toBe(2);
       expect(response.body[0]).toHaveProperty('role');
-      expect(response.body[0]).toHaveProperty('user');
+      // The API returns flat structure: joinedAt, role, userId, userName
+      expect(response.body[0]).toHaveProperty('userId');
+      expect(response.body[0]).toHaveProperty('userName');
     });
 
     it('GET /groups/:id/ranking - should get group rankings', async () => {
@@ -328,3 +330,4 @@ describe('Social Module (E2E)', () => {
     });
   });
 });
+
