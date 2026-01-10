@@ -1,6 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../auth/presentation/providers/auth_provider.dart';
+// import '../../../auth/presentation/providers/auth_provider.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
 
@@ -20,7 +20,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(currentUserProvider);
+    // final currentUser = ref.watch(currentUserProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -121,7 +121,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   subtitle: '9:00 AM',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
-                    final time = await showTimePicker(
+                    await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),
                     );
@@ -148,7 +148,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: 'Delete Account',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
-                    final confirm = await showDialog<bool>(
+                    await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('Delete Account'),

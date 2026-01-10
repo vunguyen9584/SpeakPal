@@ -81,7 +81,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(currentUserProvider);
+    // final currentUser = ref.watch(currentUserProvider);
 
     return Scaffold(
       appBar: AppBar(

@@ -49,7 +49,6 @@ class ErrorInterceptor extends Interceptor {
         break;
 
       case DioExceptionType.unknown:
-      default:
         errorMessage = 'An unexpected error occurred. Please try again.';
         break;
     }

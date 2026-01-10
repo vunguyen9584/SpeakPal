@@ -1,7 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
 import '../providers/group_provider.dart';
 
 /// Detailed view of a study group with members and rankings
@@ -202,9 +202,12 @@ class GroupDetailScreen extends ConsumerWidget {
                 IconButton(
                   icon: const Icon(Icons.share),
                   onPressed: () {
-                    Share.share(
-                      'Join our SpeakPal study group "${group.name}"!\nInvite code: ${group.inviteCode}',
-                      subject: 'Join ${group.name}',
+                    // Share.share(
+                    //   'Join our SpeakPal study group "${group.name}"!\nInvite code: ${group.inviteCode}',
+                    //   subject: 'Join ${group.name}',
+                    // );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Sharing not yet available')),
                     );
                   },
                 ),

@@ -1,7 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
 import '../providers/invitation_provider.dart';
 
 class InviteFriendsScreen extends ConsumerWidget {
@@ -111,9 +111,12 @@ class InviteFriendsScreen extends ConsumerWidget {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Share.share(
-                      'Join me on SpeakPal! Use my invite code: ${invitation.code}\n${invitation.inviteUrl}',
-                      subject: 'Join SpeakPal',
+                    // Share.share(
+                    //   'Join me on SpeakPal! Use my invite code: ${invitation.code}\n${invitation.inviteUrl}',
+                    //   subject: 'Join SpeakPal',
+                    // );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Sharing not yet available')),
                     );
                   },
                   icon: const Icon(Icons.share),

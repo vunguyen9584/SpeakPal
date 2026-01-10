@@ -1,7 +1,7 @@
 ﻿import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../../../../core/services/logger_service.dart';
 
 enum SocketEventType {
@@ -34,7 +34,7 @@ class SocketEvent {
 }
 
 class ConversationSocketService {
-  IO.Socket? _socket;
+  io.Socket? _socket;
   final StreamController<SocketEvent> _eventController = StreamController<SocketEvent>.broadcast();
 
   Stream<SocketEvent> get events => _eventController.stream;
@@ -43,9 +43,9 @@ class ConversationSocketService {
 
   /// Connect to WebSocket server
   Future<void> connect(String url, String token, String conversationId) async {
-    _socket = IO.io(
+    _socket = io.io(
       url,
-      IO.OptionBuilder()
+      io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
           .setAuth({

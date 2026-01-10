@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/features/progress/domain/models/history_item.dart';
-import 'package:mobile/features/progress/domain/models/history_query.dart';
+// import 'package:mobile/features/progress/domain/models/history_query.dart';
 import 'package:mobile/features/progress/presentation/providers/progress_providers.dart';
 import 'package:mobile/features/progress/presentation/screens/history_list_screen.dart';
 import 'dart:async';
