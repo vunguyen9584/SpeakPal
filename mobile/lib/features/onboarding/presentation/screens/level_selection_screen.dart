@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../config/theme/typography.dart';
+import 'package:mobile/config/theme/typography.dart';
 import '../../../../config/theme/dimensions.dart';
 import '../../../../shared/widgets/app_button.dart';
-import '../../../auth/domain/models/user.dart';
+import 'package:mobile/features/auth/domain/models/user.dart';
 import '../widgets/level_card.dart';
 
 /// Level Selection Screen

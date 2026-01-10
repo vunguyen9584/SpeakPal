@@ -113,4 +113,8 @@ class AppColors {
   static const Color grammarCorrection = Color(0xFFEF4444); // Red
   static const Color vocabularyCorrection = Color(0xFF3B82F6); // Blue
   static const Color pronunciationCorrection = Color(0xFFF59E0B); // Amber
+
+  // Aliases
+  static const Color accent = secondary;
+  static const Color textPrimary = text;
 }

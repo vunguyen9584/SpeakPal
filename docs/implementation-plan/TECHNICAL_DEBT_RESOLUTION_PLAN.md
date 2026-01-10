@@ -200,7 +200,7 @@
 
 #### Stage 1: Automated Fixes (0.5 day)
 
-- [ ] **T001: Run dart fix**
+- [x] **T001: Run dart fix** ✅ 2026-01-10
 
   ```bash
   cd mobile

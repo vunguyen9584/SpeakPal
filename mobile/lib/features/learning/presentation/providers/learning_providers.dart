@@ -4,7 +4,7 @@ import '../../domain/models/scenario.dart';
 import '../../domain/models/challenge.dart';
 import '../../domain/repositories/learning_repository.dart';
 import '../../data/repositories/learning_repository_impl.dart';
-import '../../../../core/providers/providers.dart';
+import 'package:mobile/core/providers/providers.dart';
 
 // Repository provider
 final learningRepositoryProvider = Provider<LearningRepository>((ref) {
@@ -56,7 +56,7 @@ final scenarioListProvider = FutureProvider.family<List<Scenario>, ScenarioFilte
 final scenarioDetailProvider = FutureProvider.family<Scenario, String>(
   (ref, scenarioId) async {
     final repository = ref.watch(learningRepositoryProvider);
-    return repository.getScenarioDetail(scenarioId);
+    return repository.getScenario(scenarioId);
   },
 );
 
@@ -70,7 +70,7 @@ final todayChallengesProvider = FutureProvider<List<UserChallenge>>((ref) async 
 final reviewVocabularyProvider = Provider((ref) {
   return (String vocabularyId, bool correct) async {
     final repository = ref.read(learningRepositoryProvider);
-    await repository.recordReview(vocabularyId, correct);
+    await repository.recordReview(vocabularyId, correct ? 'CORRECT' : 'INCORRECT');
 
     // Invalidate providers to refresh data
     ref.invalidate(vocabularyListProvider);
@@ -83,12 +83,12 @@ final reviewVocabularyProvider = Provider((ref) {
 final addVocabularyProvider = Provider((ref) {
   return (String word, String meaning, String pronunciation, String? exampleSentence) async {
     final repository = ref.read(learningRepositoryProvider);
-    await repository.addVocabulary(
-      word: word,
-      meaning: meaning,
-      pronunciation: pronunciation,
-      exampleSentence: exampleSentence,
-    );
+    await repository.addVocabulary({
+      'word': word,
+      'meaning': meaning,
+      'pronunciation': pronunciation,
+      'exampleSentence': exampleSentence,
+    });
 
     // Invalidate to refresh list
     ref.invalidate(vocabularyListProvider);

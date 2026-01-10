@@ -1,6 +1,6 @@
-import '../../../core/network/api_client.dart';
-import '../../../core/network/api_endpoints.dart';
-import '../../auth/domain/models/user.dart';
+import 'package:mobile/core/network/api_client.dart';
+import 'package:mobile/core/network/api_endpoints.dart';
+import 'package:mobile/features/auth/domain/models/user.dart';
 import '../domain/models/user_stats.dart';
 
 /// Profile Repository - Handles profile-related API calls

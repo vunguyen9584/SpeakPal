@@ -11,6 +11,14 @@ class AppTypography {
   // Font family
   static const String fontFamily = 'Inter';
 
+  // Heading Aliases
+  static TextStyle get h1 => displayLarge;
+  static TextStyle get h2 => displayMedium;
+  static TextStyle get h3 => displaySmall;
+  static TextStyle get h4 => headlineLarge;
+  static TextStyle get h5 => headlineMedium;
+  static TextStyle get h6 => headlineSmall;
+
   // ============================================================
   // Display Styles (Large headings)
   // ============================================================

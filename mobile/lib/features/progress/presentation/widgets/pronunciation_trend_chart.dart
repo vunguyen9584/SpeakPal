@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_text_styles.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/theme/app_text_styles.dart';
 
 class PronunciationTrendChart extends StatelessWidget {
   final List<double> dailyScores; // Last 30 days (0-100)
@@ -109,7 +109,7 @@ class PronunciationTrendChart extends StatelessWidget {
                 ],
                 lineTouchData: LineTouchData(
                   touchTooltipData: LineTouchTooltipData(
-                    tooltipBgColor: AppColors.success.withOpacity(0.8),
+                    getTooltipColor: (spot) => AppColors.success.withOpacity(0.8),
                     getTooltipItems: (touchedSpots) {
                       return touchedSpots.map((spot) {
                         return LineTooltipItem(

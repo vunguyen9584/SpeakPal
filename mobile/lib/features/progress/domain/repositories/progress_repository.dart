@@ -1,7 +1,7 @@
 import '../models/stats.dart';
 import '../models/history_item.dart';
-import '../../presentation/providers/progress_providers.dart';
-import '../../presentation/screens/history_list_screen.dart';
+import '../models/report.dart';
+import '../models/history_query.dart';
 
 abstract class ProgressRepository {
   Future<Stats> getStats(StatsPeriod period);

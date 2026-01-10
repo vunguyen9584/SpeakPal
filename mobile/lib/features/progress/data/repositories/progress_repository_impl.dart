@@ -1,9 +1,9 @@
 import '../../domain/models/stats.dart';
 import '../../domain/models/history_item.dart';
+import '../../domain/models/report.dart';
+import '../../domain/models/history_query.dart';
 import '../../domain/repositories/progress_repository.dart';
-import '../../../core/services/api_client.dart';
-import '../providers/progress_providers.dart';
-import '../screens/history_list_screen.dart';
+import 'package:mobile/core/network/api_client.dart';
 
 class ProgressRepositoryImpl implements ProgressRepository {
   final ApiClient _apiClient = ApiClient();

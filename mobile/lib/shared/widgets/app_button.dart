@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../config/theme/colors.dart';
+import 'package:mobile/config/theme/colors.dart';
 import '../../config/theme/dimensions.dart';
-import '../../config/theme/typography.dart';
+import 'package:mobile/config/theme/typography.dart';
 
 /// Custom App Button with different variants
 class AppButton extends StatelessWidget {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_text_styles.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/theme/app_text_styles.dart';
 import '../../domain/models/history_item.dart';
+import '../../domain/models/history_query.dart';
 import '../providers/progress_providers.dart';
 
 class HistoryListScreen extends ConsumerStatefulWidget {
@@ -423,18 +424,4 @@ class _HistoryListScreenState extends ConsumerState<HistoryListScreen> {
   String _formatTime(DateTime time) {
     return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
-}
-
-class HistoryQuery {
-  final int page;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final HistoryItemType? type;
-
-  HistoryQuery({
-    required this.page,
-    this.startDate,
-    this.endDate,
-    this.type,
-  });
 }

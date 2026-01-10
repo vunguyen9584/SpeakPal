@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/auth/token_manager.dart';
 import '../../data/auth_repository.dart';

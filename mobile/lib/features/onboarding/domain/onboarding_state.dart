@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../auth/domain/models/user.dart';
+import 'package:mobile/features/auth/domain/models/user.dart';
 
 part 'onboarding_state.freezed.dart';
 
 @freezed
-class OnboardingState with _$OnboardingState {
+abstract class OnboardingState with _$OnboardingState {
   const factory OnboardingState({
     Level? selectedLevel,
     String? personaName,

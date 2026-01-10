@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../auth/domain/models/user.dart';
+import 'package:mobile/features/auth/domain/models/user.dart';
 import '../../domain/onboarding_state.dart';
 
 /// Onboarding State Provider

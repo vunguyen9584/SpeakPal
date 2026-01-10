@@ -4,7 +4,7 @@ part 'user_stats.freezed.dart';
 part 'user_stats.g.dart';
 
 @freezed
-class UserStats with _$UserStats {
+abstract class UserStats with _$UserStats {
   const factory UserStats({
     required int totalConversations,
     required int totalVocabulary,

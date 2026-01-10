@@ -13,6 +13,14 @@ class AppDimensions {
   static const double radiusXxl = 24.0;
   static const double radiusRound = 999.0; // Fully rounded
 
+  // Padding & Spacing (Alias to AppSpacing for ease of use)
+  static const double paddingXs = 4.0;
+  static const double paddingSm = 8.0;
+  static const double paddingMd = 12.0;
+  static const double paddingLg = 16.0;
+  static const double paddingXl = 24.0;
+  static const double paddingXxl = 32.0;
+
   // Icon sizes
   static const double iconXs = 16.0;
   static const double iconSm = 20.0;

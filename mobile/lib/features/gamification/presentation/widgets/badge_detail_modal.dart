@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import '../../domain/models/badge.dart';
 
 class BadgeDetailModal extends StatelessWidget {

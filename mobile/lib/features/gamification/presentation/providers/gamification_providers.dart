@@ -4,7 +4,7 @@ import '../../domain/models/streak.dart';
 import '../../domain/models/ranking.dart';
 import '../../domain/repositories/gamification_repository.dart';
 import '../../data/repositories/gamification_repository_impl.dart';
-import '../../../../core/providers/providers.dart';
+import 'package:mobile/core/providers/providers.dart';
 
 // Repository provider
 final gamificationRepositoryProvider = Provider<GamificationRepository>((ref) {

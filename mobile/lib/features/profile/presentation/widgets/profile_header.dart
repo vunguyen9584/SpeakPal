@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../auth/domain/models/user.dart';
-import '../../../config/theme/colors.dart';
+import 'package:mobile/features/auth/domain/models/user.dart';
+import 'package:mobile/config/theme/colors.dart';
 
 /// Profile Header Widget
 class ProfileHeader extends StatelessWidget {
