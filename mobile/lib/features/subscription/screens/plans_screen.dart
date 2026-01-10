@@ -333,32 +333,32 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
             ),
             const SizedBox(height: 16),
             _buildComparisonRow(
-              'Daily Conversations',
+              feature: 'Daily Conversations',
               free: '3 per day',
               premium: 'Unlimited',
             ),
             _buildComparisonRow(
-              'Vocabulary Practice',
+              feature: 'Vocabulary Practice',
               free: '50 words/day',
               premium: 'Unlimited',
             ),
             _buildComparisonRow(
-              'AI Models',
+              feature: 'AI Models',
               free: 'Basic',
               premium: 'Advanced + GPT-4',
             ),
             _buildComparisonRow(
-              'Offline Mode',
+              feature: 'Offline Mode',
               free: '✗',
               premium: '✓',
             ),
             _buildComparisonRow(
-              'Ad-Free',
+              feature: 'Ad-Free',
               free: '✗',
               premium: '✓',
             ),
             _buildComparisonRow(
-              'Analytics',
+              feature: 'Analytics',
               free: 'Basic',
               premium: 'Detailed',
             ),

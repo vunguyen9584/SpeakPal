@@ -25,6 +25,10 @@ void main() {
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      
+      // Clear the timer
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
     });
 
     testWidgets('displays empty state when no groups exist',
@@ -52,19 +56,25 @@ void main() {
         (WidgetTester tester) async {
       final mockGroups = [
         Group(
-          id: 1,
+          id: '1',
           name: 'English Learners',
           description: 'Practice English together',
           inviteCode: 'ABC123',
           memberCount: 5,
+          maxMembers: 20,
+          isOwner: true,
+          ownerName: 'TestUser',
           createdAt: DateTime.now(),
         ),
         Group(
-          id: 2,
+          id: '2',
           name: 'Advanced Speakers',
           description: null,
           inviteCode: 'XYZ789',
           memberCount: 3,
+          maxMembers: 10,
+          isOwner: false,
+          ownerName: 'OtherUser',
           createdAt: DateTime.now(),
         ),
       ];
@@ -183,7 +193,18 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            myGroupsProvider.overrideWith((ref) => Future.value(<Group>[])),
+            myGroupsProvider.overrideWith((ref) => Future.value([
+              Group(
+                id: '1',
+                name: 'Test Group',
+                inviteCode: 'CODE',
+                memberCount: 1,
+                maxMembers: 10,
+                isOwner: true,
+                ownerName: 'Me',
+                createdAt: DateTime.now(),
+              )
+            ])),
           ],
           child: const MaterialApp(
             home: GroupsScreen(),

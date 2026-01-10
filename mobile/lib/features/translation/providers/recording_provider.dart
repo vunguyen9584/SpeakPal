@@ -10,18 +10,36 @@ enum RecordingState {
   processing,
 }
 
+final audioRecorderProvider = Provider<AudioRecorder>((ref) => AudioRecorder());
+
 final recordingProvider =
-    StateNotifierProvider<RecordingNotifier, RecordingState>(
-  (ref) => RecordingNotifier(),
+    NotifierProvider<RecordingNotifier, RecordingState>(
+  () => RecordingNotifier(),
 );
 
-final recordingTimeProvider = StateProvider<int>((ref) => 0);
+final recordingTimeProvider = NotifierProvider<RecordingTimeNotifier, int>(
+  () => RecordingTimeNotifier(),
+);
 
-class RecordingNotifier extends StateNotifier<RecordingState> {
-  final AudioRecorder _recorder = AudioRecorder();
+class RecordingTimeNotifier extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void update(int time) => state = time;
+}
+
+class RecordingNotifier extends Notifier<RecordingState> {
+  late final AudioRecorder _recorder;
   Uint8List? _audioData;
 
-  RecordingNotifier() : super(RecordingState.idle);
+  @override
+  RecordingState build() {
+    _recorder = ref.watch(audioRecorderProvider);
+    ref.onDispose(() {
+      _recorder.dispose();
+    });
+    return RecordingState.idle;
+  }
 
   Uint8List? get audioData => _audioData;
 
@@ -45,6 +63,7 @@ class RecordingNotifier extends StateNotifier<RecordingState> {
             bitRate: 128000,
             sampleRate: 44100,
           ),
+          path: 'temp.wav',
         );
         state = RecordingState.recording;
       }
@@ -80,9 +99,5 @@ class RecordingNotifier extends StateNotifier<RecordingState> {
     state = RecordingState.idle;
   }
 
-  @override
-  void dispose() {
-    _recorder.dispose();
-    super.dispose();
-  }
+  // dispose is handled in build
 }

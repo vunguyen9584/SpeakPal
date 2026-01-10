@@ -54,7 +54,7 @@ class _InstantDrillScreenState extends ConsumerState<InstantDrillScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '${avgScore.toStringAsFixed(1)}',
+              avgScore.toStringAsFixed(1),
               style: const TextStyle(
                 fontSize: 48,
                 fontWeight: FontWeight.bold,

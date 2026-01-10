@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'intent_category.freezed.dart';
-part 'intent_category.g.dart';
 
 /// Intent translation categories
 enum IntentCategory {

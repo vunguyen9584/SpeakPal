@@ -28,7 +28,7 @@ enum ContentType {
 }
 
 @freezed
-class ShadowingContent with _$ShadowingContent {
+abstract class ShadowingContent with _$ShadowingContent {
   const factory ShadowingContent({
     required String id,
     required String title,
@@ -46,7 +46,7 @@ class ShadowingContent with _$ShadowingContent {
 }
 
 @freezed
-class ShadowingResult with _$ShadowingResult {
+abstract class ShadowingResult with _$ShadowingResult {
   const factory ShadowingResult({
     required String id,
     required int overallScore,
@@ -61,7 +61,7 @@ class ShadowingResult with _$ShadowingResult {
 }
 
 @freezed
-class ShadowingScoreBreakdown with _$ShadowingScoreBreakdown {
+abstract class ShadowingScoreBreakdown with _$ShadowingScoreBreakdown {
   const factory ShadowingScoreBreakdown({
     required int followingScore,
     required int pronunciationScore,
@@ -74,7 +74,7 @@ class ShadowingScoreBreakdown with _$ShadowingScoreBreakdown {
 }
 
 @freezed
-class WeakSegment with _$WeakSegment {
+abstract class WeakSegment with _$WeakSegment {
   const factory WeakSegment({
     required double startTime,
     required double endTime,

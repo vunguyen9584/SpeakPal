@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'dart:io';
 import 'package:record/record.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -35,6 +36,9 @@ class AudioRecorderService {
       }
     }
 
+    final tempDir = Directory.systemTemp;
+    final path = '${tempDir.path}/audio_recording.m4a';
+
     await _recorder.start(
       const RecordConfig(
         encoder: AudioEncoder.pcm16bits,
@@ -42,6 +46,7 @@ class AudioRecorderService {
         numChannels: 1,
         bitRate: 128000,
       ),
+      path: path,
     );
 
     _isRecording = true;

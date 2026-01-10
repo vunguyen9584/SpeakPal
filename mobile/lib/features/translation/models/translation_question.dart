@@ -4,7 +4,7 @@ part 'translation_question.freezed.dart';
 part 'translation_question.g.dart';
 
 @freezed
-class TranslationQuestion with _$TranslationQuestion {
+abstract class TranslationQuestion with _$TranslationQuestion {
   const factory TranslationQuestion({
     required String id,
     required String sourceText,

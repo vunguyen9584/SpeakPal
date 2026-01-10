@@ -54,7 +54,7 @@ class FeedbackCard extends StatelessWidget {
     BuildContext context,
     String title,
     List<String> items,
-    Color color,
+    MaterialColor color,
     IconData icon,
   ) {
     return Container(

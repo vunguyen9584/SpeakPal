@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/features/subscription/providers/subscription_provider.dart';
 import 'package:mobile/features/subscription/screens/plans_screen.dart';
+import 'dart:async';
 
 void main() {
   group('PlansScreen Widget Tests', () {
@@ -40,15 +41,12 @@ void main() {
 
     testWidgets('displays loading indicator while fetching plans',
         (WidgetTester tester) async {
+      final completer = Completer<List<PlanInfo>>();
+      
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            plansProvider.overrideWith(
-              (ref) => Future.delayed(
-                const Duration(seconds: 1),
-                () => mockPlans,
-              ),
-            ),
+            plansProvider.overrideWith((ref) => completer.future),
             subscriptionProvider.overrideWith(
               (ref) => Future.value(mockSubscription),
             ),
@@ -60,6 +58,11 @@ void main() {
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      
+      // Cleanup
+      completer.complete(mockPlans);
+      await tester.pump();
+      await tester.pump();
     });
 
     testWidgets('displays plan cards when plans are loaded',
@@ -269,7 +272,15 @@ void main() {
       await tester.pumpAndSettle();
 
       // Tap subscribe button
-      await tester.tap(find.text('Subscribe Now'));
+      // Tap subscribe button
+      final buttonFinder = find.text('Subscribe Now');
+      await tester.dragUntilVisible(
+        buttonFinder,
+        find.byType(SingleChildScrollView),
+        const Offset(0, -50),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(buttonFinder);
       await tester.pumpAndSettle();
 
       expect(find.text('Subscribe'), findsOneWidget);

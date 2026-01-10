@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:typed_data';
 import '../data/translation_repository.dart';
 import '../models/models.dart';
 

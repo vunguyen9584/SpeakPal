@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/features/translation/widgets/question_card.dart';
 import 'package:mobile/features/translation/models/translation_question.dart';
@@ -105,21 +106,12 @@ void main() {
     });
 
     testWidgets('should show loading indicator while fetching', (WidgetTester tester) async {
+      final completer = Completer<TranslationQuestion>();
+
       final loadingContainer = ProviderContainer(
         overrides: [
           translationQuestionProvider('daily').overrideWith(
-            (ref) async {
-              await Future.delayed(const Duration(seconds: 1));
-              return const TranslationQuestion(
-                id: 'test-1',
-                sourceText: 'Test',
-                sourceLanguage: 'JP',
-                targetLanguage: 'EN',
-                topic: 'daily',
-                difficulty: 'beginner',
-                grammarPoints: [],
-              );
-            },
+            (ref) => completer.future,
           ),
         ],
       );
@@ -135,7 +127,22 @@ void main() {
         ),
       );
 
+      // Initially should show loading
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      // Complete the future
+      completer.complete(const TranslationQuestion(
+        id: 'test-1',
+        sourceText: 'Test',
+        sourceLanguage: 'JP',
+        targetLanguage: 'EN',
+        topic: 'daily',
+        difficulty: 'beginner',
+        grammarPoints: [],
+      ));
+
+      // Pump to settle
+      await tester.pumpAndSettle();
 
       loadingContainer.dispose();
     });

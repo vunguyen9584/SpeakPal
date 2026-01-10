@@ -4,7 +4,7 @@ part 'quick_response_models.freezed.dart';
 part 'quick_response_models.g.dart';
 
 @freezed
-class WordAssociationSession with _$WordAssociationSession {
+abstract class WordAssociationSession with _$WordAssociationSession {
   const factory WordAssociationSession({
     required String id,
     required String currentKeyword,
@@ -19,7 +19,7 @@ class WordAssociationSession with _$WordAssociationSession {
 }
 
 @freezed
-class InstantDrillSession with _$InstantDrillSession {
+abstract class InstantDrillSession with _$InstantDrillSession {
   const factory InstantDrillSession({
     required String id,
     required List<DrillQuestion> questions,
@@ -32,7 +32,7 @@ class InstantDrillSession with _$InstantDrillSession {
 }
 
 @freezed
-class DrillQuestion with _$DrillQuestion {
+abstract class DrillQuestion with _$DrillQuestion {
   const factory DrillQuestion({
     required String id,
     required String questionText,
@@ -44,7 +44,7 @@ class DrillQuestion with _$DrillQuestion {
 }
 
 @freezed
-class QuickResponseResult with _$QuickResponseResult {
+abstract class QuickResponseResult with _$QuickResponseResult {
   const factory QuickResponseResult({
     required int finalScore,
     required int correctCount,

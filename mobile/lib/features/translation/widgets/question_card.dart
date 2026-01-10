@@ -109,30 +109,36 @@ class QuestionCard extends ConsumerWidget {
 
   Widget _buildDifficultyBadge(String difficulty) {
     Color color;
+    Color textColor;
+
     switch (difficulty.toLowerCase()) {
       case 'beginner':
-        color = Colors.green;
+        color = Colors.green.shade100;
+        textColor = Colors.green.shade900;
         break;
       case 'intermediate':
-        color = Colors.orange;
+        color = Colors.orange.shade100;
+        textColor = Colors.orange.shade900;
         break;
       case 'advanced':
-        color = Colors.red;
+        color = Colors.red.shade100;
+        textColor = Colors.red.shade900;
         break;
       default:
-        color = Colors.grey;
+        color = Colors.grey.shade200;
+        textColor = Colors.grey.shade800;
     }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         difficulty,
         style: TextStyle(
-          color: color.shade900,
+          color: textColor,
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),

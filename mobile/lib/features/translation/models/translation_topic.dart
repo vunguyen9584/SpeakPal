@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'translation_topic.freezed.dart';
-part 'translation_topic.g.dart';
 
 /// Translation practice topics
 enum TranslationTopic {

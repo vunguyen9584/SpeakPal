@@ -11,6 +11,7 @@ class Group {
   final int maxMembers;
   final bool isOwner;
   final String ownerName;
+  final DateTime createdAt;
 
   Group({
     required this.id,
@@ -21,6 +22,7 @@ class Group {
     required this.maxMembers,
     required this.isOwner,
     required this.ownerName,
+    required this.createdAt,
   });
 
   factory Group.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class Group {
       maxMembers: json['maxMembers'],
       isOwner: json['isOwner'],
       ownerName: json['ownerName'],
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 }
@@ -150,6 +153,8 @@ class GroupRepository {
 }
 
 // Providers
+final apiClientProvider = Provider<ApiClient>((ref) => ApiClient());
+
 final groupRepositoryProvider = Provider<GroupRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
   return GroupRepository(apiClient);

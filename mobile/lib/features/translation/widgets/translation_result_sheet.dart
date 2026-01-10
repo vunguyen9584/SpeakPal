@@ -104,7 +104,7 @@ class _TranslationResultSheetState
                 const SizedBox(height: 24),
                 
                 // Score breakdown
-                ScoreBreakdown(breakdown: result.breakdown),
+                ScoreBreakdownWidget(breakdown: result.breakdown),
                 
                 const SizedBox(height: 24),
                 

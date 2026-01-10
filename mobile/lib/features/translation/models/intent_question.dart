@@ -4,7 +4,7 @@ part 'intent_question.freezed.dart';
 part 'intent_question.g.dart';
 
 @freezed
-class IntentQuestion with _$IntentQuestion {
+abstract class IntentQuestion with _$IntentQuestion {
   const factory IntentQuestion({
     required String id,
     required String situation,

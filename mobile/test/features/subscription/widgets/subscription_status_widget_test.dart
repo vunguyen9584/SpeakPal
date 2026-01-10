@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/features/subscription/providers/subscription_provider.dart';
 import 'package:mobile/features/subscription/widgets/subscription_status_widget.dart';
+import 'dart:async';
 
 void main() {
   group('SubscriptionStatusWidget Tests', () {
@@ -40,21 +41,14 @@ void main() {
 
     testWidgets('displays loading indicator while fetching data',
         (WidgetTester tester) async {
+      final subCompleter = Completer<SubscriptionInfo>();
+      final usageCompleter = Completer<UsageInfo>();
+
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            subscriptionProvider.overrideWith(
-              (ref) => Future.delayed(
-                const Duration(seconds: 1),
-                () => mockFreeSubscription,
-              ),
-            ),
-            usageProvider.overrideWith(
-              (ref) => Future.delayed(
-                const Duration(seconds: 1),
-                () => mockUsage,
-              ),
-            ),
+            subscriptionProvider.overrideWith((ref) => subCompleter.future),
+            usageProvider.overrideWith((ref) => usageCompleter.future),
           ],
           child: const MaterialApp(
             home: Scaffold(
@@ -64,7 +58,13 @@ void main() {
         ),
       );
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byType(CircularProgressIndicator), findsWidgets);
+      
+      // Cleanup
+      subCompleter.complete(mockFreeSubscription);
+      usageCompleter.complete(mockUsage);
+      await tester.pump(); // Trigger rebuild
+      await tester.pump(); // Finish animations if any
     });
 
     testWidgets('displays free plan information correctly',

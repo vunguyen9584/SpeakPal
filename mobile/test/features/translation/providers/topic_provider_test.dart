@@ -48,12 +48,16 @@ void main() {
       
       final newContainer = ProviderContainer();
       
+      // Listen to the provider to keep it alive and get updates
+      final listener = newContainer.listen(topicProvider, (previous, next) {});
+      
       // Wait for async initialization
       await Future.delayed(const Duration(milliseconds: 100));
       
       final topic = newContainer.read(topicProvider);
       expect(topic, TranslationTopic.news);
       
+      listener.close();
       newContainer.dispose();
     });
 

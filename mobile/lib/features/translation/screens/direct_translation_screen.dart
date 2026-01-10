@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/topic_provider.dart';
+// import '../providers/topic_provider.dart';
+import '../providers/recording_provider.dart';
 import '../widgets/translation_header.dart';
 import '../widgets/question_card.dart';
 import '../widgets/voice_recorder.dart';
-import '../widgets/translation_result_sheet.dart';
+// import '../widgets/translation_result_sheet.dart';
 
 class DirectTranslationScreen extends ConsumerStatefulWidget {
   const DirectTranslationScreen({super.key});
@@ -16,11 +17,11 @@ class DirectTranslationScreen extends ConsumerStatefulWidget {
 
 class _DirectTranslationScreenState
     extends ConsumerState<DirectTranslationScreen> {
-  bool _showResult = false;
+  // bool _showResult = false;
 
   @override
   Widget build(BuildContext context) {
-    final topic = ref.watch(topicProvider);
+    // final topic = ref.watch(topicProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,12 +68,12 @@ class _DirectTranslationScreenState
     );
   }
 
-  void _showResultSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => const TranslationResultSheet(),
-    );
-  }
+  // void _showResultSheet() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     backgroundColor: Colors.transparent,
+  //     builder: (context) => const TranslationResultSheet(),
+  //   );
+  // }
 }

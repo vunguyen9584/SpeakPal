@@ -4,7 +4,7 @@ part 'intent_result.freezed.dart';
 part 'intent_result.g.dart';
 
 @freezed
-class IntentResult with _$IntentResult {
+abstract class IntentResult with _$IntentResult {
   const factory IntentResult({
     required String id,
     required String questionId,
@@ -21,7 +21,7 @@ class IntentResult with _$IntentResult {
 }
 
 @freezed
-class IntentScoreBreakdown with _$IntentScoreBreakdown {
+abstract class IntentScoreBreakdown with _$IntentScoreBreakdown {
   const factory IntentScoreBreakdown({
     required int intentScore,
     required int naturalnessScore,

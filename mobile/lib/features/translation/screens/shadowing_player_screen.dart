@@ -197,7 +197,7 @@ class _ShadowingPlayerScreenState
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: _startPractice,
+                      onPressed: _isPracticing ? null : _startPractice,
                       icon: const Icon(Icons.mic),
                       label: const Text('練習開始'),
                     ),

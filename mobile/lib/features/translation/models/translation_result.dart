@@ -4,7 +4,7 @@ part 'translation_result.freezed.dart';
 part 'translation_result.g.dart';
 
 @freezed
-class TranslationResult with _$TranslationResult {
+abstract class TranslationResult with _$TranslationResult {
   const factory TranslationResult({
     required String id,
     required String questionId,
@@ -22,7 +22,7 @@ class TranslationResult with _$TranslationResult {
 }
 
 @freezed
-class ScoreBreakdown with _$ScoreBreakdown {
+abstract class ScoreBreakdown with _$ScoreBreakdown {
   const factory ScoreBreakdown({
     required int grammarScore,
     required int vocabularyScore,

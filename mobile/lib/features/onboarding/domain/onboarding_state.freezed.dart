@@ -25,12 +25,12 @@ $OnboardingStateCopyWith<OnboardingState> get copyWith => _$OnboardingStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OnboardingState&&const DeepCollectionEquality().equals(other.selectedLevel, selectedLevel)&&(identical(other.personaName, personaName) || other.personaName == personaName)&&(identical(other.selectedVoice, selectedVoice) || other.selectedVoice == selectedVoice)&&(identical(other.selectedPersonality, selectedPersonality) || other.selectedPersonality == selectedPersonality)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OnboardingState&&(identical(other.selectedLevel, selectedLevel) || other.selectedLevel == selectedLevel)&&(identical(other.personaName, personaName) || other.personaName == personaName)&&(identical(other.selectedVoice, selectedVoice) || other.selectedVoice == selectedVoice)&&(identical(other.selectedPersonality, selectedPersonality) || other.selectedPersonality == selectedPersonality)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(selectedLevel),personaName,selectedVoice,selectedPersonality,currentStep);
+int get hashCode => Object.hash(runtimeType,selectedLevel,personaName,selectedVoice,selectedPersonality,currentStep);
 
 @override
 String toString() {
@@ -229,12 +229,12 @@ _$OnboardingStateCopyWith<_OnboardingState> get copyWith => __$OnboardingStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OnboardingState&&const DeepCollectionEquality().equals(other.selectedLevel, selectedLevel)&&(identical(other.personaName, personaName) || other.personaName == personaName)&&(identical(other.selectedVoice, selectedVoice) || other.selectedVoice == selectedVoice)&&(identical(other.selectedPersonality, selectedPersonality) || other.selectedPersonality == selectedPersonality)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OnboardingState&&(identical(other.selectedLevel, selectedLevel) || other.selectedLevel == selectedLevel)&&(identical(other.personaName, personaName) || other.personaName == personaName)&&(identical(other.selectedVoice, selectedVoice) || other.selectedVoice == selectedVoice)&&(identical(other.selectedPersonality, selectedPersonality) || other.selectedPersonality == selectedPersonality)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(selectedLevel),personaName,selectedVoice,selectedPersonality,currentStep);
+int get hashCode => Object.hash(runtimeType,selectedLevel,personaName,selectedVoice,selectedPersonality,currentStep);
 
 @override
 String toString() {

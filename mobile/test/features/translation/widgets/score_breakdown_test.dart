@@ -15,7 +15,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: ScoreBreakdown(breakdown: breakdown),
+            body: ScoreBreakdownWidget(breakdown: breakdown),
           ),
         ),
       );
@@ -35,7 +35,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: ScoreBreakdown(breakdown: breakdown),
+            body: ScoreBreakdownWidget(breakdown: breakdown),
           ),
         ),
       );
@@ -55,7 +55,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: ScoreBreakdown(breakdown: breakdown),
+            body: ScoreBreakdownWidget(breakdown: breakdown),
           ),
         ),
       );
@@ -73,7 +73,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: ScoreBreakdown(breakdown: breakdown),
+            body: ScoreBreakdownWidget(breakdown: breakdown),
           ),
         ),
       );
@@ -97,7 +97,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: ScoreBreakdown(breakdown: breakdown),
+            body: ScoreBreakdownWidget(breakdown: breakdown),
           ),
         ),
       );
@@ -121,7 +121,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: ScoreBreakdown(breakdown: breakdown),
+            body: ScoreBreakdownWidget(breakdown: breakdown),
           ),
         ),
       );

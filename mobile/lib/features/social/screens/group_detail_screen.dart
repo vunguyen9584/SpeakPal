@@ -6,7 +6,7 @@ import '../providers/group_provider.dart';
 
 /// Detailed view of a study group with members and rankings
 class GroupDetailScreen extends ConsumerWidget {
-  final int groupId;
+  final String groupId;
 
   const GroupDetailScreen({
     super.key,

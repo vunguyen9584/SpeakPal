@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../models/translation_result.dart';
 
-class ScoreBreakdown extends StatelessWidget {
+class ScoreBreakdownWidget extends StatelessWidget {
   final ScoreBreakdown breakdown;
 
-  const ScoreBreakdown({
+  const ScoreBreakdownWidget({
     required this.breakdown,
     super.key,
   });

@@ -263,35 +263,40 @@ class _ShadowingLibraryScreenState
 
   Widget _buildLevelBadge(String level) {
     Color color;
+    Color textColor;
     String label;
     switch (level) {
       case 'beginner':
-        color = Colors.green;
+        color = Colors.green.shade100;
+        textColor = Colors.green.shade900;
         label = '初級';
         break;
       case 'intermediate':
-        color = Colors.orange;
+        color = Colors.orange.shade100;
+        textColor = Colors.orange.shade900;
         label = '中級';
         break;
       case 'advanced':
-        color = Colors.red;
+        color = Colors.red.shade100;
+        textColor = Colors.red.shade900;
         label = '上級';
         break;
       default:
-        color = Colors.grey;
+        color = Colors.grey.shade200;
+        textColor = Colors.grey.shade800;
         label = level;
     }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
         label,
         style: TextStyle(
-          color: color.shade900,
+          color: textColor,
           fontSize: 10,
           fontWeight: FontWeight.bold,
         ),

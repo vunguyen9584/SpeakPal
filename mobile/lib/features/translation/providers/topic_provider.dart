@@ -2,13 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/translation_topic.dart';
 
-final topicProvider = StateNotifierProvider<TopicNotifier, TranslationTopic>(
-  (ref) => TopicNotifier(),
+final topicProvider = NotifierProvider<TopicNotifier, TranslationTopic>(
+  () => TopicNotifier(),
 );
 
-class TopicNotifier extends StateNotifier<TranslationTopic> {
-  TopicNotifier() : super(TranslationTopic.daily) {
+class TopicNotifier extends Notifier<TranslationTopic> {
+  @override
+  TranslationTopic build() {
     _loadSavedTopic();
+    return TranslationTopic.daily;
   }
 
   Future<void> _loadSavedTopic() async {
