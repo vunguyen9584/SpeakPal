@@ -1,0 +1,47 @@
+name: Technical Debt Issue
+description: Template for tracking and resolving technical debt findings.
+title: "[TECH-DEBT] "
+labels: ["tech-debt", "mobile"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📋 Issue Overview
+        **Audit ID:** #[1-65]
+        **Phase:** [1/2/3/4]
+        **Severity:** [Critical/High/Medium/Low]
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description
+      description: Detailed description from the CODE_AUDIT_REPORT_2026-01-10.md.
+      placeholder: Describe the technical debt finding...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution Approach
+      description: How we plan to fix this in a production-ready way.
+      placeholder: |
+        - Implementation steps
+        - Design patterns to follow
+        - Error handling considerations
+    validations:
+      required: true
+
+  - type: textarea
+    id: dod
+    attributes:
+      label: Definition of Done (DoD)
+      description: Criteria that must be met for this issue to be closed.
+      value: |
+        - [ ] Code complete and adheres to standards
+        - [ ] Unit & Widget tests passing
+        - [ ] Code reviewed by 2+ developers
+        - [ ] Documentation updated
+        - [ ] Pulse check: No new analysis warnings introduced
+    validations:
+      required: true

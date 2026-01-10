@@ -44,6 +44,29 @@
 - Tests: 147/147 passing ✅
 - Coverage: Baseline ~60% established
 
+**Commit:** d15093a
+**Branch:** main
+
+---
+
+## 2026-01-10 15:20:00 - WP-SETUP-001-T003 Completed
+
+**Task:** Create Issue Tracking Template
+**Phase:** 0 (Setup & Tooling)
+**Owner:** Antigravity AI
+
+**Changes:**
+
+- Created `.github/ISSUE_TEMPLATE/tech-debt.yml` using GitHub's modern forms.
+- Defined standardized fields: Audit ID, Phase, Severity, Problem, Solution, and DoD.
+- Configured default labels and titles.
+
+**Metrics Impact:**
+
+- Errors: Baseline 289
+- Warnings: Baseline 20
+- Tests: 147/147 passing ✅
+
 **Commit:** [Pending local commit]
 **Branch:** main
 
