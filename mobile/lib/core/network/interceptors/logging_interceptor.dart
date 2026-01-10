@@ -6,7 +6,7 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     developer.log(
-      '竊・${options.method} ${options.uri}',
+      '🚀 ${options.method} ${options.uri}',
       name: 'API Request',
     );
     developer.log(
@@ -26,7 +26,7 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     developer.log(
-      '竊・${response.statusCode} ${response.requestOptions.uri}',
+      '✅ ${response.statusCode} ${response.requestOptions.uri}',
       name: 'API Response',
     );
     developer.log(
@@ -40,7 +40,7 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     developer.log(
-      '笨・${err.requestOptions.method} ${err.requestOptions.uri}',
+      '❌ ${err.requestOptions.method} ${err.requestOptions.uri}',
       name: 'API Error',
       error: err.error,
     );

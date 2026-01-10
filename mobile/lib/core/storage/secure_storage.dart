@@ -1,25 +1,33 @@
-﻿import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+﻿import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'storage_keys.dart';
 
 /// Secure Storage for sensitive data (tokens, credentials)
 class SecureStorage {
-  static final SecureStorage _instance = SecureStorage._internal();
-  late final FlutterSecureStorage _storage;
+  final FlutterSecureStorage _storage;
 
   factory SecureStorage() {
     return _instance;
   }
 
-  SecureStorage._internal() {
-    _storage = const FlutterSecureStorage(
-      aOptions: AndroidOptions(
-        encryptedSharedPreferences: true,
-      ),
-      iOptions: IOSOptions(
-        accessibility: KeychainAccessibility.first_unlock,
-      ),
-    );
+  @visibleForTesting
+  SecureStorage.withStorage(this._storage);
+
+  SecureStorage._internal()
+      : _storage = const FlutterSecureStorage(
+          aOptions: AndroidOptions(
+            encryptedSharedPreferences: true,
+          ),
+          iOptions: IOSOptions(
+            accessibility: KeychainAccessibility.first_unlock,
+          ),
+        );
+
+  static void setMockInstance(SecureStorage instance) {
+    _instance = instance;
   }
+  
+  static SecureStorage _instance = SecureStorage._internal();
 
   /// Write value
   Future<void> write(String key, String value) async {

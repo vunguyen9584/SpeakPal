@@ -18,15 +18,15 @@ enum IntentCategory {
   String get displayName {
     switch (this) {
       case IntentCategory.greeting:
-        return '謖ｨ諡ｶ';
+        return '挨拶';
       case IntentCategory.daily:
-        return '譌･蟶ｸ';
+        return '日常';
       case IntentCategory.business:
-        return '繝薙ず繝阪せ';
+        return 'ビジネス';
       case IntentCategory.emotion:
-        return '諢滓ュ';
+        return '感情';
       case IntentCategory.request:
-        return '萓晞ｼ';
+        return '依頼';
     }
   }
 

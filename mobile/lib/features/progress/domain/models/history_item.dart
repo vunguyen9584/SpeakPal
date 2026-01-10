@@ -20,9 +20,11 @@
       id: json['id'] ?? '',
       type: HistoryItemType.fromString(json['type'] ?? 'conversation'),
       timestamp: DateTime.parse(json['timestamp']),
-      duration: json['duration'],
+      duration: (json['duration'] as num?)?.toInt(),
       xpEarned: json['xpEarned'] ?? 0,
-      details: json['details'] ?? {},
+      details: json['details'] != null 
+          ? Map<String, dynamic>.from(json['details'] as Map)
+          : {},
     );
   }
 }
@@ -73,7 +75,7 @@ class PaginatedHistory {
   factory PaginatedHistory.fromJson(Map<String, dynamic> json) {
     return PaginatedHistory(
       items: (json['items'] as List?)
-              ?.map((e) => HistoryItem.fromJson(e))
+              ?.map((e) => HistoryItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       total: json['total'] ?? 0,

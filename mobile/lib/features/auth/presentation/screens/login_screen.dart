@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile/config/router/routes.dart';
 import 'package:mobile/config/theme/typography.dart';
 import '../../../../config/theme/spacing.dart';
 import '../providers/auth_provider.dart';
@@ -91,10 +92,10 @@ class LoginScreen extends ConsumerWidget {
                   ref.read(authStateProvider.notifier).login(email, password);
                 },
                 onForgotPassword: () {
-                  context.push('/auth/forgot-password');
+                  context.push(AppRoutes.forgotPassword);
                 },
                 onRegister: () {
-                  context.push('/auth/register');
+                  context.push(AppRoutes.register);
                 },
               ),
               const SizedBox(height: 24),

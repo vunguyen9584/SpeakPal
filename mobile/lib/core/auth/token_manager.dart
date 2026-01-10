@@ -3,7 +3,10 @@ import '../storage/secure_storage.dart';
 
 /// Token Manager - Handles JWT tokens
 class TokenManager {
-  final SecureStorage _secureStorage = SecureStorage();
+  final SecureStorage _secureStorage;
+
+  TokenManager({SecureStorage? secureStorage}) 
+      : _secureStorage = secureStorage ?? SecureStorage();
 
   /// Save tokens
   Future<void> saveTokens({

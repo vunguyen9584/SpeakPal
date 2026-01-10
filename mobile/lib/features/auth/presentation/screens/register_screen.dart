@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile/config/router/routes.dart';
 import 'package:mobile/config/theme/typography.dart';
 import '../../../../config/theme/spacing.dart';
 import '../providers/auth_provider.dart';
@@ -80,7 +81,7 @@ class RegisterScreen extends ConsumerWidget {
                       );
                 },
                 onLogin: () {
-                  context.go('/auth/login');
+                  context.go(AppRoutes.login);
                 },
               ),
               const SizedBox(height: 24),

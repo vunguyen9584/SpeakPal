@@ -41,6 +41,19 @@
           [],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'weekNumber': weekNumber,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'summary': summary.toJson(),
+      'pronunciationTrend': pronunciationTrend,
+      'topCorrections': topCorrections.map((e) => e.toJson()).toList(),
+      'vocabularyProgress': vocabularyProgress.toJson(),
+      'achievements': achievements.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class MonthlyReport {
@@ -86,6 +99,19 @@ class MonthlyReport {
           [],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'monthNumber': monthNumber,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'summary': summary.toJson(),
+      'pronunciationTrend': pronunciationTrend,
+      'topCorrections': topCorrections.map((e) => e.toJson()).toList(),
+      'vocabularyProgress': vocabularyProgress.toJson(),
+      'achievements': achievements.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class ReportSummary {
@@ -105,6 +131,14 @@ class ReportSummary {
       totalMinutes: json['totalMinutes'] ?? 0,
       totalXp: json['totalXp'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'totalConversations': totalConversations,
+      'totalMinutes': totalMinutes,
+      'totalXp': totalXp,
+    };
   }
 }
 
@@ -126,6 +160,14 @@ class TopCorrection {
       example: json['example'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'count': count,
+      'example': example,
+    };
+  }
 }
 
 class VocabularyProgress {
@@ -142,6 +184,13 @@ class VocabularyProgress {
       newWords: json['newWords'] ?? 0,
       masteredWords: json['masteredWords'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'newWords': newWords,
+      'masteredWords': masteredWords,
+    };
   }
 }
 
@@ -166,5 +215,13 @@ class Achievement {
       earnedAt: DateTime.parse(json['earnedAt']),
     );
   }
-}
 
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'name': name,
+      'description': description,
+      'earnedAt': earnedAt.toIso8601String(),
+    };
+  }
+}

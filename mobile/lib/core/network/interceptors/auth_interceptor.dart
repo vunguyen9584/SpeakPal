@@ -9,7 +9,7 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor(this.dio);
 
   @override
-  void onRequest(
+  Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
@@ -24,7 +24,7 @@ class AuthInterceptor extends Interceptor {
   }
 
   @override
-  void onError(
+  Future<void> onError(
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {

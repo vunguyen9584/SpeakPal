@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/features/translation/providers/recording_provider.dart';
 import 'package:record/record.dart';
+import 'package:flutter/services.dart';
 
 class FakeAudioRecorder implements AudioRecorder {
   @override
@@ -67,6 +68,23 @@ void main() {
     late ProviderContainer container;
 
     setUp(() {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+        const MethodChannel('flutter.baseflow.com/permissions/methods'),
+        (MethodCall methodCall) async {
+          if (methodCall.method == 'checkPermissionStatus') {
+            return 1; // granted
+          }
+          if (methodCall.method == 'requestPermissions') {
+            final permissions = methodCall.arguments as List;
+            return { for (var p in permissions) p : 1 }; // all granted
+          }
+          return null;
+        },
+      );
+
       container = ProviderContainer(
         overrides: [
           audioRecorderProvider.overrideWithValue(FakeAudioRecorder()),
@@ -75,6 +93,11 @@ void main() {
     });
 
     tearDown(() {
+       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+        const MethodChannel('flutter.baseflow.com/permissions/methods'),
+        null,
+      );
       container.dispose();
     });
 
@@ -86,9 +109,19 @@ void main() {
     test('should transition to recording state', () async {
       final notifier = container.read(recordingProvider.notifier);
       
-      // Mock: In real test, we'd need to mock permission
-      // For now, test state transitions
-      expect(notifier.state, RecordingState.idle);
+      await notifier.startRecording();
+      
+      expect(container.read(recordingProvider), RecordingState.recording);
+    });
+
+    test('should stop recording and return data', () async {
+      final notifier = container.read(recordingProvider.notifier);
+      
+      await notifier.startRecording();
+      final data = await notifier.stopRecording();
+      
+      expect(data, isNotNull);
+      expect(container.read(recordingProvider), RecordingState.idle);
     });
 
     test('should reset to idle state', () {

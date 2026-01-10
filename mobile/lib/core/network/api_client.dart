@@ -1,4 +1,5 @@
-﻿import 'package:dio/dio.dart';
+﻿import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/error_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
@@ -7,8 +8,15 @@ import '../../config/env/app_config.dart';
 /// API Client using Dio
 class ApiClient {
   late final Dio _dio;
+  
+  @visibleForTesting
+  Dio get dio => _dio;
 
-  ApiClient() {
+  ApiClient({Dio? dio}) {
+    if (dio != null) {
+      _dio = dio;
+      return;
+    }
     _dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.apiBaseUrl,
