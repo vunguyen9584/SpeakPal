@@ -39,13 +39,19 @@ done
 echo ""
 echo "📊 Counting completed tasks..."
 
-DASHBOARD_COMPLETED=$(grep -c "\- \[x\]" "$DASHBOARD" 2>/dev/null || echo 0)
-PLAN_P1_COMPLETED=$(grep -c "\- \[x\]" "$PLAN_P1" 2>/dev/null || echo 0)
-PLAN_P2_4_COMPLETED=$(grep -c "\- \[x\]" "$PLAN_P2_4" 2>/dev/null || echo 0)
+# Using awk or simple grep pipe to ensure we only get the number
+DASHBOARD_COMPLETED=$(grep -c "\- \[x\]" "$DASHBOARD" | awk '{print $NF}' || echo 0)
+PLAN_P1_COMPLETED=$(grep -c "\- \[x\]" "$PLAN_P1" | awk '{print $NF}' || echo 0)
+PLAN_P2_4_COMPLETED=$(grep -c "\- \[x\]" "$PLAN_P2_4" | awk '{print $NF}' || echo 0)
 
-echo "Dashboard: $DASHBOARD_COMPLETED tasks completed"
-echo "Plan Phase 1: $PLAN_P1_COMPLETED tasks completed"
-echo "Plan Phase 2-4: $PLAN_P2_4_COMPLETED tasks completed"
+# Remove any Carriage Return or extra characters
+DASHBOARD_COMPLETED=$(echo $DASHBOARD_COMPLETED | tr -d '\r')
+PLAN_P1_COMPLETED=$(echo $PLAN_P1_COMPLETED | tr -d '\r')
+PLAN_P2_4_COMPLETED=$(echo $PLAN_P2_4_COMPLETED | tr -d '\r')
+
+echo "Dashboard: $DASHBOARD_COMPLETED"
+echo "Plan Phase 1: $PLAN_P1_COMPLETED"
+echo "Plan Phase 2-4: $PLAN_P2_4_COMPLETED"
 
 # Validate consistency
 echo ""
@@ -68,10 +74,10 @@ fi
 echo ""
 echo "📈 Checking metrics synchronization..."
 
-# Extract metrics from dashboard
-DASH_ERRORS=$(grep "Analyze Errors" "$DASHBOARD" | grep -oP "Current.*\| \K\d+" || echo "N/A")
-DASH_WARNINGS=$(grep "Analyze Warnings" "$DASHBOARD" | grep -oP "Current.*\| \K\d+" || echo "N/A")
-DASH_TESTS=$(grep "Test Pass Rate" "$DASHBOARD" | grep -oP "Current.*\| \K\d+%" || echo "N/A")
+# Extract metrics from dashboard - using grep | sed for more portability
+DASH_ERRORS=$(grep "Analyze Errors" "$DASHBOARD" | sed -n 's/.*| \([0-9]\+\) |.*/\1/p' || echo "N/A")
+DASH_WARNINGS=$(grep "Analyze Warnings" "$DASHBOARD" | sed -n 's/.*| \([0-9]\+\) |.*/\1/p' || echo "N/A")
+DASH_TESTS=$(grep "Test Pass Rate" "$DASHBOARD" | sed -n 's/.*| \([0-9]\+%\) |.*/\1/p' || echo "N/A")
 
 echo "Dashboard metrics:"
 echo "  - Errors: $DASH_ERRORS"
@@ -82,7 +88,8 @@ echo "  - Tests: $DASH_TESTS"
 echo ""
 echo "📝 Validating completion log..."
 
-COMPLETION_ENTRIES=$(grep -c "^## 202" "$COMPLETION_LOG" 2>/dev/null || echo 0)
+COMPLETION_ENTRIES=$(grep -c "^## 202" "$COMPLETION_LOG" | awk '{print $NF}' || echo 0)
+COMPLETION_ENTRIES=$(echo $COMPLETION_ENTRIES | tr -d '\r')
 echo "Completion log entries: $COMPLETION_ENTRIES"
 
 if [ "$COMPLETION_ENTRIES" -ne "$DASHBOARD_COMPLETED" ]; then
@@ -95,7 +102,8 @@ echo ""
 echo "🤔 Checking for pending decisions..."
 
 if [ -f "$DECISIONS" ]; then
-  PENDING=$(grep -c "Status: PENDING_USER_DECISION" "$DECISIONS" 2>/dev/null || echo 0)
+  PENDING=$(grep -c "Status: PENDING_USER_DECISION" "$DECISIONS" | awk '{print $NF}' || echo 0)
+  PENDING=$(echo $PENDING | tr -d '\r')
   if [ "$PENDING" -gt 0 ]; then
     echo -e "${YELLOW}⚠️  $PENDING pending decisions require attention${NC}"
     echo "See: $DECISIONS"
