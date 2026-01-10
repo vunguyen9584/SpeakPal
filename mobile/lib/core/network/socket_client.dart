@@ -1,6 +1,6 @@
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../storage/secure_storage.dart';
-import 'api_endpoints.dart';
+import '../../config/env/app_config.dart';
 import 'socket_events.dart';
 
 /// WebSocket Client using Socket.IO
@@ -19,7 +19,7 @@ class SocketClient {
     final accessToken = await _secureStorage.getAccessToken();
 
     _socket = io.io(
-      ApiEndpoints.baseUrl,
+      AppConfig.wsUrl,
       io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()

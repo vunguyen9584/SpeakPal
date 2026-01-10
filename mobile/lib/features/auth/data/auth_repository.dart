@@ -22,7 +22,7 @@ class AuthRepository {
   })  : _apiClient = apiClient,
         _tokenManager = tokenManager,
         _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn();
+        _googleSignIn = googleSignIn ?? GoogleSignIn.instance;
 
   /// Register a new user
   Future<app_user.User> register(
@@ -121,14 +121,13 @@ class AuthRepository {
   /// Login with Google
   Future<app_user.User> loginWithGoogle() async {
     // Sign in with Google
-    final googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) {
-      throw Exception('Google sign in cancelled');
-    }
-
-    final googleAuth = await googleUser.authentication;
+    final googleUser = await _googleSignIn.authenticate();
+    
+    final googleAuth = googleUser.authentication;
+    final authorization = await googleUser.authorizationClient.authorizeScopes(['email', 'profile']);
+    
     final credential = firebase_auth.GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
+      accessToken: authorization.accessToken,
       idToken: googleAuth.idToken,
     );
 
@@ -140,8 +139,8 @@ class AuthRepository {
 
     // Send Firebase token to backend
     final response = await _apiClient.post(
-      ApiEndpoints.googleAuth,
-      data: {'firebaseToken': firebaseIdToken},
+      ApiEndpoints.oauth('google'),
+      data: {'idToken': firebaseIdToken},
     );
 
     final tokens = AuthTokens.fromJson(response.data['tokens']);
@@ -178,8 +177,8 @@ class AuthRepository {
 
     // Send Firebase token to backend
     final response = await _apiClient.post(
-      ApiEndpoints.appleAuth,
-      data: {'firebaseToken': firebaseIdToken},
+      ApiEndpoints.oauth('apple'),
+      data: {'idToken': firebaseIdToken},
     );
 
     final tokens = AuthTokens.fromJson(response.data['tokens']);

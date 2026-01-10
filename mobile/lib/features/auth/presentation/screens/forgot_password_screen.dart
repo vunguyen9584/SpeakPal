@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/theme/typography.dart';
 import '../../../../config/theme/dimensions.dart';
+import '../../../../config/theme/spacing.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../providers/auth_provider.dart';
 
@@ -73,7 +74,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppDimensions.paddingLg),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
             child: Column(
@@ -102,7 +103,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 // Title
                 Text(
                   'Reset Password',
-                  style: AppTypography.h2,
+                  style: AppTypography.displaySmall,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),

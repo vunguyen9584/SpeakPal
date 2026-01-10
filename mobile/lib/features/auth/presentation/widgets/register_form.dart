@@ -133,6 +133,7 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           // Email Field
           TextFormField(
+            key: const Key('regEmailField'),
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             enabled: !widget.isLoading,
@@ -147,6 +148,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
           // Username Field (Optional)
           TextFormField(
+            key: const Key('regUsernameField'),
             controller: _usernameController,
             enabled: !widget.isLoading,
             decoration: const InputDecoration(
@@ -159,6 +161,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
           // Password Field
           TextFormField(
+            key: const Key('regPasswordField'),
             controller: _passwordController,
             obscureText: _obscurePassword,
             enabled: !widget.isLoading,
@@ -204,6 +207,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
           // Confirm Password Field
           TextFormField(
+            key: const Key('regConfirmPasswordField'),
             controller: _confirmPasswordController,
             obscureText: _obscureConfirmPassword,
             enabled: !widget.isLoading,

@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/theme/typography.dart';
 import '../../../../config/theme/dimensions.dart';
+import '../../../../config/theme/spacing.dart';
 import '../providers/auth_provider.dart';
+import '../../domain/models/auth_state.dart';
+import '../../domain/models/user.dart';
 import '../widgets/register_form.dart';
 import '../widgets/social_login_buttons.dart';
 
@@ -46,7 +49,7 @@ class RegisterScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppDimensions.paddingLg),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -55,7 +58,7 @@ class RegisterScreen extends ConsumerWidget {
               // Welcome Text
               Text(
                 'Join SpeakPal',
-                style: AppTypography.h2,
+                style: AppTypography.displaySmall,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),

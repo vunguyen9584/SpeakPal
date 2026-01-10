@@ -1,31 +1,26 @@
-- Goal: Resolve Cross-API and Remaining E2E Test Failures - COMPLETED ✅
+- Goal: Execute Phase 7 QA (Quality Assurance) - Equivalent to Phase 8 in Checklist
 - Constraints:
-  - Must fix Prisma 7.x "engine type client requires adapter" error
-  - Must follow best practices, not quick workarounds
-  - Must allow tests to run without real external service credentials
+  - Phase naming discrepancy: Plan is `phase-7-qa.md`, Checklist calls it Phase 8.
+  - Must sync with `CHECKLIST.md`.
+  - Some E2E tests already exist and pass; verify coverage before marking done.
 - Key decisions:
-  - Upgraded PrismaService to use Driver Adapter pattern (@prisma/adapter-pg + pg Pool) - required by Prisma 7.x
-  - Fixed DeepgramClient to handle missing API key gracefully (don't throw in constructor)
-  - Fixed FirebaseService & FCMService to check for non-empty credentials using trim()
-  - Created test-helper.module.ts with MockFirebaseService and TestPrismaService
-  - Created setup.ts to load .env.test and clear external service credentials
-  - Updated all E2E test files to use createTestingModule() helper
-  - Updated `persona.e2e-spec.ts` to use valid `CHEERFUL` enum logic.
-  - Updated `translation.e2e-spec.ts` to clean up `QuickResponseResult` to prevent daily limit failures.
+  - Will follow `phase-7-qa.md` for structure.
+  - Will verify existing tests against requirements before implementing new ones.
 - State:
   - Done:
-    - Fixed `PrismaClient` initialization for Prisma 7.x (added adapter).
-    - Configured `.env.test` and `setup.ts` for clean test environment.
-    - Added database seeding to `translation.e2e-spec.ts`.
-    - Fixed all `cross-api.e2e-spec.ts` failures (Persona creation, usage tracking, pagination).
-    - Fixed `persona.e2e-spec.ts` 404/Validation errors.
-    - Fixed `translation.e2e-spec.ts` 500 errors (Daily Limit).
-    - Verified ALL 141 E2E tests pass.
+    - Phase 6 (Social & Subscription) coding and integration.
+    - Resolving E2E failures (141 tests passing).
+    - WP-QA-001 (Backend Unit Tests) and WP-QA-002 (Backend Integration Tests) confirmed passing.
+    - WP-QA-003-T001 & T002 (Flutter Test Setup & Auth Feature Tests) implemented and passing.
   - Now:
-    - (Completed)
+    - WP-QA-003: Flutter Widget Tests.
+    - Implementing tests for Conversation, Learning, and Shared Widgets.
   - Next:
-    - Proceed to Phase 6 wrapping up or deployment readiness.
+    - WP-QA-003-T003: Conversation Feature Tests.
+    - WP-QA-003-T004: Learning Feature Tests.
 - Open questions:
-  - None
+  - Confirm execution mode (Manual/Auto).
 - Working set:
-  - `backend/test/*.e2e-spec.ts`
+  - `docs/implementation-plan/phase-7-qa.md`
+  - `docs/implementation-plan/CHECKLIST.md`
+  - `backend/test/**/*`

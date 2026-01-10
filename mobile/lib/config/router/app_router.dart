@@ -115,6 +115,7 @@ class AppRouter {
               nextReviewDate: DateTime.now(),
               reviewCount: 0,
               correctCount: 0,
+              createdAt: DateTime.now(),
             );
             return VocabularyDetailScreen(vocabulary: vocabulary);
           },

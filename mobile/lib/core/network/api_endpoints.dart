@@ -13,8 +13,7 @@ class ApiEndpoints {
   static const String verifyEmail = '/auth/verify-email';
 
   // OAuth endpoints
-  static const String googleAuth = '/auth/google';
-  static const String appleAuth = '/auth/apple';
+  static String oauth(String provider) => '/auth/oauth/$provider';
 
   // User endpoints
   static const String user = '/users';

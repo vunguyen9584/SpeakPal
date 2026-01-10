@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/error_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
-import 'api_endpoints.dart';
+import '../../config/env/app_config.dart';
 
 /// API Client using Dio
 class ApiClient {
@@ -11,7 +11,7 @@ class ApiClient {
   ApiClient() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: ApiEndpoints.baseUrl,
+        baseUrl: AppConfig.apiBaseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {

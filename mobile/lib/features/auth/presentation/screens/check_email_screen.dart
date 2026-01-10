@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/theme/typography.dart';
 import '../../../../config/theme/dimensions.dart';
+import '../../../../config/theme/spacing.dart';
 import '../../../../shared/widgets/app_button.dart';
 
 /// Check Email Screen - Shown after forgot password request
@@ -21,7 +22,7 @@ class CheckEmailScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(AppDimensions.paddingLg),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -48,7 +49,7 @@ class CheckEmailScreen extends StatelessWidget {
               // Title
               Text(
                 'Check Your Email',
-                style: AppTypography.h2,
+                style: AppTypography.displaySmall,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),

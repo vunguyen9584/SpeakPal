@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../auth/domain/models/user.dart';
+import '../../auth/domain/models/user.dart';
 
 part 'onboarding_state.freezed.dart';
 

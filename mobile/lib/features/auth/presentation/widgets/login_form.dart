@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../shared/widgets/app_button.dart';
-import '../../../../shared/widgets/app_text_field.dart';
+
 
 /// Login Form Widget
 class LoginForm extends StatefulWidget {
@@ -70,6 +70,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           // Email Field
           TextFormField(
+            key: const Key('emailField'),
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             enabled: !widget.isLoading,
@@ -84,6 +85,7 @@ class _LoginFormState extends State<LoginForm> {
 
           // Password Field
           TextFormField(
+            key: const Key('passwordField'),
             controller: _passwordController,
             obscureText: _obscurePassword,
             enabled: !widget.isLoading,

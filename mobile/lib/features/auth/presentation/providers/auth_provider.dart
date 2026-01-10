@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/network/api_client.dart';
-import '../../../core/auth/token_manager.dart';
-import '../../auth/data/auth_repository.dart';
-import '../../auth/domain/models/auth_state.dart';
-import '../../auth/domain/models/user.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/auth/token_manager.dart';
+import '../../data/auth_repository.dart';
+import '../../domain/models/auth_state.dart';
+import '../../domain/models/user.dart';
 
 /// Auth Repository Provider
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

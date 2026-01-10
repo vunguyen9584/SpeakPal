@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_provider.dart';
 import 'package:mobile/features/auth/data/auth_repository.dart';
 import 'package:mobile/features/auth/domain/models/user.dart';
 import 'package:mobile/features/auth/domain/models/auth_tokens.dart';
+import 'package:mobile/shared/widgets/app_button.dart';
 
 // Mock AuthRepository
 class MockAuthRepository implements AuthRepository {
@@ -77,35 +79,38 @@ void main() {
         overrides: [
           authRepositoryProvider.overrideWithValue(mockRepo),
         ],
-        child: const MaterialApp(
-          home: LoginScreen(),
+        child: MaterialApp.router(
+          routerConfig: GoRouter(
+            routes: [
+              GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
+              GoRoute(path: '/home', builder: (context, state) => const Scaffold(body: Text('Home'))),
+            ],
+          ),
         ),
       ),
     );
+    await tester.pumpAndSettle();
 
     // Verify initial state
     expect(find.text('Welcome Back!'), findsOneWidget);
     expect(find.text('Sign in to continue practicing'), findsOneWidget);
     
-    // Find text fields
-    // Assuming LoginForm uses TextFormField
-    final emailFinder = find.widgetWithText(TextFormField, 'Email'); 
-    final passwordFinder = find.widgetWithText(TextFormField, 'Password');
-
-    // Note: If labels are not exactly 'Email' or 'Password', we might need generic finder
-    // fallback to finding by Type if specific text fails, but let's try finding by type order
-    
-    await tester.enterText(find.byType(TextFormField).at(0), 'test@example.com');
-    await tester.enterText(find.byType(TextFormField).at(1), 'password123');
+    // Find text fields and enter text
+    await tester.enterText(find.byKey(const Key('emailField')), 'test@example.com');
+    await tester.enterText(find.byKey(const Key('passwordField')), 'password123');
+    await tester.pump();
     
     // Tap login button
-    // We look for a button with text 'Login'
-    final loginButtonFinder = find.text('Login');
+    final loginButtonFinder = find.widgetWithText(AppButton, 'Login');
+    await tester.ensureVisible(loginButtonFinder);
     await tester.tap(loginButtonFinder);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     // Verify login was called
-    expect(mockRepo.loginCalled, isTrue);
-    expect(mockRepo.lastEmail, 'test@example.com');
+    expect(mockRepo.loginCalled, isTrue, reason: 'Repository login should have been called');
+    expect(mockRepo.lastEmail, 'test@example.com', reason: 'Email passed to repository should match');
+    
+    // Verify we navigated to home
+    expect(find.text('Home'), findsOneWidget, reason: 'Should have navigated to Home screen');
   });
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/screens/register_screen.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_provider.dart';
 import 'package:mobile/features/auth/data/auth_repository.dart';
 import 'package:mobile/features/auth/domain/models/user.dart';
 import 'package:mobile/features/auth/domain/models/auth_tokens.dart';
+import 'package:mobile/shared/widgets/app_button.dart';
 
 // Mock AuthRepository
 class MockAuthRepository implements AuthRepository {
@@ -79,11 +81,17 @@ void main() {
         overrides: [
           authRepositoryProvider.overrideWithValue(mockRepo),
         ],
-        child: const MaterialApp(
-          home: RegisterScreen(),
+        child: MaterialApp.router(
+          routerConfig: GoRouter(
+            routes: [
+              GoRoute(path: '/', builder: (context, state) => const RegisterScreen()),
+              GoRoute(path: '/onboarding', builder: (context, state) => const Scaffold(body: Text('Onboarding'))),
+            ],
+          ),
         ),
       ),
     );
+    await tester.pumpAndSettle();
 
     // Verify initial state
     expect(find.text('Join SpeakPal'), findsOneWidget);
@@ -91,28 +99,29 @@ void main() {
     // Find text fields (Email, Username, Password, Confirm Password)
     // RegisterForm usually has these fields.
     // We try to find by hints or labels if possible.
-    await tester.enterText(find.byType(TextFormField).at(0), 'newuser@example.com');
-    // Assuming 2nd field is username (optional) or password depending on form.
-    // Let's assume Username, Password, ConfirmPassword
-    await tester.enterText(find.byType(TextFormField).at(1), 'newuser');
-    await tester.enterText(find.byType(TextFormField).at(2), 'Password123!');
-    await tester.enterText(find.byType(TextFormField).at(3), 'Password123!');
+    await tester.enterText(find.byKey(const Key('regEmailField')), 'newuser@example.com');
+    await tester.enterText(find.byKey(const Key('regUsernameField')), 'newuser');
+    await tester.enterText(find.byKey(const Key('regPasswordField')), 'Password123!');
+    await tester.enterText(find.byKey(const Key('regConfirmPasswordField')), 'Password123!');
+    await tester.pump();
+    
+    // Accept terms
+    await tester.tap(find.byType(CheckboxListTile));
+    await tester.pump();
     
     // Tap register button
     // We look for a button with text 'Register' or 'Sign Up'
-    // Let's guess 'Register' based on typical naming
-    final registerButtonFinder = find.text('Register');
-    if (findsOneWidget.matches(registerButtonFinder, {})) {
-       await tester.tap(registerButtonFinder);
-    } else {
-       // Fallback or generic find if we can't be sure of text
-       await tester.tap(find.byType(ElevatedButton).last);
-    }
+    // Tap register button
+    final registerButtonFinder = find.byType(AppButton);
+    await tester.ensureVisible(registerButtonFinder);
+    await tester.tap(registerButtonFinder);
     
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     // Verify register was called
     expect(mockRepo.registerCalled, isTrue);
     expect(mockRepo.lastEmail, 'newuser@example.com');
+    // Verify we navigated to onboarding
+    expect(find.text('Onboarding'), findsOneWidget);
   });
 }
