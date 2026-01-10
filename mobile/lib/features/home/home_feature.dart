@@ -1,5 +1,5 @@
 // Home Feature Barrel File
-library home_feature;
+library;
 
 // Domain Models
 export 'domain/models/dashboard_stats.dart';

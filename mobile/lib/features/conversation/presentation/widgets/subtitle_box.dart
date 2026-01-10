@@ -5,10 +5,10 @@ class SubtitleBox extends StatelessWidget {
   final bool isVisible;
 
   const SubtitleBox({
-    Key? key,
+    super.key,
     required this.text,
     this.isVisible = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

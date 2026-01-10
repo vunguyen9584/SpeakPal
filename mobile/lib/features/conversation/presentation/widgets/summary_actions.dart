@@ -7,12 +7,12 @@ class SummaryActions extends StatelessWidget {
   final VoidCallback onPracticeAgain;
 
   const SummaryActions({
-    Key? key,
+    super.key,
     required this.onShare,
     required this.onExport,
     required this.onBackToHome,
     required this.onPracticeAgain,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

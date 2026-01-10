@@ -6,11 +6,11 @@ class MicButton extends StatefulWidget {
   final bool isRecording;
 
   const MicButton({
-    Key? key,
+    super.key,
     this.onPressed,
     this.onReleased,
     this.isRecording = false,
-  }) : super(key: key);
+  });
 
   @override
   State<MicButton> createState() => _MicButtonState();

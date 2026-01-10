@@ -5,9 +5,9 @@ class ConversationStatsCard extends StatelessWidget {
   final ConversationSummary summary;
 
   const ConversationStatsCard({
-    Key? key,
+    super.key,
     required this.summary,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

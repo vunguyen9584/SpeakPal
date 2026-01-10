@@ -6,10 +6,10 @@ class BadgeDetailModal extends StatelessWidget {
   final bool isEarned;
 
   const BadgeDetailModal({
-    Key? key,
+    super.key,
     required this.badge,
     required this.isEarned,
-  }) : super(key: key);
+  });
 
   IconData _getBadgeIcon(String icon) {
     switch (icon) {

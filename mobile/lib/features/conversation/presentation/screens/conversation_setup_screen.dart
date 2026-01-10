@@ -5,7 +5,7 @@ import '../../domain/models/conversation.dart';
 class ConversationSetupScreen extends ConsumerStatefulWidget {
   final ConversationMode? initialMode;
 
-  const ConversationSetupScreen({Key? key, this.initialMode}) : super(key: key);
+  const ConversationSetupScreen({super.key, this.initialMode});
 
   @override
   ConsumerState<ConversationSetupScreen> createState() => _ConversationSetupScreenState();

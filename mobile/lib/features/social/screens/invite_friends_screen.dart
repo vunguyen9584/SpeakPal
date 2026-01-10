@@ -5,7 +5,7 @@ import 'package:share_plus/share_plus.dart';
 import '../providers/invitation_provider.dart';
 
 class InviteFriendsScreen extends ConsumerWidget {
-  const InviteFriendsScreen({Key? key}) : super(key: key);
+  const InviteFriendsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

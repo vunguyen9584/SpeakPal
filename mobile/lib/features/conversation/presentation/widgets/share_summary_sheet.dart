@@ -6,10 +6,10 @@ class ShareSummarySheet extends StatelessWidget {
   final String summaryText;
 
   const ShareSummarySheet({
-    Key? key,
+    super.key,
     required this.conversationId,
     required this.summaryText,
-  }) : super(key: key);
+  });
 
   static void show(
     BuildContext context, {

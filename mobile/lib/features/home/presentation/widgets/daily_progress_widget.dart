@@ -6,9 +6,9 @@ class DailyProgressWidget extends ConsumerWidget {
   final DashboardStats stats;
 
   const DailyProgressWidget({
-    Key? key,
+    super.key,
     required this.stats,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -95,7 +95,7 @@ class DailyProgressWidget extends ConsumerWidget {
 class StreakBadge extends StatelessWidget {
   final int streak;
 
-  const StreakBadge({Key? key, required this.streak}) : super(key: key);
+  const StreakBadge({super.key, required this.streak});
 
   @override
   Widget build(BuildContext context) {

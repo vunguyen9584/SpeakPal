@@ -6,10 +6,10 @@ class ModeSelector extends StatelessWidget {
   final ValueChanged<ConversationMode> onModeChanged;
 
   const ModeSelector({
-    Key? key,
+    super.key,
     required this.selectedMode,
     required this.onModeChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

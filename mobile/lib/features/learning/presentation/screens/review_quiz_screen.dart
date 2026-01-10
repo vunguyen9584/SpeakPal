@@ -4,7 +4,7 @@ import '../../domain/models/vocabulary.dart';
 class ReviewQuizScreen extends StatefulWidget {
   final List<Vocabulary> vocabularies;
 
-  const ReviewQuizScreen({Key? key, required this.vocabularies}) : super(key: key);
+  const ReviewQuizScreen({super.key, required this.vocabularies});
 
   @override
   State<ReviewQuizScreen> createState() => _ReviewQuizScreenState();
@@ -187,11 +187,11 @@ class FlashcardWidget extends StatelessWidget {
   final VoidCallback onFlip;
 
   const FlashcardWidget({
-    Key? key,
+    super.key,
     required this.vocabulary,
     required this.showAnswer,
     required this.onFlip,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

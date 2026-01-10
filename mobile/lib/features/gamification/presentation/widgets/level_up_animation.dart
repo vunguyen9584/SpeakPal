@@ -7,11 +7,11 @@ class LevelUpAnimation extends StatefulWidget {
   final VoidCallback? onComplete;
 
   const LevelUpAnimation({
-    Key? key,
+    super.key,
     required this.newLevel,
     required this.xpEarned,
     this.onComplete,
-  }) : super(key: key);
+  });
 
   @override
   State<LevelUpAnimation> createState() => _LevelUpAnimationState();

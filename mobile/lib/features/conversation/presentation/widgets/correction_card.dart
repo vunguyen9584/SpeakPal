@@ -6,10 +6,10 @@ class CorrectionCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const CorrectionCard({
-    Key? key,
+    super.key,
     required this.correction,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

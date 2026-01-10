@@ -6,9 +6,9 @@ class CorrectionsSection extends StatelessWidget {
   final List<Correction> corrections;
 
   const CorrectionsSection({
-    Key? key,
+    super.key,
     required this.corrections,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

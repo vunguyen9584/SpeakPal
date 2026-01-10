@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/vocabulary.dart';
 
 class VocabularyListScreen extends ConsumerStatefulWidget {
-  const VocabularyListScreen({Key? key}) : super(key: key);
+  const VocabularyListScreen({super.key});
 
   @override
   ConsumerState<VocabularyListScreen> createState() => _VocabularyListScreenState();
@@ -97,7 +97,7 @@ class _VocabularyListScreenState extends ConsumerState<VocabularyListScreen> {
 class VocabularyListItem extends StatelessWidget {
   final Vocabulary vocabulary;
 
-  const VocabularyListItem({Key? key, required this.vocabulary}) : super(key: key);
+  const VocabularyListItem({super.key, required this.vocabulary});
 
   Color _getSrsLevelColor(String level) {
     switch (level) {

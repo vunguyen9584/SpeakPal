@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/features/translation/widgets/question_card.dart';
 import 'package:mobile/features/translation/models/translation_question.dart';
 import 'package:mobile/features/translation/providers/translation_provider.dart';
-import 'package:mobile/features/translation/providers/topic_provider.dart';
 
 void main() {
   group('QuestionCard Widget Tests', () {

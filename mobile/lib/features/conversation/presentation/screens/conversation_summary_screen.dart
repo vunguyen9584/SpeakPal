@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ConversationSummaryScreen extends ConsumerWidget {
   final String conversationId;
 
-  const ConversationSummaryScreen({Key? key, required this.conversationId}) : super(key: key);
+  const ConversationSummaryScreen({super.key, required this.conversationId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

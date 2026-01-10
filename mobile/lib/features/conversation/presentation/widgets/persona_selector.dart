@@ -5,10 +5,10 @@ class PersonaSelector extends StatelessWidget {
   final VoidCallback onChangePersona;
 
   const PersonaSelector({
-    Key? key,
+    super.key,
     required this.selectedPersonaId,
     required this.onChangePersona,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

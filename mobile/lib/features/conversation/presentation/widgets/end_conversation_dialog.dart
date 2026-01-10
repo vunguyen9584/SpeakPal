@@ -4,9 +4,9 @@ class EndConversationDialog extends StatelessWidget {
   final VoidCallback onConfirm;
 
   const EndConversationDialog({
-    Key? key,
+    super.key,
     required this.onConfirm,
-  }) : super(key: key);
+  });
 
   static Future<bool?> show(BuildContext context) {
     return showDialog<bool>(

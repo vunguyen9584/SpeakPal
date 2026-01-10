@@ -4,7 +4,7 @@ import '../../domain/models/vocabulary.dart';
 class VocabularyDetailScreen extends StatelessWidget {
   final Vocabulary vocabulary;
 
-  const VocabularyDetailScreen({Key? key, required this.vocabulary}) : super(key: key);
+  const VocabularyDetailScreen({super.key, required this.vocabulary});
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +170,7 @@ class VocabularyDetailScreen extends StatelessWidget {
     if (diff == 0) return 'Today';
     if (diff == 1) return 'Tomorrow';
     if (diff < 0) return 'Overdue';
-    return '${diff} days';
+    return '$diff days';
   }
 
   void _showDeleteDialog(BuildContext context) {

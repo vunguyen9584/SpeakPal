@@ -1,5 +1,5 @@
 // Conversation Feature Barrel File
-library conversation_feature;
+library;
 
 // Domain Models
 export 'domain/models/conversation.dart';

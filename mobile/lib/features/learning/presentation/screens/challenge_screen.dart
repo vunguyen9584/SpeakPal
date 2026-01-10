@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../domain/models/challenge.dart';
 
 class ChallengeScreen extends StatelessWidget {
-  const ChallengeScreen({Key? key}) : super(key: key);
+  const ChallengeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class ChallengeScreen extends StatelessWidget {
                 // Challenges list
                 ...challenges.map((challenge) {
                   return ChallengeCard(challenge: challenge);
-                }).toList(),
+                }),
 
                 const SizedBox(height: 16),
 
@@ -66,7 +66,7 @@ class ChallengeScreen extends StatelessWidget {
 class ChallengeCard extends StatelessWidget {
   final UserChallenge challenge;
 
-  const ChallengeCard({Key? key, required this.challenge}) : super(key: key);
+  const ChallengeCard({super.key, required this.challenge});
 
   IconData _getChallengeIcon(String type) {
     switch (type) {

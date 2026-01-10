@@ -7,11 +7,11 @@ class ScoreGauge extends StatelessWidget {
   final int maxScore;
 
   const ScoreGauge({
-    Key? key,
+    super.key,
     required this.score,
     required this.label,
     this.maxScore = 100,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

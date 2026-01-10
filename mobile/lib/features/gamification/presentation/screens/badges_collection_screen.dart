@@ -4,7 +4,7 @@ import '../../domain/models/badge.dart';
 import '../widgets/badge_detail_modal.dart';
 
 class BadgesCollectionScreen extends ConsumerStatefulWidget {
-  const BadgesCollectionScreen({Key? key}) : super(key: key);
+  const BadgesCollectionScreen({super.key});
 
   @override
   ConsumerState<BadgesCollectionScreen> createState() => _BadgesCollectionScreenState();
@@ -166,11 +166,11 @@ class BadgeCardWidget extends StatelessWidget {
   final VoidCallback onTap;
 
   const BadgeCardWidget({
-    Key? key,
+    super.key,
     required this.badge,
     required this.isEarned,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   IconData _getBadgeIcon(String icon) {
     switch (icon) {

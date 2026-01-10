@@ -6,7 +6,7 @@ import '../widgets/quick_actions_widget.dart';
 import '../widgets/recent_conversations_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

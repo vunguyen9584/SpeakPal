@@ -7,11 +7,11 @@ class WaveformWidget extends StatelessWidget {
   final int barCount;
 
   const WaveformWidget({
-    Key? key,
+    super.key,
     required this.amplitudeStream,
     this.color = Colors.blue,
     this.barCount = 30,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

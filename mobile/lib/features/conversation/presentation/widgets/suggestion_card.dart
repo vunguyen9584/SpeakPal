@@ -5,9 +5,9 @@ class SuggestionCard extends StatelessWidget {
   final Suggestion suggestion;
 
   const SuggestionCard({
-    Key? key,
+    super.key,
     required this.suggestion,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

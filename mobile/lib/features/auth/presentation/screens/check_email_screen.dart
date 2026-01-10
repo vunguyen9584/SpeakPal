@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/theme/typography.dart';
-import '../../../../config/theme/dimensions.dart';
 import '../../../../config/theme/spacing.dart';
 import '../../../../shared/widgets/app_button.dart';
 

@@ -7,7 +7,7 @@ enum ConversationMode {
 }
 
 class QuickActionsWidget extends StatelessWidget {
-  const QuickActionsWidget({Key? key}) : super(key: key);
+  const QuickActionsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,13 +85,13 @@ class ActionCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ActionCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.color,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -5,9 +5,9 @@ class RecentConversationsWidget extends StatelessWidget {
   final List<RecentConversation> conversations;
 
   const RecentConversationsWidget({
-    Key? key,
+    super.key,
     required this.conversations,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +62,9 @@ class ConversationListItem extends StatelessWidget {
   final RecentConversation conversation;
 
   const ConversationListItem({
-    Key? key,
+    super.key,
     required this.conversation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,7 @@ class ConversationListItem extends StatelessWidget {
 class ScoreBadge extends StatelessWidget {
   final int score;
 
-  const ScoreBadge({Key? key, required this.score}) : super(key: key);
+  const ScoreBadge({super.key, required this.score});
 
   @override
   Widget build(BuildContext context) {

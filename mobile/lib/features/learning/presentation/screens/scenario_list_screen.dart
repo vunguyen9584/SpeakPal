@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../domain/models/scenario.dart';
 
 class ScenarioListScreen extends StatefulWidget {
-  const ScenarioListScreen({Key? key}) : super(key: key);
+  const ScenarioListScreen({super.key});
 
   @override
   State<ScenarioListScreen> createState() => _ScenarioListScreenState();
@@ -72,7 +72,7 @@ class _ScenarioListScreenState extends State<ScenarioListScreen> {
                       },
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
@@ -100,7 +100,7 @@ class _ScenarioListScreenState extends State<ScenarioListScreen> {
 class ScenarioCard extends StatelessWidget {
   final Scenario scenario;
 
-  const ScenarioCard({Key? key, required this.scenario}) : super(key: key);
+  const ScenarioCard({super.key, required this.scenario});
 
   Color _getDifficultyColor(String difficulty) {
     switch (difficulty.toLowerCase()) {

@@ -103,7 +103,7 @@ class _ShadowingLibraryScreenState
                 
                 // Level filter
                 DropdownButtonFormField<String>(
-                  value: _selectedLevel,
+                  initialValue: _selectedLevel,
                   decoration: const InputDecoration(
                     labelText: 'レベル',
                     border: OutlineInputBorder(),

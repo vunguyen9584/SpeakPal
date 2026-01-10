@@ -52,7 +52,7 @@ class TranslationHeader extends ConsumerWidget {
           
           // Topic selector
           DropdownButtonFormField<TranslationTopic>(
-            value: topic,
+            initialValue: topic,
             decoration: InputDecoration(
               labelText: 'トピック',
               border: OutlineInputBorder(

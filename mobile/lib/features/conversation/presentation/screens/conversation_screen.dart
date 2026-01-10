@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/models/conversation.dart';
 import '../../domain/models/turn.dart';
 
 class ConversationScreen extends ConsumerStatefulWidget {
   final String conversationId;
 
-  const ConversationScreen({Key? key, required this.conversationId}) : super(key: key);
+  const ConversationScreen({super.key, required this.conversationId});
 
   @override
   ConsumerState<ConversationScreen> createState() => _ConversationScreenState();
@@ -16,8 +15,8 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
   final List<Turn> _turns = [];
   final ScrollController _scrollController = ScrollController();
   bool _isRecording = false;
-  bool _isAiSpeaking = false;
-  String _currentSubtitle = '';
+  final bool _isAiSpeaking = false;
+  final String _currentSubtitle = '';
 
   @override
   Widget build(BuildContext context) {

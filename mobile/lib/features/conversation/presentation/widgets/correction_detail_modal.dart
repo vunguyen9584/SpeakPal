@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../domain/models/turn.dart';
-import 'correction_card.dart';
 
 class CorrectionDetailModal extends StatelessWidget {
   final Correction correction;
 
   const CorrectionDetailModal({
-    Key? key,
+    super.key,
     required this.correction,
-  }) : super(key: key);
+  });
 
   static void show(BuildContext context, Correction correction) {
     showModalBottomSheet(

@@ -51,7 +51,7 @@ class VoiceSelector extends StatelessWidget {
               onTap: () => onVoiceSelected(voice['id']!),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

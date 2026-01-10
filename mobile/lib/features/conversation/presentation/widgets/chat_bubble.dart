@@ -6,10 +6,10 @@ class ChatBubble extends StatelessWidget {
   final VoidCallback? onTap;
 
   const ChatBubble({
-    Key? key,
+    super.key,
     required this.turn,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

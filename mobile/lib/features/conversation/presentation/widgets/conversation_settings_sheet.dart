@@ -7,12 +7,12 @@ class ConversationSettingsSheet extends StatefulWidget {
   final ValueChanged<bool> onCorrectionsToggled;
 
   const ConversationSettingsSheet({
-    Key? key,
+    super.key,
     required this.aiSpeed,
     required this.showRealTimeCorrections,
     required this.onSpeedChanged,
     required this.onCorrectionsToggled,
-  }) : super(key: key);
+  });
 
   static void show(
     BuildContext context, {

@@ -6,11 +6,11 @@ class AiAvatar extends StatelessWidget {
   final bool isSpeaking;
 
   const AiAvatar({
-    Key? key,
+    super.key,
     required this.name,
     this.avatarUrl,
     this.isSpeaking = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/theme/typography.dart';
-import '../../../../config/theme/dimensions.dart';
 import '../../../../config/theme/spacing.dart';
 import '../providers/auth_provider.dart';
 import '../../domain/models/auth_state.dart';
-import '../../domain/models/user.dart';
 import '../widgets/login_form.dart';
 import '../widgets/social_login_buttons.dart';
 

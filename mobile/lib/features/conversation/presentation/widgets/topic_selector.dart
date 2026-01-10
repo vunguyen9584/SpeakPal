@@ -14,10 +14,10 @@ class TopicSelector extends StatelessWidget {
   ];
 
   const TopicSelector({
-    Key? key,
+    super.key,
     required this.selectedTopic,
     required this.onTopicChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

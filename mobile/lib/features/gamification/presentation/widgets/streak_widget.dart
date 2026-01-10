@@ -6,10 +6,10 @@ class StreakWidget extends StatelessWidget {
   final VoidCallback? onUseFreeze;
 
   const StreakWidget({
-    Key? key,
+    super.key,
     this.streak,
     this.onUseFreeze,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -175,10 +175,10 @@ class StreakDetailWidget extends StatelessWidget {
   final VoidCallback? onUseFreeze;
 
   const StreakDetailWidget({
-    Key? key,
+    super.key,
     required this.streak,
     this.onUseFreeze,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

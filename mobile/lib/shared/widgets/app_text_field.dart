@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../config/theme/colors.dart';
 import '../../config/theme/dimensions.dart';
 
 /// Custom Text Field widget

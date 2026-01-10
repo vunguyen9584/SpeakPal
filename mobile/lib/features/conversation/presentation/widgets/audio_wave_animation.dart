@@ -7,11 +7,11 @@ class AudioWaveAnimation extends StatefulWidget {
   final int barCount;
 
   const AudioWaveAnimation({
-    Key? key,
+    super.key,
     required this.isPlaying,
     this.color = Colors.blue,
     this.barCount = 5,
-  }) : super(key: key);
+  });
 
   @override
   State<AudioWaveAnimation> createState() => _AudioWaveAnimationState();

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/ranking.dart';
 
 class LeaderboardScreen extends ConsumerStatefulWidget {
-  const LeaderboardScreen({Key? key}) : super(key: key);
+  const LeaderboardScreen({super.key});
 
   @override
   ConsumerState<LeaderboardScreen> createState() => _LeaderboardScreenState();
@@ -280,10 +280,10 @@ class RankingListItem extends StatelessWidget {
   final bool highlight;
 
   const RankingListItem({
-    Key? key,
+    super.key,
     required this.ranking,
     this.highlight = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

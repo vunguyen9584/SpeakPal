@@ -7,10 +7,10 @@ class VocabularySection extends StatelessWidget {
   final VoidCallback? onSaveAll;
 
   const VocabularySection({
-    Key? key,
+    super.key,
     required this.words,
     this.onSaveAll,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

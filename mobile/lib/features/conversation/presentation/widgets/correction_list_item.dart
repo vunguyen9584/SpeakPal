@@ -6,9 +6,9 @@ class CorrectionListItem extends StatefulWidget {
   final Correction correction;
 
   const CorrectionListItem({
-    Key? key,
+    super.key,
     required this.correction,
-  }) : super(key: key);
+  });
 
   @override
   State<CorrectionListItem> createState() => _CorrectionListItemState();

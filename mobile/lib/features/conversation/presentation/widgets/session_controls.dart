@@ -7,11 +7,11 @@ class SessionControls extends StatefulWidget {
   final VoidCallback onSettingsPressed;
 
   const SessionControls({
-    Key? key,
+    super.key,
     required this.startTime,
     required this.onEndPressed,
     required this.onSettingsPressed,
-  }) : super(key: key);
+  });
 
   @override
   State<SessionControls> createState() => _SessionControlsState();

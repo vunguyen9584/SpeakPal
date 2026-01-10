@@ -7,11 +7,11 @@ class VocabularyCard extends StatefulWidget {
   final VoidCallback? onPlayPronunciation;
 
   const VocabularyCard({
-    Key? key,
+    super.key,
     required this.word,
     this.onSave,
     this.onPlayPronunciation,
-  }) : super(key: key);
+  });
 
   @override
   State<VocabularyCard> createState() => _VocabularyCardState();
