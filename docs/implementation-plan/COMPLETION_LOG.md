@@ -67,6 +67,29 @@
 - Warnings: Baseline 20
 - Tests: 147/147 passing ✅
 
+**Commit:** bdcaa4c
+**Branch:** main
+
+---
+
+## 2026-01-10 15:22:00 - WP-SETUP-001-T004 Completed
+
+**Task:** Setup Development Environment Standards
+**Phase:** 0 (Setup & Tooling)
+**Owner:** Antigravity AI
+
+**Changes:**
+
+- Created `scripts/dev-setup.sh` to automate environment initialization.
+- Script handles dependency fetching, code generation, analysis, and test execution.
+- Standardizes the entry point for new contributors.
+
+**Metrics Impact:**
+
+- Errors: Baseline 289
+- Warnings: Baseline 20
+- Tests: 147/147 passing ✅
+
 **Commit:** [Pending local commit]
 **Branch:** main
 
