@@ -170,7 +170,7 @@
 
   **DoD:** Baseline documented trong `docs/metrics-baseline.md`
 
-- [ ] **T002: Create Weekly Progress Dashboard**
+- [x] **T002: Create Weekly Progress Dashboard** ✅ 2026-01-10
 
   ```markdown
   # Weekly Metrics Dashboard
