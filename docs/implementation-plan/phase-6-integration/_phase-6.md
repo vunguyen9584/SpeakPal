@@ -235,11 +235,11 @@
 
 | Work Package | Name           | Tasks  | Est. Hours | Status |
 | ------------ | -------------- | ------ | ---------- | ------ |
-| WP-INT-001   | Deepgram STT   | 6      | 16         | ⬜     |
-| WP-INT-002   | OpenAI GPT-4o  | 6      | 18         | ⬜     |
-| WP-INT-003   | ElevenLabs TTS | 6      | 15         | ⬜     |
-| WP-INT-004   | App Store IAP  | 6      | 12         | ⬜     |
-| WP-INT-005   | Play Store IAP | 6      | 12         | ⬜     |
+| WP-INT-001   | Deepgram STT   | 6      | 16         | ✅     |
+| WP-INT-002   | OpenAI GPT-4o  | 6      | 18         | ✅     |
+| WP-INT-003   | ElevenLabs TTS | 6      | 15         | ✅     |
+| WP-INT-004   | App Store IAP  | 6      | 12         | ✅     |
+| WP-INT-005   | Play Store IAP | 6      | 12         | ✅     |
 | **Total**    |                | **30** | **73**     |        |
 
 ---

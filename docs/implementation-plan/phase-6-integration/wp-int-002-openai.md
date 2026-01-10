@@ -26,8 +26,8 @@
   - `backend/src/integrations/openai/openai.service.ts`
   - `backend/src/integrations/openai/interfaces/completion.interface.ts`
 - **Acceptance Criteria**:
-  - [ ] Module exports OpenAIService
-  - [ ] API key configuration
+  - [x] Module exports OpenAIService
+  - [x] API key configuration
 - **Estimated Hours**: 1
 - **DD Reference**: N/A
 
@@ -57,9 +57,9 @@
   ```
 
 - **Acceptance Criteria**:
-  - [ ] GPT-4o model configured
-  - [ ] Retry logic enabled
-  - [ ] Timeout configured (30s)
+  - [x] GPT-4o model configured
+  - [x] Retry logic enabled
+  - [x] Timeout configured (30s)
 - **Estimated Hours**: 2
 - **DD Reference**: `03-system-overview.md#external-services`
 
@@ -94,10 +94,10 @@
   ```
 
 - **Acceptance Criteria**:
-  - [ ] Persona-aware prompts
-  - [ ] Level-appropriate responses
-  - [ ] Concise responses (1-3 sentences)
-  - [ ] Context management (history)
+  - [x] Persona-aware prompts
+  - [x] Level-appropriate responses
+  - [x] Concise responses (1-3 sentences)
+  - [x] Context management (history)
 - **Estimated Hours**: 6
 - **DD Reference**: `05-module-design/conversation-module.md#会話生成プロンプト`
 
@@ -136,10 +136,10 @@
   ```
 
 - **Acceptance Criteria**:
-  - [ ] Parse JSON response reliably
-  - [ ] Max 3 corrections per analysis
-  - [ ] Level-appropriate error detection
-  - [ ] Include severity classification
+  - [x] Parse JSON response reliably
+  - [x] Max 3 corrections per analysis
+  - [x] Level-appropriate error detection
+  - [x] Include severity classification
 - **Estimated Hours**: 4
 - **DD Reference**: `05-module-design/conversation-module.md#エラー分析プロンプト`
 
@@ -153,6 +153,7 @@
 - **Files to Modify**:
   - `backend/src/integrations/openai/openai.service.ts`
 - **Implementation**:
+
   ```typescript
   async *streamResponse(prompt: string, history: Message[]): AsyncGenerator<string> {
     const stream = await this.openai.chat.completions.create({
@@ -167,10 +168,11 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
-  - [ ] Stream response tokens
-  - [ ] Handle stream interruption
-  - [ ] Collect full response when done
+  - [x] Stream response tokens
+  - [x] Handle stream interruption
+  - [x] Collect full response when done
 - **Estimated Hours**: 3
 - **DD Reference**: `05-module-design/conversation-module.md`
 
@@ -189,10 +191,10 @@
   | Invalid JSON | Return empty corrections |
   | Context too long | Truncate history |
 - **Acceptance Criteria**:
-  - [ ] Token counting before request
-  - [ ] Rate limit handling
-  - [ ] Retry với backoff
-  - [ ] Context truncation if needed
+  - [x] Token counting before request
+  - [x] Rate limit handling
+  - [x] Retry với backoff
+  - [x] Context truncation if needed
 - **Estimated Hours**: 2
 - **DD Reference**: `11-error-handling.md`
 
@@ -202,12 +204,12 @@
 
 | Task ID         | Name                    | Type    | Hours  | Status |
 | --------------- | ----------------------- | ------- | ------ | ------ |
-| WP-INT-002-T001 | Create Module           | setup   | 1      | ⬜     |
-| WP-INT-002-T002 | Configure Client        | feature | 2      | ⬜     |
-| WP-INT-002-T003 | Conversation Generation | feature | 6      | ⬜     |
-| WP-INT-002-T004 | Error Analysis          | feature | 4      | ⬜     |
-| WP-INT-002-T005 | Streaming Response      | feature | 3      | ⬜     |
-| WP-INT-002-T006 | Rate Limit & Error      | feature | 2      | ⬜     |
+| WP-INT-002-T001 | Create Module           | setup   | 1      | ✅     |
+| WP-INT-002-T002 | Configure Client        | feature | 2      | ✅     |
+| WP-INT-002-T003 | Conversation Generation | feature | 6      | ✅     |
+| WP-INT-002-T004 | Error Analysis          | feature | 4      | ✅     |
+| WP-INT-002-T005 | Streaming Response      | feature | 3      | ✅     |
+| WP-INT-002-T006 | Rate Limit & Error      | feature | 2      | ✅     |
 | **Total**       |                         |         | **18** |        |
 
 ---

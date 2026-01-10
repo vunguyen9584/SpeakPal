@@ -26,8 +26,8 @@
   - `backend/src/integrations/deepgram/deepgram.service.ts`
   - `backend/src/integrations/deepgram/interfaces/transcript.interface.ts`
 - **Acceptance Criteria**:
-  - [ ] Module exports DeepgramService
-  - [ ] ConfigService integration for API key
+  - [x] Module exports DeepgramService
+  - [x] ConfigService integration for API key
 - **Estimated Hours**: 1
 - **DD Reference**: N/A
 
@@ -54,10 +54,10 @@
   };
   ```
 - **Acceptance Criteria**:
-  - [ ] API key from environment
-  - [ ] Nova-2 model configured
-  - [ ] Interim results enabled
-  - [ ] Smart formatting enabled
+  - [x] API key from environment
+  - [x] Nova-2 model configured
+  - [x] Interim results enabled
+  - [x] Smart formatting enabled
 - **Estimated Hours**: 2
 - **DD Reference**: `03-system-overview.md#external-services`
 
@@ -71,6 +71,7 @@
 - **Files to Modify**:
   - `backend/src/integrations/deepgram/deepgram.service.ts`
 - **Implementation**:
+
   ```typescript
   async *streamTranscribe(audioStream: AsyncIterable<Buffer>): AsyncGenerator<TranscriptChunk> {
     const connection = await this.deepgram.transcription.live(this.config);
@@ -91,11 +92,12 @@
     connection.finish();
   }
   ```
+
 - **Acceptance Criteria**:
-  - [ ] WebSocket connection to Deepgram
-  - [ ] Stream audio chunks in real-time
-  - [ ] Yield transcript results as they arrive
-  - [ ] Support 16kHz mono PCM input
+  - [x] WebSocket connection to Deepgram
+  - [x] Stream audio chunks in real-time
+  - [x] Yield transcript results as they arrive
+  - [x] Support 16kHz mono PCM input
 - **Estimated Hours**: 6
 - **DD Reference**: `05-module-design/conversation-module.md#STTService`
 
@@ -114,11 +116,11 @@
   | interim | Partial transcription | Display to user (updating)|
   | final | Complete utterance | Pass to AI processing |
 - **Acceptance Criteria**:
-  - [ ] Parse interim results
-  - [ ] Parse final results
-  - [ ] Include confidence scores
-  - [ ] Include word timestamps (optional)
-  - [ ] Detect end of utterance
+  - [x] Parse interim results
+  - [x] Parse final results
+  - [x] Include confidence scores
+  - [x] Include word timestamps (optional)
+  - [x] Detect end of utterance
 - **Estimated Hours**: 3
 - **DD Reference**: `05-module-design/conversation-module.md#processAudioStream()`
 
@@ -137,10 +139,10 @@
   | Invalid audio | Return error event to client |
   | Rate limited | Queue và delay |
 - **Acceptance Criteria**:
-  - [ ] Connection retry với exponential backoff
-  - [ ] Auto-reconnect on disconnect
-  - [ ] Proper error events emitted
-  - [ ] Logging for debugging
+  - [x] Connection retry với exponential backoff
+  - [x] Auto-reconnect on disconnect
+  - [x] Proper error events emitted
+  - [x] Logging for debugging
 - **Estimated Hours**: 2
 - **DD Reference**: `11-error-handling.md`
 
@@ -159,9 +161,9 @@
   - Result parsing
   - Error handling
 - **Acceptance Criteria**:
-  - [ ] Mock Deepgram WebSocket
-  - [ ] Test interim/final result handling
-  - [ ] Test error scenarios
+  - [x] Mock Deepgram WebSocket
+  - [x] Test interim/final result handling
+  - [x] Test error scenarios
 - **Estimated Hours**: 2
 - **DD Reference**: N/A
 
@@ -171,12 +173,12 @@
 
 | Task ID         | Name                     | Type    | Hours  | Status |
 | --------------- | ------------------------ | ------- | ------ | ------ |
-| WP-INT-001-T001 | Create Module            | setup   | 1      | ⬜     |
-| WP-INT-001-T002 | Configure Client         | feature | 2      | ⬜     |
-| WP-INT-001-T003 | Implement Streaming STT  | feature | 6      | ⬜     |
-| WP-INT-001-T004 | Implement Result Handler | feature | 3      | ⬜     |
-| WP-INT-001-T005 | Add Error Handling       | feature | 2      | ⬜     |
-| WP-INT-001-T006 | Add Integration Tests    | test    | 2      | ⬜     |
+| WP-INT-001-T001 | Create Module            | setup   | 1      | ✅     |
+| WP-INT-001-T002 | Configure Client         | feature | 2      | ✅     |
+| WP-INT-001-T003 | Implement Streaming STT  | feature | 6      | ✅     |
+| WP-INT-001-T004 | Implement Result Handler | feature | 3      | ✅     |
+| WP-INT-001-T005 | Add Error Handling       | feature | 2      | ✅     |
+| WP-INT-001-T006 | Add Integration Tests    | test    | 2      | ✅     |
 | **Total**       |                          |         | **16** |        |
 
 ---

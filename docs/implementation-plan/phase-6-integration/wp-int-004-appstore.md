@@ -26,8 +26,8 @@
   - `backend/src/integrations/appstore/appstore.service.ts`
   - `backend/src/integrations/appstore/interfaces/receipt.interface.ts`
 - **Acceptance Criteria**:
-  - [ ] Module exports AppStoreService
-  - [ ] Shared secret configuration
+  - [x] Module exports AppStoreService
+  - [x] Shared secret configuration
 - **Estimated Hours**: 1
 - **DD Reference**: N/A
 
@@ -52,9 +52,9 @@
   };
   ```
 - **Acceptance Criteria**:
-  - [ ] Shared secret from environment
-  - [ ] Product IDs configured
-  - [ ] Sandbox vs production environment
+  - [x] Shared secret from environment
+  - [x] Product IDs configured
+  - [x] Sandbox vs production environment
 - **Estimated Hours**: 1
 - **DD Reference**: N/A
 
@@ -68,6 +68,7 @@
 - **Files to Modify**:
   - `backend/src/integrations/appstore/appstore.service.ts`
 - **Implementation**:
+
   ```typescript
   async verifyReceipt(receiptData: string): Promise<VerificationResult> {
     // Try production first
@@ -85,11 +86,12 @@
     return this.parseReceipt(response.receipt);
   }
   ```
+
 - **Acceptance Criteria**:
-  - [ ] Call Apple verifyReceipt API
-  - [ ] Handle sandbox/production switch
-  - [ ] Parse latest_receipt_info
-  - [ ] Return subscription details
+  - [x] Call Apple verifyReceipt API
+  - [x] Handle sandbox/production switch
+  - [x] Parse latest_receipt_info
+  - [x] Return subscription details
 - **Estimated Hours**: 4
 - **DD Reference**: N/A
 
@@ -108,10 +110,10 @@
   - is_trial_period
   - cancellation_date
 - **Acceptance Criteria**:
-  - [ ] Return current subscription status
-  - [ ] Check if expired
-  - [ ] Check auto-renewal status
-  - [ ] Handle trial periods
+  - [x] Return current subscription status
+  - [x] Check if expired
+  - [x] Check auto-renewal status
+  - [x] Handle trial periods
 - **Estimated Hours**: 2
 - **DD Reference**: N/A
 
@@ -134,10 +136,10 @@
   | DID_FAIL_TO_RENEW | Handle payment failure |
   | REFUND | Revoke subscription |
 - **Acceptance Criteria**:
-  - [ ] Webhook endpoint with signature verification
-  - [ ] Handle all notification types
-  - [ ] Update user subscription status
-  - [ ] Idempotent processing
+  - [x] Webhook endpoint with signature verification
+  - [x] Handle all notification types
+  - [x] Update user subscription status
+  - [x] Idempotent processing
 - **Estimated Hours**: 2
 - **DD Reference**: N/A
 
@@ -155,9 +157,9 @@
   - Subscription status parsing
   - Webhook processing
 - **Acceptance Criteria**:
-  - [ ] Mock Apple API responses
-  - [ ] Test all notification types
-  - [ ] Test error scenarios
+  - [x] Mock Apple API responses
+  - [x] Test all notification types
+  - [x] Test error scenarios
 - **Estimated Hours**: 2
 - **DD Reference**: N/A
 
@@ -167,12 +169,12 @@
 
 | Task ID         | Name                 | Type    | Hours  | Status |
 | --------------- | -------------------- | ------- | ------ | ------ |
-| WP-INT-004-T001 | Create Module        | setup   | 1      | ⬜     |
-| WP-INT-004-T002 | Configure App Store  | feature | 1      | ⬜     |
-| WP-INT-004-T003 | Receipt Verification | feature | 4      | ⬜     |
-| WP-INT-004-T004 | Subscription Status  | feature | 2      | ⬜     |
-| WP-INT-004-T005 | Server Notifications | feature | 2      | ⬜     |
-| WP-INT-004-T006 | Integration Tests    | test    | 2      | ⬜     |
+| WP-INT-004-T001 | Create Module        | setup   | 1      | ✅     |
+| WP-INT-004-T002 | Configure App Store  | feature | 1      | ✅     |
+| WP-INT-004-T003 | Receipt Verification | feature | 4      | ✅     |
+| WP-INT-004-T004 | Subscription Status  | feature | 2      | ✅     |
+| WP-INT-004-T005 | Server Notifications | feature | 2      | ✅     |
+| WP-INT-004-T006 | Integration Tests    | test    | 2      | ✅     |
 | **Total**       |                      |         | **12** |        |
 
 ---

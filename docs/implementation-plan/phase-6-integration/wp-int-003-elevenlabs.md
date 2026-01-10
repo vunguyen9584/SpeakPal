@@ -26,8 +26,8 @@
   - `backend/src/integrations/elevenlabs/elevenlabs.service.ts`
   - `backend/src/integrations/elevenlabs/interfaces/voice.interface.ts`
 - **Acceptance Criteria**:
-  - [ ] Module exports ElevenLabsService
-  - [ ] API key configuration
+  - [x] Module exports ElevenLabsService
+  - [x] API key configuration
 - **Estimated Hours**: 1
 - **DD Reference**: N/A
 
@@ -52,9 +52,9 @@
   };
   ```
 - **Acceptance Criteria**:
-  - [ ] Voice ID mapping per persona
-  - [ ] Multi-language support configured
-  - [ ] Output format: MP3 44100Hz
+  - [x] Voice ID mapping per persona
+  - [x] Multi-language support configured
+  - [x] Output format: MP3 44100Hz
 - **Estimated Hours**: 2
 - **DD Reference**: `03-system-overview.md#external-services`
 
@@ -68,6 +68,7 @@
 - **Files to Modify**:
   - `backend/src/integrations/elevenlabs/elevenlabs.service.ts`
 - **Implementation**:
+
   ```typescript
   async *streamSynthesize(text: string, voiceType: string): AsyncGenerator<Buffer> {
     const voiceId = this.getVoiceId(voiceType);
@@ -87,11 +88,12 @@
     }
   }
   ```
+
 - **Acceptance Criteria**:
-  - [ ] Stream audio chunks
-  - [ ] MP3 format output
-  - [ ] Voice settings configurable
-  - [ ] Low latency streaming
+  - [x] Stream audio chunks
+  - [x] MP3 format output
+  - [x] Voice settings configurable
+  - [x] Low latency streaming
 - **Estimated Hours**: 5
 - **DD Reference**: `05-module-design/conversation-module.md#TTSService`
 
@@ -109,9 +111,9 @@
   - Fallback to default voice if not mapped
   - Support speed adjustment (slow/normal/fast)
 - **Acceptance Criteria**:
-  - [ ] Map persona.voiceType to voice ID
-  - [ ] Fallback voice handling
-  - [ ] Speed adjustment via stability param
+  - [x] Map persona.voiceType to voice ID
+  - [x] Fallback voice handling
+  - [x] Speed adjustment via stability param
 - **Estimated Hours**: 2
 - **DD Reference**: N/A
 
@@ -130,10 +132,10 @@
   - Store in S3 với Redis index
   - TTL: 30 days
 - **Acceptance Criteria**:
-  - [ ] Cache lookup before API call
-  - [ ] S3 storage for audio files
-  - [ ] Redis index for fast lookup
-  - [ ] Cache invalidation on voice change
+  - [x] Cache lookup before API call
+  - [x] S3 storage for audio files
+  - [x] Redis index for fast lookup
+  - [x] Cache invalidation on voice change
 - **Estimated Hours**: 3
 - **DD Reference**: N/A
 
@@ -152,10 +154,10 @@
   | Voice unavailable | Use default voice |
   | Text too long | Split into chunks |
 - **Acceptance Criteria**:
-  - [ ] Fallback to cached audio
-  - [ ] Text chunking for long responses
-  - [ ] Retry logic với backoff
-  - [ ] Error events to client
+  - [x] Fallback to cached audio
+  - [x] Text chunking for long responses
+  - [x] Retry logic với backoff
+  - [x] Error events to client
 - **Estimated Hours**: 2
 - **DD Reference**: `11-error-handling.md`
 
@@ -165,12 +167,12 @@
 
 | Task ID         | Name              | Type    | Hours  | Status |
 | --------------- | ----------------- | ------- | ------ | ------ |
-| WP-INT-003-T001 | Create Module     | setup   | 1      | ⬜     |
-| WP-INT-003-T002 | Configure Client  | feature | 2      | ⬜     |
-| WP-INT-003-T003 | Streaming TTS     | feature | 5      | ⬜     |
-| WP-INT-003-T004 | Voice Selection   | feature | 2      | ⬜     |
-| WP-INT-003-T005 | Implement Caching | feature | 3      | ⬜     |
-| WP-INT-003-T006 | Error & Fallback  | feature | 2      | ⬜     |
+| WP-INT-003-T001 | Create Module     | setup   | 1      | ✅     |
+| WP-INT-003-T002 | Configure Client  | feature | 2      | ✅     |
+| WP-INT-003-T003 | Streaming TTS     | feature | 5      | ✅     |
+| WP-INT-003-T004 | Voice Selection   | feature | 2      | ✅     |
+| WP-INT-003-T005 | Implement Caching | feature | 3      | ✅     |
+| WP-INT-003-T006 | Error & Fallback  | feature | 2      | ✅     |
 | **Total**       |                   |         | **15** |        |
 
 ---
