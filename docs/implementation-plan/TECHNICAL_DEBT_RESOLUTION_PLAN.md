@@ -96,7 +96,7 @@
 
   **DoD:** CI fails nếu có errors, passes với warnings only
 
-- [ ] **T002: Setup Test Coverage Reporting**
+- [x] **T002: Setup Test Coverage Reporting** ✅ 2026-01-10
 
   ```bash
   # Add to CI

@@ -40,9 +40,18 @@ jobs:
         working-directory: mobile
         run: flutter analyze
 
-      - name: Run tests
+      - name: Run tests with coverage
         working-directory: mobile
         run: flutter test --coverage
+
+      - name: Filter Coverage (remove generated files)
+        run: |
+          if command -v lcov &> /dev/null; then
+            lcov --remove mobile/coverage/lcov.info 'lib/*/*.g.dart' 'lib/*/*.freezed.dart' -o mobile/coverage/filtered_lcov.info
+            mv mobile/coverage/filtered_lcov.info mobile/coverage/lcov.info
+          else
+            echo "lcov not found, skipping filtering"
+          fi
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v4
@@ -50,7 +59,7 @@ jobs:
           files: ./mobile/coverage/lcov.info
           flags: mobile
           token: ${{ secrets.CODECOV_TOKEN }}
-        continue-on-error: true
+          fail_ci_if_error: false
 
   build-android:
     name: Build Android APK

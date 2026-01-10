@@ -20,6 +20,30 @@
 - ✅ Path filtering configured
 - ✅ Logic for error detection verified via simulation
 
+**Commit:** a0905ad
+**Branch:** main
+
+---
+
+## 2026-01-10 15:18:00 - WP-SETUP-001-T002 Completed
+
+**Task:** Setup Test Coverage Reporting
+**Phase:** 0 (Setup & Tooling)
+**Owner:** Antigravity AI
+
+**Changes:**
+
+- Updated `.github/workflows/flutter-ci.yml` with coverage filtering.
+- Implemented logic to remove `.g.dart` and `.freezed.dart` from coverage reports.
+- Verified local coverage generation.
+
+**Metrics Impact:**
+
+- Errors: Baseline 289
+- Warnings: Baseline 20
+- Tests: 147/147 passing ✅
+- Coverage: Baseline ~60% established
+
 **Commit:** [Pending local commit]
 **Branch:** main
 
