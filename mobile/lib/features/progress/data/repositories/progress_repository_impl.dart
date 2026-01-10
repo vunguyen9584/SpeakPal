@@ -1,4 +1,7 @@
-﻿import '../../domain/models/stats.dart';
+﻿import 'package:fpdart/fpdart.dart';
+import '../../../../core/error/app_error.dart';
+
+import '../../domain/models/stats.dart';
 import '../../domain/models/history_item.dart';
 import '../../domain/models/report.dart';
 import '../../domain/models/history_query.dart';
@@ -9,46 +12,47 @@ class ProgressRepositoryImpl implements ProgressRepository {
   final ApiClient _apiClient = ApiClient();
 
   @override
-  Future<Stats> getStats(StatsPeriod period) async {
+  Future<Either<AppError, Stats>> getStats(StatsPeriod period) async {
     try {
       final response = await _apiClient.get('/progress/stats', queryParameters: {
         'period': period.name,
       });
-      return Stats.fromJson(response.data);
+      return Right(Stats.fromJson(response.data));
     } catch (e) {
-      // Return mock data for development
-      return _getMockStats(period);
+      // In development return mock data on error
+      // TODO: Remove this mock when API is ready
+      return Right(_getMockStats(period));
     }
   }
 
   @override
-  Future<WeeklyReport> getWeeklyReport(int weekNumber) async {
+  Future<Either<AppError, WeeklyReport>> getWeeklyReport(int weekNumber) async {
     try {
       final response = await _apiClient.get('/progress/reports/weekly', queryParameters: {
         'week': weekNumber,
       });
-      return WeeklyReport.fromJson(response.data);
+      return Right(WeeklyReport.fromJson(response.data));
     } catch (e) {
-      // Return mock data for development
-      return _getMockWeeklyReport(weekNumber);
+       // TODO: Remove this mock when API is ready
+      return Right(_getMockWeeklyReport(weekNumber));
     }
   }
 
   @override
-  Future<MonthlyReport> getMonthlyReport(int monthNumber) async {
+  Future<Either<AppError, MonthlyReport>> getMonthlyReport(int monthNumber) async {
     try {
       final response = await _apiClient.get('/progress/reports/monthly', queryParameters: {
         'month': monthNumber,
       });
-      return MonthlyReport.fromJson(response.data);
+      return Right(MonthlyReport.fromJson(response.data));
     } catch (e) {
-      // Return mock data for development
-      return _getMockMonthlyReport(monthNumber);
+       // TODO: Remove this mock when API is ready
+      return Right(_getMockMonthlyReport(monthNumber));
     }
   }
 
   @override
-  Future<PaginatedHistory> getHistory(HistoryQuery query) async {
+  Future<Either<AppError, PaginatedHistory>> getHistory(HistoryQuery query) async {
     try {
       final response = await _apiClient.get('/progress/history', queryParameters: {
         'page': query.page,
@@ -57,10 +61,10 @@ class ProgressRepositoryImpl implements ProgressRepository {
         if (query.endDate != null) 'endDate': query.endDate!.toIso8601String(),
         if (query.type != null) 'type': query.type!.name,
       });
-      return PaginatedHistory.fromJson(response.data);
+      return Right(PaginatedHistory.fromJson(response.data));
     } catch (e) {
-      // Return mock data for development
-      return _getMockHistory(query);
+       // TODO: Remove this mock when API is ready
+      return Right(_getMockHistory(query));
     }
   }
 

@@ -1,5 +1,8 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:mobile/core/network/api_client.dart';
+import 'package:mobile/core/error/app_error.dart';
+import 'package:mobile/core/error/error_handler.dart';
 import 'package:mobile/core/providers/providers.dart';
 
 // Models
@@ -22,12 +25,12 @@ class InvitationResponse {
 
   factory InvitationResponse.fromJson(Map<String, dynamic> json) {
     return InvitationResponse(
-      id: json['id'],
-      code: json['code'],
-      inviteUrl: json['inviteUrl'],
-      maxUsage: json['maxUsage'],
-      usageCount: json['usageCount'],
-      expiresAt: DateTime.parse(json['expiresAt']),
+      id: json['id'] ?? '',
+      code: json['code'] ?? '',
+      inviteUrl: json['inviteUrl'] ?? '',
+      maxUsage: json['maxUsage'] ?? 0,
+      usageCount: json['usageCount'] ?? 0,
+      expiresAt: DateTime.parse(json['expiresAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 }
@@ -45,13 +48,15 @@ class ReferralStats {
 
   factory ReferralStats.fromJson(Map<String, dynamic> json) {
     return ReferralStats(
-      totalReferrals: json['totalReferrals'],
-      referrals: (json['referrals'] as List)
-          .map((r) => ReferralInfo.fromJson(r))
-          .toList(),
-      rewards: (json['rewards'] as List)
-          .map((r) => RewardInfo.fromJson(r))
-          .toList(),
+      totalReferrals: json['totalReferrals'] ?? 0,
+      referrals: (json['referrals'] as List?)
+              ?.map((r) => ReferralInfo.fromJson(r))
+              .toList() ??
+          [],
+      rewards: (json['rewards'] as List?)
+              ?.map((r) => RewardInfo.fromJson(r))
+              .toList() ??
+          [],
     );
   }
 }
@@ -64,8 +69,8 @@ class ReferralInfo {
 
   factory ReferralInfo.fromJson(Map<String, dynamic> json) {
     return ReferralInfo(
-      username: json['username'],
-      joinedAt: DateTime.parse(json['joinedAt']),
+      username: json['username'] ?? 'Unknown',
+      joinedAt: DateTime.parse(json['joinedAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 }
@@ -83,9 +88,9 @@ class RewardInfo {
 
   factory RewardInfo.fromJson(Map<String, dynamic> json) {
     return RewardInfo(
-      type: json['type'],
-      description: json['description'],
-      claimed: json['claimed'],
+      type: json['type'] ?? '',
+      description: json['description'] ?? '',
+      claimed: json['claimed'] ?? false,
     );
   }
 }
@@ -96,31 +101,49 @@ class InvitationRepository {
 
   InvitationRepository(this._apiClient);
 
-  Future<InvitationResponse> generateInvite({
+  Future<Either<AppError, InvitationResponse>> generateInvite({
     int maxUsage = 10,
     int expiryDays = 30,
   }) async {
-    final response = await _apiClient.post('/invitations', data: {
-      'maxUsage': maxUsage,
-      'expiryDays': expiryDays,
-    });
-    return InvitationResponse.fromJson(response.data);
+    try {
+      final response = await _apiClient.post('/invitations', data: {
+        'maxUsage': maxUsage,
+        'expiryDays': expiryDays,
+      });
+      return Right(InvitationResponse.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<List<InvitationResponse>> getMyInvitations() async {
-    final response = await _apiClient.get('/invitations/mine');
-    return (response.data as List)
-        .map((json) => InvitationResponse.fromJson(json))
-        .toList();
+  Future<Either<AppError, List<InvitationResponse>>> getMyInvitations() async {
+    try {
+      final response = await _apiClient.get('/invitations/mine');
+      final data = (response.data as List)
+          .map((json) => InvitationResponse.fromJson(json))
+          .toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<void> acceptInvitation(String code) async {
-    await _apiClient.post('/invitations/accept', data: {'code': code});
+  Future<Either<AppError, void>> acceptInvitation(String code) async {
+    try {
+      await _apiClient.post('/invitations/accept', data: {'code': code});
+      return const Right(null);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<ReferralStats> getReferralStats() async {
-    final response = await _apiClient.get('/invitations/stats');
-    return ReferralStats.fromJson(response.data);
+  Future<Either<AppError, ReferralStats>> getReferralStats() async {
+    try {
+      final response = await _apiClient.get('/invitations/stats');
+      return Right(ReferralStats.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 }
 
@@ -130,13 +153,21 @@ final invitationRepositoryProvider = Provider<InvitationRepository>((ref) {
   return InvitationRepository(apiClient);
 });
 
-final myInvitationsProvider = FutureProvider<List<InvitationResponse>>((ref) {
+final myInvitationsProvider = FutureProvider<List<InvitationResponse>>((ref) async {
   final repository = ref.watch(invitationRepositoryProvider);
-  return repository.getMyInvitations();
+  final result = await repository.getMyInvitations();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
-final referralStatsProvider = FutureProvider<ReferralStats>((ref) {
+final referralStatsProvider = FutureProvider<ReferralStats>((ref) async {
   final repository = ref.watch(invitationRepositoryProvider);
-  return repository.getReferralStats();
+  final result = await repository.getReferralStats();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 

@@ -43,30 +43,44 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       setState(() => _isLoading = true);
       try {
         final repository = ref.read(profileRepositoryProvider);
-        final updatedUser = await repository.updateProfile(
+        final result = await repository.updateProfile(
           username: _usernameController.text.trim().isEmpty
               ? null
               : _usernameController.text.trim(),
           email: _emailController.text.trim(),
         );
 
-        // Update auth state with new user data
-        ref.read(authStateProvider.notifier).updateUser(updatedUser);
+        result.fold(
+          (error) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(error.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+          (updatedUser) {
+            // Update auth state with new user data
+            ref.read(authStateProvider.notifier).updateUser(updatedUser);
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Profile updated successfully'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          context.pop();
-        }
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Profile updated successfully'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+              context.pop();
+            }
+          },
+        );
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(e.toString()),
+              content: Text('Unexpected error: $e'),
               backgroundColor: Colors.red,
             ),
           );

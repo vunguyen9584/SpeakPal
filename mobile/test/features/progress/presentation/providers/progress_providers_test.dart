@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile/features/progress/presentation/providers/progress_providers.dart';
 import 'package:mobile/features/progress/domain/models/stats.dart';
@@ -27,7 +28,7 @@ void main() {
       addTearDown(container.dispose);
 
       when(() => mockRepository.getStats(StatsPeriod.thisWeek))
-          .thenAnswer((_) async => Stats.fromJson({}));
+          .thenAnswer((_) async => Right(Stats.fromJson({})));
 
       await container.read(statsProvider(StatsPeriod.thisWeek).future);
 
@@ -46,7 +47,7 @@ void main() {
       final emptyHistory = PaginatedHistory(items: [], total: 0, page: 1, limit: 10);
 
       when(() => mockRepository.getHistory(query))
-          .thenAnswer((_) async => emptyHistory);
+          .thenAnswer((_) async => Right(emptyHistory));
 
       await container.read(historyProvider(query).future);
 
@@ -63,10 +64,10 @@ void main() {
 
       final now = DateTime.now().toIso8601String();
       when(() => mockRepository.getWeeklyReport(any()))
-          .thenAnswer((_) async => WeeklyReport.fromJson({
+          .thenAnswer((_) async => Right(WeeklyReport.fromJson({
                 'startDate': now,
                 'endDate': now,
-              }));
+              })));
 
       await container.read(weeklyReportProvider(1).future);
 
@@ -83,10 +84,10 @@ void main() {
 
       final now = DateTime.now().toIso8601String();
       when(() => mockRepository.getMonthlyReport(any()))
-          .thenAnswer((_) async => MonthlyReport.fromJson({
+          .thenAnswer((_) async => Right(MonthlyReport.fromJson({
                 'startDate': now,
                 'endDate': now,
-              }));
+              })));
 
       await container.read(monthlyReportProvider(1).future);
 

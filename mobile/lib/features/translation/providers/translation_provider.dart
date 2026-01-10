@@ -6,7 +6,11 @@ import '../models/models.dart';
 final translationQuestionProvider = FutureProvider.autoDispose
     .family<TranslationQuestion, String>((ref, topic) async {
   final repository = ref.read(translationRepositoryProvider);
-  return repository.getQuestion(topic);
+  final result = await repository.getQuestion(topic);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 class AnswerParams {
@@ -24,10 +28,14 @@ class AnswerParams {
 final submitAnswerProvider = FutureProvider.autoDispose
     .family<TranslationResult, AnswerParams>((ref, params) async {
   final repository = ref.read(translationRepositoryProvider);
-  return repository.submitAnswer(
+  final result = await repository.submitAnswer(
     questionId: params.questionId,
     audioData: params.audioData,
     responseTimeSec: params.responseTimeSec,
+  );
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
   );
 });
 

@@ -271,67 +271,61 @@ class _HistoryListScreenState extends ConsumerState<HistoryListScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Filter History'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Date Range
-            ListTile(
-              leading: const Icon(Icons.date_range),
-              title: const Text('Date Range'),
-              subtitle: Text(
-                _startDate != null
-                    ? '${_formatDate(_startDate!)} - ${_formatDate(_endDate ?? DateTime.now())}'
-                    : 'All time',
-              ),
-              onTap: () async {
-                final range = await showDateRangePicker(
-                  context: context,
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime.now(),
-                );
-                if (range != null) {
-                  setState(() {
-                    _startDate = range.start;
-                    _endDate = range.end;
-                    _currentPage = 1;
-                  });
-                  if (context.mounted) {
-                    Navigator.pop(context);
+        content: RadioGroup<HistoryItemType?>(
+          groupValue: _selectedType,
+          onChanged: (value) {
+            setState(() {
+              _selectedType = value;
+              _currentPage = 1;
+            });
+            Navigator.pop(context);
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Date Range
+              ListTile(
+                leading: const Icon(Icons.date_range),
+                title: const Text('Date Range'),
+                subtitle: Text(
+                  _startDate != null
+                      ? '${_formatDate(_startDate!)} - ${_formatDate(_endDate ?? DateTime.now())}'
+                      : 'All time',
+                ),
+                onTap: () async {
+                  final range = await showDateRangePicker(
+                    context: context,
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime.now(),
+                  );
+                  if (range != null) {
+                    setState(() {
+                      _startDate = range.start;
+                      _endDate = range.end;
+                      _currentPage = 1;
+                    });
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
                   }
-                }
-              },
-            ),
-
-            // Activity Type
-            const Divider(),
-            const Text('Activity Type'),
-            ...HistoryItemType.values.map((type) {
-              return RadioListTile<HistoryItemType?>(
-                title: Text(type.displayName),
-                value: type,
-                groupValue: _selectedType,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedType = value;
-                    _currentPage = 1;
-                  });
-                  Navigator.pop(context);
                 },
-              );
-            }),
-            RadioListTile<HistoryItemType?>(
-              title: const Text('All'),
-              value: null,
-              groupValue: _selectedType,
-              onChanged: (value) {
-                setState(() {
-                  _selectedType = null;
-                  _currentPage = 1;
-                });
-                Navigator.pop(context);
-              },
-            ),
-          ],
+              ),
+
+              // Activity Type
+              const Divider(),
+              const Text('Activity Type'),
+              ...HistoryItemType.values.map((type) {
+                return RadioListTile<HistoryItemType?>(
+                  title: Text(type.displayName),
+                  value: type,
+                );
+              }),
+              RadioListTile<HistoryItemType?>(
+                title: const Text('All'),
+                value: null,
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(

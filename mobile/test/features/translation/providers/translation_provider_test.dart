@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile/features/translation/data/translation_repository.dart';
 import 'package:mobile/features/translation/models/models.dart';
@@ -36,7 +37,7 @@ void main() {
       );
 
       when(() => mockRepository.getQuestion('daily'))
-          .thenAnswer((_) async => question);
+          .thenAnswer((_) async => Right(question));
 
       final result = await container.read(translationQuestionProvider('daily').future);
 
@@ -73,7 +74,7 @@ void main() {
             questionId: 'q1',
             audioData: any(named: 'audioData'),
             responseTimeSec: 1.5,
-          )).thenAnswer((_) async => result);
+          )).thenAnswer((_) async => Right(result));
 
       final response = await container.read(submitAnswerProvider(params).future);
 

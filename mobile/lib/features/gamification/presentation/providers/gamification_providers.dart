@@ -15,35 +15,53 @@ final gamificationRepositoryProvider = Provider<GamificationRepository>((ref) {
 // All Badges Provider
 final allBadgesProvider = FutureProvider<List<Badge>>((ref) async {
   final repository = ref.watch(gamificationRepositoryProvider);
-  return repository.getAllBadges();
+  final result = await repository.getAllBadges();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // User Badges Provider
 final userBadgesProvider = FutureProvider<List<UserBadge>>((ref) async {
   final repository = ref.watch(gamificationRepositoryProvider);
-  return repository.getUserBadges();
+  final result = await repository.getUserBadges();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Streak Provider
 final streakProvider = FutureProvider<Streak>((ref) async {
   final repository = ref.watch(gamificationRepositoryProvider);
-  return repository.getStreak();
+  final result = await repository.getStreak();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Leaderboard Provider with league filter
 final leaderboardProvider = FutureProvider.family<Leaderboard, String?>((ref, league) async {
   final repository = ref.watch(gamificationRepositoryProvider);
-  return repository.getWeeklyRanking(league: league);
+  final result = await repository.getWeeklyRanking(league: league);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Use Streak Freeze Handler
 final useStreakFreezeProvider = Provider((ref) {
   return () async {
     final repository = ref.read(gamificationRepositoryProvider);
-    await repository.useStreakFreeze();
-
-    // Invalidate streak provider to refresh
-    ref.invalidate(streakProvider);
+    final result = await repository.useStreakFreeze();
+    
+    result.fold(
+      (error) => throw Exception(error.message),
+      (_) => ref.invalidate(streakProvider),
+    );
   };
 });
 
@@ -59,7 +77,7 @@ final badgeProgressProvider = Provider.family<double, Badge>((ref, badge) {
       return isEarned ? 1.0 : 0.0;
     },
     loading: () => 0.0,
-    error: (_, __) => 0.0,
+    error: (error, stack) => 0.0,
   );
 });
 

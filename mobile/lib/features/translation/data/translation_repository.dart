@@ -1,6 +1,9 @@
 ﻿import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:mobile/core/error/app_error.dart';
+import 'package:mobile/core/error/error_handler.dart';
 import '../models/models.dart';
 import 'package:mobile/core/providers/providers.dart';
 
@@ -16,7 +19,7 @@ class TranslationRepository {
   TranslationRepository(this._dio);
 
   /// Get a translation question by topic
-  Future<TranslationQuestion> getQuestion(
+  Future<Either<AppError, TranslationQuestion>> getQuestion(
     String topic, {
     String? level,
   }) async {
@@ -28,14 +31,15 @@ class TranslationRepository {
           if (level != null) 'level': level,
         },
       );
-      return TranslationQuestion.fromJson(response.data['data']);
-    } catch (e) {
-      throw _handleError(e);
+      // TODO: Standardize API response format. Assuming data wrapper for now based on previous code.
+      return Right(TranslationQuestion.fromJson(response.data['data']));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   /// Submit translation answer with audio
-  Future<TranslationResult> submitAnswer({
+  Future<Either<AppError, TranslationResult>> submitAnswer({
     required String questionId,
     required Uint8List audioData,
     required double responseTimeSec,
@@ -54,14 +58,14 @@ class TranslationRepository {
         '/translation/answers',
         data: formData,
       );
-      return TranslationResult.fromJson(response.data['data']);
-    } catch (e) {
-      throw _handleError(e);
+      return Right(TranslationResult.fromJson(response.data['data']));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   /// Get intent question by category
-  Future<IntentQuestion> getIntentQuestion(
+  Future<Either<AppError, IntentQuestion>> getIntentQuestion(
     String category, {
     String? level,
   }) async {
@@ -73,14 +77,14 @@ class TranslationRepository {
           if (level != null) 'level': level,
         },
       );
-      return IntentQuestion.fromJson(response.data['data']);
-    } catch (e) {
-      throw _handleError(e);
+      return Right(IntentQuestion.fromJson(response.data['data']));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   /// Submit intent answer
-  Future<IntentResult> submitIntentAnswer({
+  Future<Either<AppError, IntentResult>> submitIntentAnswer({
     required String questionId,
     required Uint8List audioData,
     required double responseTimeSec,
@@ -99,22 +103,10 @@ class TranslationRepository {
         '/translation/intent-answers',
         data: formData,
       );
-      return IntentResult.fromJson(response.data['data']);
-    } catch (e) {
-      throw _handleError(e);
+      return Right(IntentResult.fromJson(response.data['data']));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
-  }
-
-  Exception _handleError(dynamic error) {
-    if (error is DioException) {
-      if (error.response?.statusCode == 403) {
-        return Exception('Level restriction: Intermediate+ required');
-      }
-      return Exception(
-        error.response?.data['message'] ?? 'Network error occurred',
-      );
-    }
-    return Exception('Unexpected error: $error');
   }
 }
 

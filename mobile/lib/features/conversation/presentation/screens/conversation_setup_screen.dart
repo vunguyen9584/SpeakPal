@@ -62,20 +62,22 @@ class _ConversationSetupScreenState extends ConsumerState<ConversationSetupScree
   }
 
   Widget _buildModeSelector() {
-    return Column(
-      children: ConversationMode.values.map((mode) {
-        return RadioListTile<ConversationMode>(
-          title: Text(_getModeTitle(mode)),
-          subtitle: Text(_getModeSubtitle(mode)),
-          value: mode,
-          groupValue: selectedMode,
-          onChanged: (value) {
-            if (value != null) {
-              setState(() => selectedMode = value);
-            }
-          },
-        );
-      }).toList(),
+    return RadioGroup<ConversationMode>(
+      groupValue: selectedMode,
+      onChanged: (value) {
+        if (value != null) {
+          setState(() => selectedMode = value);
+        }
+      },
+      child: Column(
+        children: ConversationMode.values.map((mode) {
+          return RadioListTile<ConversationMode>(
+            title: Text(_getModeTitle(mode)),
+            subtitle: Text(_getModeSubtitle(mode)),
+            value: mode,
+          );
+        }).toList(),
+      ),
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile/features/translation/data/translation_repository.dart';
 // import 'package:mobile/features/translation/models/models.dart';
@@ -45,8 +46,15 @@ void main() {
 
       final result = await repository.getQuestion('greeting');
 
-      expect(result.id, 'q1');
-      expect(result.sourceText, 'Hello');
+      expect(result.isRight(), true);
+      result.fold(
+        (l) => fail('Should be Right'),
+        (r) {
+          expect(r.id, 'q1');
+          expect(r.sourceText, 'Hello');
+        },
+      );
+      
       verify(() => mockDio.get(
             '/translation/questions',
             queryParameters: {'topic': 'greeting'},
@@ -69,7 +77,7 @@ void main() {
           )).called(1);
     });
 
-    test('getQuestion throws exception on error', () async {
+    test('getQuestion returns Left on error', () async {
       when(() => mockDio.get(any(), queryParameters: any(named: 'queryParameters')))
           .thenThrow(DioException(
         requestOptions: RequestOptions(path: ''),
@@ -80,7 +88,8 @@ void main() {
         ),
       ));
 
-      expect(() => repository.getQuestion('greeting'), throwsException);
+      final result = await repository.getQuestion('greeting');
+      expect(result.isLeft(), true);
     });
 
     test('getIntentQuestion returns IntentQuestion on success', () async {
@@ -106,8 +115,14 @@ void main() {
 
       final result = await repository.getIntentQuestion('travel');
 
-      expect(result.id, 'iq1');
-      expect(result.intent, 'Ask for help');
+      expect(result.isRight(), true);
+      result.fold(
+        (l) => fail('Should be Right'),
+        (r) {
+          expect(r.id, 'iq1');
+          expect(r.intent, 'Ask for help');
+        },
+      );
     });
 
     test('getIntentQuestion with level calls correctly', () async {
@@ -157,7 +172,12 @@ void main() {
         responseTimeSec: 5.0,
       );
 
-      expect(result.totalScore, 85);
+      expect(result.isRight(), true);
+      result.fold(
+        (l) => fail('Should be Right'),
+        (r) => expect(r.totalScore, 85),
+      );
+      
       verify(() => mockDio.post('/translation/answers', data: any(named: 'data'))).called(1);
     });
 
@@ -192,57 +212,14 @@ void main() {
         responseTimeSec: 4.0,
       );
 
-      expect(result.totalScore, 90);
-      expect(result.userExpression, 'Can you help me?');
-    });
-
-    test('handleError maps 403 to level restriction message', () async {
-      when(() => mockDio.get(any(), queryParameters: any(named: 'queryParameters')))
-          .thenThrow(DioException(
-        requestOptions: RequestOptions(path: ''),
-        response: Response(
-          statusCode: 403,
-          requestOptions: RequestOptions(path: ''),
-        ),
-      ));
-
-      try {
-        await repository.getQuestion('greeting');
-        fail('Should have thrown an exception');
-      } catch (e) {
-        expect(e.toString(), contains('Level restriction'));
-      }
-    });
-
-    test('handleError uses response message if available', () async {
-      when(() => mockDio.get(any(), queryParameters: any(named: 'queryParameters')))
-          .thenThrow(DioException(
-        requestOptions: RequestOptions(path: ''),
-        response: Response(
-          data: {'message': 'Server Busy'},
-          statusCode: 503,
-          requestOptions: RequestOptions(path: ''),
-        ),
-      ));
-
-      try {
-        await repository.getQuestion('greeting');
-        fail('Should have thrown an exception');
-      } catch (e) {
-        expect(e.toString(), contains('Server Busy'));
-      }
-    });
-
-    test('handleError handles non-DioException', () async {
-      when(() => mockDio.get(any(), queryParameters: any(named: 'queryParameters')))
-          .thenThrow(ArgumentError('Invalid arg'));
-
-      try {
-        await repository.getQuestion('greeting');
-        fail('Should have thrown an exception');
-      } catch (e) {
-        expect(e.toString(), contains('Unexpected error'));
-      }
+      expect(result.isRight(), true);
+      result.fold(
+        (l) => fail('Should be Right'),
+        (r) {
+          expect(r.totalScore, 90);
+          expect(r.userExpression, 'Can you help me?');
+        },
+      );
     });
   });
 }

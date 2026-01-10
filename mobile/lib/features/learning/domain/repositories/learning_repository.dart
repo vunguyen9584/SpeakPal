@@ -1,25 +1,27 @@
-﻿import '../models/vocabulary.dart';
+﻿import 'package:fpdart/fpdart.dart';
+import '../../../../core/error/app_error.dart';
+import '../models/vocabulary.dart';
 import '../models/scenario.dart';
 import '../models/challenge.dart';
 
 abstract class LearningRepository {
   // Vocabulary
-  Future<List<Vocabulary>> getVocabularies({
+  Future<Either<AppError, List<Vocabulary>>> getVocabularies({
     int page = 1,
     int limit = 20,
     String? srsLevel,
     String? search,
   });
 
-  Future<Vocabulary> addVocabulary(Map<String, dynamic> data);
-  Future<List<Vocabulary>> getDueVocabularies();
-  Future<Map<String, dynamic>> recordReview(String vocabularyId, String result);
+  Future<Either<AppError, Vocabulary>> addVocabulary(Map<String, dynamic> data);
+  Future<Either<AppError, List<Vocabulary>>> getDueVocabularies();
+  Future<Either<AppError, Map<String, dynamic>>> recordReview(String vocabularyId, String result);
 
   // Scenarios
-  Future<List<Scenario>> getScenarios({String? category, String? difficulty});
-  Future<Scenario> getScenario(String id);
+  Future<Either<AppError, List<Scenario>>> getScenarios({String? category, String? difficulty});
+  Future<Either<AppError, Scenario>> getScenario(String id);
 
   // Challenges
-  Future<List<UserChallenge>> getTodayChallenges();
+  Future<Either<AppError, List<UserChallenge>>> getTodayChallenges();
 }
 

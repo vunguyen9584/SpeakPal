@@ -1,17 +1,19 @@
-﻿import '../models/badge.dart';
+﻿import 'package:fpdart/fpdart.dart';
+import '../../../../core/error/app_error.dart';
+import '../models/badge.dart';
 import '../models/streak.dart';
 import '../models/ranking.dart';
 
 abstract class GamificationRepository {
   // Badges
-  Future<List<Badge>> getAllBadges();
-  Future<List<UserBadge>> getUserBadges();
+  Future<Either<AppError, List<Badge>>> getAllBadges();
+  Future<Either<AppError, List<UserBadge>>> getUserBadges();
 
   // Streak
-  Future<Streak> getStreak();
-  Future<void> useStreakFreeze();
+  Future<Either<AppError, Streak>> getStreak();
+  Future<Either<AppError, void>> useStreakFreeze();
 
   // Ranking
-  Future<Leaderboard> getWeeklyRanking({String? league});
+  Future<Either<AppError, Leaderboard>> getWeeklyRanking({String? league});
 }
 

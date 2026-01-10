@@ -29,33 +29,27 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Check current authentication status
   Future<void> checkAuthStatus() async {
     state = const AuthState.loading();
-    try {
-      final user = await _repository.getCurrentUser();
-      if (user != null) {
-        state = AuthState.authenticated(user);
-      } else {
-        state = const AuthState.unauthenticated();
-      }
-    } catch (e) {
-      state = const AuthState.unauthenticated();
-    }
+    final result = await _repository.getCurrentUser();
+    result.fold(
+      (error) => state = const AuthState.unauthenticated(),
+      (user) {
+        if (user != null) {
+          state = AuthState.authenticated(user);
+        } else {
+          state = const AuthState.unauthenticated();
+        }
+      },
+    );
   }
 
   /// Login with email and password
   Future<void> login(String email, String password) async {
     state = const AuthState.loading();
-    try {
-      final user = await _repository.login(email, password);
-      state = AuthState.authenticated(user);
-    } catch (e) {
-      state = AuthState.error(e.toString());
-      // Reset to unauthenticated after showing error
-      Future.delayed(const Duration(seconds: 2), () {
-        if (mounted) {
-          state = const AuthState.unauthenticated();
-        }
-      });
-    }
+    final result = await _repository.login(email, password);
+    result.fold(
+      (error) => _handleError(error.message),
+      (user) => state = AuthState.authenticated(user),
+    );
   }
 
   /// Register new account
@@ -65,85 +59,72 @@ class AuthNotifier extends StateNotifier<AuthState> {
     String? username,
   ) async {
     state = const AuthState.loading();
-    try {
-      final user = await _repository.register(email, password, username);
-      state = AuthState.authenticated(user);
-    } catch (e) {
-      state = AuthState.error(e.toString());
-      // Reset to unauthenticated after showing error
-      Future.delayed(const Duration(seconds: 2), () {
-        if (mounted) {
-          state = const AuthState.unauthenticated();
-        }
-      });
-    }
+    final result = await _repository.register(email, password, username);
+    result.fold(
+      (error) => _handleError(error.message),
+      (user) => state = AuthState.authenticated(user),
+    );
   }
 
   /// Login with Google
   Future<void> loginWithGoogle() async {
     state = const AuthState.loading();
-    try {
-      final user = await _repository.loginWithGoogle();
-      state = AuthState.authenticated(user);
-    } catch (e) {
-      state = AuthState.error(e.toString());
-      // Reset to unauthenticated after showing error
-      Future.delayed(const Duration(seconds: 2), () {
-        if (mounted) {
-          state = const AuthState.unauthenticated();
-        }
-      });
-    }
+    final result = await _repository.loginWithGoogle();
+    result.fold(
+      (error) => _handleError(error.message),
+      (user) => state = AuthState.authenticated(user),
+    );
   }
 
   /// Login with Apple
   Future<void> loginWithApple() async {
     state = const AuthState.loading();
-    try {
-      final user = await _repository.loginWithApple();
-      state = AuthState.authenticated(user);
-    } catch (e) {
-      state = AuthState.error(e.toString());
-      // Reset to unauthenticated after showing error
-      Future.delayed(const Duration(seconds: 2), () {
-        if (mounted) {
-          state = const AuthState.unauthenticated();
-        }
-      });
-    }
+    final result = await _repository.loginWithApple();
+    result.fold(
+      (error) => _handleError(error.message),
+      (user) => state = AuthState.authenticated(user),
+    );
   }
 
   /// Logout
   Future<void> logout() async {
-    try {
-      await _repository.logout();
-      state = const AuthState.unauthenticated();
-    } catch (e) {
-      state = AuthState.error(e.toString());
-    }
+    final result = await _repository.logout();
+    result.fold(
+      (error) => state = AuthState.error(error.message),
+      (_) => state = const AuthState.unauthenticated(),
+    );
   }
 
   /// Forgot password
   Future<void> forgotPassword(String email) async {
-    try {
-      await _repository.forgotPassword(email);
-    } catch (e) {
-      rethrow;
-    }
+    final result = await _repository.forgotPassword(email);
+    result.fold(
+      (error) => throw Exception(error.message), // Rethrow for UI to handle if needed
+      (_) => null,
+    );
   }
 
   /// Reset password
   Future<void> resetPassword(String token, String newPassword) async {
-    try {
-      await _repository.resetPassword(token, newPassword);
-    } catch (e) {
-      rethrow;
-    }
+    final result = await _repository.resetPassword(token, newPassword);
+    result.fold(
+      (error) => throw Exception(error.message),
+      (_) => null,
+    );
   }
 
   /// Update current user in state
   void updateUser(User user) {
     state = AuthState.authenticated(user);
+  }
+
+  void _handleError(String message) {
+    state = AuthState.error(message);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        state = const AuthState.unauthenticated();
+      }
+    });
   }
 }
 

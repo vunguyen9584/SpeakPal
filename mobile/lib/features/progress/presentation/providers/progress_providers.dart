@@ -13,24 +13,40 @@ final progressRepositoryProvider = Provider((ref) {
 // Stats Provider
 final statsProvider = FutureProvider.autoDispose.family<Stats, StatsPeriod>((ref, period) async {
   final repository = ref.watch(progressRepositoryProvider);
-  return repository.getStats(period);
+  final result = await repository.getStats(period);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Weekly Report Provider
 final weeklyReportProvider = FutureProvider.autoDispose.family<WeeklyReport, int>((ref, weekNumber) async {
   final repository = ref.watch(progressRepositoryProvider);
-  return repository.getWeeklyReport(weekNumber);
+  final result = await repository.getWeeklyReport(weekNumber);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Monthly Report Provider
 final monthlyReportProvider = FutureProvider.autoDispose.family<MonthlyReport, int>((ref, monthNumber) async {
   final repository = ref.watch(progressRepositoryProvider);
-  return repository.getMonthlyReport(monthNumber);
+  final result = await repository.getMonthlyReport(monthNumber);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // History Provider
 final historyProvider = FutureProvider.autoDispose.family<PaginatedHistory, HistoryQuery>((ref, query) async {
   final repository = ref.watch(progressRepositoryProvider);
-  return repository.getHistory(query);
+  final result = await repository.getHistory(query);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 

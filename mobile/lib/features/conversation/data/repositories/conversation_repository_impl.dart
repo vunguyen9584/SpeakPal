@@ -1,56 +1,61 @@
-﻿import 'package:dio/dio.dart';
+﻿import 'package:fpdart/fpdart.dart';
+import '../../../../core/error/app_error.dart';
+import '../../../../core/error/error_handler.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/api_endpoints.dart';
 import '../../domain/models/conversation.dart';
 import '../../domain/repositories/conversation_repository.dart';
 
 class ConversationRepositoryImpl implements ConversationRepository {
-  final Dio _dio;
+  final ApiClient _apiClient;
 
-  ConversationRepositoryImpl(this._dio);
+  ConversationRepositoryImpl(this._apiClient);
 
   @override
-  Future<Conversation> createConversation({
+  Future<Either<AppError, Conversation>> createConversation({
     required ConversationMode mode,
     required String personaId,
     String? topic,
   }) async {
     try {
-      final response = await _dio.post('/conversations', data: {
+      final response = await _apiClient.post(ApiEndpoints.conversations, data: {
         'mode': mode.name,
         'personaId': personaId,
         'topic': topic,
       });
-      return Conversation.fromJson(response.data);
-    } catch (e) {
-      throw Exception('Failed to create conversation: $e');
+      return Right(Conversation.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   @override
-  Future<Conversation> getConversation(String id) async {
+  Future<Either<AppError, Conversation>> getConversation(String id) async {
     try {
-      final response = await _dio.get('/conversations/$id');
-      return Conversation.fromJson(response.data);
-    } catch (e) {
-      throw Exception('Failed to get conversation: $e');
+      final response = await _apiClient.get(ApiEndpoints.conversationById(id));
+      return Right(Conversation.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   @override
-  Future<void> endConversation(String id) async {
+  Future<Either<AppError, void>> endConversation(String id) async {
     try {
-      await _dio.post('/conversations/$id/end');
-    } catch (e) {
-      throw Exception('Failed to end conversation: $e');
+      await _apiClient.post('${ApiEndpoints.conversationById(id)}/end');
+      return const Right(null);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   @override
-  Future<List<dynamic>> getTurns(String id) async {
+  Future<Either<AppError, List<dynamic>>> getTurns(String id) async {
     try {
-      final response = await _dio.get('/conversations/$id/turns');
-      return response.data['turns'] as List<dynamic>;
-    } catch (e) {
-      throw Exception('Failed to get turns: $e');
+      final response = await _apiClient.get(ApiEndpoints.conversationTurns(id));
+      return Right(response.data['turns'] as List<dynamic>);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 }

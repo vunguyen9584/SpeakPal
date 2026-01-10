@@ -1,5 +1,9 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:mobile/core/network/api_client.dart';
+import 'package:mobile/core/error/app_error.dart';
+import 'package:mobile/core/error/error_handler.dart';
+import 'package:mobile/core/providers/providers.dart';
 
 // Models
 class Group {
@@ -27,14 +31,14 @@ class Group {
 
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
       description: json['description'],
-      inviteCode: json['inviteCode'],
-      memberCount: json['memberCount'],
-      maxMembers: json['maxMembers'],
-      isOwner: json['isOwner'],
-      ownerName: json['ownerName'],
+      inviteCode: json['inviteCode'] ?? '',
+      memberCount: json['memberCount'] ?? 0,
+      maxMembers: json['maxMembers'] ?? 10,
+      isOwner: json['isOwner'] ?? false,
+      ownerName: json['ownerName'] ?? '',
       createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
     );
   }
@@ -57,11 +61,11 @@ class GroupMember {
 
   factory GroupMember.fromJson(Map<String, dynamic> json) {
     return GroupMember(
-      id: json['id'],
-      userId: json['userId'],
-      username: json['user']['username'],
-      role: json['role'],
-      joinedAt: DateTime.parse(json['joinedAt']),
+      id: json['id'] ?? '',
+      userId: json['userId'] ?? '',
+      username: json['user']?['username'] ?? 'Unknown',
+      role: json['role'] ?? 'MEMBER',
+      joinedAt: DateTime.parse(json['joinedAt'] ?? DateTime.now().toIso8601String()),
     );
   }
 }
@@ -81,10 +85,10 @@ class GroupRanking {
 
   factory GroupRanking.fromJson(Map<String, dynamic> json) {
     return GroupRanking(
-      userId: json['userId'],
-      username: json['username'],
-      weeklyXp: json['weeklyXp'],
-      rank: json['rank'],
+      userId: json['userId'] ?? '',
+      username: json['username'] ?? 'Unknown',
+      weeklyXp: json['weeklyXp'] ?? 0,
+      rank: json['rank'] ?? 0,
     );
   }
 }
@@ -95,88 +99,145 @@ class GroupRepository {
 
   GroupRepository(this._apiClient);
 
-  Future<Group> createGroup({
+  Future<Either<AppError, Group>> createGroup({
     required String name,
     String? description,
     bool isPublic = true,
   }) async {
-    final response = await _apiClient.post('/groups', data: {
-      'name': name,
-      'description': description,
-      'isPublic': isPublic,
-    });
-    return Group.fromJson(response.data);
+    try {
+      final response = await _apiClient.post('/groups', data: {
+        'name': name,
+        'description': description,
+        'isPublic': isPublic,
+      });
+      return Right(Group.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<List<Group>> getMyGroups() async {
-    final response = await _apiClient.get('/groups');
-    return (response.data as List).map((json) => Group.fromJson(json)).toList();
+  Future<Either<AppError, List<Group>>> getMyGroups() async {
+    try {
+      final response = await _apiClient.get('/groups');
+      final data = (response.data as List).map((json) => Group.fromJson(json)).toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<Group> getGroupDetails(String groupId) async {
-    final response = await _apiClient.get('/groups/$groupId');
-    return Group.fromJson(response.data);
+  Future<Either<AppError, Group>> getGroupDetails(String groupId) async {
+    try {
+      final response = await _apiClient.get('/groups/$groupId');
+      return Right(Group.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<void> joinGroup(String inviteCode) async {
-    await _apiClient.post('/groups/join', data: {'code': inviteCode});
+  Future<Either<AppError, void>> joinGroup(String inviteCode) async {
+    try {
+      await _apiClient.post('/groups/join', data: {'code': inviteCode});
+      return const Right(null);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<void> leaveGroup(String groupId) async {
-    await _apiClient.delete('/groups/$groupId/leave');
+  Future<Either<AppError, void>> leaveGroup(String groupId) async {
+    try {
+      await _apiClient.delete('/groups/$groupId/leave');
+      return const Right(null);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<List<GroupMember>> getGroupMembers(String groupId) async {
-    final response = await _apiClient.get('/groups/$groupId/members');
-    return (response.data as List)
-        .map((json) => GroupMember.fromJson(json))
-        .toList();
+  Future<Either<AppError, List<GroupMember>>> getGroupMembers(String groupId) async {
+    try {
+      final response = await _apiClient.get('/groups/$groupId/members');
+      final data = (response.data as List)
+          .map((json) => GroupMember.fromJson(json))
+          .toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<List<GroupRanking>> getGroupRanking(String groupId) async {
-    final response = await _apiClient.get('/groups/$groupId/ranking');
-    return (response.data as List)
-        .map((json) => GroupRanking.fromJson(json))
-        .toList();
+  Future<Either<AppError, List<GroupRanking>>> getGroupRanking(String groupId) async {
+    try {
+      final response = await _apiClient.get('/groups/$groupId/ranking');
+      final data = (response.data as List)
+          .map((json) => GroupRanking.fromJson(json))
+          .toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<void> updateGroup(String groupId, {String? name, String? description}) async {
-    await _apiClient.patch('/groups/$groupId', data: {
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-    });
+  Future<Either<AppError, void>> updateGroup(String groupId, {String? name, String? description}) async {
+    try {
+      await _apiClient.patch('/groups/$groupId', data: {
+        if (name != null) 'name': name,
+        if (description != null) 'description': description,
+      });
+      return const Right(null);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
-  Future<void> deleteGroup(String groupId) async {
-    await _apiClient.delete('/groups/$groupId');
+  Future<Either<AppError, void>> deleteGroup(String groupId) async {
+    try {
+      await _apiClient.delete('/groups/$groupId');
+      return const Right(null);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 }
 
 // Providers
-final apiClientProvider = Provider<ApiClient>((ref) => ApiClient());
-
 final groupRepositoryProvider = Provider<GroupRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
   return GroupRepository(apiClient);
 });
 
-final myGroupsProvider = FutureProvider<List<Group>>((ref) {
+final myGroupsProvider = FutureProvider<List<Group>>((ref) async {
   final repository = ref.watch(groupRepositoryProvider);
-  return repository.getMyGroups();
+  final result = await repository.getMyGroups();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
-final groupDetailsProvider = FutureProvider.family<Group, String>((ref, groupId) {
+final groupDetailsProvider = FutureProvider.family<Group, String>((ref, groupId) async {
   final repository = ref.watch(groupRepositoryProvider);
-  return repository.getGroupDetails(groupId);
+  final result = await repository.getGroupDetails(groupId);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
-final groupMembersProvider = FutureProvider.family<List<GroupMember>, String>((ref, groupId) {
+final groupMembersProvider = FutureProvider.family<List<GroupMember>, String>((ref, groupId) async {
   final repository = ref.watch(groupRepositoryProvider);
-  return repository.getGroupMembers(groupId);
+  final result = await repository.getGroupMembers(groupId);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
-final groupRankingProvider = FutureProvider.family<List<GroupRanking>, String>((ref, groupId) {
+final groupRankingProvider = FutureProvider.family<List<GroupRanking>, String>((ref, groupId) async {
   final repository = ref.watch(groupRepositoryProvider);
-  return repository.getGroupRanking(groupId);
+  final result = await repository.getGroupRanking(groupId);
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 

@@ -16,11 +16,15 @@ final learningRepositoryProvider = Provider<LearningRepository>((ref) {
 final vocabularyListProvider = FutureProvider.family<List<Vocabulary>, VocabularyFilters>(
   (ref, filters) async {
     final repository = ref.watch(learningRepositoryProvider);
-    return repository.getVocabularies(
+    final result = await repository.getVocabularies(
       page: filters.page,
       limit: filters.limit,
       srsLevel: filters.srsLevel,
       search: filters.search,
+    );
+    return result.fold(
+      (error) => throw Exception(error.message),
+      (data) => data,
     );
   },
 );
@@ -28,7 +32,11 @@ final vocabularyListProvider = FutureProvider.family<List<Vocabulary>, Vocabular
 // Due Vocabulary Provider
 final dueVocabularyProvider = FutureProvider<List<Vocabulary>>((ref) async {
   final repository = ref.watch(learningRepositoryProvider);
-  return repository.getDueVocabularies();
+  final result = await repository.getDueVocabularies();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Vocabulary Detail Provider
@@ -36,8 +44,11 @@ final vocabularyDetailProvider = FutureProvider.family<Vocabulary, String>(
   (ref, vocabularyId) async {
     final repository = ref.watch(learningRepositoryProvider);
     // TODO: Implement getVocabularyById in repository
-    final vocabularies = await repository.getVocabularies(page: 1, limit: 100);
-    return vocabularies.firstWhere((v) => v.id == vocabularyId);
+    final result = await repository.getVocabularies(page: 1, limit: 100);
+    return result.fold(
+      (error) => throw Exception(error.message),
+      (vocabularies) => vocabularies.firstWhere((v) => v.id == vocabularyId),
+    );
   },
 );
 
@@ -45,9 +56,13 @@ final vocabularyDetailProvider = FutureProvider.family<Vocabulary, String>(
 final scenarioListProvider = FutureProvider.family<List<Scenario>, ScenarioFilters>(
   (ref, filters) async {
     final repository = ref.watch(learningRepositoryProvider);
-    return repository.getScenarios(
+    final result = await repository.getScenarios(
       category: filters.category,
       difficulty: filters.difficulty,
+    );
+    return result.fold(
+      (error) => throw Exception(error.message),
+      (data) => data,
     );
   },
 );
@@ -56,26 +71,39 @@ final scenarioListProvider = FutureProvider.family<List<Scenario>, ScenarioFilte
 final scenarioDetailProvider = FutureProvider.family<Scenario, String>(
   (ref, scenarioId) async {
     final repository = ref.watch(learningRepositoryProvider);
-    return repository.getScenario(scenarioId);
+    final result = await repository.getScenario(scenarioId);
+    return result.fold(
+      (error) => throw Exception(error.message),
+      (data) => data,
+    );
   },
 );
 
 // Today's Challenges Provider
 final todayChallengesProvider = FutureProvider<List<UserChallenge>>((ref) async {
   final repository = ref.watch(learningRepositoryProvider);
-  return repository.getTodayChallenges();
+  final result = await repository.getTodayChallenges();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Review submission handler
 final reviewVocabularyProvider = Provider((ref) {
   return (String vocabularyId, bool correct) async {
     final repository = ref.read(learningRepositoryProvider);
-    await repository.recordReview(vocabularyId, correct ? 'CORRECT' : 'INCORRECT');
-
-    // Invalidate providers to refresh data
-    ref.invalidate(vocabularyListProvider);
-    ref.invalidate(dueVocabularyProvider);
-    ref.invalidate(vocabularyDetailProvider(vocabularyId));
+    final result = await repository.recordReview(vocabularyId, correct ? 'CORRECT' : 'INCORRECT');
+    
+    result.fold(
+      (error) => throw Exception(error.message),
+      (_) {
+        // Invalidate providers to refresh data
+        ref.invalidate(vocabularyListProvider);
+        ref.invalidate(dueVocabularyProvider);
+        ref.invalidate(vocabularyDetailProvider(vocabularyId));
+      }
+    );
   };
 });
 
@@ -83,22 +111,24 @@ final reviewVocabularyProvider = Provider((ref) {
 final addVocabularyProvider = Provider((ref) {
   return (String word, String meaning, String pronunciation, String? exampleSentence) async {
     final repository = ref.read(learningRepositoryProvider);
-    await repository.addVocabulary({
+    final result = await repository.addVocabulary({
       'word': word,
       'meaning': meaning,
       'pronunciation': pronunciation,
       'exampleSentence': exampleSentence,
     });
 
-    // Invalidate to refresh list
-    ref.invalidate(vocabularyListProvider);
+    result.fold(
+      (error) => throw Exception(error.message),
+      (_) => ref.invalidate(vocabularyListProvider),
+    );
   };
 });
 
 // Delete vocabulary handler
 final deleteVocabularyProvider = Provider((ref) {
   return (String vocabularyId) async {
-    final repository = ref.read(learningRepositoryProvider);
+    // final repository = ref.read(learningRepositoryProvider);
     // TODO: Implement deleteVocabulary in repository
 
     // Invalidate to refresh list

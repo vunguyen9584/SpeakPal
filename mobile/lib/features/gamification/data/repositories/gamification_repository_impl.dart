@@ -1,4 +1,6 @@
-﻿import 'package:dio/dio.dart';
+﻿import 'package:fpdart/fpdart.dart';
+import '../../../../core/error/app_error.dart';
+import '../../../../core/error/error_handler.dart';
 import '../../domain/models/badge.dart';
 import '../../domain/models/streak.dart';
 import '../../domain/models/ranking.dart';
@@ -11,59 +13,62 @@ class GamificationRepositoryImpl implements GamificationRepository {
   GamificationRepositoryImpl(this._apiClient);
 
   @override
-  Future<List<Badge>> getAllBadges() async {
+  Future<Either<AppError, List<Badge>>> getAllBadges() async {
     try {
       final response = await _apiClient.get('/badges');
-      return (response.data as List)
+      final data = (response.data as List)
           .map((json) => Badge.fromJson(json))
           .toList();
-    } on DioException {
-      rethrow;
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   @override
-  Future<List<UserBadge>> getUserBadges() async {
+  Future<Either<AppError, List<UserBadge>>> getUserBadges() async {
     try {
       final response = await _apiClient.get('/badges/mine');
-      return (response.data as List)
+      final data = (response.data as List)
           .map((json) => UserBadge.fromJson(json))
           .toList();
-    } on DioException {
-      rethrow;
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   @override
-  Future<Streak> getStreak() async {
+  Future<Either<AppError, Streak>> getStreak() async {
     try {
       final response = await _apiClient.get('/streaks');
-      return Streak.fromJson(response.data);
-    } on DioException {
-      rethrow;
+      return Right(Streak.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   @override
-  Future<void> useStreakFreeze() async {
+  Future<Either<AppError, void>> useStreakFreeze() async {
     try {
       await _apiClient.post('/streaks/freeze');
-    } on DioException {
-      rethrow;
+      return const Right(null);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 
   @override
-  Future<Leaderboard> getWeeklyRanking({String? league}) async {
+  Future<Either<AppError, Leaderboard>> getWeeklyRanking({String? league}) async {
     try {
       final queryParams = league != null ? {'league': league} : null;
       final response = await _apiClient.get(
         '/rankings/weekly',
         queryParameters: queryParams,
       );
-      return Leaderboard.fromJson(response.data);
-    } on DioException {
-      rethrow;
+      return Right(Leaderboard.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
 }

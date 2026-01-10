@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:socket_io_client/socket_io_client.dart' as io;
-import '../../../../core/services/logger_service.dart';
+import '../../../../core/utils/logger_service.dart';
 
 enum SocketEventType {
   connected,
@@ -62,22 +62,22 @@ class ConversationSocketService {
   /// Setup event handlers
   void _setupEventHandlers() {
     _socket?.on('connect', (_) {
-      LoggerService.i('WebSocket connected');
+      logger.info('WebSocket connected');
       _emit(SocketEvent.connected(null));
     });
 
     _socket?.on('connected', (data) {
-      LoggerService.i('Server confirmed connection: $data');
+      logger.info('Server confirmed connection: $data');
       _emit(SocketEvent.connected(data));
     });
 
     _socket?.on('text_result', (data) {
-      LoggerService.i('Received text result: $data');
+      logger.info('Received text result: $data');
       _emit(SocketEvent.textResult(data));
     });
 
     _socket?.on('ai_response_start', (data) {
-      LoggerService.i('AI response started');
+      logger.info('AI response started');
       _emit(SocketEvent.aiResponseStart(data));
     });
 
@@ -86,32 +86,32 @@ class ConversationSocketService {
     });
 
     _socket?.on('ai_response_end', (data) {
-      LoggerService.i('AI response ended');
+      logger.info('AI response ended');
       _emit(SocketEvent.aiResponseEnd(data));
     });
 
     _socket?.on('correction', (data) {
-      LoggerService.i('Received correction: $data');
+      logger.info('Received correction: $data');
       _emit(SocketEvent.correction(data));
     });
 
     _socket?.on('suggestion', (data) {
-      LoggerService.i('Received suggestion: $data');
+      logger.info('Received suggestion: $data');
       _emit(SocketEvent.suggestion(data));
     });
 
     _socket?.on('error', (data) {
-      LoggerService.e('WebSocket error: $data');
+      logger.error('WebSocket error: $data');
       _emit(SocketEvent.error(data));
     });
 
     _socket?.on('disconnect', (_) {
-      LoggerService.i('WebSocket disconnected');
+      logger.info('WebSocket disconnected');
       _emit(SocketEvent.disconnected(null));
     });
 
     _socket?.on('connect_error', (error) {
-      LoggerService.e('Connection error: $error');
+      logger.error('Connection error: $error');
       _emit(SocketEvent.error(error));
     });
   }
@@ -126,7 +126,7 @@ class ConversationSocketService {
   /// Send audio chunk to server
   void sendAudioChunk(Uint8List chunk, int sequence, {bool isFinal = false}) {
     if (!isConnected) {
-      LoggerService.w('Cannot send audio: not connected');
+      logger.warning('Cannot send audio: not connected');
       return;
     }
 
@@ -142,7 +142,7 @@ class ConversationSocketService {
   /// Send interrupt signal (when user starts speaking during AI response)
   void sendInterrupt(String reason) {
     if (!isConnected) {
-      LoggerService.w('Cannot send interrupt: not connected');
+      logger.warning('Cannot send interrupt: not connected');
       return;
     }
 

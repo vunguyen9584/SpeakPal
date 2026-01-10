@@ -305,23 +305,33 @@ class GroupsScreen extends ConsumerWidget {
 
               try {
                 final repository = ref.read(groupRepositoryProvider);
-                await repository.createGroup(
+                final result = await repository.createGroup(
                   name: nameController.text.trim(),
                   description: descriptionController.text.trim().isEmpty
                       ? null
                       : descriptionController.text.trim(),
                 );
-                ref.invalidate(myGroupsProvider);
                 
-                if (!context.mounted) return;
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Group created successfully!')),
+                result.fold(
+                  (error) {
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: ${error.message}')),
+                    );
+                  },
+                  (_) {
+                    ref.invalidate(myGroupsProvider);
+                    if (!context.mounted) return;
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Group created successfully!')),
+                    );
+                  },
                 );
               } catch (e) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: $e')),
+                  SnackBar(content: Text('Unexpected error: $e')),
                 );
               }
             },
@@ -372,18 +382,28 @@ class GroupsScreen extends ConsumerWidget {
 
               try {
                 final repository = ref.read(groupRepositoryProvider);
-                await repository.joinGroup(codeController.text.trim());
-                ref.invalidate(myGroupsProvider);
+                final result = await repository.joinGroup(codeController.text.trim());
                 
-                if (!context.mounted) return;
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Joined group successfully!')),
+                result.fold(
+                  (error) {
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: ${error.message}')),
+                    );
+                  },
+                  (_) {
+                    ref.invalidate(myGroupsProvider);
+                    if (!context.mounted) return;
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Joined group successfully!')),
+                    );
+                  },
                 );
               } catch (e) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: $e')),
+                  SnackBar(content: Text('Unexpected error: $e')),
                 );
               }
             },

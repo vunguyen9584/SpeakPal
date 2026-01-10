@@ -152,12 +152,20 @@ class InviteFriendsScreen extends ConsumerWidget {
               onPressed: () async {
                 try {
                   final repository = ref.read(invitationRepositoryProvider);
-                  await repository.generateInvite();
-                  ref.invalidate(myInvitationsProvider);
+                  final result = await repository.generateInvite();
+                  result.fold(
+                    (error) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error: ${error.message}')),
+                      );
+                    },
+                    (_) => ref.invalidate(myInvitationsProvider),
+                  );
                 } catch (e) {
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: $e')),
+                    SnackBar(content: Text('Unexpected error: $e')),
                   );
                 }
               },

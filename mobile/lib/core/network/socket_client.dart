@@ -1,7 +1,7 @@
 ﻿import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../storage/secure_storage.dart';
 import '../../config/env/app_config.dart';
-import '../services/logger_service.dart';
+import '../utils/logger_service.dart';
 import 'socket_events.dart';
 
 /// WebSocket Client using Socket.IO
@@ -44,23 +44,23 @@ class SocketClient {
   /// Setup default event handlers
   void _setupEventHandlers() {
     _socket?.on(SocketEvents.connect, (_) {
-      LoggerService.i('Socket connected');
+      logger.info('Socket connected');
     });
 
     _socket?.on(SocketEvents.disconnect, (_) {
-      LoggerService.i('Socket disconnected');
+      logger.info('Socket disconnected');
     });
 
     _socket?.on(SocketEvents.error, (data) {
-      LoggerService.e('Socket error: $data');
+      logger.error('Socket error: $data');
     });
 
     _socket?.on(SocketEvents.connectError, (data) {
-      LoggerService.e('Socket connection error: $data');
+      logger.error('Socket connection error: $data');
     });
 
     _socket?.on(SocketEvents.reconnect, (data) {
-      LoggerService.i('Socket reconnected');
+      logger.info('Socket reconnected');
     });
   }
 

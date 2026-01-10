@@ -11,6 +11,10 @@ final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
 /// User Stats Provider
 final userStatsProvider = FutureProvider<UserStats>((ref) async {
   final repository = ref.read(profileRepositoryProvider);
-  return await repository.getStats();
+  final result = await repository.getStats();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (stats) => stats,
+  );
 });
 

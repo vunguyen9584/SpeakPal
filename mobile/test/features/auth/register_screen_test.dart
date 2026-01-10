@@ -12,6 +12,9 @@ import 'package:mobile/shared/widgets/app_button.dart';
 import 'package:mobile/config/router/routes.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:fpdart/fpdart.dart';
+import 'package:mobile/core/error/app_error.dart';
+
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 void main() {
@@ -23,7 +26,7 @@ void main() {
 
   setUp(() {
     mockRepo = MockAuthRepository();
-    when(() => mockRepo.getCurrentUser()).thenAnswer((_) async => null);
+    when(() => mockRepo.getCurrentUser()).thenAnswer((_) async => const Right(null));
   });
 
   Widget createWidget({List<Override> overrides = const []}) {
@@ -141,7 +144,7 @@ void main() {
       createdAt: DateTime.now(),
     );
 
-    when(() => mockRepo.register(any(), any(), any())).thenAnswer((_) async => user);
+    when(() => mockRepo.register(any(), any(), any())).thenAnswer((_) async => Right(user));
 
     await tester.pumpWidget(createWidget());
     await tester.pumpAndSettle();
@@ -175,8 +178,8 @@ void main() {
     await tester.binding.setSurfaceSize(const Size(1080, 4000));
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
-    when(() => mockRepo.loginWithGoogle()).thenAnswer((_) async => throw Exception('Google error'));
-    when(() => mockRepo.loginWithApple()).thenAnswer((_) async => throw Exception('Apple error'));
+    when(() => mockRepo.loginWithGoogle()).thenAnswer((_) async => const Left(AuthError('Google error')));
+    when(() => mockRepo.loginWithApple()).thenAnswer((_) async => const Left(AuthError('Apple error')));
 
     await tester.pumpWidget(createWidget());
     await tester.pumpAndSettle();

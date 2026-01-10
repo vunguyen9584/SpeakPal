@@ -1,20 +1,22 @@
-﻿import '../models/conversation.dart';
+﻿import 'package:fpdart/fpdart.dart';
+import '../../../../core/error/app_error.dart';
+import '../models/conversation.dart';
 
 abstract class ConversationRepository {
   /// Create a new conversation session
-  Future<Conversation> createConversation({
+  Future<Either<AppError, Conversation>> createConversation({
     required ConversationMode mode,
     required String personaId,
     String? topic,
   });
 
   /// Get conversation details
-  Future<Conversation> getConversation(String id);
+  Future<Either<AppError, Conversation>> getConversation(String id);
 
   /// End a conversation
-  Future<void> endConversation(String id);
+  Future<Either<AppError, void>> endConversation(String id);
 
   /// Get conversation turns
-  Future<List<dynamic>> getTurns(String id);
+  Future<Either<AppError, List<dynamic>>> getTurns(String id);
 }
 

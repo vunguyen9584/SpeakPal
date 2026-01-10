@@ -15,13 +15,21 @@ final homeRepositoryProvider = Provider<HomeRepository>((ref) {
 // Dashboard stats provider
 final dashboardStatsProvider = FutureProvider<DashboardStats>((ref) async {
   final repository = ref.watch(homeRepositoryProvider);
-  return repository.getDashboardStats();
+  final result = await repository.getDashboardStats();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Recent conversations provider
 final recentConversationsProvider = FutureProvider<List<RecentConversation>>((ref) async {
   final repository = ref.watch(homeRepositoryProvider);
-  return repository.getRecentConversations();
+  final result = await repository.getRecentConversations();
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
 });
 
 // Refresh provider

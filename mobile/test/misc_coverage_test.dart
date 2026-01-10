@@ -6,6 +6,7 @@ import 'package:mobile/features/translation/providers/translation_provider.dart'
 import 'package:mobile/features/translation/data/translation_repository.dart';
 import 'package:mobile/features/translation/models/models.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:fpdart/fpdart.dart';
 import 'dart:typed_data';
 
 class MockTranslationRepository extends Mock implements TranslationRepository {}
@@ -78,6 +79,7 @@ void main() {
       container.dispose();
     });
 
+
     test('translationQuestionProvider calls repository', () async {
       final question = TranslationQuestion(
         id: 'q1',
@@ -89,7 +91,7 @@ void main() {
         grammarPoints: [],
         modelAnswer: 'm',
       );
-      when(() => mockRepo.getQuestion(any())).thenAnswer((_) async => question);
+      when(() => mockRepo.getQuestion(any())).thenAnswer((_) async => Right(question));
 
       final result = await container.read(translationQuestionProvider('topic').future);
       expect(result, question);
@@ -116,7 +118,7 @@ void main() {
             questionId: any(named: 'questionId'),
             audioData: any(named: 'audioData'),
             responseTimeSec: any(named: 'responseTimeSec'),
-          )).thenAnswer((_) async => result);
+          )).thenAnswer((_) async => Right(result));
 
       final submittedResult = await container.read(submitAnswerProvider(params).future);
       expect(submittedResult, result);

@@ -471,19 +471,30 @@ class GroupDetailScreen extends ConsumerWidget {
             onPressed: () async {
               try {
                 final repository = ref.read(groupRepositoryProvider);
-                await repository.leaveGroup(group.id);
+                final result = await repository.leaveGroup(group.id);
                 
-                if (!context.mounted) return;
-                Navigator.pop(context); // Close dialog
-                Navigator.pop(context); // Go back to groups list
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Left group successfully')),
+                result.fold(
+                  (error) {
+                    if (!context.mounted) return;
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: ${error.message}')),
+                    );
+                  },
+                  (_) {
+                    if (!context.mounted) return;
+                    Navigator.pop(context); // Close dialog
+                    Navigator.pop(context); // Go back to groups list
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Left group successfully')),
+                    );
+                  },
                 );
               } catch (e) {
                 if (!context.mounted) return;
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: $e')),
+                  SnackBar(content: Text('Unexpected error: $e')),
                 );
               }
             },

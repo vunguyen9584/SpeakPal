@@ -39,3 +39,16 @@
   }
 }
 
+class StreakDay {
+  final DateTime date;
+  final bool hasActivity;
+  final bool wasFrozen;
+
+  const StreakDay({
+    required this.date,
+    required this.hasActivity,
+    this.wasFrozen = false,
+  });
+}
+
+

@@ -98,9 +98,11 @@ class ShareSummarySheet extends StatelessWidget {
   }
 
   void _shareAsText(BuildContext context) {
-    Share.share(
-      summaryText,
-      subject: 'My SpeakPal Conversation Summary',
+    SharePlus.instance.share(
+      ShareParams(
+        text: summaryText,
+        subject: 'My SpeakPal Conversation Summary',
+      ),
     );
   }
 

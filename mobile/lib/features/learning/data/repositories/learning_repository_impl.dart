@@ -1,4 +1,7 @@
-﻿import '../../domain/repositories/learning_repository.dart';
+﻿import 'package:fpdart/fpdart.dart';
+import '../../../../core/error/app_error.dart';
+import '../../../../core/error/error_handler.dart';
+import '../../domain/repositories/learning_repository.dart';
 import '../../domain/models/vocabulary.dart';
 import '../../domain/models/scenario.dart';
 import '../../domain/models/challenge.dart';
@@ -10,66 +13,97 @@ class LearningRepositoryImpl implements LearningRepository {
   LearningRepositoryImpl(this._apiClient);
 
   @override
-  Future<List<Vocabulary>> getVocabularies({
+  Future<Either<AppError, List<Vocabulary>>> getVocabularies({
     int page = 1,
     int limit = 20,
     String? srsLevel,
     String? search,
   }) async {
-    final queryParameters = {
-      'page': page,
-      'limit': limit,
-      if (srsLevel != null) 'srsLevel': srsLevel,
-      if (search != null) 'search': search,
-    };
+    try {
+      final queryParameters = {
+        'page': page,
+        'limit': limit,
+        if (srsLevel != null) 'srsLevel': srsLevel,
+        if (search != null) 'search': search,
+      };
 
-    final response = await _apiClient.get('/vocabularies', queryParameters: queryParameters);
-    final data = (response.data['data'] as List).map((e) => Vocabulary.fromJson(e)).toList();
-    return data;
+      final response = await _apiClient.get('/vocabularies', queryParameters: queryParameters);
+      final data = (response.data['data'] as List).map((e) => Vocabulary.fromJson(e)).toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
   @override
-  Future<Vocabulary> addVocabulary(Map<String, dynamic> data) async {
-    final response = await _apiClient.post('/vocabularies', data: data);
-    return Vocabulary.fromJson(response.data);
+  Future<Either<AppError, Vocabulary>> addVocabulary(Map<String, dynamic> data) async {
+    try {
+      final response = await _apiClient.post('/vocabularies', data: data);
+      return Right(Vocabulary.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
   @override
-  Future<List<Vocabulary>> getDueVocabularies() async {
-    final response = await _apiClient.get('/vocabularies/due');
-    return (response.data as List).map((e) => Vocabulary.fromJson(e)).toList();
+  Future<Either<AppError, List<Vocabulary>>> getDueVocabularies() async {
+    try {
+      final response = await _apiClient.get('/vocabularies/due');
+      final data = (response.data as List).map((e) => Vocabulary.fromJson(e)).toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
   @override
-  Future<Map<String, dynamic>> recordReview(String vocabularyId, String result) async {
-    final response = await _apiClient.post(
-      '/vocabularies/$vocabularyId/review',
-      data: {'result': result},
-    );
-    return response.data as Map<String, dynamic>;
+  Future<Either<AppError, Map<String, dynamic>>> recordReview(String vocabularyId, String result) async {
+    try {
+      final response = await _apiClient.post(
+        '/vocabularies/$vocabularyId/review',
+        data: {'result': result},
+      );
+      return Right(response.data as Map<String, dynamic>);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
   @override
-  Future<List<Scenario>> getScenarios({String? category, String? difficulty}) async {
-    final queryParameters = {
-      if (category != null) 'category': category,
-      if (difficulty != null) 'difficulty': difficulty,
-    };
+  Future<Either<AppError, List<Scenario>>> getScenarios({String? category, String? difficulty}) async {
+    try {
+      final queryParameters = {
+        if (category != null) 'category': category,
+        if (difficulty != null) 'difficulty': difficulty,
+      };
 
-    final response = await _apiClient.get('/scenarios', queryParameters: queryParameters);
-    return (response.data as List).map((e) => Scenario.fromJson(e)).toList();
+      final response = await _apiClient.get('/scenarios', queryParameters: queryParameters);
+      final data = (response.data as List).map((e) => Scenario.fromJson(e)).toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
   @override
-  Future<Scenario> getScenario(String id) async {
-    final response = await _apiClient.get('/scenarios/$id');
-    return Scenario.fromJson(response.data);
+  Future<Either<AppError, Scenario>> getScenario(String id) async {
+    try {
+      final response = await _apiClient.get('/scenarios/$id');
+      return Right(Scenario.fromJson(response.data));
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 
   @override
-  Future<List<UserChallenge>> getTodayChallenges() async {
-    final response = await _apiClient.get('/challenges/today');
-    return (response.data as List).map((e) => UserChallenge.fromJson(e)).toList();
+  Future<Either<AppError, List<UserChallenge>>> getTodayChallenges() async {
+    try {
+      final response = await _apiClient.get('/challenges/today');
+      final data = (response.data as List).map((e) => UserChallenge.fromJson(e)).toList();
+      return Right(data);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
   }
 }
 
