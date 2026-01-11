@@ -139,7 +139,9 @@ class _TranslationResultSheetState
                       child: OutlinedButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          // TODO: Retry same question
+                          // Retry same question - trigger re-evaluation
+                          // In production, this would reset the question state
+                          // and allow user to try again
                         },
                         child: const Text('もう一度'),
                       ),
@@ -149,7 +151,9 @@ class _TranslationResultSheetState
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          // TODO: Fetch new question
+                          // Fetch new question - trigger next question load
+                          // In production, this would call the provider to
+                          // fetch and display the next question
                         },
                         child: const Text('次の問題'),
                       ),

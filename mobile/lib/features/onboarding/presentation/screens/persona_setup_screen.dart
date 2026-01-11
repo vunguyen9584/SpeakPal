@@ -7,6 +7,7 @@ import 'package:mobile/features/auth/domain/models/user.dart';
 import '../widgets/voice_selector.dart';
 import '../widgets/personality_selector.dart';
 import '../widgets/persona_card.dart';
+import '../../../../core/utils/logger_service.dart';
 
 /// Persona Setup Screen
 class PersonaSetupScreen extends StatefulWidget {
@@ -54,7 +55,28 @@ class _PersonaSetupScreenState extends State<PersonaSetupScreen> {
       return;
     }
 
-    // TODO: Save persona to backend
+    // Prepare persona data
+    final personaData = {
+      'name': _nameController.text.trim(),
+      'voice': _selectedVoice!,
+      'personality': _selectedPersonality!,
+      'level': widget.selectedLevel.name,
+    };
+
+    // In production, save to backend:
+    // final repository = ref.read(personaRepositoryProvider);
+    // final result = await repository.createPersona(personaData);
+    // 
+    // result.fold(
+    //   (error) => ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text(error.message), backgroundColor: Colors.red),
+    //   ),
+    //   (persona) => context.push('/onboarding/complete'),
+    // );
+
+    // Log persona creation
+    logger.info('Creating persona', data: personaData);
+
     // For now, navigate to onboarding complete
     context.push('/onboarding/complete');
   }

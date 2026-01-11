@@ -105,11 +105,46 @@ class _ConversationSetupScreenState extends ConsumerState<ConversationSetupScree
         subtitle: const Text('Friendly, Patient'),
         trailing: TextButton(
           onPressed: () {
-            // TODO: Show persona selection dialog
+            // Show persona selection dialog
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Select AI Partner'),
+                content: SizedBox(
+                  width: double.maxFinite,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      _buildPersonaOption('Sarah', 'Friendly, Patient', 'S'),
+                      _buildPersonaOption('Alex', 'Professional, Direct', 'A'),
+                      _buildPersonaOption('Emma', 'Cheerful, Encouraging', 'E'),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancel'),
+                  ),
+                ],
+              ),
+            );
           },
           child: const Text('Change Partner'),
         ),
       ),
+    );
+  }
+
+  Widget _buildPersonaOption(String name, String description, String initial) {
+    return ListTile(
+      leading: CircleAvatar(child: Text(initial)),
+      title: Text(name),
+      subtitle: Text(description),
+      onTap: () {
+        setState(() => selectedPersonaId = name.toLowerCase());
+        Navigator.pop(context);
+      },
     );
   }
 

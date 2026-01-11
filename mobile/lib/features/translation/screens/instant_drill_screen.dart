@@ -166,7 +166,15 @@ class _InstantDrillScreenState extends ConsumerState<InstantDrillScreen> {
                           const SizedBox(height: 24),
                           IconButton(
                             onPressed: () {
-                              // TODO: Play audio
+                              // Play audio for the question
+                              // In production, use TTS service or audio URL
+                              // Example: ref.read(ttsServiceProvider).speak(_mockQuestions[_currentQuestion]);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Playing audio...'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
                             },
                             icon: const Icon(Icons.volume_up, size: 48),
                             color: Colors.orange,

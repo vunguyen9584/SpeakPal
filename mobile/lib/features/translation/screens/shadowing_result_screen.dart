@@ -239,7 +239,7 @@ class ShadowingResultScreen extends ConsumerWidget {
                     children: [
                       OutlinedButton.icon(
                         onPressed: () {
-                          // TODO: Play model audio for this segment
+                          _playModelAudio(context, segment);
                         },
                         icon: const Icon(Icons.volume_up, size: 16),
                         label: const Text('モデル音声'),
@@ -253,7 +253,7 @@ class ShadowingResultScreen extends ConsumerWidget {
                       const SizedBox(width: 8),
                       OutlinedButton.icon(
                         onPressed: () {
-                          // TODO: Play user audio for this segment
+                          _playUserAudio(context, segment);
                         },
                         icon: const Icon(Icons.mic, size: 16),
                         label: const Text('あなたの音声'),
@@ -358,6 +358,36 @@ class ShadowingResultScreen extends ConsumerWidget {
       default:
         return Colors.grey.shade100;
     }
+  }
+
+  void _playModelAudio(BuildContext context, WeakSegment segment) {
+    // Play model audio for the specific time segment
+    // In production, this would use an audio player to play from startTime to endTime
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Playing model audio: ${_formatTime(segment.startTime)} - ${_formatTime(segment.endTime)}',
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+    // TODO: Integrate with actual audio player service
+    // Example: audioService.playSegment(modelAudioUrl, segment.startTime, segment.endTime);
+  }
+
+  void _playUserAudio(BuildContext context, WeakSegment segment) {
+    // Play user's recorded audio for the specific time segment
+    // In production, this would play the user's recording from startTime to endTime
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Playing your recording: ${_formatTime(segment.startTime)} - ${_formatTime(segment.endTime)}',
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+    // TODO: Integrate with actual audio player service
+    // Example: audioService.playSegment(userRecordingUrl, segment.startTime, segment.endTime);
   }
 }
 

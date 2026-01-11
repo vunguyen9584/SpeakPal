@@ -123,11 +123,14 @@ class ConversationListItem extends StatelessWidget {
   }
 
   void _viewConversationSummary(BuildContext context) {
-    // TODO: Navigate to summary
-    // context.go('/conversation/${conversation.id}/summary');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Opening conversation summary...')),
+    // Navigate to conversation summary
+    Navigator.pushNamed(
+      context,
+      '/conversation/summary',
+      arguments: {'conversationId': conversation.id},
     );
+    // Alternative with go_router:
+    // context.push('/conversation/${conversation.id}/summary');
   }
 }
 

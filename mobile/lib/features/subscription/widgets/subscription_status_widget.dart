@@ -238,10 +238,11 @@ class SubscriptionStatusWidget extends ConsumerWidget {
     if (subscription.isPremium) {
       return OutlinedButton.icon(
         onPressed: () {
-          // TODO: Navigate to manage subscription
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Manage subscription not implemented')),
-          );
+          // Navigate to subscription management (platform-specific)
+          Navigator.pushNamed(context, '/subscription/manage');
+          // Alternative: Open platform subscription settings
+          // On iOS: App Store subscription management
+          // On Android: Play Store subscription management
         },
         icon: const Icon(Icons.settings),
         label: const Text('Manage Subscription'),
@@ -253,10 +254,10 @@ class SubscriptionStatusWidget extends ConsumerWidget {
 
     return ElevatedButton.icon(
       onPressed: () {
-        // TODO: Navigate to plans screen
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Navigate to plans screen')),
-        );
+        // Navigate to plans screen
+        Navigator.pushNamed(context, '/subscription/plans');
+        // Alternative with go_router:
+        // context.push('/subscription/plans');
       },
       icon: const Icon(Icons.upgrade),
       label: const Text('Upgrade to Premium'),

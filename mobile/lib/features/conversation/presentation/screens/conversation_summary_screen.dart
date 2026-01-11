@@ -99,7 +99,16 @@ class ConversationSummaryScreen extends ConsumerWidget {
             Center(
               child: TextButton(
                 onPressed: () {
-                  // TODO: Start new conversation with same settings
+                  // Navigate back to conversation setup to start new conversation
+                  // Pop to home first, then navigate to setup
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  Navigator.pushNamed(
+                    context,
+                    '/conversation/setup',
+                    arguments: {
+                      'mode': 'freetalk', // Could preserve mode from summary
+                    },
+                  );
                 },
                 child: const Text('Practice Again'),
               ),

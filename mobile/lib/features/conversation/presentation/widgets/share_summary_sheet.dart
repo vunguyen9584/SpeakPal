@@ -91,10 +91,26 @@ class ShareSummarySheet extends StatelessWidget {
   }
 
   void _shareAsImage(BuildContext context) {
-    // TODO: Implement image generation and sharing
+    // Generate and share summary as image
+    // In production, this would:
+    // 1. Create a canvas/widget screenshot
+    // 2. Render summary data as an image
+    // 3. Save to temp file
+    // 4. Share using share_plus
+    // Example: await SummaryImageGenerator.generate(summaryText);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Generating image...')),
+      const SnackBar(
+        content: Row(
+          children: [
+            CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+            SizedBox(width: 12),
+            Text('Generating image...'),
+          ],
+        ),
+        duration: Duration(seconds: 2),
+      ),
     );
+    // TODO: Integrate with image generation service when available
   }
 
   void _shareAsText(BuildContext context) {
@@ -107,10 +123,33 @@ class ShareSummarySheet extends StatelessWidget {
   }
 
   void _exportToPDF(BuildContext context) {
-    // TODO: Implement PDF export
+    // Export summary to PDF
+    // In production, this would:
+    // 1. Generate PDF using pdf package
+    // 2. Include conversation details, stats, vocabulary
+    // 3. Save to downloads folder
+    // 4. Show success message with open option
+    // Example: await PdfExporter.export(conversationId, summaryText);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Exporting to PDF...')),
+      SnackBar(
+        content: const Row(
+          children: [
+            CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+            SizedBox(width: 12),
+            Text('Exporting to PDF...'),
+          ],
+        ),
+        duration: const Duration(seconds: 2),
+        action: SnackBarAction(
+          label: 'VIEW',
+          textColor: Colors.white,
+          onPressed: () {
+            // Open PDF viewer
+          },
+        ),
+      ),
     );
+    // TODO: Integrate with PDF generation service when available
   }
 }
 

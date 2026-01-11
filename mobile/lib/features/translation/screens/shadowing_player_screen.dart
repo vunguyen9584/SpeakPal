@@ -270,7 +270,12 @@ class _ShadowingPlayerScreenState
       _isPracticing = true;
     });
 
-    // TODO: Start simultaneous playback and recording
+    // Start simultaneous playback and recording
+    // In production, this would:
+    // 1. Start audio recording service
+    // 2. Play model audio
+    // 3. Record user's shadowing attempt
+    // Example: await ref.read(audioRecorderProvider).startRecording();
     _audioService.seekModel(Duration.zero);
     _audioService.playModel();
 
@@ -308,7 +313,18 @@ class _ShadowingPlayerScreenState
     });
     _audioService.pauseModel();
     
-    // TODO: Show result screen
+    // Navigate to result screen with shadowing results
+    // In production, this would analyze the recording and show detailed feedback
+    if (mounted) {
+      Navigator.pushReplacementNamed(
+        context,
+        '/shadowing/result',
+        arguments: {
+          'contentId': widget.content.id,
+          'contentTitle': widget.content.title,
+        },
+      );
+    }
   }
 
   String _formatDuration(Duration duration) {

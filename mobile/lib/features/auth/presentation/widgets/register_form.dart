@@ -243,7 +243,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 const Text('I agree to the '),
                 GestureDetector(
                   onTap: () {
-                    // TODO: Open Terms of Service
+                    // Navigate to Terms of Service
+                    Navigator.pushNamed(context, '/terms-of-service');
                   },
                   child: Text(
                     'Terms of Service',
@@ -256,7 +257,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 const Text(' and '),
                 GestureDetector(
                   onTap: () {
-                    // TODO: Open Privacy Policy
+                    // Navigate to Privacy Policy
+                    Navigator.pushNamed(context, '/privacy-policy');
                   },
                   child: Text(
                     'Privacy Policy',

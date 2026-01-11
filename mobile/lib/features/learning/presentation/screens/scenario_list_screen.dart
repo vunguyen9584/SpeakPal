@@ -121,7 +121,16 @@ class ScenarioCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to conversation with scenario
+          // Navigate to conversation with scenario context
+          Navigator.pushNamed(
+            context,
+            '/conversation/setup',
+            arguments: {
+              'mode': 'roleplay',
+              'scenarioId': scenario.id,
+              'scenario': scenario,
+            },
+          );
         },
         child: Padding(
           padding: const EdgeInsets.all(16),
