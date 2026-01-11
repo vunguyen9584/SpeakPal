@@ -1,4 +1,4 @@
-﻿// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'quick_response_models.dart';
 
@@ -79,4 +79,3 @@ Map<String, dynamic> _$QuickResponseResultToJson(
   'xpEarned': instance.xpEarned,
   'isNewRecord': instance.isNewRecord,
 };
-

@@ -39,3 +39,33 @@ final submitAnswerProvider = FutureProvider.autoDispose
   );
 });
 
+class ShadowingParams {
+  final Difficulty difficulty;
+  final TranslationTopic topic;
+
+  ShadowingParams({required this.difficulty, required this.topic});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ShadowingParams &&
+          runtimeType == other.runtimeType &&
+          difficulty == other.difficulty &&
+          topic == other.topic;
+
+  @override
+  int get hashCode => difficulty.hashCode ^ topic.hashCode;
+}
+
+final shadowingContentProvider = FutureProvider.autoDispose
+    .family<List<ShadowingContent>, ShadowingParams>((ref, params) async {
+  final repository = ref.read(translationRepositoryProvider);
+  final result = await repository.getShadowingContent(
+    difficulty: params.difficulty,
+    topic: params.topic,
+  );
+  return result.fold(
+    (error) => throw Exception(error.message),
+    (data) => data,
+  );
+});

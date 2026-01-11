@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mocktail/mocktail.dart';
 import 'package:mobile/features/translation/data/translation_repository.dart';
-// import 'package:mobile/features/translation/models/models.dart';
+import 'package:mobile/features/translation/models/models.dart';
 import 'dart:typed_data';
 
 class MockDio extends Mock implements Dio {}
@@ -220,6 +220,64 @@ void main() {
           expect(r.userExpression, 'Can you help me?');
         },
       );
+    });
+
+    test('getShadowingContent returns List<ShadowingContent> on success', () async {
+      final responseData = {
+        'data': [
+          {
+            'id': 'sc1',
+            'title': 'Daily Conversation',
+            'description': 'Typical daily talk',
+            'difficulty': 'beginner',
+            'topic': 'daily',
+            'text': 'How are you?',
+            'audioUrl': 'https://example.com/audio.mp3',
+            'duration': 5000000, // 5 seconds in microseconds
+            'isPremium': false,
+            'segments': [
+              {
+                'id': 'seg1',
+                'text': 'How are you?',
+                'startTime': 0,
+                'endTime': 5000000,
+              }
+            ],
+          }
+        ]
+      };
+
+      when(() => mockDio.get(
+            any(),
+            queryParameters: any(named: 'queryParameters'),
+          )).thenAnswer((_) async => Response(
+            data: responseData,
+            statusCode: 200,
+            requestOptions: RequestOptions(path: ''),
+          ));
+
+      final result = await repository.getShadowingContent(
+        difficulty: Difficulty.beginner,
+        topic: TranslationTopic.daily,
+      );
+
+      expect(result.isRight(), true);
+      result.fold(
+        (l) => fail('Should be Right: $l'),
+        (r) {
+          expect(r.length, 1);
+          expect(r[0].id, 'sc1');
+          expect(r[0].duration.inSeconds, 5);
+        },
+      );
+
+      verify(() => mockDio.get(
+            '/translation/shadowing-content',
+            queryParameters: {
+              'difficulty': 'beginner',
+              'topic': 'daily',
+            },
+          )).called(1);
     });
   });
 }

@@ -1,7 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/shadowing_models.dart';
+import '../models/models.dart';
+import '../providers/translation_provider.dart';
 import 'shadowing_player_screen.dart';
+import 'package:mobile/core/error/error_handler.dart';
 
 class ShadowingLibraryScreen extends ConsumerStatefulWidget {
   const ShadowingLibraryScreen({super.key});
@@ -13,44 +15,15 @@ class ShadowingLibraryScreen extends ConsumerStatefulWidget {
 
 class _ShadowingLibraryScreenState
     extends ConsumerState<ShadowingLibraryScreen> {
-  ContentType? _selectedType;
-  String? _selectedLevel;
-
-  // Mock data - URLs will be provided by backend API
-  final List<ShadowingContent> _mockContents = [
-    const ShadowingContent(
-      id: '1',
-      title: 'Daily Conversation: At a Restaurant',
-      type: 'conversation',
-      level: 'beginner',
-      durationSeconds: 90,
-      audioUrl: '', // TODO: Replace with actual API data
-      transcript: 'Hello, I would like to order...',
-      isPremium: false,
-    ),
-    const ShadowingContent(
-      id: '2',
-      title: 'Business News: Tech Industry Update',
-      type: 'news',
-      level: 'advanced',
-      durationSeconds: 180,
-      audioUrl: '', // TODO: Replace with actual API data
-      transcript: 'In today\'s tech news...',
-      isPremium: true,
-    ),
-  ];
+  TranslationTopic _selectedTopic = TranslationTopic.daily;
+  Difficulty _selectedDifficulty = Difficulty.beginner;
 
   @override
   Widget build(BuildContext context) {
-    final filteredContents = _mockContents.where((content) {
-      if (_selectedType != null && content.type != _selectedType!.name) {
-        return false;
-      }
-      if (_selectedLevel != null && content.level != _selectedLevel) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final shadowingAsync = ref.watch(shadowingContentProvider(ShadowingParams(
+      difficulty: _selectedDifficulty,
+      topic: _selectedTopic,
+    )));
 
     return Scaffold(
       appBar: AppBar(
@@ -72,75 +45,86 @@ class _ShadowingLibraryScreenState
                 ),
                 const SizedBox(height: 12),
                 
-                // Type filter
+                // Topic filter
                 Wrap(
                   spacing: 8,
-                  children: [
-                    FilterChip(
-                      label: const Text('すべて'),
-                      selected: _selectedType == null,
+                  children: TranslationTopic.values.map((topic) {
+                    return FilterChip(
+                      label: Text(topic.displayName),
+                      selected: _selectedTopic == topic,
                       onSelected: (selected) {
-                        setState(() {
-                          _selectedType = null;
-                        });
-                      },
-                    ),
-                    ...ContentType.values.map((type) {
-                      return FilterChip(
-                        label: Text(type.displayName),
-                        selected: _selectedType == type,
-                        onSelected: (selected) {
+                        if (selected) {
                           setState(() {
-                            _selectedType = selected ? type : null;
+                            _selectedTopic = topic;
                           });
-                        },
-                      );
-                    }),
-                  ],
+                        }
+                      },
+                    );
+                  }).toList(),
                 ),
                 
                 const SizedBox(height: 8),
                 
                 // Level filter
-                DropdownButtonFormField<String>(
-                  initialValue: _selectedLevel,
+                DropdownButtonFormField<Difficulty>(
+                  value: _selectedDifficulty,
                   decoration: const InputDecoration(
                     labelText: 'レベル',
                     border: OutlineInputBorder(),
                     filled: true,
                     fillColor: Colors.white,
                   ),
-                  items: const [
-                    DropdownMenuItem(value: null, child: Text('すべて')),
-                    DropdownMenuItem(value: 'beginner', child: Text('初級')),
-                    DropdownMenuItem(value: 'intermediate', child: Text('中級')),
-                    DropdownMenuItem(value: 'advanced', child: Text('上級')),
-                  ],
+                  items: Difficulty.values.map((d) {
+                    return DropdownMenuItem(
+                      value: d,
+                      child: Text(_getDifficultyLabel(d)),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    setState(() {
-                      _selectedLevel = value;
-                    });
+                    if (value != null) {
+                      setState(() {
+                        _selectedDifficulty = value;
+                      });
+                    }
                   },
                 ),
               ],
             ),
           ),
           
-          // Content grid
+          // Content list
           Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.75,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
+            child: shadowingAsync.when(
+              data: (contents) => contents.isEmpty
+                  ? const Center(child: Text('コンテンツが見つかりません'))
+                  : GridView.builder(
+                      padding: const EdgeInsets.all(16),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.75,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                      ),
+                      itemCount: contents.length,
+                      itemBuilder: (context, index) {
+                        final content = contents[index];
+                        return _buildContentCard(content);
+                      },
+                    ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('エラーが発生しました: $err'),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => ref.invalidate(shadowingContentProvider),
+                      child: const Text('再試行'),
+                    ),
+                  ],
+                ),
               ),
-              itemCount: filteredContents.length,
-              itemBuilder: (context, index) {
-                final content = filteredContents[index];
-                return _buildContentCard(content);
-              },
             ),
           ),
         ],
@@ -180,7 +164,7 @@ class _ShadowingLibraryScreenState
                   color: Colors.grey.shade300,
                   child: Center(
                     child: Icon(
-                      _getContentIcon(content.type),
+                      _getTopicIcon(content.topic),
                       size: 48,
                       color: Colors.grey.shade600,
                     ),
@@ -209,7 +193,7 @@ class _ShadowingLibraryScreenState
                             Icon(Icons.access_time, size: 14, color: Colors.grey.shade600),
                             const SizedBox(width: 4),
                             Text(
-                              '${content.durationSeconds ~/ 60}:${(content.durationSeconds % 60).toString().padLeft(2, '0')}',
+                              '${content.duration.inMinutes}:${(content.duration.inSeconds % 60).toString().padLeft(2, '0')}',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey.shade600,
@@ -218,7 +202,7 @@ class _ShadowingLibraryScreenState
                           ],
                         ),
                         const SizedBox(height: 4),
-                        _buildLevelBadge(content.level),
+                        _buildDifficultyBadge(content.difficulty),
                       ],
                     ),
                   ),
@@ -246,45 +230,47 @@ class _ShadowingLibraryScreenState
     );
   }
 
-  IconData _getContentIcon(String type) {
-    switch (type) {
-      case 'conversation':
+  IconData _getTopicIcon(TranslationTopic topic) {
+    switch (topic) {
+      case TranslationTopic.daily:
         return Icons.chat;
-      case 'news':
-        return Icons.newspaper;
-      case 'speech':
-        return Icons.mic;
-      case 'podcast':
-        return Icons.podcasts;
-      default:
-        return Icons.audiotrack;
+      case TranslationTopic.business:
+        return Icons.work;
+      case TranslationTopic.travel:
+        return Icons.flight;
+      case TranslationTopic.culture:
+        return Icons.theater_comedy;
     }
   }
 
-  Widget _buildLevelBadge(String level) {
+  String _getDifficultyLabel(Difficulty d) {
+    switch (d) {
+      case Difficulty.beginner:
+        return '初級';
+      case Difficulty.intermediate:
+        return '中級';
+      case Difficulty.advanced:
+        return '上級';
+    }
+  }
+
+  Widget _buildDifficultyBadge(Difficulty difficulty) {
     Color color;
     Color textColor;
-    String label;
-    switch (level) {
-      case 'beginner':
+    String label = _getDifficultyLabel(difficulty);
+    switch (difficulty) {
+      case Difficulty.beginner:
         color = Colors.green.shade100;
         textColor = Colors.green.shade900;
-        label = '初級';
         break;
-      case 'intermediate':
+      case Difficulty.intermediate:
         color = Colors.orange.shade100;
         textColor = Colors.orange.shade900;
-        label = '中級';
         break;
-      case 'advanced':
+      case Difficulty.advanced:
         color = Colors.red.shade100;
         textColor = Colors.red.shade900;
-        label = '上級';
         break;
-      default:
-        color = Colors.grey.shade200;
-        textColor = Colors.grey.shade800;
-        label = level;
     }
 
     return Container(

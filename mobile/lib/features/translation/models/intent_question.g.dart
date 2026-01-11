@@ -1,4 +1,4 @@
-﻿// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'intent_question.dart';
 
@@ -29,4 +29,3 @@ Map<String, dynamic> _$IntentQuestionToJson(_IntentQuestion instance) =>
       'hint': instance.hint,
       'expectedExpressions': instance.expectedExpressions,
     };
-

@@ -1,4 +1,4 @@
-﻿// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'shadowing_models.dart';
 
@@ -90,4 +90,3 @@ Map<String, dynamic> _$WeakSegmentToJson(_WeakSegment instance) =>
       'text': instance.text,
       'issueType': instance.issueType,
     };
-

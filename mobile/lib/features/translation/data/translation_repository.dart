@@ -108,5 +108,29 @@ class TranslationRepository {
       return Left(ErrorHandler.handle(e, stackTrace));
     }
   }
+
+  /// Get shadowing content by difficulty and topic
+  Future<Either<AppError, List<ShadowingContent>>> getShadowingContent({
+    required Difficulty difficulty,
+    required TranslationTopic topic,
+  }) async {
+    try {
+      final response = await _dio.get(
+        '/translation/shadowing-content',
+        queryParameters: {
+          'difficulty': difficulty.name,
+          'topic': topic.name,
+        },
+      );
+
+      final contents = (response.data['data'] as List)
+          .map((json) => ShadowingContent.fromJson(json))
+          .toList();
+
+      return Right(contents);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
+  }
 }
 

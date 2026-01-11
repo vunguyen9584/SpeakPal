@@ -1,4 +1,4 @@
-﻿// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'translation_question.dart';
 
@@ -34,4 +34,3 @@ Map<String, dynamic> _$TranslationQuestionToJson(
   'modelAnswer': instance.modelAnswer,
   'metadata': instance.metadata,
 };
-

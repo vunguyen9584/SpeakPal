@@ -1,4 +1,4 @@
-﻿// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'intent_result.dart';
 
@@ -51,4 +51,3 @@ Map<String, dynamic> _$IntentScoreBreakdownToJson(
   'naturalnessScore': instance.naturalnessScore,
   'vocabularyScore': instance.vocabularyScore,
 };
-

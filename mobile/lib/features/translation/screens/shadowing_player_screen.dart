@@ -1,7 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
-import '../models/shadowing_models.dart';
+import '../models/models.dart';
+import '../services/shadowing_audio_service.dart';
+import '../widgets/audio_waveform_visualizer.dart';
+import 'package:mobile/core/error/error_handler.dart';
 
 class ShadowingPlayerScreen extends ConsumerStatefulWidget {
   final ShadowingContent content;
@@ -18,20 +20,36 @@ class ShadowingPlayerScreen extends ConsumerStatefulWidget {
 
 class _ShadowingPlayerScreenState
     extends ConsumerState<ShadowingPlayerScreen> {
-  late AudioPlayer _player;
+  late ShadowingAudioService _audioService;
   double _speed = 1.0;
   bool _isPracticing = false;
+  bool _isReady = false;
 
   @override
   void initState() {
     super.initState();
-    _player = AudioPlayer();
-    // TODO: Load audio from widget.content.audioUrl
+    _audioService = ShadowingAudioService();
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    try {
+      await _audioService.initialize(widget.content.audioUrl);
+      if (mounted) setState(() => _isReady = true);
+    } catch (e) {
+      if (mounted) {
+        ErrorHandler.handle(e, StackTrace.current);
+        // Show error to user
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to load audio')),
+        );
+      }
+    }
   }
 
   @override
   void dispose() {
-    _player.dispose();
+    _audioService.dispose();
     super.dispose();
   }
 
@@ -42,7 +60,9 @@ class _ShadowingPlayerScreenState
         title: Text(widget.content.title),
       ),
       body: SafeArea(
-        child: Column(
+        child: !_isReady 
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
           children: [
             // Audio player controls
             Container(
@@ -52,7 +72,7 @@ class _ShadowingPlayerScreenState
                 children: [
                   // Play/Pause button
                   StreamBuilder<PlayerState>(
-                    stream: _player.playerStateStream,
+                    stream: _audioService.modelPlayerState,
                     builder: (context, snapshot) {
                       final playerState = snapshot.data;
                       final isPlaying = playerState?.playing ?? false;
@@ -75,9 +95,9 @@ class _ShadowingPlayerScreenState
                             color: Colors.blue,
                             onPressed: () {
                               if (isPlaying) {
-                                _player.pause();
+                                _audioService.pauseModel();
                               } else {
-                                _player.play();
+                                _audioService.playModel();
                               }
                             },
                           ),
@@ -97,30 +117,42 @@ class _ShadowingPlayerScreenState
                   
                   const SizedBox(height: 16),
                   
-                  // Progress slider
+                  // Waveform and Slider
                   StreamBuilder<Duration>(
-                    stream: _player.positionStream,
+                    stream: _audioService.modelPosition,
                     builder: (context, snapshot) {
                       final position = snapshot.data ?? Duration.zero;
-                      final duration = _player.duration ?? Duration.zero;
+                      
+                      return StreamBuilder<Duration>(
+                        stream: _audioService.modelDuration,
+                        builder: (context, durationSnapshot) {
+                          final duration = durationSnapshot.data ?? Duration.zero;
 
-                      return Column(
-                        children: [
-                          Slider(
-                            value: position.inMilliseconds.toDouble(),
-                            max: duration.inMilliseconds.toDouble(),
-                            onChanged: (value) {
-                              _player.seek(Duration(milliseconds: value.toInt()));
-                            },
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          return Column(
                             children: [
-                              Text(_formatDuration(position)),
-                              Text(_formatDuration(duration)),
+                              AudioWaveformVisualizer(
+                                position: position,
+                                duration: duration,
+                                segments: widget.content.segments,
+                              ),
+                              const SizedBox(height: 8),
+                              Slider(
+                                value: position.inMilliseconds.toDouble().clamp(0, duration.inMilliseconds.toDouble()),
+                                max: duration.inMilliseconds.toDouble() > 0 ? duration.inMilliseconds.toDouble() : 1.0,
+                                onChanged: (value) {
+                                  _audioService.seekModel(Duration(milliseconds: value.toInt()));
+                                },
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(_formatDuration(position), style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  Text(_formatDuration(duration), style: const TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
                             ],
-                          ),
-                        ],
+                          );
+                        },
                       );
                     },
                   ),
@@ -142,7 +174,7 @@ class _ShadowingPlayerScreenState
                         onSelectionChanged: (Set<double> newSelection) {
                           setState(() {
                             _speed = newSelection.first;
-                            _player.setSpeed(_speed);
+                            _audioService.setModelSpeed(_speed);
                           });
                         },
                       ),
@@ -168,7 +200,7 @@ class _ShadowingPlayerScreenState
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      widget.content.transcript,
+                      widget.content.text,
                       style: const TextStyle(
                         fontSize: 16,
                         height: 1.8,
@@ -187,8 +219,8 @@ class _ShadowingPlayerScreenState
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        _player.seek(Duration.zero);
-                        _player.play();
+                        _audioService.seekModel(Duration.zero);
+                        _audioService.playModel();
                       },
                       icon: const Icon(Icons.restart_alt),
                       label: const Text('最初から'),
@@ -245,8 +277,8 @@ class _ShadowingPlayerScreenState
     });
 
     // TODO: Start simultaneous playback and recording
-    _player.seek(Duration.zero);
-    _player.play();
+    _audioService.seekModel(Duration.zero);
+    _audioService.playModel();
 
     // Show recording overlay
     if (mounted) {
@@ -284,7 +316,7 @@ class _ShadowingPlayerScreenState
     setState(() {
       _isPracticing = false;
     });
-    _player.pause();
+    _audioService.pauseModel();
     
     // TODO: Show result screen
   }

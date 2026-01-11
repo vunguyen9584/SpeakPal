@@ -1,4 +1,4 @@
-﻿// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'user.dart';
 
@@ -53,4 +53,3 @@ const _$LeagueEnumMap = {
   League.platinum: 'PLATINUM',
   League.diamond: 'DIAMOND',
 };
-

@@ -24,7 +24,7 @@
 
 #### Day 1: Backend Integration & Data Flow
 
-- [ ] **T001: API Integration**
+- [x] **T001: API Integration**
 
   ```dart
   // lib/features/translation/data/translation_repository.dart
@@ -60,11 +60,11 @@
 
   **DoD:**
 
-  - [ ] API endpoint integrated
-  - [ ] Error handling implemented
-  - [ ] Unit tests for repository (mock API responses)
+  - [x] API endpoint integrated
+  - [x] Error handling implemented
+  - [x] Unit tests for repository (mock API responses)
 
-- [ ] **T002: Update Content Model**
+- [x] **T002: Update Content Model**
 
   ```dart
   // lib/features/translation/models/shadowing_content.dart
@@ -104,13 +104,13 @@
 
   **DoD:**
 
-  - [ ] Model updated với real data structure
-  - [ ] JSON serialization working
-  - [ ] Build runner executed successfully
+  - [x] Model updated với real data structure
+  - [x] JSON serialization working
+  - [x] Build runner executed successfully
 
 #### Day 2: Audio Player Implementation
 
-- [ ] **T003: Create Audio Player Service**
+- [x] **T003: Create Audio Player Service**
 
   ```dart
   // lib/features/translation/services/shadowing_audio_service.dart
@@ -189,12 +189,12 @@
 
   **DoD:**
 
-  - [ ] Audio player service implemented
-  - [ ] Playback controls working (play/pause/seek/speed)
-  - [ ] Error handling for network/playback issues
-  - [ ] Unit tests for service logic
+  - [x] Audio player service implemented
+  - [x] Playback controls working (play/pause/seek/speed)
+  - [x] Error handling for network/playback issues
+  - [x] Unit tests for service logic
 
-- [ ] **T004: Integrate with Shadowing Player Screen**
+- [x] **T004: Integrate with Shadowing Player Screen**
 
   ```dart
   // lib/features/translation/screens/shadowing_player_screen.dart updates
@@ -283,10 +283,10 @@
 
   **DoD:**
 
-  - [ ] Audio loads from backend URL (no more empty strings)
-  - [ ] Player controls functional
-  - [ ] Loading/error states handled
-  - [ ] Widget tests updated
+  - [x] Audio loads from backend URL (no more empty strings)
+  - [x] Player controls functional
+  - [x] Loading/error states handled
+  - [x] Widget tests updated
 
 #### Day 3: Headphone Detection & Polish
 

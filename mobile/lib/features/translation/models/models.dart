@@ -7,4 +7,6 @@ export 'translation_topic.dart';
 export 'intent_question.dart';
 export 'intent_result.dart';
 export 'intent_category.dart';
+export 'difficulty.dart';
+export 'shadowing_content.dart';
 

@@ -1,4 +1,4 @@
-﻿// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'auth_tokens.dart';
 
@@ -18,4 +18,3 @@ Map<String, dynamic> _$AuthTokensToJson(_AuthTokens instance) =>
       'refreshToken': instance.refreshToken,
       'expiresIn': instance.expiresIn,
     };
-

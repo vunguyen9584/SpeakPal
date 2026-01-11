@@ -48,3 +48,10 @@ class ValidationError extends AppError {
 class UnknownError extends AppError {
   const UnknownError(super.message, [super.cause, super.stackTrace]);
 }
+
+/// Audio/Media related errors
+class MediaError extends AppError {
+  final String? userMessage;
+  const MediaError(String message, {this.userMessage, dynamic originalError, StackTrace? stackTrace})
+      : super(message, originalError, stackTrace);
+}
