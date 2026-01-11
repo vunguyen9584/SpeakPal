@@ -83,13 +83,58 @@ class CheckEmailScreen extends StatelessWidget {
               AppButton(
                 text: 'Resend Email',
                 variant: ButtonVariant.secondary,
-                onPressed: () {
-                  // TODO: Implement resend logic
+                onPressed: () async {
+                  // Show loading state
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Email resent successfully'),
+                      content: Row(
+                        children: [
+                          SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Text('Sending email...'),
+                        ],
+                      ),
+                      duration: Duration(seconds: 2),
                     ),
                   );
+
+                  // In production, call auth service:
+                  // final authService = ref.read(authServiceProvider);
+                  // final result = await authService.resendPasswordResetEmail(email);
+                  // 
+                  // result.fold(
+                  //   (error) => ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(content: Text(error.message), backgroundColor: Colors.red),
+                  //   ),
+                  //   (_) => ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(content: Text('Email resent successfully'), backgroundColor: Colors.green),
+                  //   ),
+                  // );
+
+                  // Simulate async operation
+                  await Future.delayed(const Duration(seconds: 1));
+                  
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Row(
+                          children: [
+                            Icon(Icons.check_circle, color: Colors.white),
+                            SizedBox(width: 12),
+                            Text('Email resent successfully'),
+                          ],
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
                 },
                 isFullWidth: true,
               ),

@@ -80,7 +80,7 @@ class _UpgradeDialogState extends ConsumerState<UpgradeDialog> {
                 );
               },
               loading: () => const CircularProgressIndicator(),
-              error: (_, __) => const Text('プランの読み込みに失敗しました'),
+              error: (e, _) => const Text('プランの読み込みに失敗しました'),
             ),
 
             const SizedBox(height: 16),

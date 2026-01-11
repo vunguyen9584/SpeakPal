@@ -59,7 +59,7 @@ class PurchaseService {
   /// 
   /// [planId] - The ID of the plan to purchase (e.g., 'premium_monthly')
   /// 
-  /// Returns Either<AppError, PurchaseResult>
+  /// Returns `Either<AppError, PurchaseResult>`
   Future<Either<AppError, PurchaseResult>> purchasePlan(String planId) async {
     try {
       logger.info('Purchase initiated', tag: 'PurchaseService', data: {'plan': planId});

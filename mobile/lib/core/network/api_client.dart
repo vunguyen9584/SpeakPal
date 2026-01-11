@@ -1,5 +1,8 @@
 ﻿import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'network_info.dart';
+import 'interceptors/retry_interceptor.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/error_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
@@ -29,9 +32,13 @@ class ApiClient {
       ),
     );
 
+    // Initial dependencies
+    final networkInfo = NetworkInfoImpl(Connectivity());
+
     // Add interceptors
     _dio.interceptors.addAll([
       AuthInterceptor(_dio),
+      RetryInterceptor(dio: _dio, networkInfo: networkInfo),
       ErrorInterceptor(),
       LoggingInterceptor(),
     ]);

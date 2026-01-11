@@ -1,5 +1,5 @@
 ﻿import 'package:flutter/material.dart';
-import '../../presentation/providers/summary_provider.dart';
+import '../../domain/models/conversation_summary.dart';
 
 class ConversationStatsCard extends StatelessWidget {
   final ConversationSummary summary;

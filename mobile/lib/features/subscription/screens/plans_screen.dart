@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/subscription_provider.dart';
+import '../services/purchase_service.dart';
 
 /// Screen for comparing and selecting subscription plans
 class PlansScreen extends ConsumerStatefulWidget {

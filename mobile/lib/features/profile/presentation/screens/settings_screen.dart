@@ -181,7 +181,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: 'Change Password',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                  onTap: () {
                     _showChangePasswordDialog(context);
                   },
                 ),
@@ -263,7 +262,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   icon: Icons.support,
                   title: 'Contact Support',
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
                   onTap: () async {
                     final Uri emailLaunchUri = Uri(
                       scheme: 'mailto',

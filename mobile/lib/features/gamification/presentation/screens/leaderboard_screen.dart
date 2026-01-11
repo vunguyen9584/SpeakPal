@@ -130,7 +130,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             Container(
               decoration: BoxDecoration(
                 color: Colors.blue[50],
-                border: Border(
+                border: const Border(
                   top: BorderSide(color: Colors.blue, width: 2),
                 ),
               ),
@@ -146,7 +146,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             color: Colors.grey[100],
             child: Row(
               children: [
-                Icon(Icons.trending_up, color: Colors.green, size: 20),
+                const Icon(Icons.trending_up, color: Colors.green, size: 20),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -158,6 +158,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

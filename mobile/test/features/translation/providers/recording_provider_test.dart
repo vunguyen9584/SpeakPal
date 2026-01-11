@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/features/translation/providers/recording_provider.dart';
 import 'package:record/record.dart';
-import 'package:record/record.dart';
+
 import 'package:flutter/services.dart';
 import 'dart:io';
-import 'dart:typed_data';
+
 
 class FakeAudioRecorder implements AudioRecorder {
   @override

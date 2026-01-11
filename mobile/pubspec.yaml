@@ -64,6 +64,7 @@ dependencies:
   clipboard: ^3.0.14
   image_picker: ^1.2.1
   url_launcher: ^6.3.2
+  connectivity_plus: ^7.0.0
 
 dev_dependencies:
   flutter_test:

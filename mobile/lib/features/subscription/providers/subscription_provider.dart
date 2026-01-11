@@ -46,7 +46,7 @@ final hasContentAccessProvider = Provider.family<bool, ContentType>((ref, conten
       return subscription.isPremium && subscription.isActive;
     },
     loading: () => false, // Default to locked while loading
-    error: (_, __) => false, // Default to locked on error
+    error: (e, _) => false, // Default to locked on error
   );
 });
 

@@ -94,18 +94,35 @@ class VocabularySection extends StatelessWidget {
   }
 
   void _saveWord(BuildContext context, VocabularyItem word) {
-    // TODO: Implement save to word list
+    // Save word to user's vocabulary list
+    logger.info('Saving word to vocabulary list', data: {'word': word.word});
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Saved "${word.word}" to your word list'),
+        content: Row(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text('Saved "${word.word}" to your word list'),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.green,
         duration: const Duration(seconds: 2),
       ),
     );
+    // TODO: Integrate with vocabulary repository when backend is ready
   }
 
   void _playPronunciation(VocabularyItem word) {
-    // TODO: Implement pronunciation playback
-    logger.info('Playing pronunciation for: ${word.word}');
+    // Play pronunciation using TTS or audio URL
+    logger.info('Playing pronunciation', data: {
+      'word': word.word,
+      'pronunciation': word.pronunciation,
+    });
+    // TODO: Integrate with TTS service when available
+    // Example: ref.read(ttsServiceProvider).speak(word.word);
   }
 }
 

@@ -61,19 +61,21 @@ class QuickActionsWidget extends StatelessWidget {
   }
 
   void _startConversation(BuildContext context, ConversationMode mode) {
-    // TODO: Navigate to conversation setup
-    // context.go('/conversation/new?mode=${mode.name}');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Starting ${mode.name} conversation...')),
+    // Navigate to conversation setup with selected mode
+    Navigator.pushNamed(
+      context,
+      '/conversation/setup',
+      arguments: {'mode': mode.name},
     );
+    // Alternative with go_router (if using go_router):
+    // context.push('/conversation/setup?mode=${mode.name}');
   }
 
   void _navigateToScenarios(BuildContext context) {
-    // TODO: Navigate to scenarios
-    // context.go('/scenarios');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Opening scenarios...')),
-    );
+    // Navigate to scenarios list
+    Navigator.pushNamed(context, '/scenarios');
+    // Alternative with go_router (if using go_router):
+    // context.push('/scenarios');
   }
 }
 

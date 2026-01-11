@@ -136,11 +136,41 @@ class _ConversationSetupScreenState extends ConsumerState<ConversationSetupScree
   }
 
   Future<void> _startConversation() async {
-    // TODO: Create conversation via repository
-    // TODO: Navigate to conversation screen
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Starting conversation...')),
-    );
+    // Create conversation with selected settings
+    final conversationSettings = {
+      'mode': selectedMode.name,
+      'topic': selectedTopic,
+      'personaId': selectedPersonaId,
+    };
+
+    // Show loading indicator
+    if (!mounted) return;
+    
+    // In production, create conversation via repository:
+    // final repository = ref.read(conversationRepositoryProvider);
+    // final result = await repository.createConversation(conversationSettings);
+    // 
+    // result.fold(
+    //   (error) => ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text(error.message)),
+    //   ),
+    //   (conversation) => Navigator.pushReplacementNamed(
+    //     context,
+    //     '/conversation',
+    //     arguments: {'conversationId': conversation.id},
+    //   ),
+    // );
+
+    // For now, navigate directly to conversation screen
+    if (mounted) {
+      Navigator.pushReplacementNamed(
+        context,
+        '/conversation',
+        arguments: conversationSettings,
+      );
+      // Alternative with go_router:
+      // context.go('/conversation?mode=${selectedMode.name}');
+    }
   }
 }
 
