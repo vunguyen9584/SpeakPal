@@ -1,13 +1,15 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/vocabulary.dart';
+import 'package:mobile/core/services/tts_service.dart';
 
-class VocabularyDetailScreen extends StatelessWidget {
+class VocabularyDetailScreen extends ConsumerWidget {
   final Vocabulary vocabulary;
 
   const VocabularyDetailScreen({super.key, required this.vocabulary});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Vocabulary Detail'),
@@ -42,8 +44,21 @@ class VocabularyDetailScreen extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(Icons.volume_up),
-                          onPressed: () {
-                            // TODO: Play pronunciation
+                          onPressed: () async {
+                            final tts = ref.read(ttsServiceProvider);
+                            try {
+                              await tts.speak(vocabulary.word, language: 'en-US');
+                            } catch (e) {
+                              // Error already logged by TTS service
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Failed to play pronunciation'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              }
+                            }
                           },
                         ),
                       ],

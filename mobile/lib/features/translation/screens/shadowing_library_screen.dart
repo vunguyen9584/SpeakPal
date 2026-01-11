@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/models.dart';
 import '../providers/translation_provider.dart';
 import 'shadowing_player_screen.dart';
-import 'package:mobile/core/error/error_handler.dart';
+import 'package:mobile/features/subscription/providers/subscription_provider.dart';
+import 'package:mobile/features/subscription/widgets/upgrade_dialog.dart';
 
 class ShadowingLibraryScreen extends ConsumerStatefulWidget {
   const ShadowingLibraryScreen({super.key});
@@ -133,7 +134,16 @@ class _ShadowingLibraryScreenState
   }
 
   Widget _buildContentCard(ShadowingContent content) {
-    final isLocked = content.isPremium; // TODO: Check subscription
+    // Check if user has access to this content
+    final hasAccess = ref.watch(
+      hasContentAccessProvider(
+        content.isPremium 
+          ? ContentType.shadowingAdvanced 
+          : ContentType.shadowingBasic
+      ),
+    );
+    
+    final isLocked = content.isPremium && !hasAccess;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -238,7 +248,9 @@ class _ShadowingLibraryScreenState
         return Icons.work;
       case TranslationTopic.travel:
         return Icons.flight;
-      case TranslationTopic.culture:
+      case TranslationTopic.news:
+        return Icons.newspaper;
+      case TranslationTopic.entertainment:
         return Icons.theater_comedy;
     }
   }
@@ -293,23 +305,7 @@ class _ShadowingLibraryScreenState
   void _showPremiumDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('プレミアムコンテンツ'),
-        content: const Text('このコンテンツはプレミアム会員限定です。'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('閉じる'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              // TODO: Navigate to subscription screen
-            },
-            child: const Text('プレミアムに登録'),
-          ),
-        ],
-      ),
+      builder: (context) => const UpgradeDialog(),
     );
   }
 }

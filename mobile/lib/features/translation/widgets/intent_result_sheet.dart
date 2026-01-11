@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/intent_result.dart';
+import 'package:mobile/core/services/tts_service.dart';
 
 class IntentResultSheet extends ConsumerWidget {
   final IntentResult? result;
@@ -62,7 +63,7 @@ class IntentResultSheet extends ConsumerWidget {
             const SizedBox(height: 24),
             
             // Alternative expressions
-            _buildAlternatives(context, result!.alternativeExpressions),
+            _buildAlternatives(context, ref, result!.alternativeExpressions),
             
             const SizedBox(height: 24),
             
@@ -190,7 +191,7 @@ class IntentResultSheet extends ConsumerWidget {
     );
   }
 
-  Widget _buildAlternatives(BuildContext context, List<String> alternatives) {
+  Widget _buildAlternatives(BuildContext context, WidgetRef ref, List<String> alternatives) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -218,8 +219,21 @@ class IntentResultSheet extends ConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.volume_up),
-                  onPressed: () {
-                    // TODO: TTS playback
+                  onPressed: () async {
+                    final tts = ref.read(ttsServiceProvider);
+                    try {
+                      await tts.speak(alt, language: 'en-US');
+                    } catch (e) {
+                      // Error already logged by TTS service
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('音声再生に失敗しました'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    }
                   },
                 ),
                 IconButton(

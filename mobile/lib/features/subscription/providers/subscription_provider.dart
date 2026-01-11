@@ -1,5 +1,15 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Content types that can be gated by subscription
+enum ContentType {
+  shadowingBasic,
+  shadowingAdvanced,
+  wordAssociation,
+  advancedTranslation,
+  conversation,
+  vocabulary,
+}
+
 /// Provider for subscription information
 final subscriptionProvider = FutureProvider<SubscriptionInfo>((ref) async {
   // TODO: Replace with actual API call
@@ -16,6 +26,27 @@ final subscriptionProvider = FutureProvider<SubscriptionInfo>((ref) async {
       'offlineMode': false,
       'adFree': false,
     },
+  );
+});
+
+/// Provider to check if user has access to specific content type
+final hasContentAccessProvider = Provider.family<bool, ContentType>((ref, contentType) {
+  final subscriptionAsync = ref.watch(subscriptionProvider);
+  
+  return subscriptionAsync.when(
+    data: (subscription) {
+      // Free content is always accessible
+      if (contentType == ContentType.shadowingBasic ||
+          contentType == ContentType.conversation ||
+          contentType == ContentType.vocabulary) {
+        return true;
+      }
+      
+      // Premium content requires premium subscription
+      return subscription.isPremium && subscription.isActive;
+    },
+    loading: () => false, // Default to locked while loading
+    error: (_, __) => false, // Default to locked on error
   );
 });
 
