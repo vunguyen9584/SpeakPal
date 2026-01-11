@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../domain/models/vocabulary.dart';
+import '../providers/learning_providers.dart';
 
 class VocabularyListScreen extends ConsumerStatefulWidget {
   const VocabularyListScreen({super.key});
@@ -15,8 +17,11 @@ class _VocabularyListScreenState extends ConsumerState<VocabularyListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Use vocabularyListProvider
-    final vocabularies = <Vocabulary>[]; // Placeholder
+    final filters = VocabularyFilters(
+      srsLevel: _selectedLevel,
+      search: _searchController.text.isEmpty ? null : _searchController.text,
+    );
+    final vocabulariesAsync = ref.watch(vocabularyListProvider(filters));
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +30,7 @@ class _VocabularyListScreenState extends ConsumerState<VocabularyListScreen> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              // TODO: Navigate to add vocabulary
+              _showAddVocabularyDialog(context);
             },
           ),
         ],
@@ -37,6 +42,7 @@ class _VocabularyListScreenState extends ConsumerState<VocabularyListScreen> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
+              onChanged: (_) => setState(() {}),
               decoration: const InputDecoration(
                 hintText: 'Search words...',
                 prefixIcon: Icon(Icons.search),
@@ -78,17 +84,110 @@ class _VocabularyListScreenState extends ConsumerState<VocabularyListScreen> {
 
           // Vocabulary list
           Expanded(
-            child: vocabularies.isEmpty
-                ? const Center(child: Text('No vocabulary yet'))
-                : ListView.builder(
-                    itemCount: vocabularies.length,
-                    itemBuilder: (context, index) {
-                      final vocab = vocabularies[index];
-                      return VocabularyListItem(vocabulary: vocab);
-                    },
-                  ),
+            child: vocabulariesAsync.when(
+              data: (vocabularies) => vocabularies.isEmpty
+                  ? const Center(child: Text('No vocabulary yet'))
+                  : ListView.builder(
+                      itemCount: vocabularies.length,
+                      itemBuilder: (context, index) {
+                        final vocab = vocabularies[index];
+                        return VocabularyListItem(vocabulary: vocab);
+                      },
+                    ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) => Center(child: Text('Error: $error')),
+            ),
           ),
         ],
+      ),
+    );
+  }
+  Future<void> _showAddVocabularyDialog(BuildContext context) async {
+    final wordController = TextEditingController();
+    final meaningController = TextEditingController();
+    final exampleController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    bool isLoading = false;
+
+    await showDialog(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('Add Vocabulary'),
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: wordController,
+                  decoration: const InputDecoration(labelText: 'Word'),
+                  validator: (v) => v?.isNotEmpty == true ? null : 'Required',
+                ),
+                TextFormField(
+                  controller: meaningController,
+                  decoration: const InputDecoration(labelText: 'Meaning'),
+                  validator: (v) => v?.isNotEmpty == true ? null : 'Required',
+                ),
+                TextFormField(
+                  controller: exampleController,
+                  decoration: const InputDecoration(labelText: 'Example Sentence (Optional)'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: isLoading ? null : () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: isLoading
+                  ? null
+                  : () async {
+                      if (formKey.currentState?.validate() == true) {
+                        setState(() => isLoading = true);
+                        
+                        final repository = ref.read(learningRepositoryProvider);
+                        final result = await repository.addVocabulary({
+                          'word': wordController.text.trim(),
+                          'meaning': meaningController.text.trim(),
+                          'exampleSentence': exampleController.text.trim(),
+                          'pronunciation': '', 
+                          'partOfSpeech': 'noun', 
+                          'srsLevel': 'new',
+                        });
+
+                        if (context.mounted) {
+                           setState(() => isLoading = false);
+                           
+                           result.fold(
+                            (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(error.message)),
+                              );
+                            },
+                            (newVocab) {
+                               Navigator.pop(context);
+                               ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(content: Text('Added "${newVocab.word}"')),
+                               );
+                               ref.invalidate(vocabularyListProvider);
+                            },
+                           );
+                        }
+                      }
+                    },
+              child: isLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text('Add'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -148,7 +247,7 @@ class VocabularyListItem extends StatelessWidget {
           ),
         ),
         onTap: () {
-          // TODO: Navigate to vocabulary detail
+          context.push('/learning/vocabulary/${vocabulary.id}', extra: vocabulary);
         },
       ),
     );
@@ -164,4 +263,6 @@ class VocabularyListItem extends StatelessWidget {
     return '${diff}d';
   }
 }
+
+
 

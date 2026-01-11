@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/badge.dart';
 import '../widgets/badge_detail_modal.dart';
+import '../providers/gamification_providers.dart';
 
 class BadgesCollectionScreen extends ConsumerStatefulWidget {
   const BadgesCollectionScreen({super.key});
@@ -16,55 +17,63 @@ class _BadgesCollectionScreenState extends ConsumerState<BadgesCollectionScreen>
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Use allBadgesProvider and userBadgesProvider
-    final allBadges = <Badge>[];
-    final userBadges = <UserBadge>[];
-    final earnedBadgeCodes = userBadges.map((ub) => ub.badgeCode).toSet();
-
-    // Filter badges by category
-    final filteredBadges = _selectedCategory == 'All'
-        ? allBadges
-        : allBadges.where((b) => b.category == _selectedCategory.toLowerCase()).toList();
+    final allBadgesAsync = ref.watch(allBadgesProvider);
+    final userBadgesAsync = ref.watch(userBadgesProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Badge Collection'),
       ),
-      body: Column(
-        children: [
-          // Stats header
-          Container(
-            padding: const EdgeInsets.all(16),
-            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildStatCard(
-                  context,
-                  'Collected',
-                  '${userBadges.length}',
-                  Icons.emoji_events,
-                  Colors.amber,
-                ),
-                _buildStatCard(
-                  context,
-                  'Total',
-                  '${allBadges.length}',
-                  Icons.stars,
-                  Colors.blue,
-                ),
-                _buildStatCard(
-                  context,
-                  'Progress',
-                  allBadges.isEmpty
-                      ? '0%'
-                      : '${((userBadges.length / allBadges.length) * 100).toInt()}%',
-                  Icons.trending_up,
-                  Colors.green,
-                ),
-              ],
-            ),
-          ),
+      body: allBadgesAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(child: Text('Error: $error')),
+        data: (allBadges) {
+          return userBadgesAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stack) => Center(child: Text('Error: $error')),
+            data: (userBadges) {
+              final earnedBadgeCodes = userBadges.map((ub) => ub.badgeCode).toSet();
+
+              // Filter badges by category
+              final filteredBadges = _selectedCategory == 'All'
+                  ? allBadges
+                  : allBadges.where((b) => b.category == _selectedCategory.toLowerCase()).toList();
+
+              return Column(
+                children: [
+                  // Stats header
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildStatCard(
+                          context,
+                          'Collected',
+                          '${userBadges.length}',
+                          Icons.emoji_events,
+                          Colors.amber,
+                        ),
+                        _buildStatCard(
+                          context,
+                          'Total',
+                          '${allBadges.length}',
+                          Icons.stars,
+                          Colors.blue,
+                        ),
+                        _buildStatCard(
+                          context,
+                          'Progress',
+                          allBadges.isEmpty
+                              ? '0%'
+                              : '${((userBadges.length / allBadges.length) * 100).toInt()}%',
+                          Icons.trending_up,
+                          Colors.green,
+                        ),
+                      ],
+                    ),
+                  ),
 
           // Category filter
           SizedBox(
@@ -116,7 +125,11 @@ class _BadgesCollectionScreenState extends ConsumerState<BadgesCollectionScreen>
                     },
                   ),
           ),
-        ],
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }

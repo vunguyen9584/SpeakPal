@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'config/router/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mobile/core/providers/providers.dart';
 import 'package:mobile/core/utils/crash_reporter.dart';
 import 'package:mobile/core/utils/logger_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,10 +15,15 @@ void main() async {
   await CrashReporter.initialize();
   _setupLogging();
 
+  final sharedPreferences = await SharedPreferences.getInstance();
+
   runApp(
     // Wrap the app with ProviderScope to enable Riverpod
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: const MyApp(),
     ),
   );
 }

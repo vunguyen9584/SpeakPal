@@ -431,31 +431,65 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
     );
   }
 
-  void _handleSubscribe(BuildContext context, PlanInfo plan) {
-    // TODO: Implement actual purchase flow
-    showDialog(
+  Future<void> _handleSubscribe(BuildContext context, PlanInfo plan) async {
+    final purchaseService = ref.read(purchaseServiceProvider);
+    
+    // Show confirmation dialog
+    final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Subscribe'),
-        content: Text('Subscribe to ${plan.name} for ${plan.price}?'),
+        title: Text('Subscribe to ${plan.name}'),
+        content: Text('Do you want to subscribe for ${plan.price}?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context, false),
             child: const Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Purchase flow not implemented yet'),
-                ),
-              );
-            },
+            onPressed: () => Navigator.pop(context, true),
             child: const Text('Confirm'),
           ),
         ],
       ),
+    );
+
+    if (confirm != true || !context.mounted) return;
+
+    // Show loading
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    final result = await purchaseService.purchasePlan(plan.id);
+
+    // Hide loading
+    if (context.mounted) Navigator.pop(context);
+
+    if (!context.mounted) return;
+
+    result.fold(
+      (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      },
+      (success) {
+        // Refresh subscription status
+        ref.invalidate(subscriptionProvider);
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Successfully subscribed to ${plan.name}!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pop(context); // Go back to previous screen
+      },
     );
   }
 }

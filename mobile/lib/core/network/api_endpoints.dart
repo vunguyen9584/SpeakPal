@@ -32,8 +32,9 @@ class ApiEndpoints {
   static String conversationSummary(String id) => '/conversations/$id/summary';
 
   // Learning endpoints
-  static const String vocabulary = '/vocabulary';
-  static String vocabularyById(String id) => '/vocabulary/$id';
+  static const String vocabularies = '/vocabularies';
+  static String vocabularyById(String id) => '/vocabularies/$id';
+  static const String vocabularyDue = '/vocabularies/due';
   static const String scenarios = '/scenarios';
   static const String challenges = '/challenges';
   static String challengeById(String id) => '/challenges/$id';

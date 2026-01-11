@@ -3,7 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/features/translation/providers/recording_provider.dart';
 import 'package:record/record.dart';
+import 'package:record/record.dart';
 import 'package:flutter/services.dart';
+import 'dart:io';
+import 'dart:typed_data';
 
 class FakeAudioRecorder implements AudioRecorder {
   @override
@@ -31,7 +34,7 @@ class FakeAudioRecorder implements AudioRecorder {
   Future<void> start(RecordConfig config, {required String path}) async {}
 
   @override
-  Future<String?> stop() async => 'test.wav';
+  Future<String?> stop() async => File('test.wav').absolute.path;
   
   @override
   Future<void> cancel() async {}
@@ -63,13 +66,30 @@ class FakeAudioRecorder implements AudioRecorder {
   RecordIos? get ios => null;
 }
 
+
+
 void main() {
   group('RecordingProvider Tests', () {
     late ProviderContainer container;
+    final tempFile = File('test.wav').absolute;
 
-    setUp(() {
+    setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
       
+      // Create a dummy file for testing
+      await tempFile.writeAsBytes([1, 2, 3]);
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+        const MethodChannel('plugins.flutter.io/path_provider'),
+        (MethodCall methodCall) async {
+          if (methodCall.method == 'getTemporaryDirectory') {
+            return '.';
+          }
+          return null;
+        },
+      );
+
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
         const MethodChannel('flutter.baseflow.com/permissions/methods'),
@@ -92,12 +112,20 @@ void main() {
       );
     });
 
-    tearDown(() {
+      tearDown(() async {
        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
         const MethodChannel('flutter.baseflow.com/permissions/methods'),
         null,
       );
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+        const MethodChannel('plugins.flutter.io/path_provider'),
+        null,
+      );
+      if (await tempFile.exists()) {
+        await tempFile.delete();
+      }
       container.dispose();
     });
 
@@ -117,10 +145,13 @@ void main() {
     test('should stop recording and return data', () async {
       final notifier = container.read(recordingProvider.notifier);
       
+      // Verify file exists
+      expect(await tempFile.exists(), true, reason: 'Temp file should exist before recording');
+
       await notifier.startRecording();
       final data = await notifier.stopRecording();
       
-      expect(data, isNotNull);
+      expect(data, isNotNull, reason: 'Data should not be null');
       expect(container.read(recordingProvider), RecordingState.idle);
     });
 

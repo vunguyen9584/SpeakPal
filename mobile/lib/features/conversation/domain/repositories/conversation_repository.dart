@@ -1,6 +1,7 @@
 ﻿import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/app_error.dart';
 import '../models/conversation.dart';
+import '../models/conversation_summary.dart';
 
 abstract class ConversationRepository {
   /// Create a new conversation session
@@ -18,5 +19,8 @@ abstract class ConversationRepository {
 
   /// Get conversation turns
   Future<Either<AppError, List<dynamic>>> getTurns(String id);
+
+  /// Get conversation summary
+  Future<Either<AppError, ConversationSummary>> getConversationSummary(String id);
 }
 

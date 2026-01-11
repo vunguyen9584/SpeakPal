@@ -1,6 +1,11 @@
 ﻿import 'package:flutter/material.dart';
+import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/turn.dart';
+import '../../translation/providers/recording_provider.dart';
+import 'package:go_router/go_router.dart';
+import '../providers/conversation_providers.dart';
+import '../../../../core/network/socket_client.dart';
 
 class ConversationScreen extends ConsumerStatefulWidget {
   final String conversationId;
@@ -15,8 +20,66 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
   final List<Turn> _turns = [];
   final ScrollController _scrollController = ScrollController();
   bool _isRecording = false;
-  final bool _isAiSpeaking = false;
-  final String _currentSubtitle = '';
+  bool _isAiSpeaking = false;
+  String _currentSubtitle = '';
+  SocketClient? _socketClient;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupSocket();
+  }
+
+  Future<void> _setupSocket() async {
+    _socketClient = ref.read(socketClientProvider);
+    await _socketClient?.connect();
+    
+    if (mounted) {
+       _socketClient?.joinConversation(widget.conversationId);
+       _setupSocketListeners();
+    }
+  }
+
+  void _setupSocketListeners() {
+    _socketClient?.onTranscription((data) {
+      if (mounted) {
+        setState(() {
+          _currentSubtitle = data['text'] ?? '';
+        });
+      }
+    });
+
+    _socketClient?.onTurnComplete((data) {
+      if (mounted) {
+        setState(() {
+          _currentSubtitle = '';
+          _turns.add(Turn.fromJson(data));
+          _scrollToBottom();
+        });
+      }
+    });
+
+    _socketClient?.onAiResponseChunk((data) {
+       // Handle audio stream or text chunk if needed
+       if (mounted) {
+         setState(() {
+           _isAiSpeaking = true;
+         });
+       }
+    });
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,15 +194,23 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
     return '${twoDigits(duration.inMinutes)}:${twoDigits(duration.inSeconds.remainder(60))}';
   }
 
-  void _startRecording() {
+  Future<void> _startRecording() async {
+    final recordingNotifier = ref.read(recordingProvider.notifier);
+    await recordingNotifier.startRecording();
     setState(() => _isRecording = true);
-    // TODO: Start audio recording
   }
 
-  void _stopRecording() {
+  Future<void> _stopRecording() async {
+    final recordingNotifier = ref.read(recordingProvider.notifier);
+    final audioData = await recordingNotifier.stopRecording();
     setState(() => _isRecording = false);
-    // TODO: Stop audio recording and send via WebSocket
+    
+    if (audioData != null) {
+      _socketClient?.sendAudioChunk(audioData.toList()); // Convert Uint8List to List<int>
+    }
   }
+
+
 
   void _showEndDialog() {
     showDialog(
@@ -194,13 +265,14 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
   }
 
   Future<void> _endConversation() async {
-    // TODO: End conversation via repository
-    // TODO: Navigate to summary screen
-    Navigator.pop(context);
+    // Navigate to summary screen
+    context.push('/conversation/${widget.conversationId}/summary');
   }
 
   @override
   void dispose() {
+    _socketClient?.leaveConversation(widget.conversationId);
+    _socketClient?.disconnect();
     _scrollController.dispose();
     super.dispose();
   }

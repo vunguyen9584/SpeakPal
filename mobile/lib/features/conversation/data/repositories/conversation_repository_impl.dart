@@ -4,6 +4,7 @@ import '../../../../core/error/error_handler.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../domain/models/conversation.dart';
+import '../../domain/models/conversation_summary.dart';
 import '../../domain/repositories/conversation_repository.dart';
 
 class ConversationRepositoryImpl implements ConversationRepository {
@@ -54,6 +55,16 @@ class ConversationRepositoryImpl implements ConversationRepository {
     try {
       final response = await _apiClient.get(ApiEndpoints.conversationTurns(id));
       return Right(response.data['turns'] as List<dynamic>);
+    } catch (e, stackTrace) {
+      return Left(ErrorHandler.handle(e, stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppError, ConversationSummary>> getConversationSummary(String id) async {
+    try {
+      final response = await _apiClient.get(ApiEndpoints.conversationSummary(id));
+      return Right(ConversationSummary.fromJson(response.data));
     } catch (e, stackTrace) {
       return Left(ErrorHandler.handle(e, stackTrace));
     }

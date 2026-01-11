@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../config/theme/dimensions.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
@@ -137,12 +138,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         child: IconButton(
                           icon: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
                           onPressed: () async {
-                            // TODO: Implement image picker
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Avatar upload coming soon'),
-                              ),
-                            );
+                            final ImagePicker picker = ImagePicker();
+                            final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                            
+                            if (image != null && context.mounted) {
+                                // TODO: Implement actual upload API
+                                // final repository = ref.read(profileRepositoryProvider);
+                                // await repository.uploadAvatar(File(image.path));
+                                
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Avatar selected (Upload API pending)'),
+                                  ),
+                                );
+                            }
                           },
                           iconSize: 20,
                           padding: const EdgeInsets.all(8),

@@ -43,11 +43,10 @@ final dueVocabularyProvider = FutureProvider<List<Vocabulary>>((ref) async {
 final vocabularyDetailProvider = FutureProvider.family<Vocabulary, String>(
   (ref, vocabularyId) async {
     final repository = ref.watch(learningRepositoryProvider);
-    // TODO: Implement getVocabularyById in repository
-    final result = await repository.getVocabularies(page: 1, limit: 100);
+    final result = await repository.getVocabulary(vocabularyId);
     return result.fold(
       (error) => throw Exception(error.message),
-      (vocabularies) => vocabularies.firstWhere((v) => v.id == vocabularyId),
+      (data) => data,
     );
   },
 );
@@ -128,11 +127,17 @@ final addVocabularyProvider = Provider((ref) {
 // Delete vocabulary handler
 final deleteVocabularyProvider = Provider((ref) {
   return (String vocabularyId) async {
-    // final repository = ref.read(learningRepositoryProvider);
-    // TODO: Implement deleteVocabulary in repository
+    final repository = ref.read(learningRepositoryProvider);
+    final result = await repository.deleteVocabulary(vocabularyId);
 
-    // Invalidate to refresh list
-    ref.invalidate(vocabularyListProvider);
+    result.fold(
+      (error) => throw Exception(error.message),
+      (_) {
+        // Invalidate providers to refresh data
+        ref.invalidate(vocabularyListProvider);
+        ref.invalidate(dueVocabularyProvider);
+      }
+    );
   };
 });
 

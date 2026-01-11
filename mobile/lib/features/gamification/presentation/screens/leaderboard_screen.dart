@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/ranking.dart';
+import '../providers/gamification_providers.dart';
 
 class LeaderboardScreen extends ConsumerStatefulWidget {
   const LeaderboardScreen({super.key});
@@ -15,12 +16,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Use leaderboardProvider
-    final leaderboard = Leaderboard(
-      league: _selectedLeague,
-      rankings: [],
-      currentUser: null,
-    );
+    final leaderboardAsync = ref.watch(leaderboardProvider(_selectedLeague));
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +28,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: leaderboardAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(child: Text('Error: $error')),
+        data: (leaderboard) => Column(
         children: [
           // League selector
           Container(
@@ -259,10 +258,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
         title: const Text('League System'),
         content: const Text(
           'Compete weekly with others in your league!\n\n'
-          '窶｢ Top 10 players get promoted to higher league\n'
-          '窶｢ Bottom 10 players get demoted\n'
-          '窶｢ Rankings reset every Monday\n'
-          '窶｢ Earn XP by practicing conversations and completing challenges',
+          '• Top 10 players get promoted to higher league\n'
+          '• Bottom 10 players get demoted\n'
+          '• Rankings reset every Monday\n'
+          '• Earn XP by practicing conversations and completing challenges',
         ),
         actions: [
           TextButton(

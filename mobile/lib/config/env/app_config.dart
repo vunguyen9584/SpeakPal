@@ -46,6 +46,7 @@ class AppConfig {
 
   // App Configuration
   static const String appName = 'SpeakPal AI';
+  static const String supportEmail = 'support@speakpal.com';
   static const String appVersion = '1.0.0';
   static const int buildNumber = 1;
 

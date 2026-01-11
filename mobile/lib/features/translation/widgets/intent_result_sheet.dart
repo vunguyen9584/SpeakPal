@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/intent_result.dart';
@@ -50,7 +51,7 @@ class IntentResultSheet extends ConsumerWidget {
             // User expression
             _buildSection(
               context,
-              '縺ゅ↑縺溘・陦ｨ迴ｾ',
+              'あなたの表現',
               result!.userExpression,
               Colors.blue.shade50,
             ),
@@ -137,7 +138,7 @@ class IntentResultSheet extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '繧ｹ繧ｳ繧｢蜀・ｨｳ',
+          'スコア内訳',
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -239,7 +240,13 @@ class IntentResultSheet extends ConsumerWidget {
                 IconButton(
                   icon: const Icon(Icons.copy),
                   onPressed: () {
-                    // TODO: Copy to clipboard
+                    Clipboard.setData(ClipboardData(text: alt)).then((_) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('コピーしました')),
+                        );
+                      }
+                    });
                   },
                 ),
               ],

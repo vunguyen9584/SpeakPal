@@ -130,7 +130,7 @@ class ProfileScreen extends ConsumerWidget {
                 title: const Text('Manage Personas'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
-                  // TODO: Navigate to personas screen
+                  context.push('/onboarding/persona-setup');
                 },
               ),
               ListTile(

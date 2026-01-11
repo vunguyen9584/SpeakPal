@@ -13,6 +13,9 @@ abstract class LearningRepository {
     String? search,
   });
 
+  Future<Either<AppError, Vocabulary>> getVocabulary(String id);
+  Future<Either<AppError, void>> deleteVocabulary(String id);
+
   Future<Either<AppError, Vocabulary>> addVocabulary(Map<String, dynamic> data);
   Future<Either<AppError, List<Vocabulary>>> getDueVocabularies();
   Future<Either<AppError, Map<String, dynamic>>> recordReview(String vocabularyId, String result);

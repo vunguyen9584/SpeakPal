@@ -3,7 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/intent_category.dart';
 import '../models/intent_question.dart';
 import '../widgets/voice_recorder.dart';
-// import '../widgets/intent_result_sheet.dart';
+import '../widgets/intent_result_sheet.dart';
+import '../../subscription/providers/subscription_provider.dart';
+import '../data/translation_repository.dart';
+import 'package:mobile/core/utils/logger_service.dart';
+import 'dart:typed_data';
 
 class IntentTranslationScreen extends ConsumerStatefulWidget {
   const IntentTranslationScreen({super.key});
@@ -46,7 +50,10 @@ class _IntentTranslationScreenState
               const SizedBox(height: 32),
               
               // Voice recorder (reused)
-              const VoiceRecorder(),
+              // Voice recorder
+              VoiceRecorder(
+                onRecordingComplete: _handleRecordingComplete,
+              ),
             ],
           ),
         ),
@@ -55,11 +62,10 @@ class _IntentTranslationScreenState
   }
 
   Widget _buildLevelRestrictionBanner() {
-    // TODO: Check user level
-    // TODO: Check user level
-    // final isBeginnerUser = true;
+    final subscriptionAsync = ref.watch(subscriptionProvider);
+    final isPremium = subscriptionAsync.value?.isPremium ?? false;
 
-    // if (!isBeginnerUser) return const SizedBox.shrink();
+    if (isPremium) return const SizedBox.shrink();
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -156,7 +162,7 @@ class _IntentTranslationScreenState
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    '繧ｷ繝√Η繧ｨ繝ｼ繧ｷ繝ｧ繝ｳ',
+                    'シチュエーション',
                     style: TextStyle(
                       color: Colors.purple.shade900,
                       fontSize: 12,
@@ -260,6 +266,57 @@ class _IntentTranslationScreenState
         ),
       ),
     );
+  }
+
+  Future<void> _handleRecordingComplete(Uint8List audioData, Duration duration) async {
+    // Show loading
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final repository = ref.read(translationRepositoryProvider);
+      
+      // Submit answer
+      final result = await repository.submitIntentAnswer(
+        questionId: '1', // Mock ID matched with the card
+        audioData: audioData,
+        responseTimeSec: duration.inMilliseconds / 1000.0,
+      );
+
+      // Hide loading
+      if (mounted) Navigator.pop(context);
+
+      if (!mounted) return;
+
+      result.fold(
+        (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error.message)),
+          );
+        },
+        (data) {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => IntentResultSheet(result: data),
+          );
+        },
+      );
+    } catch (e, stack) {
+      // Hide loading if visible
+      if (mounted) Navigator.pop(context);
+      
+      logger.error('Failed to submit answer', error: e, stackTrace: stack);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('予期せぬエラーが発生しました')),
+        );
+      }
+    }
   }
 }
 

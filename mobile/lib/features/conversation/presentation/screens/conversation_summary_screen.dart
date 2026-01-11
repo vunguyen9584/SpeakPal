@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../providers/summary_provider.dart';
+import '../../domain/models/suggestion.dart';
+import '../../domain/models/turn.dart';
 class ConversationSummaryScreen extends ConsumerWidget {
   final String conversationId;
 
@@ -8,12 +10,16 @@ class ConversationSummaryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Fetch summary data from repository
+    final summaryAsync = ref.watch(summaryProvider(conversationId));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Conversation Summary'),
       ),
-      body: SingleChildScrollView(
+      body: summaryAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(child: Text('Error: $error')),
+        data: (summary) => SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,11 +44,11 @@ class ConversationSummaryScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    _buildStatRow(Icons.timer, 'Duration', '8:32'),
+                    _buildStatRow(Icons.timer, 'Duration', _formatDuration(summary.durationSeconds)),
                     const Divider(),
-                    _buildStatRow(Icons.mic, 'Pronunciation', '85/100'),
+                    _buildStatRow(Icons.mic, 'Pronunciation', '${summary.pronunciationScore}/100'),
                     const Divider(),
-                    _buildStatRow(Icons.star, 'XP Earned', '+120'),
+                    _buildStatRow(Icons.star, 'XP Earned', '+${summary.xpEarned}'),
                   ],
                 ),
               ),
@@ -51,12 +57,12 @@ class ConversationSummaryScreen extends ConsumerWidget {
             // Vocabulary Section
             Text('New Vocabulary', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
-            _buildVocabularyList(),
+            _buildVocabularyList(summary.vocabulary),
             const SizedBox(height: 24),
             // Corrections Section
             Text('Areas to Improve', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
-            _buildCorrectionsList(),
+            _buildCorrectionsList(summary.corrections),
             const SizedBox(height: 32),
             // Action Buttons
             Row(
@@ -101,7 +107,14 @@ class ConversationSummaryScreen extends ConsumerWidget {
           ],
         ),
       ),
+      ),
     );
+  }
+
+  String _formatDuration(int seconds) {
+    final duration = Duration(seconds: seconds);
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    return '${twoDigits(duration.inMinutes)}:${twoDigits(duration.inSeconds.remainder(60))}';
   }
 
   Widget _buildStatRow(IconData icon, String label, String value) {
@@ -121,19 +134,16 @@ class ConversationSummaryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildVocabularyList() {
-    // TODO: Load actual vocabulary
-    final mockVocab = [
-      {'word': 'actually', 'meaning': '螳溘・', 'pronunciation': '/ﾋ暗ｦktﾊブﾉ冤i/'},
-      {'word': 'particularly', 'meaning': '迚ｹ縺ｫ', 'pronunciation': '/pﾉ决ﾋ・ﾉｪkjﾉ冤ﾉ决li/'},
-    ];
-
+  Widget _buildVocabularyList(List<VocabularyItem> vocabulary) {
+    if (vocabulary.isEmpty) {
+      return const Text('No new vocabulary learned.');
+    }
     return Column(
-      children: mockVocab.map((vocab) {
+      children: vocabulary.map((vocab) {
         return Card(
           child: ListTile(
-            title: Text(vocab['word']!),
-            subtitle: Text('${vocab['pronunciation']} - ${vocab['meaning']}'),
+            title: Text(vocab.word),
+            subtitle: Text('${vocab.pronunciation} - ${vocab.meaning}'),
             trailing: IconButton(
               icon: const Icon(Icons.bookmark_border),
               onPressed: () {},
@@ -144,15 +154,12 @@ class ConversationSummaryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildCorrectionsList() {
-    // TODO: Load actual corrections
-    final mockCorrections = [
-      {'type': 'grammar', 'original': 'I goes', 'corrected': 'I go'},
-      {'type': 'vocabulary', 'original': 'very good', 'corrected': 'excellent'},
-    ];
-
+  Widget _buildCorrectionsList(List<Correction> corrections) {
+    if (corrections.isEmpty) {
+      return const Text('No suggestions available.');
+    }
     return Column(
-      children: mockCorrections.map((correction) {
+      children: corrections.map((correction) {
         return Card(
           child: ListTile(
             leading: const Icon(Icons.edit, color: Colors.orange),
@@ -161,18 +168,18 @@ class ConversationSummaryScreen extends ConsumerWidget {
                 style: const TextStyle(color: Colors.black),
                 children: [
                   TextSpan(
-                    text: correction['original'],
+                    text: correction.original,
                     style: const TextStyle(decoration: TextDecoration.lineThrough),
                   ),
-                  const TextSpan(text: ' 竊・'),
+                  const TextSpan(text: ' -> '),
                   TextSpan(
-                    text: correction['corrected'],
+                    text: correction.corrected,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
-            subtitle: Text(correction['type']!),
+            subtitle: Text(correction.type),
           ),
         );
       }).toList(),

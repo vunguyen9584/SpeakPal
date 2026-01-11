@@ -1,7 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../domain/models/vocabulary.dart';
 import 'package:mobile/core/services/tts_service.dart';
+import '../providers/learning_providers.dart';
 
 class VocabularyDetailScreen extends ConsumerWidget {
   final Vocabulary vocabulary;
@@ -17,7 +19,7 @@ class VocabularyDetailScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () {
-              _showDeleteDialog(context);
+              _showDeleteDialog(context, ref);
             },
           ),
         ],
@@ -133,7 +135,7 @@ class VocabularyDetailScreen extends ConsumerWidget {
                 icon: const Icon(Icons.chat),
                 label: const Text('View Source Conversation'),
                 onPressed: () {
-                  // TODO: Navigate to conversation
+                  context.push('/conversation/${vocabulary.conversationId}');
                 },
               ),
             ],
@@ -188,7 +190,7 @@ class VocabularyDetailScreen extends ConsumerWidget {
     return '$diff days';
   }
 
-  void _showDeleteDialog(BuildContext context) {
+  void _showDeleteDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -200,10 +202,27 @@ class VocabularyDetailScreen extends ConsumerWidget {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
-              // TODO: Delete vocabulary
-              Navigator.pop(context);
-              Navigator.pop(context);
+            onPressed: () async {
+              try {
+                final deleteVocabulary = ref.read(deleteVocabularyProvider);
+                await deleteVocabulary(vocabulary.id);
+                if (context.mounted) {
+                  Navigator.pop(context); // Close dialog
+                  if (context.mounted) {
+                    Navigator.pop(context); // Go back to list
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Word deleted')),
+                    );
+                  }
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to delete: $e')),
+                  );
+                }
+              }
             },
             child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),

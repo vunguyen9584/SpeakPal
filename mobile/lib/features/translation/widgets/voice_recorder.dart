@@ -1,10 +1,13 @@
 ﻿import 'package:flutter/material.dart';
+import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import '../providers/recording_provider.dart';
 
 class VoiceRecorder extends ConsumerStatefulWidget {
-  const VoiceRecorder({super.key});
+  final Function(Uint8List audioData, Duration duration)? onRecordingComplete;
+
+  const VoiceRecorder({super.key, this.onRecordingComplete});
 
   @override
   ConsumerState<VoiceRecorder> createState() => _VoiceRecorderState();
@@ -116,8 +119,13 @@ class _VoiceRecorderState extends ConsumerState<VoiceRecorder>
       await _recorderController?.record();
     } else if (state == RecordingState.recording) {
       await _recorderController?.stop();
-      await notifier.stopRecording();
-      // TODO: Submit answer
+      final audioData = await notifier.stopRecording();
+      if (audioData != null && widget.onRecordingComplete != null) {
+        // Estimate duration or get it from controller/provider
+        // For simplicity, we can use the recording time provider
+        final duration = ref.read(recordingTimeProvider);
+        widget.onRecordingComplete!(audioData, Duration(seconds: duration));
+      }
     }
   }
 

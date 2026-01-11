@@ -1,13 +1,20 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../../../auth/presentation/providers/auth_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../../shared/widgets/app_button.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
+import '../providers/profile_provider.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
+import '../../../../core/providers/providers.dart';
+import '../../../../config/env/app_config.dart';
 
 /// Settings Screen
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
+  @override
   @override
   ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
@@ -17,6 +24,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _confirmationMode = false;
   bool _darkMode = false;
   bool _pushNotifications = true;
+  TimeOfDay? _dailyReminderTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = ref.read(sharedPreferencesProvider);
+    final hour = prefs.getInt('daily_reminder_hour');
+    final minute = prefs.getInt('daily_reminder_minute');
+    if (hour != null && minute != null) {
+      setState(() {
+         _dailyReminderTime = TimeOfDay(hour: hour, minute: minute);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +117,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   subtitle: 'English',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // TODO: Navigate to language selection
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Language selection locked to English')),
+                    );
                   },
                 ),
               ],
@@ -118,14 +145,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 SettingsTile(
                   icon: Icons.schedule,
                   title: 'Daily Reminder',
-                  subtitle: '9:00 AM',
+                  subtitle: _dailyReminderTime?.format(context) ?? 'Not set',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
-                    await showTimePicker(
+                    final selectedTime = await showTimePicker(
                       context: context,
-                      initialTime: TimeOfDay.now(),
+                      initialTime: _dailyReminderTime ?? TimeOfDay.now(),
                     );
-                    // TODO: Save selected time
+                    if (selectedTime != null) {
+                      final prefs = ref.read(sharedPreferencesProvider);
+                      await prefs.setInt('daily_reminder_hour', selectedTime.hour);
+                      await prefs.setInt('daily_reminder_minute', selectedTime.minute);
+                      
+                      setState(() {
+                        _dailyReminderTime = selectedTime;
+                      });
+                      
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Reminder set for ${selectedTime.format(context)}')),
+                        );
+                      }
+                    }
                   },
                 ),
               ],
@@ -140,7 +181,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: 'Change Password',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // TODO: Navigate to change password
+                  onTap: () {
+                    _showChangePasswordDialog(context);
                   },
                 ),
                 SettingsTile(
@@ -148,12 +190,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: 'Delete Account',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
-                    await showDialog<bool>(
+                    final confirmed = await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('Delete Account'),
                         content: const Text(
-                          'Are you sure? This action cannot be undone.',
+                          'Are you sure? This action cannot be undone and will permanently delete your data.',
                         ),
                         actions: [
                           TextButton(
@@ -170,7 +212,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ],
                       ),
                     );
-                    // TODO: Handle account deletion
+                    if (confirmed == true && context.mounted) {
+                       final repository = ref.read(profileRepositoryProvider);
+                       final result = await repository.deleteAccount();
+
+                       if (context.mounted) {
+                           result.fold(
+                             (error) => ScaffoldMessenger.of(context).showSnackBar(
+                               SnackBar(content: Text(error.message)),
+                             ),
+                             (_) {
+                               // Logout and navigate to login
+                               ref.read(authStateProvider.notifier).logout();
+                               context.go('/login');
+                             },
+                           );
+                       }
+                    }
                   },
                 ),
               ],
@@ -190,7 +248,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: 'Terms of Service',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // TODO: Open Terms of Service
+                    context.push('/terms-of-service');
                   },
                 ),
                 SettingsTile(
@@ -198,7 +256,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: 'Privacy Policy',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // TODO: Open Privacy Policy
+                    context.push('/privacy-policy');
                   },
                 ),
                 SettingsTile(
@@ -206,11 +264,104 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: 'Contact Support',
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // TODO: Open support contact
+                  onTap: () async {
+                    final Uri emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: AppConfig.supportEmail,
+                      queryParameters: {
+                        'subject': 'Support Request from ${AppConfig.appName}',
+                        'body': 'App Version: ${AppConfig.appVersion}\n\nProblem description:',
+                      },
+                    );
+                    
+                    if (await canLaunchUrl(emailLaunchUri)) {
+                       await launchUrl(emailLaunchUri);
+                    } else {
+                       if (context.mounted) {
+                         ScaffoldMessenger.of(context).showSnackBar(
+                           const SnackBar(content: Text('Could not launch email client')),
+                         );
+                       }
+                    }
                   },
                 ),
               ],
             ),
+          ],
+        ),
+      ),
+    );
+  }
+  void _showChangePasswordDialog(BuildContext context) {
+    final currentPasswordController = TextEditingController();
+    final newPasswordController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    bool isLoading = false;
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('Change Password'),
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: currentPasswordController,
+                  decoration: const InputDecoration(labelText: 'Current Password'),
+                  obscureText: true,
+                  validator: (v) => v?.isEmpty == true ? 'Required' : null,
+                ),
+                TextFormField(
+                  controller: newPasswordController,
+                  decoration: const InputDecoration(labelText: 'New Password'),
+                  obscureText: true,
+                  validator: (v) => (v?.length ?? 0) < 6 ? 'Min 6 characters' : null,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+             TextButton(
+               onPressed: isLoading ? null : () => Navigator.pop(context),
+               child: const Text('Cancel'),
+             ),
+             AppButton(
+               text: 'Update',
+               isLoading: isLoading,
+               onPressed: () async {
+                 if (formKey.currentState?.validate() == true) {
+                   setState(() => isLoading = true);
+                   final repository = ref.read(profileRepositoryProvider);
+                   final result = await repository.changePassword(
+                     currentPassword: currentPasswordController.text,
+                     newPassword: newPasswordController.text,
+                   );
+                   
+                   if (context.mounted) {
+                     setState(() => isLoading = false);
+                     result.fold(
+                       (error) {
+                         ScaffoldMessenger.of(context).showSnackBar(
+                           SnackBar(content: Text(error.message)),
+                         );
+                       },
+                       (_) {
+                         Navigator.pop(context);
+                         ScaffoldMessenger.of(context).showSnackBar(
+                           const SnackBar(
+                             content: Text('Password updated successfully'),
+                             backgroundColor: Colors.green,
+                           ),
+                         );
+                       },
+                     );
+                   }
+                 }
+               },
+             ),
           ],
         ),
       ),

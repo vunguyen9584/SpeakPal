@@ -2,6 +2,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:record/record.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 enum RecordingState {
   idle,
@@ -59,11 +61,9 @@ class RecordingNotifier extends Notifier<RecordingState> {
       if (await _recorder.hasPermission()) {
         await _recorder.start(
           const RecordConfig(
-            encoder: AudioEncoder.wav,
-            bitRate: 128000,
             sampleRate: 44100,
           ),
-          path: 'temp.wav',
+          path: await _getTempPath(),
         );
         state = RecordingState.recording;
       }
@@ -79,9 +79,12 @@ class RecordingNotifier extends Notifier<RecordingState> {
       final path = await _recorder.stop();
       
       if (path != null) {
-        // In production, read file and convert to Uint8List
-        // For now, return empty data
-        _audioData = Uint8List(0);
+        final file = File(path);
+        if (await file.exists()) {
+          _audioData = await file.readAsBytes();
+          // cleanup
+          await file.delete();
+        }
         state = RecordingState.idle;
         return _audioData;
       }
@@ -100,5 +103,10 @@ class RecordingNotifier extends Notifier<RecordingState> {
   }
 
   // dispose is handled in build
+
+  Future<String> _getTempPath() async {
+    final tempDir = await getTemporaryDirectory();
+    return '${tempDir.path}/recording_${DateTime.now().millisecondsSinceEpoch}.wav';
+  }
 }
 
