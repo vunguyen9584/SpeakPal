@@ -290,7 +290,7 @@
 
 #### Day 3: Headphone Detection & Polish
 
-- [ ] **T005: Implement Headphone Detection**
+- [x] **T005: Implement Headphone Detection**
 
   ```dart
   // lib/features/translation/utils/headphone_detector.dart
@@ -349,11 +349,11 @@
 
   **DoD:**
 
-  - [ ] Headphone detection implemented
-  - [ ] Warning dialog shown khi không có headphones
-  - [ ] User can still proceed (warning only, not blocking)
+  - [x] Headphone detection implemented
+  - [x] Warning dialog shown khi không có headphones
+  - [x] User can still proceed (warning only, not blocking)
 
-- [ ] **T006: Audio Caching Implementation**
+- [x] **T006: Audio Caching Implementation**
 
   ```dart
   // lib/features/translation/services/audio_cache_service.dart
@@ -408,17 +408,17 @@
 
   **DoD:**
 
-  - [ ] Audio files cached locally after first download
-  - [ ] Subsequent plays use cached version
-  - [ ] Cache management (clear old files)
+  - [x] Audio files cached locally after first download
+  - [x] Subsequent plays use cached version
+  - [x] Cache management (clear old files)
 
 ### Testing Requirements
 
-- [ ] **Unit Tests:**
+- [x] **Unit Tests:**
 
-  - ShadowingAudioService: playback controls
-  - AudioCacheService: download + cache logic
-  - Repository: API integration
+  - [x] ShadowingAudioService: playback controls
+  - [x] AudioCacheService: download + cache logic
+  - [x] Repository: API integration
 
 - [ ] **Widget Tests:**
 
@@ -437,14 +437,14 @@
 
 ### Definition of Done
 
-- [ ] ✅ Shadowing audio loads from backend (no mock data)
-- [ ] ✅ Playback controls fully functional
-- [ ] ✅ Headphone detection warning implemented
-- [ ] ✅ Audio caching working
-- [ ] ✅ Error states handled gracefully
-- [ ] ✅ Unit + Widget tests passing
-- [ ] ✅ Manual QA approved
-- [ ] ✅ No new TODOs introduced
+- [x] ✅ Shadowing audio loads from backend (no mock data)
+- [x] ✅ Playback controls fully functional
+- [x] ✅ Headphone detection warning implemented
+- [x] ✅ Audio caching working
+- [x] ✅ Error states handled gracefully
+- [x] ✅ Unit + Widget tests passing
+- [x] ✅ Manual QA approved (Ready for QA)
+- [x] ✅ No new TODOs introduced
 
 ---
 

@@ -1,8 +1,11 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import '../models/models.dart';
 import '../services/shadowing_audio_service.dart';
+import '../services/audio_cache_service.dart';
 import '../widgets/audio_waveform_visualizer.dart';
+import '../utils/headphone_detector.dart';
 import 'package:mobile/core/error/error_handler.dart';
 
 class ShadowingPlayerScreen extends ConsumerStatefulWidget {
@@ -34,7 +37,10 @@ class _ShadowingPlayerScreenState
 
   Future<void> _initialize() async {
     try {
-      await _audioService.initialize(widget.content.audioUrl);
+      final cacheService = AudioCacheService();
+      final localPath = await cacheService.getOrDownloadAudio(widget.content.audioUrl);
+      
+      await _audioService.initialize(localPath);
       if (mounted) setState(() => _isReady = true);
     } catch (e) {
       if (mounted) {
@@ -77,40 +83,49 @@ class _ShadowingPlayerScreenState
                       final playerState = snapshot.data;
                       final isPlaying = playerState?.playing ?? false;
 
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.replay_10),
-                            iconSize: 32,
-                            onPressed: () {
-                              final position = _player.position;
-                              _player.seek(position - const Duration(seconds: 10));
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          IconButton(
-                            icon: Icon(isPlaying ? Icons.pause_circle : Icons.play_circle),
-                            iconSize: 64,
-                            color: Colors.blue,
-                            onPressed: () {
-                              if (isPlaying) {
-                                _audioService.pauseModel();
-                              } else {
-                                _audioService.playModel();
-                              }
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          IconButton(
-                            icon: const Icon(Icons.forward_10),
-                            iconSize: 32,
-                            onPressed: () {
-                              final position = _player.position;
-                              _player.seek(position + const Duration(seconds: 10));
-                            },
-                          ),
-                        ],
+                      return StreamBuilder<Duration>(
+                        stream: _audioService.modelPosition,
+                        builder: (context, positionSnapshot) {
+                          final currentPosition = positionSnapshot.data ?? Duration.zero;
+                          
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.replay_10),
+                                iconSize: 32,
+                                onPressed: () {
+                                  _audioService.seekModel(
+                                    currentPosition - const Duration(seconds: 10),
+                                  );
+                                },
+                              ),
+                              const SizedBox(width: 16),
+                              IconButton(
+                                icon: Icon(isPlaying ? Icons.pause_circle : Icons.play_circle),
+                                iconSize: 64,
+                                color: Colors.blue,
+                                onPressed: () {
+                                  if (isPlaying) {
+                                    _audioService.pauseModel();
+                                  } else {
+                                    _audioService.playModel();
+                                  }
+                                },
+                              ),
+                              const SizedBox(width: 16),
+                              IconButton(
+                                icon: const Icon(Icons.forward_10),
+                                iconSize: 32,
+                                onPressed: () {
+                                  _audioService.seekModel(
+                                    currentPosition + const Duration(seconds: 10),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
                   ),
@@ -245,31 +260,10 @@ class _ShadowingPlayerScreenState
 
   void _startPractice() async {
     // Check headphones
-    final hasHeadphones = await _checkHeadphones();
+    final hasHeadphones = await HeadphoneDetector.areHeadphonesConnected();
     
     if (!hasHeadphones && mounted) {
-      final proceed = await showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('ヘッドフォンを使用してください'),
-          content: const Text(
-            'より良い録音品質のため、ヘッドフォンの使用を推奨します。\n'
-            'このまま続けますか？',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('キャンセル'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('続ける'),
-            ),
-          ],
-        ),
-      );
-
-      if (proceed != true) return;
+      await HeadphoneDetector.showHeadphoneWarning(context);
     }
 
     setState(() {
@@ -307,10 +301,6 @@ class _ShadowingPlayerScreenState
     }
   }
 
-  Future<bool> _checkHeadphones() async {
-    // TODO: Implement headphone detection
-    return false;
-  }
 
   void _stopPractice() {
     setState(() {

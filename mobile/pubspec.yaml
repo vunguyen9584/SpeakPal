@@ -52,6 +52,7 @@ dependencies:
   flutter_animate: ^4.5.0
   confetti: ^0.8.0
   audio_session: ^0.1.21
+  headphones_detection: ^1.0.0
   firebase_auth:
   google_sign_in: ^6.2.1
   sign_in_with_apple: ^7.0.1
