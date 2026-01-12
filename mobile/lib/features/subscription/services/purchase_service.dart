@@ -64,7 +64,10 @@ class PurchaseService {
     try {
       logger.info('Purchase initiated', tag: 'PurchaseService', data: {'plan': planId});
 
-      // TODO: Production implementation:
+      // TODO(iap): Production implementation - In-App Purchase Integration
+      // Priority: HIGH - Required for monetization
+      // See: docs/BACKEND_INTEGRATION_CHECKLIST.md#2-in-app-purchase-integration
+      // Steps:
       // 1. Fetch product details from store
       // final ProductDetailsResponse response = await InAppPurchase.instance.queryProductDetails({planId});
       // 
@@ -82,7 +85,7 @@ class PurchaseService {
       // 4. Listen to purchase stream
       // final Stream<List<PurchaseDetails>> purchaseStream = InAppPurchase.instance.purchaseStream;
       //
-      // 5. Verify purchase with backend
+      // 5. Verify purchase with backend (POST /api/subscription/verify-purchase)
       // await _verifyPurchaseWithBackend(purchaseDetails);
       //
       // 6. Update local subscription status
@@ -132,7 +135,9 @@ class PurchaseService {
     try {
       logger.info('Restoring purchases', tag: 'PurchaseService');
 
-      // TODO: Production implementation:
+      // TODO(iap): Production implementation - Restore Purchases
+      // Priority: HIGH - Required for app reinstall/device change
+      // See: docs/BACKEND_INTEGRATION_CHECKLIST.md#purchase-flow
       // await InAppPurchase.instance.restorePurchases();
 
       // Skeleton: Return empty list
@@ -159,9 +164,10 @@ class PurchaseService {
   /// This should query the platform's purchase history
   Future<bool> hasActiveSubscription() async {
     try {
-      // TODO: Production implementation:
-      // Query platform purchase history
-      // Verify with backend
+      // TODO(iap): Production implementation - Check Active Subscription
+      // Priority: MEDIUM - Required for subscription status
+      // See: docs/BACKEND_INTEGRATION_CHECKLIST.md#purchase-flow
+      // Query platform purchase history and verify with backend
       
       // Skeleton: Return false
       return false;
@@ -178,7 +184,9 @@ class PurchaseService {
   Future<void> cancelSubscription() async {
     logger.info('Cancel subscription requested', tag: 'PurchaseService');
     
-    // TODO: Production implementation:
+    // TODO(platform): Production implementation - Cancel Subscription
+    // Priority: LOW - Users can cancel via platform settings
+    // See: docs/BACKEND_INTEGRATION_CHECKLIST.md#purchase-flow
     // On iOS: Open App Store subscription management
     // On Android: Open Play Store subscription management
     // Or provide deep link to settings

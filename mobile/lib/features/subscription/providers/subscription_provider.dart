@@ -12,7 +12,9 @@ enum ContentType {
 
 /// Provider for subscription information
 final subscriptionProvider = FutureProvider<SubscriptionInfo>((ref) async {
-  // TODO: Replace with actual API call
+  // TODO(backend): Replace with actual API call to GET /api/subscription/current
+  // Priority: HIGH - Required for subscription features
+  // See: docs/BACKEND_INTEGRATION_CHECKLIST.md#1-subscription-management-api
   await Future.delayed(const Duration(milliseconds: 500));
   return SubscriptionInfo(
     plan: 'free',
@@ -52,7 +54,9 @@ final hasContentAccessProvider = Provider.family<bool, ContentType>((ref, conten
 
 /// Provider for usage information
 final usageProvider = FutureProvider<UsageInfo>((ref) async {
-  // TODO: Replace with actual API call
+  // TODO(backend): Replace with actual API call to GET /api/subscription/usage
+  // Priority: HIGH - Required for usage tracking
+  // See: docs/BACKEND_INTEGRATION_CHECKLIST.md#get-apisubscriptionusage
   await Future.delayed(const Duration(milliseconds: 500));
   return UsageInfo(
     dailyConversations: 2,
@@ -65,7 +69,9 @@ final usageProvider = FutureProvider<UsageInfo>((ref) async {
 
 /// Provider for available plans
 final plansProvider = FutureProvider<List<PlanInfo>>((ref) async {
-  // TODO: Replace with actual API call
+  // TODO(backend): Replace with actual API call to GET /api/subscription/plans
+  // Priority: MEDIUM - Required for subscription screen
+  // See: docs/BACKEND_INTEGRATION_CHECKLIST.md#get-apisubscriptionplans
   await Future.delayed(const Duration(milliseconds: 500));
   return [
     PlanInfo(
