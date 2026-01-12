@@ -2,17 +2,75 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/shadowing_models.dart';
+import '../services/shadowing_audio_service.dart';
+import 'package:mobile/core/error/error_handler.dart';
 
-class ShadowingResultScreen extends ConsumerWidget {
+// Provider for ShadowingAudioService
+final shadowingAudioServiceProvider = Provider<ShadowingAudioService>((ref) {
+  return ShadowingAudioService();
+});
+
+class ShadowingResultScreen extends ConsumerStatefulWidget {
   final ShadowingResult result;
+  final String? modelAudioUrl;
+  final String? userRecordingPath;
 
   const ShadowingResultScreen({
     required this.result,
+    this.modelAudioUrl,
+    this.userRecordingPath,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ShadowingResultScreen> createState() => _ShadowingResultScreenState();
+}
+
+class _ShadowingResultScreenState extends ConsumerState<ShadowingResultScreen> {
+  ShadowingAudioService? _audioService;
+  bool _isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeAudioService();
+  }
+
+  Future<void> _initializeAudioService() async {
+    if (widget.modelAudioUrl != null) {
+      try {
+        _audioService = ref.read(shadowingAudioServiceProvider);
+        await _audioService!.initialize(widget.modelAudioUrl!);
+        
+        if (widget.userRecordingPath != null) {
+          await _audioService!.loadUserAudio(widget.userRecordingPath!);
+        }
+        
+        if (mounted) {
+          setState(() {
+            _isInitialized = true;
+          });
+        }
+      } catch (e, stackTrace) {
+        if (mounted) {
+          errorHandler.handleError(
+            e as AppError,
+            context: context,
+            showDialog: true,
+          );
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _audioService?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('シャドーイング結果'),
@@ -360,34 +418,104 @@ class ShadowingResultScreen extends ConsumerWidget {
     }
   }
 
-  void _playModelAudio(BuildContext context, WeakSegment segment) {
-    // Play model audio for the specific time segment
-    // In production, this would use an audio player to play from startTime to endTime
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Playing model audio: ${_formatTime(segment.startTime)} - ${_formatTime(segment.endTime)}',
+  void _playModelAudio(BuildContext context, WeakSegment segment) async {
+    if (_audioService == null || !_isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Audio service not initialized'),
+          backgroundColor: Colors.orange,
         ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-    // TODO: Integrate with actual audio player service
-    // Example: audioService.playSegment(modelAudioUrl, segment.startTime, segment.endTime);
+      );
+      return;
+    }
+
+    try {
+      // Show loading feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text('Playing model: ${_formatTime(segment.startTime)} - ${_formatTime(segment.endTime)}'),
+            ],
+          ),
+          duration: const Duration(milliseconds: 1500),
+        ),
+      );
+
+      await _audioService!.playModelSegment(segment.startTime, segment.endTime);
+    } catch (e, stackTrace) {
+      if (mounted) {
+        errorHandler.handleError(
+          e as AppError,
+          context: context,
+          showDialog: false,
+        );
+      }
+    }
   }
 
-  void _playUserAudio(BuildContext context, WeakSegment segment) {
-    // Play user's recorded audio for the specific time segment
-    // In production, this would play the user's recording from startTime to endTime
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Playing your recording: ${_formatTime(segment.startTime)} - ${_formatTime(segment.endTime)}',
+  void _playUserAudio(BuildContext context, WeakSegment segment) async {
+    if (_audioService == null || !_isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Audio service not initialized'),
+          backgroundColor: Colors.orange,
         ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-    // TODO: Integrate with actual audio player service
-    // Example: audioService.playSegment(userRecordingUrl, segment.startTime, segment.endTime);
+      );
+      return;
+    }
+
+    if (widget.userRecordingPath == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No user recording available'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    try {
+      // Show loading feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text('Playing your audio: ${_formatTime(segment.startTime)} - ${_formatTime(segment.endTime)}'),
+            ],
+          ),
+          duration: const Duration(milliseconds: 1500),
+        ),
+      );
+
+      await _audioService!.playUserSegment(segment.startTime, segment.endTime);
+    } catch (e, stackTrace) {
+      if (mounted) {
+        errorHandler.handleError(
+          e as AppError,
+          context: context,
+          showDialog: false,
+        );
+      }
+    }
   }
 }
 

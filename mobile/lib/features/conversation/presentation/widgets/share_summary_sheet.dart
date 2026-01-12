@@ -1,5 +1,10 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:mobile/core/error/error_handler.dart';
+import 'package:mobile/core/error/app_error.dart';
+import '../services/summary_image_generator.dart';
+import '../services/pdf_exporter.dart';
+import 'dart:io';
 
 class ShareSummarySheet extends StatelessWidget {
   final String conversationId;
@@ -90,19 +95,20 @@ class ShareSummarySheet extends StatelessWidget {
     );
   }
 
-  void _shareAsImage(BuildContext context) {
-    // Generate and share summary as image
-    // In production, this would:
-    // 1. Create a canvas/widget screenshot
-    // 2. Render summary data as an image
-    // 3. Save to temp file
-    // 4. Share using share_plus
-    // Example: await SummaryImageGenerator.generate(summaryText);
+  void _shareAsImage(BuildContext context) async {
+    // Show loading feedback
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Row(
           children: [
-            CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
             SizedBox(width: 12),
             Text('Generating image...'),
           ],
@@ -110,7 +116,41 @@ class ShareSummarySheet extends StatelessWidget {
         duration: Duration(seconds: 2),
       ),
     );
-    // TODO: Integrate with image generation service when available
+
+    try {
+      // Generate summary card image
+      final imagePath = await SummaryImageGenerator.generateSummaryCard(
+        conversationId: conversationId,
+        summaryText: summaryText,
+        context: context,
+      );
+
+      // Share the generated image
+      await SharePlus.instance.shareXFiles(
+        ShareParams(
+          files: [XFile(imagePath)],
+          subject: 'My SpeakPal Conversation Summary',
+        ),
+      );
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Image generated successfully!'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e, stackTrace) {
+      if (context.mounted) {
+        errorHandler.handleError(
+          e as AppError,
+          context: context,
+          showDialog: true,
+        );
+      }
+    }
   }
 
   void _shareAsText(BuildContext context) {
@@ -122,34 +162,70 @@ class ShareSummarySheet extends StatelessWidget {
     );
   }
 
-  void _exportToPDF(BuildContext context) {
-    // Export summary to PDF
-    // In production, this would:
-    // 1. Generate PDF using pdf package
-    // 2. Include conversation details, stats, vocabulary
-    // 3. Save to downloads folder
-    // 4. Show success message with open option
-    // Example: await PdfExporter.export(conversationId, summaryText);
+  void _exportToPDF(BuildContext context) async {
+    // Show loading feedback
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Row(
+      const SnackBar(
+        content: Row(
           children: [
-            CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
             SizedBox(width: 12),
             Text('Exporting to PDF...'),
           ],
         ),
-        duration: const Duration(seconds: 2),
-        action: SnackBarAction(
-          label: 'VIEW',
-          textColor: Colors.white,
-          onPressed: () {
-            // Open PDF viewer
-          },
-        ),
+        duration: Duration(seconds: 3),
       ),
     );
-    // TODO: Integrate with PDF generation service when available
+
+    try {
+      // Export to PDF
+      final pdfPath = await PdfExporter.exportSummary(
+        conversationId: conversationId,
+        summaryText: summaryText,
+        metadata: {
+          'date': DateTime.now().toString().split(' ')[0],
+          'conversationId': conversationId,
+        },
+      );
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('PDF saved to: ${File(pdfPath).parent.path}'),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: 'SHARE',
+              textColor: Colors.white,
+              onPressed: () async {
+                // Share the PDF file
+                await SharePlus.instance.shareXFiles(
+                  ShareParams(
+                    files: [XFile(pdfPath)],
+                    subject: 'SpeakPal Conversation Summary',
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      }
+    } catch (e, stackTrace) {
+      if (context.mounted) {
+        errorHandler.handleError(
+          e as AppError,
+          context: context,
+          showDialog: true,
+        );
+      }
+    }
   }
 }
 

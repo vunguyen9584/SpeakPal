@@ -91,6 +91,58 @@ class ShadowingAudioService {
     }
   }
 
+  /// Play a specific segment of model audio
+  /// [startTime] and [endTime] are in seconds
+  Future<void> playModelSegment(double startTime, double endTime) async {
+    try {
+      await _modelPlayer.seek(Duration(milliseconds: (startTime * 1000).toInt()));
+      await _modelPlayer.play();
+      
+      // Stop playback when reaching end time
+      final subscription = _modelPlayer.positionStream.listen((position) {
+        if (position.inMilliseconds >= (endTime * 1000)) {
+          _modelPlayer.pause();
+        }
+      });
+      
+      // Clean up subscription when playback completes or stops
+      _modelPlayer.playerStateStream.firstWhere((state) => 
+        state.processingState == ProcessingState.completed || 
+        !state.playing
+      ).then((_) => subscription.cancel());
+      
+    } catch (e, stackTrace) {
+      logger.error('Failed to play model segment', error: e, stackTrace: stackTrace);
+      throw MediaError('Segment playback failed', originalError: e, stackTrace: stackTrace);
+    }
+  }
+
+  /// Play a specific segment of user audio
+  /// [startTime] and [endTime] are in seconds
+  Future<void> playUserSegment(double startTime, double endTime) async {
+    try {
+      await _userPlayer.seek(Duration(milliseconds: (startTime * 1000).toInt()));
+      await _userPlayer.play();
+      
+      // Stop playback when reaching end time
+      final subscription = _userPlayer.positionStream.listen((position) {
+        if (position.inMilliseconds >= (endTime * 1000)) {
+          _userPlayer.pause();
+        }
+      });
+      
+      // Clean up subscription when playback completes or stops
+      _userPlayer.playerStateStream.firstWhere((state) => 
+        state.processingState == ProcessingState.completed || 
+        !state.playing
+      ).then((_) => subscription.cancel());
+      
+    } catch (e, stackTrace) {
+      logger.error('Failed to play user segment', error: e, stackTrace: stackTrace);
+      throw MediaError('Segment playback failed', originalError: e, stackTrace: stackTrace);
+    }
+  }
+
   /// Stop all playbacks
   Future<void> stopAll() async {
     await Future.wait([

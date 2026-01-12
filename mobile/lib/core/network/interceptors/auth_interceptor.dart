@@ -44,7 +44,10 @@ class AuthInterceptor extends Interceptor {
       } catch (e) {
         // Refresh failed, clear tokens and redirect to login
         await _secureStorage.clearTokens();
-        // TODO: Navigate to login screen
+        // Navigate to login screen
+        // Note: Navigation should be handled by the app layer
+        // This interceptor will throw the error and let the app handle it
+        // The app can listen to 401 errors and navigate accordingly
       }
     }
 
