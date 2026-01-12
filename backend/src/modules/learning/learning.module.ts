@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { VocabularyController } from './vocabulary/vocabulary.controller';
 import { ScenarioController } from './scenario/scenario.controller';
 import { ChallengeController } from './challenge/challenge.controller';
+import { ReviewController } from './review/review.controller';
 import { VocabularyService } from './vocabulary/vocabulary.service';
 import { ScenarioService } from './scenario/scenario.service';
 import { ChallengeService } from './challenge/challenge.service';
+import { ReviewService } from './review/review.service';
 import { SrsService } from './srs/srs.service';
 import { VocabularyRepository } from './vocabulary/vocabulary.repository';
 import { ScenarioRepository } from './scenario/scenario.repository';
@@ -13,7 +15,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],
-  controllers: [VocabularyController, ScenarioController, ChallengeController],
+  controllers: [VocabularyController, ScenarioController, ChallengeController, ReviewController],
   providers: [
     VocabularyService,
     VocabularyRepository,
@@ -21,8 +23,9 @@ import { PrismaModule } from '../../prisma/prisma.module';
     ScenarioRepository,
     ChallengeService,
     ChallengeRepository,
+    ReviewService,
     SrsService,
   ],
-  exports: [VocabularyService, ScenarioService, ChallengeService],
+  exports: [VocabularyService, ScenarioService, ChallengeService, ReviewService],
 })
-export class LearningModule {}
+export class LearningModule { }

@@ -17,19 +17,72 @@ import { SubscriptionResponseDto } from './dto/subscription-response.dto';
 import type { RequestWithUser } from '../../common/interfaces/request.interface';
 
 @Controller('subscriptions')
-@UseGuards(JwtAuthGuard)
 export class SubscriptionController {
   constructor(
     private readonly planService: PlanService,
     private readonly usageService: UsageService,
     private readonly purchaseService: PurchaseService,
-  ) {}
+  ) { }
+
+  /**
+   * GET /subscriptions/plans
+   * Get available subscription plans (public endpoint)
+   */
+  @Get('plans')
+  async getPlans() {
+    return [
+      {
+        id: 'free',
+        name: 'Free',
+        price: '$0',
+        features: [
+          '3 conversations per day',
+          'Basic AI model',
+          'Limited vocabulary',
+          'Ads supported',
+        ],
+        isPopular: false,
+      },
+      {
+        id: 'premium_monthly',
+        name: 'Premium Monthly',
+        price: '$9.99/month',
+        features: [
+          'Unlimited conversations',
+          'Advanced AI model',
+          'Unlimited vocabulary',
+          'All personas',
+          'Offline mode',
+          'Ad-free',
+          'Priority support',
+        ],
+        isPopular: true,
+      },
+      {
+        id: 'premium_yearly',
+        name: 'Premium Yearly',
+        price: '$79.99/year',
+        features: [
+          'Unlimited conversations',
+          'Advanced AI model',
+          'Unlimited vocabulary',
+          'All personas',
+          'Offline mode',
+          'Ad-free',
+          'Priority support',
+          'Save 33%',
+        ],
+        isPopular: false,
+      },
+    ];
+  }
 
   /**
    * GET /subscriptions/me
    * Get current subscription details
    */
   @Get('me')
+  @UseGuards(JwtAuthGuard)
   async getCurrentSubscription(
     @Request() req: RequestWithUser,
   ): Promise<SubscriptionResponseDto> {
@@ -41,6 +94,7 @@ export class SubscriptionController {
    * Get current usage status
    */
   @Get('usage')
+  @UseGuards(JwtAuthGuard)
   async getUsageStatus(@Request() req: RequestWithUser) {
     return this.usageService.getUsageStatus(req.user.userId || '');
   }
@@ -50,6 +104,7 @@ export class SubscriptionController {
    * Verify and activate a purchase
    */
   @Post('purchase')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   async verifyPurchase(
     @Request() req: RequestWithUser,
@@ -80,6 +135,7 @@ export class SubscriptionController {
    * Restore previous purchases
    */
   @Post('restore')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   async restorePurchases(
     @Request() req: RequestWithUser,
@@ -106,6 +162,7 @@ export class SubscriptionController {
    * Cancel auto-renewal
    */
   @Post('cancel')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   async cancelSubscription(@Request() req: RequestWithUser) {
     await this.purchaseService.cancelSubscription(req.user.userId || '');

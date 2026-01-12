@@ -15,8 +15,10 @@ This document outlines all backend APIs and services required to complete the mo
 
 - ✅ Mobile UI: 100% Complete
 - ✅ Mock Data: Working
-- ⏳ Backend APIs: 0% Integrated
-- ⏳ External Services: 0% Integrated
+- ✅ Backend APIs: 89% Integrated (17/19 endpoints)
+- ⏳ External Services: 0% Integrated (2 services pending)
+
+**Last Updated:** 2026-01-12
 
 ---
 
@@ -557,15 +559,64 @@ WS /api/conversation/audio-stream
 
 | Feature               | APIs Needed | Completed | Progress |
 | --------------------- | ----------- | --------- | -------- |
-| **Subscription**      | 4           | 0         | 0%       |
-| **Progress**          | 4           | 0         | 0%       |
-| **Translation**       | 2           | 0         | 0%       |
-| **Learning**          | 3           | 0         | 0%       |
-| **Conversation**      | 1           | 0         | 0%       |
-| **Vocabulary**        | 2           | 0         | 0%       |
-| **Profile**           | 1           | 0         | 0%       |
+| **Subscription**      | 4           | 4         | ✅ 100%  |
+| **Progress**          | 4           | 4         | ✅ 100%  |
+| **Translation**       | 2           | 2         | ✅ 100%  |
+| **Learning**          | 3           | 3         | ✅ 100%  |
+| **Conversation**      | 1           | 1         | ✅ 100%  |
+| **Vocabulary**        | 2           | 2         | ✅ 100%  |
+| **Profile**           | 1           | 1         | ✅ 100%  |
 | **External Services** | 2           | 0         | 0%       |
-| **TOTAL**             | **19**      | **0**     | **0%**   |
+| **TOTAL**             | **19**      | **17**    | **89%**  |
+
+### Implementation Status
+
+#### ✅ Completed Endpoints (17/19)
+
+**Subscription (4/4)**
+
+- ✅ GET /subscriptions/plans - Available plans (public)
+- ✅ GET /subscriptions/me - Current subscription
+- ✅ GET /subscriptions/usage - Usage status
+- ✅ POST /subscriptions/purchase - Verify purchase
+
+**Progress (4/4)**
+
+- ✅ GET /progress/stats - User statistics
+- ✅ GET /progress/weekly-report - Weekly report
+- ✅ GET /progress/monthly-report - Monthly report
+- ✅ GET /progress/history - Learning history
+
+**Translation (2/2)**
+
+- ✅ GET /api/v1/translation/intent-questions - Intent question
+- ✅ POST /api/v1/translation/intent-answers - Submit intent answer
+
+**Learning (3/3)**
+
+- ✅ GET /scenarios - Learning scenarios
+- ✅ GET /challenges/today - Today's challenges
+- ✅ POST /learning/review/result - Record quiz result
+
+**Conversation (1/1)**
+
+- ✅ GET /personas - Conversation personas
+
+**Vocabulary (2/2)**
+
+- ✅ POST /vocabularies - Save vocabulary
+- ✅ GET /vocabularies - List vocabulary
+
+**Profile (1/1)**
+
+- ✅ POST /users/me/avatar - Upload avatar
+
+#### ⏳ Pending (2/19)
+
+**External Services (0/2)**
+
+- ⏳ Text-to-Speech Service - Platform TTS or Cloud TTS
+- ⏳ Audio Streaming Service - Real-time audio chunks
 
 ---
 
