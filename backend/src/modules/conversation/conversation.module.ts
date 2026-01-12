@@ -10,12 +10,14 @@ import { TurnService } from './turn.service';
 import { XPCalculatorService } from './xp-calculator.service';
 import { WsRateLimiter } from './ws-rate-limiter';
 import { PrismaModule } from '../../prisma/prisma.module';
+import { AIOrchestratorModule } from '../ai-orchestrator/ai-orchestrator.module';
 
 @Module({
   imports: [
     PrismaModule,
     JwtModule.register({}), // Will use config from service
     CacheModule.register(),
+    AIOrchestratorModule, // For TTS service
   ],
   controllers: [ConversationController],
   providers: [
@@ -36,4 +38,4 @@ import { PrismaModule } from '../../prisma/prisma.module';
     WsRateLimiter,
   ],
 })
-export class ConversationModule {}
+export class ConversationModule { }

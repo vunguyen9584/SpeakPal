@@ -21,6 +21,8 @@ import { TranslationModule } from './translation/translation.module';
 import { QuickResponseModule } from './quick-response/quick-response.module';
 import { ShadowingModule } from './shadowing/shadowing.module';
 import { TestIntegrationModule } from './integrations/test/test.module';
+import { TTSOpenAIModule } from './integrations/ttsopenai/ttsopenai.module';
+import { OpenAITTSModule } from './integrations/openai-tts/openai-tts.module';
 
 @Module({
   imports: [
@@ -44,8 +46,10 @@ import { TestIntegrationModule } from './integrations/test/test.module';
     QuickResponseModule,
     ShadowingModule,
     TestIntegrationModule,
+    TTSOpenAIModule,
+    OpenAITTSModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

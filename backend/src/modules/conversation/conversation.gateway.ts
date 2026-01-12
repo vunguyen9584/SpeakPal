@@ -12,6 +12,7 @@ import { Logger } from '@nestjs/common';
 import { ConversationService } from './conversation.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { TTSService } from '../ai-orchestrator/tts.service';
 
 interface ClientData {
   userId: string;
@@ -28,8 +29,7 @@ interface ClientData {
   transports: ['websocket'],
 })
 export class ConversationGateway
-  implements OnGatewayConnection, OnGatewayDisconnect
-{
+  implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
@@ -39,6 +39,7 @@ export class ConversationGateway
     private readonly conversationService: ConversationService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly ttsService: TTSService,
   ) {
     // Configure CORS origins from centralized config
     const corsOrigins = this.configService.get<string[]>(
@@ -253,6 +254,138 @@ export class ConversationGateway
       });
     } catch (error) {
       this.logger.error('Interrupt error:', error);
+    }
+  }
+
+  /**
+   * Handle TTS request - Convert text to speech and stream audio
+   */
+  @SubscribeMessage('tts_request')
+  async handleTTSRequest(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { text: string; voice?: 'male' | 'female' | 'neutral' },
+  ) {
+    try {
+      const clientData = client.data as ClientData;
+      if (!clientData) {
+        this.emitError(client, 'WS_ERR_009', 'No session data');
+        return;
+      }
+
+      if (!data.text || data.text.trim().length === 0) {
+        this.emitError(client, 'WS_ERR_010', 'Text is required for TTS');
+        return;
+      }
+
+      this.logger.log(`TTS request: "${data.text.substring(0, 50)}..." (voice: ${data.voice || 'female'})`);
+
+      // Generate unique TTS ID
+      const ttsId = `tts_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      // Emit TTS start event
+      client.emit('tts_start', {
+        ttsId,
+        text: data.text,
+        voice: data.voice || 'female',
+      });
+
+      let sequence = 0;
+      let totalBytes = 0;
+
+      // Stream TTS audio chunks
+      try {
+        for await (const audioChunk of this.ttsService.streamSynthesize(
+          data.text,
+          data.voice || 'female',
+        )) {
+          // Send audio chunk to client
+          client.emit('tts_audio_chunk', {
+            ttsId,
+            chunk: audioChunk.toString('base64'),
+            sequence: sequence++,
+            size: audioChunk.length,
+          });
+
+          totalBytes += audioChunk.length;
+
+          this.logger.debug(`TTS chunk ${sequence}: ${audioChunk.length} bytes`);
+        }
+
+        // Emit TTS complete event
+        client.emit('tts_complete', {
+          ttsId,
+          totalChunks: sequence,
+          totalBytes,
+          duration: Math.ceil(data.text.length / 10), // Rough estimate
+        });
+
+        this.logger.log(`TTS completed: ${sequence} chunks, ${totalBytes} bytes`);
+      } catch (error) {
+        this.logger.error('TTS streaming error:', error);
+        client.emit('tts_error', {
+          ttsId,
+          error: 'Failed to generate speech',
+        });
+      }
+    } catch (error) {
+      this.logger.error('TTS request error:', error);
+      this.emitError(
+        client,
+        'WS_ERR_011',
+        'Failed to process TTS request',
+        true,
+      );
+    }
+  }
+
+  /**
+   * Handle vocabulary pronunciation request
+   */
+  @SubscribeMessage('pronounce_word')
+  async handlePronounceWord(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { word: string; language?: string },
+  ) {
+    try {
+      const clientData = client.data as ClientData;
+      if (!clientData) {
+        this.emitError(client, 'WS_ERR_012', 'No session data');
+        return;
+      }
+
+      if (!data.word) {
+        this.emitError(client, 'WS_ERR_013', 'Word is required');
+        return;
+      }
+
+      this.logger.log(`Pronunciation request: "${data.word}" (${data.language || 'en'})`);
+
+      // Use TTS to pronounce the word
+      const audioChunks: Buffer[] = [];
+
+      for await (const chunk of this.ttsService.streamSynthesize(data.word, 'female')) {
+        audioChunks.push(chunk);
+      }
+
+      // Combine all chunks into single audio
+      const completeAudio = Buffer.concat(audioChunks);
+
+      // Send complete pronunciation audio
+      client.emit('word_pronunciation', {
+        word: data.word,
+        audio: completeAudio.toString('base64'),
+        language: data.language || 'en',
+      });
+
+      this.logger.log(`Pronunciation sent: "${data.word}" (${completeAudio.length} bytes)`);
+    } catch (error) {
+      this.logger.error('Pronunciation error:', error);
+      this.emitError(
+        client,
+        'WS_ERR_014',
+        'Failed to generate pronunciation',
+        true,
+      );
     }
   }
 
