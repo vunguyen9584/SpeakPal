@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../models/shadowing_models.dart';
 import '../services/shadowing_audio_service.dart';
 import 'package:mobile/core/error/error_handler.dart';
+import 'package:mobile/core/error/app_error.dart';
 
 // Provider for ShadowingAudioService
 final shadowingAudioServiceProvider = Provider<ShadowingAudioService>((ref) {
@@ -51,7 +52,7 @@ class _ShadowingResultScreenState extends ConsumerState<ShadowingResultScreen> {
             _isInitialized = true;
           });
         }
-      } catch (e, stackTrace) {
+      } catch (e) {
         if (mounted) {
           errorHandler.handleError(
             e as AppError,
@@ -80,30 +81,30 @@ class _ShadowingResultScreenState extends ConsumerState<ShadowingResultScreen> {
         child: Column(
           children: [
             // Overall score
-            _buildScoreCircle(context, result.overallScore)
+            _buildScoreCircle(context, widget.result.overallScore)
                 .animate()
                 .scale(duration: 600.ms, curve: Curves.elasticOut),
             
             const SizedBox(height: 32),
             
             // Score breakdown
-            _buildScoreBreakdown(context, result.breakdown),
+            _buildScoreBreakdown(context, widget.result.breakdown),
             
             const SizedBox(height: 32),
             
             // Weak segments
-            if (result.weakSegments.isNotEmpty) ...[
-              _buildWeakSegments(context, result.weakSegments),
+            if (widget.result.weakSegments.isNotEmpty) ...[
+              _buildWeakSegments(context, widget.result.weakSegments),
               const SizedBox(height: 32),
             ],
             
             // Feedback
-            _buildFeedback(context, result.feedback),
+            _buildFeedback(context, widget.result.feedback),
             
             const SizedBox(height: 32),
             
             // XP earned
-            _buildXPDisplay(context, result.xpEarned),
+            _buildXPDisplay(context, widget.result.xpEarned),
             
             const SizedBox(height: 24),
             
@@ -452,7 +453,7 @@ class _ShadowingResultScreenState extends ConsumerState<ShadowingResultScreen> {
       );
 
       await _audioService!.playModelSegment(segment.startTime, segment.endTime);
-    } catch (e, stackTrace) {
+    } catch (e) {
       if (mounted) {
         errorHandler.handleError(
           e as AppError,
@@ -507,7 +508,7 @@ class _ShadowingResultScreenState extends ConsumerState<ShadowingResultScreen> {
       );
 
       await _audioService!.playUserSegment(segment.startTime, segment.endTime);
-    } catch (e, stackTrace) {
+    } catch (e) {
       if (mounted) {
         errorHandler.handleError(
           e as AppError,

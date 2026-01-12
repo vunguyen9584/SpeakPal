@@ -79,11 +79,10 @@ class PdfExporter {
       
     } catch (e, stackTrace) {
       logger.error('Failed to export PDF', error: e, stackTrace: stackTrace);
-      throw StorageError(
-        'Failed to export PDF',
-        userMessage: 'Could not create PDF file. Please try again.',
-        originalError: e,
-        stackTrace: stackTrace,
+      throw UnknownError(
+        'Failed to export PDF: Could not create PDF file. Please try again.',
+        e,
+        stackTrace,
       );
     }
   }

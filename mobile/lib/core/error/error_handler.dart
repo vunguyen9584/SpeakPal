@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import '../utils/logger_service.dart';
 import 'app_error.dart';
 
@@ -20,6 +21,71 @@ class ErrorHandler {
       error,
       stackTrace,
     );
+  }
+
+  /// Handle error with optional UI feedback
+  Future<void> handleError(
+    Object error, {
+    BuildContext? context,
+    bool showDialog = false,
+  }) async {
+    final appError = error is AppError ? error : handle(error);
+    
+    // Log the error
+    logger.error(appError.message, error: appError.cause, stackTrace: appError.stackTrace);
+    
+    // Show UI feedback if context provided
+    if (context != null && context.mounted) {
+      if (showDialog) {
+        await _showErrorDialog(context, appError);
+      } else {
+        _showErrorSnackBar(context, appError);
+      }
+    }
+  }
+
+  void _showErrorSnackBar(BuildContext context, AppError error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(_getUserMessage(error)),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  Future<void> _showErrorDialog(BuildContext context, AppError error) async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(_getErrorTitle(error)),
+        content: Text(_getUserMessage(error)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getErrorTitle(AppError error) {
+    return switch (error) {
+      NetworkError() => 'Connection Error',
+      AuthError() => 'Authentication Error',
+      ValidationError() => 'Validation Error',
+      MediaError() => 'Media Error',
+      ServerError() => 'Server Error',
+      _ => 'Error',
+    };
+  }
+
+  String _getUserMessage(AppError error) {
+    if (error is MediaError && error.userMessage != null) {
+      return error.userMessage!;
+    }
+    return error.message;
   }
 
   static AppError _handleDioError(DioException error) {
@@ -74,3 +140,6 @@ class ErrorHandler {
     return ServerError(message, statusCode: statusCode, cause: error);
   }
 }
+
+// Global instance for convenience
+final errorHandler = ErrorHandler();

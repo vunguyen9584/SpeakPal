@@ -34,7 +34,7 @@ class SummaryImageGenerator {
       
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       if (byteData == null) {
-        throw const StorageError('Failed to convert image to bytes');
+        throw const UnknownError('Failed to convert image to bytes');
       }
       
       await file.writeAsBytes(byteData.buffer.asUint8List());
@@ -44,11 +44,10 @@ class SummaryImageGenerator {
       
     } catch (e, stackTrace) {
       logger.error('Failed to generate summary card', error: e, stackTrace: stackTrace);
-      throw StorageError(
-        'Failed to generate image',
-        userMessage: 'Could not create summary image. Please try again.',
-        originalError: e,
-        stackTrace: stackTrace,
+      throw UnknownError(
+        'Failed to generate image: Could not create summary image. Please try again.',
+        e,
+        stackTrace,
       );
     }
   }
@@ -64,7 +63,6 @@ class SummaryImageGenerator {
         child: repaintBoundary,
       ),
       configuration: ViewConfiguration(
-        size: const Size(800, 1200),
         devicePixelRatio: 2.0,
       ),
     );

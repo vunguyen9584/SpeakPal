@@ -99,15 +99,15 @@ int _getCurrentValueForBadge(Badge badge, Stats stats) {
   switch (badge.category.toLowerCase()) {
     case 'conversation':
     case 'conversations':
-      return stats.totalConversations;
+      return stats.allTime.totalConversations;
     
     case 'vocabulary':
     case 'words':
-      return stats.totalWords;
+      return stats.allTime.totalXp; // Using XP as proxy for vocabulary until backend provides
     
     case 'pronunciation':
     case 'shadowing':
-      return stats.totalShadowing;
+      return stats.allTime.totalConversations; // Using conversations as proxy
     
     case 'streak':
     case 'daily':
@@ -115,20 +115,20 @@ int _getCurrentValueForBadge(Badge badge, Stats stats) {
     
     case 'xp':
     case 'experience':
-      return stats.totalXP;
+      return stats.allTime.totalXp;
     
     case 'minutes':
     case 'time':
-      return stats.totalMinutes;
+      return stats.allTime.totalMinutes;
     
     default:
       // For unknown categories, try to match by badge code prefix
       if (badge.code.startsWith('CONV')) {
-        return stats.totalConversations;
+        return stats.allTime.totalConversations;
       } else if (badge.code.startsWith('VOCAB')) {
-        return stats.totalWords;
+        return stats.allTime.totalXp;
       } else if (badge.code.startsWith('SHADOW')) {
-        return stats.totalShadowing;
+        return stats.allTime.totalConversations;
       } else if (badge.code.startsWith('STREAK')) {
         return stats.currentStreak;
       }

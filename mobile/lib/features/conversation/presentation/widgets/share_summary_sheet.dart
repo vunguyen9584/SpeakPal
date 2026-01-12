@@ -2,8 +2,8 @@
 import 'package:share_plus/share_plus.dart';
 import 'package:mobile/core/error/error_handler.dart';
 import 'package:mobile/core/error/app_error.dart';
-import '../services/summary_image_generator.dart';
-import '../services/pdf_exporter.dart';
+import 'package:mobile/features/conversation/services/summary_image_generator.dart';
+import 'package:mobile/features/conversation/services/pdf_exporter.dart';
 import 'dart:io';
 
 class ShareSummarySheet extends StatelessWidget {
@@ -126,11 +126,9 @@ class ShareSummarySheet extends StatelessWidget {
       );
 
       // Share the generated image
-      await SharePlus.instance.shareXFiles(
-        ShareParams(
-          files: [XFile(imagePath)],
-          subject: 'My SpeakPal Conversation Summary',
-        ),
+      await Share.shareXFiles(
+        [XFile(imagePath)],
+        subject: 'My SpeakPal Conversation Summary',
       );
 
       if (context.mounted) {
@@ -142,7 +140,7 @@ class ShareSummarySheet extends StatelessWidget {
           ),
         );
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       if (context.mounted) {
         errorHandler.handleError(
           e as AppError,
@@ -154,11 +152,9 @@ class ShareSummarySheet extends StatelessWidget {
   }
 
   void _shareAsText(BuildContext context) {
-    SharePlus.instance.share(
-      ShareParams(
-        text: summaryText,
-        subject: 'My SpeakPal Conversation Summary',
-      ),
+    Share.share(
+      summaryText,
+      subject: 'My SpeakPal Conversation Summary',
     );
   }
 
@@ -206,18 +202,16 @@ class ShareSummarySheet extends StatelessWidget {
               textColor: Colors.white,
               onPressed: () async {
                 // Share the PDF file
-                await SharePlus.instance.shareXFiles(
-                  ShareParams(
-                    files: [XFile(pdfPath)],
-                    subject: 'SpeakPal Conversation Summary',
-                  ),
+                await Share.shareXFiles(
+                  [XFile(pdfPath)],
+                  subject: 'SpeakPal Conversation Summary',
                 );
               },
             ),
           ),
         );
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       if (context.mounted) {
         errorHandler.handleError(
           e as AppError,
