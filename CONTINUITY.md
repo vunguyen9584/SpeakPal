@@ -1,0 +1,27 @@
+# Continuity Ledger
+
+- Goal (incl. success criteria):
+  - Change project license to MIT across the repository, add a root `LICENSE` file, update `README.md` license section and badges, and update `backend/package.json`.
+- Constraints/Assumptions:
+  - MIT License standard text with copyright holder (SpeakPal AI).
+  - Adhere to `AGENTS.md` Continuity Ledger guidelines.
+- Key decisions:
+  - Created standard MIT `LICENSE` at project root.
+  - Updated `backend/package.json` license field from `UNLICENSED` to `MIT`.
+  - Updated root `README.md` to reference the MIT License and included an MIT badge linking to `LICENSE`.
+- State:
+  - Done:
+    - Created `LICENSE` file with MIT license text at root.
+    - Updated `README.md` (added MIT badge and updated License section to link to `LICENSE`).
+    - Updated `backend/package.json` license field to `"MIT"`.
+  - Now:
+    - Notify user in Vietnamese with Ledger Snapshot.
+  - Next:
+    - Ready for next requests.
+- Open questions (UNCONFIRMED if needed):
+  - None.
+- Working set (files/ids/commands):
+  - `LICENSE`
+  - `README.md`
+  - `backend/package.json`
+  - `CONTINUITY.md`
